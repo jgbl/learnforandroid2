@@ -1,8 +1,12 @@
 package com.jmg.learn.vok;
 
 import android.graphics.Typeface;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
+import CS2J
 import com.jmg.learn.*;
+import com.jmg.lib.lib.libString;
 
 public class clsFont {
 	//Learn For All New Version
@@ -123,16 +127,18 @@ public class clsFont {
 					return;
 				}
 				
-			public boolean getstrikethrough() {
+			public boolean getstrikethrough() 
+			{
 				libLearn.gStatus = "clsFont.strikethrough Start";
 				return mvarstrikethrough;
 			}			
-				public void setstrikethrough(boolean value) {
+				public void setstrikethrough(boolean value) 
+				{
 					 libLearn.gStatus = "clsFont.strikethrough Start";
 					 mvarstrikethrough = value;
 					return;
 				}
-			}
+			
 
 
 
@@ -162,12 +168,12 @@ public class clsFont {
 					functionReturnValue = mvarBold;
 					return functionReturnValue;
 				}
-				public setBold(boolean value) {
+				public void setBold(boolean value) {
 					libLearn.gStatus = "clsFont.Bold Start";
 					mvarBold = value;
 					return;
 				}
-			}
+			
 
 
 
@@ -181,7 +187,7 @@ public class clsFont {
 					functionReturnValue = mvarSize;
 					return functionReturnValue;
 				}
-				public setSize(int value) {
+				public void setSize(int value) {
 					 libLearn.gStatus = "clsFont.Size Start";
 					 if (value > 5) {
 						mvarSize = value;
@@ -195,42 +201,27 @@ public class clsFont {
 
 
 
-			public String Name {
-				get {
-					String functionReturnValue = null;
-					 // ERROR: Not supported in C#: OnErrorStatement
+				  public String getName() throws Exception {
+				        String functionReturnValue = null;
+				        functionReturnValue = mvarName;
+				        return functionReturnValue;
+				    }
 
+				    public void setName(String value) throws Exception {
+				        libLearn.gStatus = "clsFont.Name Start";
+				        short i = 0;
+				        value = (value.trim());
+				        mvarName = value;
+				        if (FontNameExists(value))
+				        {
+				            return ;
+				        }
+				         
+				        mvarName = "SANS_SERIF";
+				        return ;
+				    }
 
-
-					//wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
-					//Syntax: Debug.Print X.Name
-					functionReturnValue = mvarName;
-					return functionReturnValue;
-				}
-				set {
-					 // ERROR: Not supported in C#: OnErrorStatement
-
-					libLearn.gStatus = "clsFont.Name Start";
-					 // ERROR: Not supported in C#: OnErrorStatement
-
-					short i = 0;
-
-					//wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
-					//Syntax: X.Name = 5
-					value = Strings.Trim(value);
-					mvarName = value;
-					libLearn.gStatus = "clsFont.Name Line 321";
-					// Inserted by CodeCompleter
-					//UPGRADE_ISSUE: Screen Eigenschaft Screen.FontCount wurde nicht aktualisiert. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="CC4C7EC0-C903-48FC-ACCC-81861D12DA4A"'
-					if (FontNameExists(value)) {
-						return;
-					}
-
-					mvarName = "Arial";
-					return;
-				}
-			}
-
+				
 			public void Fontset(Typeface vData, int Size, boolean Underline)
 			{
 				 // ERROR: Not supported in C#: OnErrorStatement
@@ -241,11 +232,13 @@ public class clsFont {
 				mvarFontset = vData;
 				if (mvarFontset.getClass() == Typeface.class) {
 					if(Typeface.SANS_SERIF.equals(Typeface.create(mvarFontset, Typeface.NORMAL))) 
-						mvarName = "SANS_SERIF";
-					if(Typeface.MONOSPACE.equals(Typeface.create(mvarFontset, Typeface.NORMAL))) 
-						mvarName = "MONOSPACE";
-					if(Typeface.SERIF.equals(Typeface.create(mvarFontset, Typeface.NORMAL))) 
-						mvarName = "SERIF";
+						{mvarName = "SANS_SERIF";}
+					else if(Typeface.MONOSPACE.equals(Typeface.create(mvarFontset, Typeface.NORMAL))) 
+						{mvarName = "MONOSPACE";}
+					else if(Typeface.SERIF.equals(Typeface.create(mvarFontset, Typeface.NORMAL))) 
+						{mvarName = "SERIF";}
+					else
+						{mvarName = "";}
 					mvarSize = Size;
 					mvarStyle = mvarFontset.getStyle();
 					mvarBold = mvarFontset.isBold();
@@ -258,52 +251,65 @@ public class clsFont {
 			}
 
 
-
-			public void FontNameGet(View vData, int Size = -1)
+			public void FontNameGet(View vData)
 			{
-				 // ERROR: Not supported in C#: OnErrorStatement
-
-				libLearn.gStatus = "clsFont.FontNameGet Start";
-				//wird beim Zuweisen eines Objekts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
-				//Syntax: Set x.Fontset = Form1
-
-				if (String.IsNullOrEmpty(mvarName))
-					mvarName = "Arial";
-
-				if (FontNameExists(mvarName) == true) {
-					vData.Font = new System.Drawing.Font(mvarName, (Size > 0 ? Size : this.Size), vData.Font.Style, vData.Font.Unit, vData.Font.GdiCharSet, vData.Font.GdiVerticalFont);
-				} else {
-					vData.Font = new System.Drawing.Font(vData.Font.Name, (Size > 0 ? Size : this.Size), vData.Font.Style, vData.Font.Unit, vData.Font.GdiCharSet, vData.Font.GdiVerticalFont);
-				}
-
-
-
-				return;
+				int Size = -1;
+				fontNameGet(vData,Size);
 			}
 
-			public void SetFont(ref System.Drawing.Font vdata)
-			{
-				 // ERROR: Not supported in C#: OnErrorStatement
+		    public void fontNameGet(TextView vData, int Size) throws Exception {
+		        // ERROR: Not supported in C#: OnErrorStatement
+		        libLearn.gStatus = "clsFont.FontNameGet Start";
+		        //wird beim Zuweisen eines Objekts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
+		        //Syntax: Set x.Fontset = Form1
+		        if (libString.IsNullOrEmpty(mvarName))
+		            mvarName = "SANS_SERIF";
+		         
+		        if (FontNameExists(mvarName) == true)
+		        {
+		            Typeface tf = Typeface.create(mvarName, vData.getTypeface().getStyle());
+		            vData.setTypeface(tf);
+		            vData.setTextSize(TypedValue.COMPLEX_UNIT_PX, (Size > 0 ? Size : this.getSize()));
+		        }
+		        else
+		        {
+		        	Typeface tf = Typeface.create(vData.getTypeface(),vData.getTypeface().getStyle());
+		            vData.setTypeface(tf);
+		            vData.setTextSize(TypedValue.COMPLEX_UNIT_PX, (Size > 0 ? Size : this.getSize()));
+		        } 
+		        return ;
+		    }
 
-				libLearn.gStatus = "clsFont.SetFont Start";
-				//wird beim Zuweisen eines Objekts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
-				//Syntax: Set x.Fontset = Form1
-
-				if (mvarSize < 5) {
-					libLearn.gStatus = "clsFont.SetFont Line 72";
-					// Inserted by CodeCompleter
-					mvarSize = 5;
-				}
-
-				if (FontNameExists(mvarName) == true) {
-					vdata = new System.Drawing.Font(mvarName, mvarSize, (this.Bold ? FontStyle.Bold : FontStyle.Regular) | (this.Italic ? FontStyle.Italic : FontStyle.Regular) | (this.underline ? FontStyle.Underline : FontStyle.Regular) | (this.strikethrough ? FontStyle.Strikeout : FontStyle.Regular), GraphicsUnit.Display, 0);
-				}
+		}
 
 
 
 
-				return;
-			}
+
+public void setFont(RefSupport<Typeface> vdata) throws Exception {
+    // ERROR: Not supported in C#: OnErrorStatement
+    libLearn.gStatus = "clsFont.SetFont Start";
+    //wird beim Zuweisen eines Objekts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
+    //Syntax: Set x.Fontset = Form1
+    if (mvarSize < 5)
+    {
+        libLearn.gStatus = "clsFont.SetFont Line 72";
+        // Inserted by CodeCompleter
+        mvarSize = 5;
+    }
+     
+    if (FontNameExists(mvarName) == true)
+    {
+        vdata.setValue(new System.Drawing.Font(mvarName, mvarSize, (this.Bold ? FontStyle.Bold : FontStyle.Regular) | (this.Italic ? FontStyle.Italic : FontStyle.Regular) | (this.underline ? FontStyle.Underline : FontStyle.Regular) | (this.strikethrough ? FontStyle.Strikeout : FontStyle.Regular), GraphicsUnit.Display, 0));
+    }
+     
+    return ;
+}
+
+
+
+
+
 
 			public clsFont(View Container) 
 			{

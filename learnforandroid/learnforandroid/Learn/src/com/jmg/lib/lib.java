@@ -23,6 +23,7 @@ public class lib
 	{
 		return _status;
 	}
+	
 	public static void setgstatus(String value)
 	{
 		_status = value;
@@ -114,6 +115,14 @@ public class lib
 		if (minHeight < minWidth) minWidth = minHeight;
 	    final float scale = 768.0f / (float)minWidth;
 	    return ((input - 0.5f) / scale);
+	}
+	public static class libString
+	{
+		public static boolean IsNullOrEmpty(String s)
+		{
+			if(s == null || s == ""){return true;}
+			else{return false;}
+		}
 	}
 	
 }

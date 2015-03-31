@@ -1,7 +1,7 @@
 package com.jmg.learn.vok;
 import java.util.*;
 import com.jmg.learn.*;
-
+import java.l
 public class Vokabel {
 
 	//Learn For All New Version
