@@ -1,7 +1,20 @@
 package com.jmg.learn.vok;
-import java.util.*;
+import java.io.File;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CoderResult;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.CharUtils;
+
+import CS2JNet.JavaSupport.language.RefSupport;
+
 import com.jmg.learn.*;
-import java.l
+
 public class Vokabel {
 
 	//Learn For All New Version
@@ -895,7 +908,7 @@ public class Vokabel {
 			return Bed;
 		}
 
-	    private Bewertung teileÜberprüfen(RefSupport<String> Antwort, RefSupport<String[]> teile, short BedNR) throws Exception 
+	    private Bewertung teileÜberprüfen(RefSupport<String> Antwort, RefSupport<String[]> teile, RefSupport<short[]>BedNR) throws Exception 
 	    {
 	        Bewertung functionReturnValue = Bewertung.undefiniert;
 	        // ERROR: Not supported in C#: OnErrorStatement
@@ -1174,13 +1187,13 @@ public class Vokabel {
 			Status = "";
 			return;
 					}
-		public System.Collections.ObjectModel.Collection<typVok> Select(String Wort, String Bedeutung)
+		public Collection<typVok> Select(String Wort, String Bedeutung)
 		{
-			int Zähler = -100;
-			Select(Wort, String Bedeutung, Zähler);
+			int Zaehler = -100;
+			return Select(Wort, String Bedeutung, Zaehler);
 		}
 		
-		public System.Collections.ObjectModel.Collection<typVok> Select(String Wort, String Bedeutung, int Zähler)
+		public Collection<typVok> Select(String Wort, String Bedeutung, int Zaehler)
 		{
 			System.Collections.ObjectModel.Collection<typVok> Sel = new System.Collections.ObjectModel.Collection<typVok>();
 			foreach (typVok vok in mVok) {
@@ -1192,10 +1205,10 @@ public class Vokabel {
 					if (vok.Bed1.IndexOf(Bedeutung) != -1 || vok.Bed2.IndexOf(Bedeutung) != -1 || vok.Bed3.IndexOf(Bedeutung) != -1) {
 						Sel.Add(vok);
 					}
-				} else if (Zähler != -100) {
-					if (Zähler > -6) {
-						if (Zähler < 6) {
-							if (vok.z == Zähler) {
+				} else if (Zaehler != -100) {
+					if (Zaehler > -6) {
+						if (Zaehler < 6) {
+							if (vok.z == Zaehler) {
 								Sel.Add(vok);
 							}
 						} else if (vok.z >= 6) {
@@ -1210,59 +1223,85 @@ public class Vokabel {
 			return Sel;
 		}
 
-		public void Get_Vok( int vokNr, int i, boolean blnDurch, boolean blnDurch2)
-		{
-			Get_Vok:
-			blnDurch = false;
-			do {
-				if (vokNr < mGesamtzahl) {
-					vokNr = vokNr + 1;
-				} else {
-					vokNr = 1;
-					if (blnDurch == true) {
-						blnDurch2 = true;
-						//UPGRADE_ISSUE: Die Anweisung GoSub wird nicht unterstützt. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="C5A1A479-AB8B-4D40-AAF4-DB19A2E5E77F"'
-						VokabelVonAllenHolen(vokNr, i);
-						break; // TODO: might not be correct. Was : Exit Do
-					}
-					blnDurch = true;
-				}
-				if (mVok[vokNr].z == mAbfragebereich | mAbfragebereich >= 6 & mVok[vokNr].z >= 6 | mAbfragebereich == 0 & mVok[vokNr].z <= 0) {
-					mLernVokabeln[i] = vokNr;
-					break; // TODO: might not be correct. Was : Exit Do
-				}
-			}
 
-			VokabelVonAllenHolen(vokNr, i);
+	    public void get_Vok(RefSupport<int[]> vokNr, RefSupport<int[]> i, RefSupport<boolean[]> blnDurch, RefSupport<boolean[]> blnDurch2) throws Exception {
+	        Get_Vok:blnDurch.setValue(false);
+	        do
+	        {
+	            if (vokNr.getValue() < mGesamtzahl)
+	            {
+	                vokNr.setValue(vokNr.getValue() + 1);
+	            }
+	            else
+	            {
+	                vokNr.setValue(1);
+	                if (blnDurch.getValue() == true)
+	                {
+	                    blnDurch2.setValue(true);
+	                    //UPGRADE_ISSUE: Die Anweisung GoSub wird nicht unterstützt. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="C5A1A479-AB8B-4D40-AAF4-DB19A2E5E77F"'
+	                    RefSupport<int> refVar___0 = new RefSupport<int>(vokNr.getValue());
+	                    RefSupport<int> refVar___1 = new RefSupport<int>(i.getValue());
+	                    vokabelVonAllenHolen(refVar___0,refVar___1);
+	                    vokNr.setValue(refVar___0.getValue());
+	                    i.setValue(refVar___1.getValue());
+	                    break;
+	                }
+	                 
+	                // TODO: might not be correct. Was : Exit Do
+	                blnDurch.setValue(true);
+	            } 
+	            if (mVok(vokNr.getValue()).z == mAbfragebereich | mAbfragebereich >= 6 & mVok(vokNr.getValue()).z >= 6 | mAbfragebereich == 0 & mVok(vokNr.getValue()).z <= 0)
+	            {
+	                mLernVokabeln(i.getValue()) = vokNr.getValue();
+	                break;
+	            }
+	             
+	        }
+	        while (true);
+	        // TODO: might not be correct. Was : Exit Do
+	        RefSupport<int> refVar___2 = new RefSupport<int>(vokNr.getValue());
+	        RefSupport<int> refVar___3 = new RefSupport<int>(i.getValue());
+	        vokabelVonAllenHolen(refVar___2,refVar___3);
+	        vokNr.setValue(refVar___2.getValue());
+	        i.setValue(refVar___3.getValue());
+	    }
 
-		}
-		public void VokabelVonAllenHolen(int vokNr, int i)
-		{
-			VokabelVonAllenHolen:
-			do {
-				if (vokNr < Gesamtzahl) {
-					vokNr = vokNr + 1;
-				} else {
-					vokNr = 1;
-				}
-				if (mAbfrageZufällig)
-					vokNr = Conversion.Int(VBMath.Rnd(1) * mGesamtzahl) + 1;
-				if (mVok[vokNr].z <= 1) {
-					mLernVokabeln[i] = vokNr;
-					break; // TODO: might not be correct. Was : Exit Do
-				} else {
-					if (VBMath.Rnd(1) < 1 / mVok[vokNr].z) {
-						mLernVokabeln[i] = vokNr;
-						break; // TODO: might not be correct. Was : Exit Do
-					}
-				}
-			} while (true);
+	    public void vokabelVonAllenHolen(RefSupport<int[]> vokNr, RefSupport<int[]> i) throws Exception {
+	        VokabelVonAllenHolen:
+	        do
+	        {
+	            if (vokNr.getValue() < Gesamtzahl)
+	            {
+	                vokNr.setValue(vokNr.getValue() + 1);
+	            }
+	            else
+	            {
+	                vokNr.setValue(1);
+	            } 
+	            if (mAbfrageZufällig)
+	                vokNr.setValue(Conversion.Int(VBMath.Rnd(1) * mGesamtzahl) + 1);
+	             
+	            if (mVok(vokNr.getValue()).z <= 1)
+	            {
+	                mLernVokabeln(i.getValue()) = vokNr.getValue();
+	                break;
+	            }
+	            else
+	            {
+	                // TODO: might not be correct. Was : Exit Do
+	                if (VBMath.Rnd(1) < 1 / mVok(vokNr.getValue()).z)
+	                {
+	                    mLernVokabeln(i.getValue()) = vokNr.getValue();
+	                    break;
+	                }
+	                 
+	            } 
+	        }
+	        while (true);
+	        return ;
+	    }
 
-
-			return;
-
-		}
-
+	
 		public void DeleteVokabel()
 		{
 			DeleteVokabel(-1);
@@ -1310,11 +1349,14 @@ public class Vokabel {
 
 		public void SaveFile(String strFileName, boolean blnUniCode)
 		{
-			System.IO.StreamWriter sWriter = null;
+			if (String.IsNullOrEmpty(strFileName))
+				return;
+			
+			java.io.OutputStreamWriter sWriter = null;
 			libLearn.gStatus = "Vokabel.SaveFile Start";
 			//
 			String LWort = null;
-			String fname = null;
+			File fname = new File(strFileName);
 			short h = 0;
 			short qf = 0;
 			short spr = 0;
@@ -1327,18 +1369,18 @@ public class Vokabel {
 			fontfil = "";
 			Sprache = "";
 			tastbel = "";
-			fname = strFileName;
+			
 
-
-			if (String.IsNullOrEmpty(fname))
-				return;
-			this.vok_Path = System.IO.Path.GetDirectoryName(fname);
+			this.vok_Path = fname.getParent();
 			try {
-				System.Text.Encoding enc = System.Text.Encoding.Default;
-				if (System.IO.File.Exists(fname)) {
-					using (System.IO.StreamReader r = new System.IO.StreamReader(fname, true)) {
-						enc = r.CurrentEncoding;
-						r.Close();
+				Charset enc = Charset.defaultCharset();
+				if ((fname).exists()) {
+					using (java.io.InputStream in = new java.io.FileInputStream(fname)) {
+						CharUtils.		
+						using (java.io.InputStreamReader r = new java.io.InputStreamReader(in,enc))) {
+							enc = Charset.forName(r.getEncoding());
+							r.Close();
+						}
 					}
 				}
 				if (blnUniCode) {

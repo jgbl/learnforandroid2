@@ -1,10 +1,11 @@
 package com.jmg.learn.vok;
 
+import CS2JNet.JavaSupport.language.RefSupport;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
-import CS2J
+
 import com.jmg.learn.*;
 import com.jmg.lib.lib.libString;
 
@@ -251,7 +252,7 @@ public class clsFont {
 			}
 
 
-			public void FontNameGet(View vData)
+			public void FontNameGet(TextView vData) throws Exception
 			{
 				int Size = -1;
 				fontNameGet(vData,Size);
@@ -280,7 +281,7 @@ public class clsFont {
 		        return ;
 		    }
 
-		}
+		
 
 
 
@@ -300,7 +301,11 @@ public void setFont(RefSupport<Typeface> vdata) throws Exception {
      
     if (FontNameExists(mvarName) == true)
     {
-        vdata.setValue(new System.Drawing.Font(mvarName, mvarSize, (this.Bold ? FontStyle.Bold : FontStyle.Regular) | (this.Italic ? FontStyle.Italic : FontStyle.Regular) | (this.underline ? FontStyle.Underline : FontStyle.Regular) | (this.strikethrough ? FontStyle.Strikeout : FontStyle.Regular), GraphicsUnit.Display, 0));
+        vdata.setValue(Typeface.create
+        		(mvarName, (this.getBold() ? Typeface.BOLD : Typeface.NORMAL) 
+        				| (this.getItalic() ? Typeface.ITALIC : Typeface.NORMAL) 
+        				| (this.getunderline() ? Typeface.BOLD_ITALIC : Typeface.NORMAL) 
+        				| (this.getstrikethrough() ? Typeface.BOLD_ITALIC : Typeface.NORMAL));
     }
      
     return ;
