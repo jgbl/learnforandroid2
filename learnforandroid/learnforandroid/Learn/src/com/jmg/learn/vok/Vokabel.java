@@ -894,127 +894,140 @@ public class Vokabel {
 			}
 			return Bed;
 		}
-		private Bewertung TeileÜberprüfen(String Antwort,String[] teile, short BedNR)
-		{
-			Bewertung functionReturnValue = default(Bewertung);
-			 // ERROR: Not supported in C#: OnErrorStatement
 
-			libLearn.gStatus = "Vokabel.TeileÜberprüfen Start";
-			short i = 0;
-			short ii = 0;
-			short richtig = 0;
-			short Bedeutungen = 0;
-			short ähnlich = 0;
-			object Antworten = null;
+	    private Bewertung teileÜberprüfen(RefSupport<String> Antwort, RefSupport<String[]> teile, short BedNR) throws Exception 
+	    {
+	        Bewertung functionReturnValue = Bewertung.undefiniert;
+	        // ERROR: Not supported in C#: OnErrorStatement
+	        libLearn.gStatus = "Vokabel.TeileÜberprüfen Start";
+	        short i = 0;
+	        short ii = 0;
+	        short richtig = 0;
+	        short Bedeutungen = 0;
+	        short ähnlich = 0;
+	        Object Antworten = null;
+	        if ((teile.getValue() == null))
+	        {
+	            functionReturnValue = Bewertung.AllesFalsch;
+	            return functionReturnValue;
+	        }
+	         
+	        Antworten = EnthältTrennzeichen(Antwort.getValue());
+	        for (i = Information.LBound(teile.getValue());i <= Information.UBound(teile.getValue());i++)
+	        {
+	            // Richtige Teilantworten finden
+	            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 420";
+	            // Inserted by CodeCompleter
+	            if (!String.IsNullOrEmpty(teile.getValue()[i]))
+	            {
+	                Bedeutungen = Bedeutungen + 1;
+	                for (ii = Information.LBound(Antworten);ii <= Information.UBound(Antworten);ii++)
+	                {
+	                    Antworten(ii) = Strings.Trim(Antworten(ii));
+	                    if (!String.IsNullOrEmpty(Antworten(ii)))
+	                    {
+	                        if (Antworten(ii))
+	                        {
+	                            // ERROR: Unknown binary operator Like
+	                            richtig = richtig + 1;
+	                            if (Strings.Len(mOldBed[BedNR.getValue()]) > 0)
+	                            {
+	                                mOldBed[BedNR.getValue()] = mOldBed[BedNR.getValue()] + "," + Antworten(ii);
+	                                libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 430";
+	                            }
+	                            else
+	                            {
+	                                // Inserted by CodeCompleter
+	                                mOldBed[BedNR.getValue()] = Antworten(ii);
+	                            } 
+	                            Antworten(ii) = "";
+	                            teile.getValue()[i] = "";
+	                            break;
+	                        }
+	                         
+	                    }
+	                     
+	                }
+	            }
+	             
+	        }
+	        // TODO: might not be correct. Was : Exit For
+	        // Erst in zweitem Schritt Ähnlichkeiten feststellen!
+	        float Aehn = 0;
+	        float lAehnlichkeit = 0;
+	        for (i = Information.LBound(teile.getValue());i <= Information.UBound(teile.getValue());i++)
+	        {
+	            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 420";
+	            // Inserted by CodeCompleter
+	            Aehn = false;
+	            if (!String.IsNullOrEmpty(teile.getValue()[i]))
+	            {
+	                for (ii = Information.LBound(Antworten);ii <= Information.UBound(Antworten);ii++)
+	                {
+	                    Antworten(ii) = Strings.Trim(Antworten(ii));
+	                    if (!String.IsNullOrEmpty(Antworten(ii)))
+	                    {
+	                        RefSupport<short> refVar___0 = new RefSupport<short>(BedNR.getValue());
+	                        lAehnlichkeit = Aehnlichkeit(teile.getValue()[i], Antworten(ii), refVar___0);
+	                        BedNR.setValue(refVar___0.getValue());
+	                        if (lAehnlichkeit > 0.2)
+	                            Aehn = true;
+	                         
+	                        if (lAehnlichkeit > 0.5)
+	                        {
+	                            ähnlich = ähnlich + 1;
+	                            break;
+	                            // TODO: might not be correct. Was : Exit For
+	                            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 440";
+	                        }
+	                         
+	                    }
+	                     
+	                }
+	                // Inserted by CodeCompleter
+	                if (!Aehn)
+	                {
+	                    if (String.IsNullOrEmpty(mOldBed[BedNR.getValue()]))
+	                    {
+	                        mOldBed[BedNR.getValue()] = ClsGlobal.MakeMask(teile.getValue()[i]);
+	                    }
+	                    else
+	                    {
+	                        mOldBed[BedNR.getValue()] = mOldBed[BedNR.getValue()] + "," + ClsGlobal.MakeMask(teile.getValue()[i]);
+	                    } 
+	                }
+	                 
+	            }
+	             
+	        }
+	        //OldWord.AnzTeilBed(BedNR) = Bedeutungen
+	        if (richtig == Bedeutungen)
+	        {
+	            functionReturnValue = Bewertung.AllesRichtig;
+	        }
+	        else if (richtig < Bedeutungen)
+	        {
+	            functionReturnValue = Bewertung.TeilweiseRichtig;
+	            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 450";
+	            // Inserted by CodeCompleter
+	            if (richtig == 0)
+	            {
+	                functionReturnValue = Bewertung.AllesFalsch;
+	                if (ähnlich > 0)
+	                    functionReturnValue = ähnlich;
+	                 
+	            }
+	             
+	        }
+	          
+	        return functionReturnValue;
+	        	        
+	    }
+	    
+
+	
 
 
-			if ((teile == null)){functionReturnValue = Bewertung.AllesFalsch;return functionReturnValue;}
-
-
-
-			Antworten = EnthältTrennzeichen(Antwort);
-			// Richtige Teilantworten finden
-
-			for (i = Information.LBound(teile); i <= Information.UBound(teile); i++) {
-				libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 420";
-				// Inserted by CodeCompleter
-
-
-				if (!String.IsNullOrEmpty(teile[i])) {
-					Bedeutungen = Bedeutungen + 1;
-
-					for (ii = Information.LBound(Antworten); ii <= Information.UBound(Antworten); ii++) {
-						Antworten(ii) = Strings.Trim(Antworten(ii));
-
-
-						if (!String.IsNullOrEmpty(Antworten(ii))) {
-
-							if (Antworten(ii) // ERROR: Unknown binary operator Like
-	) {
-								richtig = richtig + 1;
-
-								if (Strings.Len(mOldBed[BedNR]) > 0) {
-
-
-									mOldBed[BedNR] = mOldBed[BedNR] + "," + Antworten(ii);
-									libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 430";
-									// Inserted by CodeCompleter
-
-								} else {
-
-									mOldBed[BedNR] = Antworten(ii);
-								}
-
-
-								Antworten(ii) = "";
-
-								teile[i] = "";
-								break; // TODO: might not be correct. Was : Exit For
-							}
-						}
-					}
-				}
-			}
-			// Erst in zweitem Schritt Ähnlichkeiten feststellen!
-			float Aehn = 0;
-			float lAehnlichkeit = 0;
-
-			for (i = Information.LBound(teile); i <= Information.UBound(teile); i++) {
-				libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 420";
-				// Inserted by CodeCompleter
-				Aehn = false;
-
-				if (!String.IsNullOrEmpty(teile[i])) {
-
-					for (ii = Information.LBound(Antworten); ii <= Information.UBound(Antworten); ii++) {
-						Antworten(ii) = Strings.Trim(Antworten(ii));
-
-
-						if (!String.IsNullOrEmpty(Antworten(ii))) {
-
-							lAehnlichkeit = Aehnlichkeit(teile[i], Antworten(ii), ref BedNR);
-							if (lAehnlichkeit > 0.2)
-								Aehn = true;
-							if (lAehnlichkeit > 0.5) {
-								ähnlich = ähnlich + 1;
-								break; // TODO: might not be correct. Was : Exit For
-								libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 440";
-								// Inserted by CodeCompleter
-							}
-
-						}
-					}
-
-					if (!Aehn) {
-
-						if (String.IsNullOrEmpty(mOldBed[BedNR])) {
-
-							mOldBed[BedNR] = ClsGlobal.MakeMask(teile[i]);
-
-						} else {
-
-
-							mOldBed[BedNR] = mOldBed[BedNR] + "," + ClsGlobal.MakeMask(teile[i]);
-						}
-					}
-				}
-			}
-			//OldWord.AnzTeilBed(BedNR) = Bedeutungen
-			if (richtig == Bedeutungen) {
-				functionReturnValue = Bewertung.AllesRichtig;
-			} else if (richtig < Bedeutungen) {
-				functionReturnValue = Bewertung.TeilweiseRichtig;
-				libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 450";
-				// Inserted by CodeCompleter
-				if (richtig == 0) {
-					functionReturnValue = Bewertung.AllesFalsch;
-					if (ähnlich > 0)
-						functionReturnValue = ähnlich;
-				}
-			}
-			return functionReturnValue;
-						return functionReturnValue;
-		}
 		private String[] EnthältTrennzeichen(String Antwort)
 		{
 			String[] functionReturnValue = null;
@@ -1580,8 +1593,10 @@ public class Vokabel {
 			return;
 
 			// FErr:
-			if (Err().Number == 59){Interaction.MsgBox("Wort zu lang!"); // ERROR: Not supported in C#: ResumeStatement
-	}
+			if (Err().Number == 59)
+			{
+				Interaction.MsgBox("Wort zu lang!"); // ERROR: Not supported in C#: ResumeStatement
+			}
 
 			if (Interaction.MsgBox("Error in LoadFromString " + finalants.vbCrLf + Err().Description, MsgBoxStyle.RetryCancel, Err().Source) == MsgBoxResult.Retry) {
 				 // ERROR: Not supported in C#: ResumeStatement
@@ -1591,9 +1606,10 @@ public class Vokabel {
 
 			goto closefile;
 			return;
-					}
+			}
 
-		    public void getfonts(RefSupport<String> fontfil, RefSupport<int> hh, RefSupport<int> h, RefSupport<int> indexLang, RefSupport<int> qf, RefSupport<boolean> lad) throws Exception {
+		    public void getfonts(RefSupport<String> fontfil, int hh, int h, int indexLang, int qf, boolean lad) throws Exception 
+		    {
 		        getfonts:// ********** Hier werden die Fonts 'extrahiert'
 		        hh.setValue(1);
 		        if (Strings.InStr(fontfil.getValue(), ",") != 0)
@@ -1669,8 +1685,9 @@ public class Vokabel {
 		        }
 		         
 		    }
+	    
 
-		}
+		
 
 
 		public void NewFile()
@@ -1681,184 +1698,191 @@ public class Vokabel {
 			mGesamtzahl = 0;
 			mIndex = 0;
 		}
-		public void LoadFile(String strFileName, boolean blnSingleLine = false, boolean blnAppend = false, boolean blnUnicode = false)
+		
+		public void LoadFile(String strFileName)
 		{
-			 // ERROR: Not supported in C#: OnErrorStatement
-
-			final String CodeLoc = "Vokabel.LoadFile";
-			libLearn.gStatus = CodeLoc + " Start";
-
-			short sp = 0;
-			short h = 0;
-			short hh = 0;
-			short qf = 0;
-			short einst = 0;
-			short tasta = 0;
-			String ext = new String(' ', 3);
-			short n = 0;
-			short lad = 0;
-			short indexlang = 0;
-			short varbed = 0;
-			String fontfil = null;
-			String Sprache = null;
-			String tastbel = null;
-			String strTmp = null;
-			System.IO.StreamReader sr = null;
-			String tmp = null;
-			fontfil = "";
-			Sprache = "";
-			tastbel = "";
-			strTmp = "";
-			mLernVokabeln = new int[mSchrittweite + 1];
-			mLastIndex = 0;
-			 // ERROR: Not supported in C#: OnErrorStatement
-
-			Status = "Load File: " + strFileName;
-			libLearn.gStatus = "Load File: " + strFileName;
-			mFileName = "";
-
-			libLearn.gStatus = CodeLoc + " Open Stream";
-			// Inserted by CodeCompleter
-
-			if (!String.IsNullOrEmpty(FileSystem.Dir(strFileName))) {
-				sr = new System.IO.StreamReader(strFileName, (System.Text.Encoding)(blnUnicode ? System.Text.Encoding.Unicode : System.Text.Encoding.GetEncoding(1252)));
-			} else {
-				Interaction.MsgBox(ClsGlobal.GetLang("FileDoesNotExist", "Dateiname existiert nicht!", ));
-				//Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc & "", "Dateiname_ungültig", "", "")
+			LoadFile(String strFileName, false, false, false)
+		}
+		
+		public void LoadFile(String strFileName, boolean blnSingleLine, boolean blnAppend, boolean blnUnicode)
+		{
+			try
+			{
+				final String CodeLoc = "Vokabel.LoadFile";
+				libLearn.gStatus = CodeLoc + " Start";
+	
+				short sp = 0;
+				short h = 0;
+				short hh = 0;
+				short qf = 0;
+				short einst = 0;
+				short tasta = 0;
+				String ext = new String(' ', 3);
+				short n = 0;
+				short lad = 0;
+				short indexlang = 0;
+				short varbed = 0;
+				String fontfil = null;
+				String Sprache = null;
+				String tastbel = null;
+				String strTmp = null;
+				System.IO.StreamReader sr = null;
+				String tmp = null;
+				fontfil = "";
+				Sprache = "";
+				tastbel = "";
+				strTmp = "";
+				mLernVokabeln = new int[mSchrittweite + 1];
+				mLastIndex = 0;
+				 // ERROR: Not supported in C#: OnErrorStatement
+	
+				Status = "Load File: " + strFileName;
+				libLearn.gStatus = "Load File: " + strFileName;
+				mFileName = "";
+	
+				libLearn.gStatus = CodeLoc + " Open Stream";
+				// Inserted by CodeCompleter
+	
+				if (!String.IsNullOrEmpty(FileSystem.Dir(strFileName))) {
+					sr = new System.IO.StreamReader(strFileName, (System.Text.Encoding)(blnUnicode ? System.Text.Encoding.Unicode : System.Text.Encoding.GetEncoding(1252)));
+				} else {
+					Interaction.MsgBox(ClsGlobal.GetLang("FileDoesNotExist", "Dateiname existiert nicht!", ));
+					//Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc & "", "Dateiname_ungültig", "", "")
+					return;
+				}
+				_UniCode = (sr.CurrentEncoding.Equals(System.Text.Encoding.Unicode) || object.ReferenceEquals(sr.CurrentEncoding, System.Text.Encoding.UTF8));
+				if (System.IO.Path.GetExtension(strFileName).IndexOf(".k", System.StringComparison.CurrentCultureIgnoreCase) != -1)
+					_cardmode = true;
+				else
+					_cardmode = false;
+				libLearn.gStatus = CodeLoc + " ReadLine1";
+				tmp = sr.ReadLine();
+				sp = Convert.ToInt32(tmp);
+				einst = sp & ((Math.Pow(2, 16)) - 256);
+				varHebr = (sp & 16) != 0;
+				varbed = (sp & 64) != 0;
+				tasta = (sp & 32) != 0;
+				libLearn.gStatus = CodeLoc + " Line 819";
+				// Inserted by CodeCompleter
+				indexlang = sp & 7;
+				if (!blnAppend)
+					mSprache = indexlang;
+				if (sp & 128) {
+					tastbel = sr.ReadLine();
+					fontfil = sr.ReadLine();
+					if (!blnAppend)
+						getfonts(fontfil, hh, h, indexlang, qf, lad);
+					//Windows Fonts extrahieren
+				} else {
+					lad = false;
+				}
+				libLearn.gStatus = CodeLoc + " Line 829";
+				// Inserted by CodeCompleter
+				if (blnAppend)
+					n = mGesamtzahl;
+				while (!sr.EndOfStream) {
+					n = n + 1;
+					Array.Resize(ref mVok, n + 1);
+					libLearn.gStatus = CodeLoc + " ReadLine2";
+					mVok[n].Wort = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+					qf = Strings.InStr(mVok[n].Wort, Strings.Chr(0));
+					if (qf == 0)
+						qf = Strings.InStr(mVok[n].Wort, Strings.Chr(8));
+					if (qf != 0) {
+						mVok[n].Kom = Strings.Right(mVok[n].Wort, Strings.Len(mVok[n].Wort) - qf);
+						libLearn.gStatus = CodeLoc + " Line 839";
+						// Inserted by CodeCompleter
+						mVok[n].Wort = Strings.Left(mVok[n].Wort, qf - 1);
+					} else {
+						mVok[n].Kom = "";
+					}
+					libLearn.gStatus = CodeLoc + " ReadLine3";
+					if (!sr.EndOfStream) {
+						mVok[n].Bed1 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+					}
+					if (!blnSingleLine) {
+						if (!sr.EndOfStream) {
+							libLearn.gStatus = CodeLoc + " ReadLine4";
+							mVok[n].Bed2 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+						}
+						libLearn.gStatus = CodeLoc + " Line 849";
+						// Inserted by CodeCompleter
+						if (!sr.EndOfStream) {
+							libLearn.gStatus = CodeLoc + " ReadLine5";
+							mVok[n].Bed3 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+						}
+					} else {
+						mVok[n].Bed2 = "";
+						mVok[n].Bed3 = "";
+					}
+					if (!sr.EndOfStream) {
+						libLearn.gStatus = CodeLoc + " ReadLine6";
+						strTmp = sr.ReadLine();
+						mVok[n].z = Conversion.Val(strTmp);
+					}
+					if (String.IsNullOrEmpty(mVok[n].Wort)) {
+						n = n - 1;
+						libLearn.gStatus = CodeLoc + " Line 859";
+						// Inserted by CodeCompleter
+						Array.Resize(ref mVok, n + 1);
+					} else {
+						mVok[n].Wort = mVok[n].Wort.Replace("ùú", finalants.vbCrLf);
+						mVok[n].Kom = mVok[n].Kom.Replace("ùú", finalants.vbCrLf);
+						mVok[n].Bed1 = mVok[n].Bed1.Replace("ùú", finalants.vbCrLf);
+						mVok[n].Bed2 = mVok[n].Bed2.Replace("ùú", finalants.vbCrLf);
+						mVok[n].Bed3 = mVok[n].Bed3.Replace("ùú", finalants.vbCrLf);
+					}
+					libLearn.gStatus = CodeLoc + " End While";
+				}
+				mGesamtzahl = n;
+				if (!blnAppend)
+					mIndex = 1;
+	
+				// ******** Hier gehts hin wenn ein Fehler auftrit oder wenn _
+				//' ******** Schluß ist.....
+				libLearn.gStatus = CodeLoc + " CloseFile";
+				closefile:
+				// Inserted by CodeCompleter
+				sr.Close();
+				sr.Dispose();
+				sr = null;
+				//Defmouse 0
+				sp = sp & 7;
+				if (sp >= 0 & sp <= 3) {
+					indexlang = sp;
+				}
+				switch (indexlang) {
+					//         Case 0: mSprache = "Deutsch"
+	
+					//         Case 1: mSprache = "Hebräisch"
+					//         Case 2: mSprache = "Griechisch"
+					//         Case Is > 2: Sprache = "Sonstige"
+				}
+				//If Sprache <> "" Then mSprache = Sprache
+				if (mGesamtzahl > 5) {
+					InitAbfrage();
+					if (!blnAppend)
+						mFileName = strFileName;
+				} else {
+					libLearn.gStatus = CodeLoc + " Line 889";
+					// Inserted by CodeCompleter
+					mblnLernInit = false;
+				}
+				aend = false;
 				return;
 			}
-			_UniCode = (sr.CurrentEncoding.Equals(System.Text.Encoding.Unicode) || object.ReferenceEquals(sr.CurrentEncoding, System.Text.Encoding.UTF8));
-			if (System.IO.Path.GetExtension(strFileName).IndexOf(".k", System.StringComparison.CurrentCultureIgnoreCase) != -1)
-				_cardmode = true;
-			else
-				_cardmode = false;
-			libLearn.gStatus = CodeLoc + " ReadLine1";
-			tmp = sr.ReadLine();
-			sp = Convert.ToInt32(tmp);
-			einst = sp & ((Math.Pow(2, 16)) - 256);
-			varHebr = (sp & 16) != 0;
-			varbed = (sp & 64) != 0;
-			tasta = (sp & 32) != 0;
-			libLearn.gStatus = CodeLoc + " Line 819";
-			// Inserted by CodeCompleter
-			indexlang = sp & 7;
-			if (!blnAppend)
-				mSprache = indexlang;
-			if (sp & 128) {
-				tastbel = sr.ReadLine();
-				fontfil = sr.ReadLine();
-				if (!blnAppend)
-					getfonts(ref fontfil, ref hh, ref h, ref indexlang, ref qf, ref lad);
-				//Windows Fonts extrahieren
-			} else {
-				lad = false;
-			}
-			libLearn.gStatus = CodeLoc + " Line 829";
-			// Inserted by CodeCompleter
-			if (blnAppend)
-				n = mGesamtzahl;
-			while (!sr.EndOfStream) {
-				n = n + 1;
-				Array.Resize(ref mVok, n + 1);
-				libLearn.gStatus = CodeLoc + " ReadLine2";
-				mVok[n].Wort = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
-				qf = Strings.InStr(mVok[n].Wort, Strings.Chr(0));
-				if (qf == 0)
-					qf = Strings.InStr(mVok[n].Wort, Strings.Chr(8));
-				if (qf != 0) {
-					mVok[n].Kom = Strings.Right(mVok[n].Wort, Strings.Len(mVok[n].Wort) - qf);
-					libLearn.gStatus = CodeLoc + " Line 839";
-					// Inserted by CodeCompleter
-					mVok[n].Wort = Strings.Left(mVok[n].Wort, qf - 1);
-				} else {
-					mVok[n].Kom = "";
-				}
-				libLearn.gStatus = CodeLoc + " ReadLine3";
-				if (!sr.EndOfStream) {
-					mVok[n].Bed1 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
-				}
-				if (!blnSingleLine) {
-					if (!sr.EndOfStream) {
-						libLearn.gStatus = CodeLoc + " ReadLine4";
-						mVok[n].Bed2 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
-					}
-					libLearn.gStatus = CodeLoc + " Line 849";
-					// Inserted by CodeCompleter
-					if (!sr.EndOfStream) {
-						libLearn.gStatus = CodeLoc + " ReadLine5";
-						mVok[n].Bed3 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
-					}
-				} else {
-					mVok[n].Bed2 = "";
-					mVok[n].Bed3 = "";
-				}
-				if (!sr.EndOfStream) {
-					libLearn.gStatus = CodeLoc + " ReadLine6";
-					strTmp = sr.ReadLine();
-					mVok[n].z = Conversion.Val(strTmp);
-				}
-				if (String.IsNullOrEmpty(mVok[n].Wort)) {
-					n = n - 1;
-					libLearn.gStatus = CodeLoc + " Line 859";
-					// Inserted by CodeCompleter
-					Array.Resize(ref mVok, n + 1);
-				} else {
-					mVok[n].Wort = mVok[n].Wort.Replace("ùú", finalants.vbCrLf);
-					mVok[n].Kom = mVok[n].Kom.Replace("ùú", finalants.vbCrLf);
-					mVok[n].Bed1 = mVok[n].Bed1.Replace("ùú", finalants.vbCrLf);
-					mVok[n].Bed2 = mVok[n].Bed2.Replace("ùú", finalants.vbCrLf);
-					mVok[n].Bed3 = mVok[n].Bed3.Replace("ùú", finalants.vbCrLf);
-				}
-				libLearn.gStatus = CodeLoc + " End While";
-			}
-			mGesamtzahl = n;
-			if (!blnAppend)
-				mIndex = 1;
-
-			// ******** Hier gehts hin wenn ein Fehler auftrit oder wenn _
-			//' ******** Schluß ist.....
-			libLearn.gStatus = CodeLoc + " CloseFile";
-			closefile:
-			// Inserted by CodeCompleter
-			sr.Close();
-			sr.Dispose();
-			sr = null;
-			//Defmouse 0
-			sp = sp & 7;
-			if (sp >= 0 & sp <= 3) {
-				indexlang = sp;
-			}
-			switch (indexlang) {
-				//         Case 0: mSprache = "Deutsch"
-
-				//         Case 1: mSprache = "Hebräisch"
-				//         Case 2: mSprache = "Griechisch"
-				//         Case Is > 2: Sprache = "Sonstige"
-			}
-			//If Sprache <> "" Then mSprache = Sprache
-			if (mGesamtzahl > 5) {
-				InitAbfrage();
-				if (!blnAppend)
-					mFileName = strFileName;
-			} else {
-				libLearn.gStatus = CodeLoc + " Line 889";
-				// Inserted by CodeCompleter
-				mblnLernInit = false;
-			}
-			aend = false;
-			return;
-
+			catch (Exception ex)
+			{
 			// FErr:
-			if (Err().Number == 59){Interaction.MsgBox("Wort zu lang!"); // ERROR: Not supported in C#: ResumeStatement
-	}
-
-			if (Interaction.MsgBox("Fileerror " + finalants.vbCrLf + Err().Description, MsgBoxStyle.RetryCancel) == MsgBoxResult.Retry) {
-				 // ERROR: Not supported in C#: ResumeStatement
-
-			}
-			 // ERROR: Not supported in C#: OnErrorStatement
-
-			goto closefile;
+				if (Err().Number == 59){Interaction.MsgBox("Wort zu lang!");}
+	
+				if (Interaction.MsgBox("Fileerror " + finalants.vbCrLf + Err().Description, MsgBoxStyle.RetryCancel) 
+						== MsgBoxResult.Retry) {
+				
+				}
+				 // ERROR: Not supported in C#: OnErrorStatement
+	
+			}	
 			return;
 		}
 
