@@ -3,6 +3,7 @@
 	<name>Learn</name>
 	<comment></comment>
 	<projects>
+		<project>CS2JLibrary</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
