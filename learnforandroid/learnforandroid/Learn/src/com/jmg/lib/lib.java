@@ -128,7 +128,7 @@ public class lib
 	public static boolean like(final String str, final String expr)
 	{
 	  String regex = quotemeta(expr);
-	  regex = regex.replace("_", ".").replace("%", ".*?");
+	  regex = regex.replace("_", ".").replace("*", ".*?");
 	  Pattern p = Pattern.compile(regex,
 	      Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 	  return p.matcher(str).matches();
