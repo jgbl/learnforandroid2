@@ -7,13 +7,18 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.CharUtils;
 
+import CS2JNet.JavaSupport.Collections.Generic.LCC.CollectionSupport;
 import CS2JNet.JavaSupport.language.RefSupport;
 
+import android.widget.TextView;
+
 import com.jmg.learn.*;
+import com.jmg.lib.lib;
 import com.jmg.lib.lib.libString;
 
 public class Vokabel {
@@ -151,7 +156,7 @@ public class Vokabel {
 			//lokale Kopie
 		private String mFileName;
 		private String mVokPath;
-		private java.lang.Object mSTatusO;
+		private TextView mSTatusO;
 		private String[] mOldBed = new String[3];
 		private String mSTatus;
 		private structFonts mFonts;
@@ -199,64 +204,51 @@ public class Vokabel {
 			return mVok; 
 		}
 
-		public String getProperties() {
+		public String getProperties() throws Exception {
 				String txt = null;
 				txt = R.string.TotalNumber +": " + this.getGesamtzahl();
 				for (int i = -6; i <= 6; i++) {
-					txt += finalants.vbCrLf + "z = " + i + ": " + this.Select(null, null, i).Count;
+					txt += "\r\n" + "z = " + i + ": " + this.Select(null, null, i).size();
 				}
 				return txt;
 			}
 		
 		public String getvok_Path()	{ return mVokPath; }
-		public	setvok_Path(String value) { mVokPath = value; }
+		public	void setvok_Path(String value) { mVokPath = value; }
 		
 		public boolean getCardMode() { return _cardmode; }
-		public	setCardModoe(boolean value) { _cardmode = value; }
+		public	void setCardModoe(boolean value) { _cardmode = value; }
 		
 		public String getFileName()	{ return mFileName; }
 		
 		public String[] getOldBed() { return (mOldBed); }
 		
 		public structFonts getfonts() { return mFonts; }
-		public	setFonts(structFonts value) { mFonts = value; }
+		public	void setFonts(structFonts value) { mFonts = value; }
 		
-		public short  getLernIndex() {
+		public short  getLernIndex() {	return mLernindex;	}
 		
-			short functionReturnValue = 0;
-			 // ERROR: Not supported in C#: OnErrorStatement
-
-			libLearn.gStatus = "Vokabel.LernIndex Start";
-			//wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
-			//Syntax: Debug.Print X.Lernindex
-			functionReturnValue = mLernindex;
-			return functionReturnValue;
-		}
-		
-		public	setLernIndex(short value) 
+		public	void setLernIndex(short value) throws Exception 
 		{
 			libLearn.gStatus = "Vokabel.LernIndex Start";
 			if (value > mSchrittweite)
 				value = 1;
 			if (mblnLernInit == false)
 				InitAbfrage();
-			if (value > 0 & value <= mSchrittweite & mblnLernInit) {
+			if (value > 0 && value <= mSchrittweite && mblnLernInit) {
 				mLernindex = value;
 				mIndex = mLernVokabeln[mLernindex];
 			} else {
-				Interaction.MsgBox("Die Abfrage konnte nicht aktualisiert werden oder Fehler!");
+				throw new Exception("Die Abfrage konnte nicht aktualisiert werden oder Fehler!");
 			}
 			return;
 		}
 
 		public EnumSprachen getSprache() 
 		{
-			EnumSprachen functionReturnValue = default(EnumSprachen);
-			libLearn.gStatus = "Vokabel.Sprache Start";
-			functionReturnValue = mSprache;
-			return functionReturnValue;
+			return mSprache;
 		}
-		public	setSprache(EnumSprachen value) 
+		public void setSprache(EnumSprachen value) 
 		{
 			libLearn.gStatus = "Vokabel.Sprache Start";
 			mSprache = value;
@@ -266,20 +258,20 @@ public class Vokabel {
 		private String[] _Trennzeichen = new String[6];
 		public String getTrennzeichen() {
 				libLearn.gStatus = "Vokabel.Trennzeichen Start";
-				return _Trennzeichen[Sprache];
+				return _Trennzeichen[mSprache.ordinal()];
 		}
-		public	setTrennzeichen(String value) 
+		public void setTrennzeichen(String value) 
 		{
 			libLearn.gStatus = "Vokabel.Trennzeichen Start";
-			_Trennzeichen[Sprache] = value;
+			_Trennzeichen[mSprache.ordinal()] = value;
 			return;
 		}
 
 		public short getLerngeschwindigkeit()	{ return mLerngeschwindigkeit;}
-		public	setLerngeschwindigkeit(short value) {mLerngeschwindigkeit = value;}
+		public	void setLerngeschwindigkeit(short value) {mLerngeschwindigkeit = value;}
 		
 		public boolean getAbfrageZufaellig() {return mAbfrageZufällig;}
-		public setAbfrageZufaellig(boolean value) {mAbfrageZufällig = value;}
+		public void setAbfrageZufaellig(boolean value) {mAbfrageZufällig = value;}
 
 
 
@@ -289,26 +281,20 @@ public class Vokabel {
 		// 1 alle Zahlen, die noch gar nicht gewußt wurden, bei jeder richtigen Antwort wird
 		// der Zähler um eins erhöht.
 		public short getAbfragebereich() {	return mAbfragebereich;	}
-		public setAbfragebereich(short value) {mAbfragebereich = value;}
+		public void setAbfragebereich(short value) {mAbfragebereich = value;}
 		
 		public clsFont getFontKom() {return mKomFont; }
-		public setFontKom(clsFont value) { mKomFont = value; }
+		public void setFontKom(clsFont value) { mKomFont = value; }
 		
 		public clsFont getFontBed() {return mBedFont; }
-		public setFontBed(clsFont value) { mBedFont = value; }
+		public void setFontBed(clsFont value) { mBedFont = value; }
 		
 		public clsFont getFontWort() {return mWortFont; }
-		public setFontWort(clsFont value) { mWortFont = value; }
+		public void setFontWort(clsFont value) { mWortFont = value; }
 		
-		public short getSchrittweite() throws Exception 
+		public short getSchrittweite()  
 		{
-	        short functionReturnValue = 0;
-	        // ERROR: Not supported in C#: OnErrorStatement
-	        libLearn.gStatus = "Vokabel.Schrittweite Start";
-	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
-	        //Syntax: Debug.Print X.Schrittweite
-	        functionReturnValue = mSchrittweite;
-	        return functionReturnValue;
+	        return mSchrittweite;
 	    }
 
 	    public void setSchrittweite(short value) throws Exception 
@@ -323,7 +309,7 @@ public class Vokabel {
 	        }
 	        else
 	        {
-	            mSchrittweite = mGesamtzahl;
+	            mSchrittweite = (short) mGesamtzahl;
 	        } 
 	        return ;
 	    }
@@ -348,9 +334,9 @@ public class Vokabel {
 	    public void setStatus(String value) throws Exception {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        libLearn.gStatus = "Vokabel.Status Start";
-	        if (mSTatusO == null == false)
+	        if (mSTatusO != null)
 	        {
-	            mSTatusO.Text = value;
+	            mSTatusO.setText(value);
 	        }
 	         
 	        mSTatus = value;
@@ -367,7 +353,7 @@ public class Vokabel {
 	        return functionReturnValue;
 	    }
 
-	    public void setConfirmChanges(boolean value) throws Exception {
+	    public void setConfirmChanges(boolean value) {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        libLearn.gStatus = "Vokabel.ConfirmChanges Start";
 	        //wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
@@ -378,21 +364,12 @@ public class Vokabel {
 
 	    //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	    //Syntax: Debug.Print X.Gesamtzahl
-	    public int getGesamtzahl() throws Exception {
+	    public int getGesamtzahl() {
 	        return mGesamtzahl;
 	    }
 
-	    public int getIndex() throws Exception {
-	        int functionReturnValue = 0;
-	        // ERROR: Not supported in C#: OnErrorStatement
-	        libLearn.gStatus = "Vokabel.Index Start";
-	        // ERROR: Not supported in C#: OnErrorStatement
-	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
-	        //Syntax: Debug.Print X.Index
-	        functionReturnValue = mIndex;
-	        return functionReturnValue;
-	    }
-
+	    public int getIndex()  { return mIndex;}
+	    
 	    public void setIndex(int value) throws Exception {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        libLearn.gStatus = "Vokabel.Index Start";
@@ -453,7 +430,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.Bedeutung3
-	        functionReturnValue = Strings.Trim(mVok[mIndex].Bed3);
+	        functionReturnValue = mVok[mIndex].Bed3.trim();
 	        return functionReturnValue;
 	    }
 
@@ -474,7 +451,8 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.Bedeutung2
-	        functionReturnValue = Strings.Trim(mVok[mIndex].Bed2);
+	        functionReturnValue = (mVok[mIndex].Bed2).trim();
+	        return functionReturnValue;
 	    }
 
 	    public void setBedeutung2(String value) throws Exception {
@@ -494,7 +472,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.Bedeutung1
-	        functionReturnValue = Strings.Trim(mVok[mIndex].Bed1);
+	        functionReturnValue = (mVok[mIndex].Bed1).trim();
 	        return functionReturnValue;
 	    }
 
@@ -504,15 +482,14 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
 	        //Syntax: X.Bedeutung1 = 5
-	        if (Strings.Len(value) > 0)
+	        if ((value).length() > 0)
 	        {
 	            aend = true;
 	            mVok[mIndex].Bed1 = value;
 	        }
 	        else
 	        {
-	            Interaction.MsgBox("Bedeutung1 muÃƒÅ¸ Text enthalten!");
-	            libLearn.gStatus = "Vokabel.Bedeutung1 Line 1148";
+	            throw new Exception("Bedeutung1 muß¸ Text enthalten!");
 	        } 
 	    }
 
@@ -534,15 +511,14 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
 	        //Syntax: X.Wort = 5
-	        if (Strings.Len(value) > 0)
+	        if ((value).length() > 0)
 	        {
 	            mVok[mIndex].Wort = value;
 	            aend = true;
 	        }
 	        else
 	        {
-	            Interaction.MsgBox("LÃƒÂ¶schen der Vokabel mit DeleteVokabel!");
-	            libLearn.gStatus = "Vokabel.Wort Line 1188";
+	            throw new Exception("Löschen der Vokabel mit DeleteVokabel!");
 	        } 
 	    }
 
@@ -550,7 +526,7 @@ public class Vokabel {
 
 
 	// Inserted by CodeCompleter
-		public void Init(object StatusO)
+		public void Init(TextView StatusO)
 		{
 			 // ERROR: Not supported in C#: OnErrorStatement
 
@@ -569,7 +545,7 @@ public class Vokabel {
 
 			libLearn.gStatus = "Vokabel.SkipVokabel Start";
 			mLernVokabeln[mLernindex] = 0;
-			this.LernIndex += 1;
+			mLernindex += 1;
 			InitAbfrage();
 			//
 			return;
@@ -577,7 +553,7 @@ public class Vokabel {
 
 
 
-		public Bewertung CheckAnwort(String[] Antworten)
+		public Bewertung CheckAnwort(String[] Antworten) throws Exception
 		{
 			Bewertung functionReturnValue;
 			final String CodeLoc = className + ".CheckAntwort";
@@ -608,38 +584,37 @@ public class Vokabel {
 				libLearn.gStatus = "Vokabel.CheckAnwort Line 258";
 				// Inserted by CodeCompleter
 				Bedeutungen = new String[] {
-					Bedeutung1,
-					Bedeutung2,
-					Bedeutung3
+					getBedeutung1(),
+					getBedeutung2(),
+					getBedeutung3()
 				};
 				mAntworten = Antworten;
 				libLearn.gStatus = CodeLoc + " Gleichheit Überprüfen";
 
-				for (ii = Information.LBound(Bedeutungen); ii <= Information.UBound(Bedeutungen); ii++) {
-					Bedeutungen[ii] = Strings.Trim(Bedeutungen[ii]);
+				for (ii = 0; ii <= (Bedeutungen.length -1); ii++) {
+					Bedeutungen[ii] = (Bedeutungen[ii]).trim();
 
-					if (!String.IsNullOrEmpty(Bedeutungen[ii])) {
-						anzBedeutungen = anzBedeutungen + 1;
+					if (!libString.IsNullOrEmpty(Bedeutungen[ii])) {
+						anzBedeutungen += 1;
 					}
 				}
 				libLearn.gStatus = "Vokabel.CheckAnwort Line 268";
 				// Inserted by CodeCompleter
-				for (i = Information.LBound(Antworten); i <= Information.UBound(Antworten); i++) {
-					Antworten[i] = Strings.Trim(Antworten[i]);
+				for (i = 0; i <= (Antworten.length-1); i++) {
+					Antworten[i] = (Antworten[i]).trim();
 					String Antwort = RemoveKomment(Antworten[i]);
-					if (!String.IsNullOrEmpty(Antworten[i])) {
-						anzAntworten = anzAntworten + 1;
-						for (ii = Information.LBound(Bedeutungen); ii <= Information.UBound(Bedeutungen); ii++) {
-							Bedeutungen[ii] = Strings.Trim(Bedeutungen[ii]);
+					if (!libString.IsNullOrEmpty(Antworten[i])) {
+						anzAntworten += 1;
+						for (ii = 0; ii <= (Bedeutungen.length-1); ii++) {
+							Bedeutungen[ii] = (Bedeutungen[ii]).trim();
 
-							if (!String.IsNullOrEmpty(Bedeutungen[ii])) {
+							if (!libString.IsNullOrEmpty(Bedeutungen[ii])) {
 								libLearn.gStatus = CodeLoc + " call MakeVergl";
 								boolean CheckVergl = false;
 								try {
-									CheckVergl = Antwort // ERROR: Unknown binary operator Like
-	;
+									CheckVergl =  lib.like(Antwort, MakeVergl(Bedeutungen[ii]));
 								} catch (Exception ex) {
-									clsErrorHandling.HandleError(ex, CodeLoc + " CheckVergl");
+									throw new Exception(ex.getMessage() + "\n" + CodeLoc + " CheckVergl");
 								}
 								if (CheckVergl) {
 									libLearn.gStatus = "Vokabel.CheckAnwort Line 278";
@@ -755,20 +730,20 @@ public class Vokabel {
 				int Pos2 = -1;
 				int LastLastPos = LastPos;
 				do {
-					Pos = Bedeutung.IndexOf(Antwort.SubString(ii, 1), LastPos);
+					Pos = Bedeutung.IndexOf(Antwort.substring(ii, 1), LastPos);
 					if (Pos == -1)
 						break; // TODO: might not be correct. Was : Exit Do
 					if (Pos > -1 && ii < Antwort.Length - 1) {
-						Pos2 = Bedeutung.IndexOf(Antwort.SubString(ii + 1, 1), Pos + 1);
+						Pos2 = Bedeutung.IndexOf(Antwort.substring(ii + 1, 1), Pos + 1);
 					}
 					if (Pos2 != Pos + 1)
 						LastPos = Pos + 1;
 				} while (!(Pos2 == Pos + 1 || LastPos >= Antwort.Length - 1));
 				if (Pos > -1) {
 					if (ii == Antwort.Length - 1 || Pos2 == Pos + 1) {
-						tst[Pos] = Bedeutung.SubString(Pos, 1);
+						tst[Pos] = Bedeutung.substring(Pos, 1);
 						if (Pos2 == Pos + 1) {
-							tst[Pos2] = Bedeutung.SubString(Pos2, 1);
+							tst[Pos2] = Bedeutung.substring(Pos2, 1);
 						}
 						LastPos = Pos + 1;
 					} else {
@@ -837,7 +812,7 @@ public class Vokabel {
 
 			return d[m, n];
 		}
-		private String MakeVergl(String Bed)
+		private String MakeVergl(String Bed) throws Exception
 		{
 			String functionReturnValue = null;
 			final String CodeLoc = className + ".MakeVergl";
@@ -848,13 +823,13 @@ public class Vokabel {
 			int intAsc = 0;
 			// Optionale Teile herausfiltern
 			try {
-				f1 = Strings.InStr(1, Bed, "(");
+				f1 = Bed.indexOf("(", 0) ;//Strings.InStr(1, Bed, "(");
 				libLearn.gStatus = CodeLoc + " Klammern verarbeiten";
-				while (f1) {
-					f2 = Strings.InStr(f1 + 1, Bed, ")");
-					if (f2) {
-						Bed = Strings.Left(Bed, f1 - 1) + "*" + Strings.Mid(Bed, f2 + 1, Strings.Len(Bed) - f2);
-						f1 = Strings.InStr(f2 + 1, Bed, "(");
+				while (f1>-1) {
+					f2 = Bed.indexOf(")",f1+1); //Strings.InStr(f1 + 1, Bed, ")");
+					if (f2>-1) {
+						Bed = Bed.substring(0,f1-1) + "*" + Bed.substring(f2+1, Bed.length()-f2-1); //Strings.Left(Bed, f1 - 1) + "*" + Strings.Mid(Bed, f2 + 1, Strings.Len(Bed) - f2);
+						f1 = Bed.indexOf("(",f2+1); //Strings.InStr(f2 + 1, Bed, "(");
 					} else {
 						f1 = f2;
 					}
@@ -862,24 +837,23 @@ public class Vokabel {
 				libLearn.gStatus = CodeLoc + "Kommentare herausfiltern";
 				Bed = RemoveKomment(Bed);
 				libLearn.gStatus = CodeLoc + " Ungültige Zeichen ersetzen";
-				if (Bed.Length > 0) {
-					Bed = Strings.UCase(Bed);
+				if (Bed.length() > 0) {
+					Bed = (Bed).toUpperCase();
 
-					for (i = 1; i <= Strings.Len(Bed); i++) {
+					for (i = 1; i <= (Bed).length(); i++) {
 						try {
-							intAsc = Strings.Asc(Strings.Mid(Bed, i, 1));
+							intAsc = Bed.charAt(i-1);//Strings.Asc(Strings.Mid(Bed, i, 1));
 							if (intAsc < 65 | intAsc > 90) {
-								Bed = Bed.SubString(0, i - 1) + "*" + Bed.SubString(i, Bed.Length - i);
+								Bed = Bed.substring(0, i - 1) + "*" + Bed.substring(i, Bed.length() - i);
 							}
 						} catch (Exception ex) {
-							ClsGlobal.gLog.WriteException(ex, TraceEventType.Error, clsErrorHandling.MakeErrText(ex));
+							throw new Exception("Fehler bei MakeVergl Ungültige Zeichen: \n" + ex.getMessage());
 						}
 					}
 				}
 				functionReturnValue = Bed;
 			} catch (Exception ex) {
-				clsErrorHandling.HandleError(ex, CodeLoc);
-				return null;
+				throw new Exception("Fehler bei MakeVergl: \n" + ex.getMessage());
 			}
 			return functionReturnValue;
 
@@ -1186,35 +1160,35 @@ public class Vokabel {
 			Status = "";
 			return;
 					}
-		public Collection<typVok> Select(String Wort, String Bedeutung)
+		public ArrayList<typVok> Select(String Wort, String Bedeutung)
 		{
 			int Zaehler = -100;
-			return Select(Wort, String Bedeutung, Zaehler);
+			return Select(Wort, Bedeutung, Zaehler);
 		}
 		
-		public Collection<typVok> Select(String Wort, String Bedeutung, int Zaehler)
+		public ArrayList<typVok> Select(String Wort, String Bedeutung, int Zaehler)
 		{
-			System.Collections.ObjectModel.Collection<typVok> Sel = new System.Collections.ObjectModel.Collection<typVok>();
-			foreach (typVok vok in mVok) {
-				if (!String.IsNullOrEmpty(Wort)) {
-					if (vok.Wort.IndexOf(Wort) != -1) {
-						Sel.Add(vok);
+			ArrayList<typVok> Sel = new ArrayList<Vokabel.typVok>();
+			for (typVok vok: mVok) {
+				if (!libString.IsNullOrEmpty(Wort)) {
+					if (vok.Wort.contains(Wort)) {
+						Sel.add(vok);
 					}
-				} else if (!String.IsNullOrEmpty(Bedeutung)) {
-					if (vok.Bed1.IndexOf(Bedeutung) != -1 || vok.Bed2.IndexOf(Bedeutung) != -1 || vok.Bed3.IndexOf(Bedeutung) != -1) {
-						Sel.Add(vok);
+				} else if (!libString.IsNullOrEmpty(Bedeutung)) {
+					if (vok.Bed1.contains(Bedeutung) || vok.Bed2.contains(Bedeutung) || vok.Bed3.contains(Bedeutung)) {
+						Sel.add(vok);
 					}
 				} else if (Zaehler != -100) {
 					if (Zaehler > -6) {
 						if (Zaehler < 6) {
 							if (vok.z == Zaehler) {
-								Sel.Add(vok);
+								Sel.add(vok);
 							}
 						} else if (vok.z >= 6) {
-							Sel.Add(vok);
+							Sel.add(vok);
 						}
 					} else if (vok.z <= -6) {
-						Sel.Add(vok);
+						Sel.add(vok);
 					}
 				}
 
