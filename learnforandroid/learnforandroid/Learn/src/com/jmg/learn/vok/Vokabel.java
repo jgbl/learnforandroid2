@@ -14,6 +14,7 @@ import org.apache.commons.lang.CharUtils;
 import CS2JNet.JavaSupport.language.RefSupport;
 
 import com.jmg.learn.*;
+import com.jmg.lib.lib.libString;
 
 public class Vokabel {
 
@@ -115,7 +116,7 @@ public class Vokabel {
 		final short ErrWrongfilename = 1001;
 
 		final short ErrNoFileHandle = 1002;
-		//private typVok[] mVok;
+		private typVok[] mVok;
 			//enthält die Indexwerte der Lernvokabeln
 		private int[] mLernVokabeln;
 			//gibt an welcher Index zuletzt bei den Lernvokabeln verwendet wurde
@@ -170,12 +171,10 @@ public class Vokabel {
 			}
 
 			public int getAnzBed() {
-			
-
 				int functionReturnValue = 0;
-				foreach (String s : Bedeutungen) 
+				for  (String Bed : getBedeutungen()) 
 				{
-					if (!String.IsNullOrEmpty(s))
+					if (!libString.IsNullOrEmpty(Bed))
 						functionReturnValue += 1;
 				}
 				return functionReturnValue;
@@ -193,16 +192,16 @@ public class Vokabel {
 		public String[] getAntworten() {
 			return mAntworten;
 		}
-		public String[] getBedeutungen() {
-			return new String[] {Bedeutung1,Bedeutung2,Bedeutung3}; 
+		public String[] getBedeutungen() throws Exception {
+			return new String[] {getBedeutung1(),getBedeutung2(),getBedeutung3()}; 
 		}
 		public typVok[] getVokabeln() {
-			return mVok1; 
+			return mVok; 
 		}
 
-		public String geProperties() {
+		public String getProperties() {
 				String txt = null;
-				txt = R.string.TotalNumber +"": ") + this.Gesamtzahl;
+				txt = R.string.TotalNumber +": " + this.getGesamtzahl();
 				for (int i = -6; i <= 6; i++) {
 					txt += finalants.vbCrLf + "z = " + i + ": " + this.Select(null, null, i).Count;
 				}
@@ -1927,8 +1926,12 @@ public class Vokabel {
 			}	
 			return;
 		}
-
-		public void LoadFileAndConvert(String strFileName, boolean blnSingleLine = false, boolean blnAppend = false)
+		public void LoadFileAndConvert(String strFileName)
+		{
+			boolean blnSingleLine = false; boolean blnAppend = false;
+			LoadFileAndConvert(strFileName,blnSingleLine,blnAppend);
+		}
+		public void LoadFileAndConvert(String strFileName, boolean blnSingleLine, boolean blnAppend)
 		{
 			 // ERROR: Not supported in C#: OnErrorStatement
 

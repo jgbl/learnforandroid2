@@ -302,10 +302,12 @@ public void setFont(RefSupport<Typeface> vdata) throws Exception {
     if (FontNameExists(mvarName) == true)
     {
         vdata.setValue(Typeface.create
-        		(mvarName, (this.getBold() ? Typeface.BOLD : Typeface.NORMAL) 
-        				| (this.getItalic() ? Typeface.ITALIC : Typeface.NORMAL) 
-        				| (this.getunderline() ? Typeface.BOLD_ITALIC : Typeface.NORMAL) 
-        				| (this.getstrikethrough() ? Typeface.BOLD_ITALIC : Typeface.NORMAL));
+        				(mvarName, (this.getBold() ? Typeface.BOLD : Typeface.NORMAL) 
+        						| (this.getItalic() ? Typeface.ITALIC : Typeface.NORMAL) 
+        						| (this.getunderline() ? Typeface.BOLD_ITALIC : Typeface.NORMAL) 
+        						| (this.getstrikethrough() ? Typeface.BOLD_ITALIC : Typeface.NORMAL)
+        				)
+        			   );
     }
      
     return ;

@@ -1,5 +1,5 @@
 package com.jmg.learn.vok;
-import com.jmg.learn.vok.*;
+import com.jmg.learn.libLearn;
 public class clsVok {
 	//Learn For All New Version
 	//By J.M.Goebel (jhmgbl2@t-online.dee)
@@ -21,7 +21,6 @@ public class clsVok {
 
 	public String Wort;
 	public short Zaehler;
-//UPGRADE_NOTE: Bewertung wurde aktualisiert auf Bewertung_Renamed. Klicken Sie hier fuer weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="A9E4979A-37FA-4718-9994-97DD76ED70A7"'
 	public Vokabel.Bewertung Bewertung;
 	public int[] AnzTeilBed;
 
@@ -34,7 +33,7 @@ public class clsVok {
 	public void setBedeutungen(String[] value) {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
-			Learn.libLearn.ClsGlobal.gStatus = "clsVok.Bedetungen Start";
+			libLearn.gStatus = "clsVok.Bedetungen Start";
 
 
 			mBedeutungen[0] = value[0];
@@ -51,7 +50,7 @@ public class clsVok {
 	{
 		 // ERROR: Not supported in C#: OnErrorStatement
 
-		Learn.libLearn.ClsGlobal.gStatus = "clsVok.Class_Initialize Start";
+		libLearn.gStatus = "clsVok.Class_Initialize Start";
 
 
 
