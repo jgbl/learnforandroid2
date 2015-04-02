@@ -160,6 +160,17 @@ public class lib
 	  return sb.toString();
 	}
 
-
+	public static int countMatches(String str, String sub) {
+	    if (libString.IsNullOrEmpty(str) || libString.IsNullOrEmpty(sub)) {
+	        return 0;
+	    }
+	    int count = 0;
+	    int idx = 0;
+	    while ((idx = str.indexOf(sub, idx)) != -1) {
+	        count++;
+	        idx += sub.length();
+	    }
+	    return count;
+	}
 	
 }

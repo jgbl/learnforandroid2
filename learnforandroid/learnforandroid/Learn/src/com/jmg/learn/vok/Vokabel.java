@@ -623,12 +623,12 @@ public class Vokabel {
 									Bedeutungen[ii] = "";
 									Antwort = "";
 
-									Lösungen = Lösungen + 1;
+									Lösungen  += 1;
 
 									break; // TODO: might not be correct. Was : Exit For
 								// Falls eine Antwort mehrere Teilantworten enthält
 								} else {
-									TeilErgebnis = TeileÜberprüfen(Antwort[], 
+									TeilErgebnis = TeileÜberprüfen(Antwort, 
 											EnthältTrennzeichen(RemoveKomment(Bedeutungen[ii])), ii);
 									if (TeilErgebnis == Bewertung.AllesRichtig) {
 										libLearn.gStatus = "Vokabel.CheckAnwort Line 288";
@@ -700,81 +700,105 @@ public class Vokabel {
 			return functionReturnValue;
 
 		}
-		private float Aehnlichkeit(String Bedeutung, String Antwort, short BedNR)
-		{
-			final String CodeLoc = className + ".Ähnlichkeit";
-			libLearn.gStatus = CodeLoc + " Start";
-			short Size1 = 0;
-			short iMin = 0;
-			Bedeutung = Bedeutung.ToLower();
-			Antwort = Antwort.ToLower();
-			Size1 = Strings.Len(RemoveKomment(Bedeutung));
-			libLearn.gStatus = CodeLoc + " RemoveKomment";
-			//Antwort = RemoveKomment(Antwort)
-			libLearn.gStatus = CodeLoc + " Levenshtein";
-			int levenshtein = LevenshteinDistance(Bedeutung, Antwort);
-			iMin = Size1 - 1;
-			boolean blnOldBed = !String.IsNullOrEmpty(mOldBed[BedNR]);
-			//TODO: Dim locs(Size1) As Integer
-			int LastPos = 0;
-			String Test = null;
-			//Bedeutung = Me.Bedeutungen(BedNR)
-			//mOldBed(BedNR) = ""
-			//Antwort = mAntworten(BedNR)
-			Test = new String('*', Bedeutung.Length);
-			char[] tst = Test.ToCharArray();
+
+	    private float aehnlichkeit(String Bedeutung, String Antwort, RefSupport<short[]> BedNR) throws Exception 
+	    {
+	        
+	        final String CodeLoc = className + ".Aehnlichkeit";
+	        libLearn.gStatus = CodeLoc + " Start";
+	        short Size1 = 0;
+	        short iMin = 0;
+	        Bedeutung = Bedeutung.toLowerCase();
+	        Antwort = Antwort.toLowerCase();
+	        Size1 = (short) RemoveKomment(Bedeutung).length();
+	        libLearn.gStatus = CodeLoc + " RemoveKomment";
+	        //Antwort = RemoveKomment(Antwort)
+	        libLearn.gStatus = CodeLoc + " Levenshtein";
+	        int levenshtein = LevenshteinDistance(Bedeutung, Antwort);
+	        iMin = (short) (Size1 - 1);
+	        boolean blnOldBed = !libString.IsNullOrEmpty(mOldBed[BedNR.getValue()[0]]);
+	        //TODO: Dim locs(Size1) As Integer
+	        int LastPos = 0;
+	        String Test = null;
+	        //Bedeutung = Me.Bedeutungen(BedNR)
+	        //mOldBed(BedNR) = ""
+	        //Antwort = mAntworten(BedNR)
+	        Test = new String(new char[Bedeutung.length()]).replace('\0', '*'); //new String('*', Bedeutung.length());
+	        char[] tst = Test.toCharArray();
+	        for (int ii = 0;ii <= Antwort.length() - 1;ii++)
+	        {
+	            int Pos = -1;
+	            int Pos2 = -1;
+	            int LastLastPos = LastPos;
+	            do
+	            {
+	                Pos = Bedeutung.indexOf(Antwort.substring(ii, 1), LastPos);
+	                if (Pos == -1)
+	                    break;
+	                 
+	                // TODO: might not be correct. Was : Exit Do
+	                if (Pos > -1 && ii < Antwort.length() - 1)
+	                {
+	                    Pos2 = Bedeutung.indexOf(Antwort.substring(ii + 1, 1), Pos + 1);
+	                }
+	                 
+	                if (Pos2 != Pos + 1)
+	                    LastPos = Pos + 1;
+	                 
+	            }
+	            while (!(Pos2 == Pos + 1 || LastPos >= Antwort.length() - 1));
+	            if (Pos > -1)
+	            {
+	                if (ii == Antwort.length() - 1 || Pos2 == Pos + 1)
+	                {
+	                    tst[Pos] = Bedeutung.charAt(Pos); // Bedeutung.substring(Pos, 1).toCharArray()[0];
+	                    if (Pos2 == Pos + 1)
+	                    {
+	                        tst[Pos2] = Bedeutung.charAt(Pos2);//Bedeutung.substring(Pos2, 1).;
+	                    }
+	                     
+	                    LastPos = Pos + 1;
+	                }
+	                else
+	                {
+	                    LastPos = LastLastPos;
+	                } 
+	            }
+	            else
+	            {
+	                LastPos = LastLastPos;
+	            } 
+	        }
+	        Test = new String(tst);
+	        if (libString.IsNullOrEmpty(mOldBed[BedNR.getValue()[0]]) || blnOldBed == false)
+	        {
+	            mOldBed[BedNR.getValue()[0]] = Test;
+	        }
+	        else
+	        {
+	            //For iii As Integer = 0 To test.Length - 1
+	            //  If test.SubString(iii, 1) <> "*" Then
+	            //    Mid(mOldBed(BedNR), iii + 1, 1) = test.SubString(iii, 1)
+	            //  End If
+	            //Next
+	            mOldBed[BedNR.getValue()[0]] = mOldBed[BedNR.getValue()[0]] + "," + Test;
+	        } 
+	        int AnzFalsch = lib.countMatches(Test, "*");//ClsGlobal.CountChar(Test, "*");
+	        float Aehn1 = (Size1 - AnzFalsch) / Size1;
+	        float Aehn2 = (Size1 - levenshtein) / Size1;
+	        if (Aehn1 < Aehn2)
+	        {
+	            return Aehn1;
+	        }
+	        else
+	        {
+	            return Aehn2;
+	        } 
+	    }
+
+	
 
 
-			for (int ii = 0; ii <= Antwort.Length - 1; ii++) {
-				int Pos = -1;
-				int Pos2 = -1;
-				int LastLastPos = LastPos;
-				do {
-					Pos = Bedeutung.IndexOf(Antwort.substring(ii, 1), LastPos);
-					if (Pos == -1)
-						break; // TODO: might not be correct. Was : Exit Do
-					if (Pos > -1 && ii < Antwort.Length - 1) {
-						Pos2 = Bedeutung.IndexOf(Antwort.substring(ii + 1, 1), Pos + 1);
-					}
-					if (Pos2 != Pos + 1)
-						LastPos = Pos + 1;
-				} while (!(Pos2 == Pos + 1 || LastPos >= Antwort.Length - 1));
-				if (Pos > -1) {
-					if (ii == Antwort.Length - 1 || Pos2 == Pos + 1) {
-						tst[Pos] = Bedeutung.substring(Pos, 1);
-						if (Pos2 == Pos + 1) {
-							tst[Pos2] = Bedeutung.substring(Pos2, 1);
-						}
-						LastPos = Pos + 1;
-					} else {
-						LastPos = LastLastPos;
-					}
-				} else {
-					LastPos = LastLastPos;
-				}
-			}
-
-			Test = new String(tst);
-			if (String.IsNullOrEmpty(mOldBed[BedNR]) || blnOldBed == false) {
-				mOldBed[BedNR] = Test;
-			} else {
-				//For iii As Integer = 0 To test.Length - 1
-				//  If test.SubString(iii, 1) <> "*" Then
-				//    Mid(mOldBed(BedNR), iii + 1, 1) = test.SubString(iii, 1)
-				//  End If
-				//Next
-				mOldBed[BedNR] = mOldBed[BedNR] + "," + Test;
-			}
-			int AnzFalsch = ClsGlobal.CountChar(Test, "*");
-			float Aehn1 = (Size1 - AnzFalsch) / Size1;
-			float Aehn2 = (Size1 - levenshtein) / Size1;
-			if (Aehn1 < Aehn2) {
-				return Aehn1;
-			} else {
-				return Aehn2;
-			}
-
-		}
 		public int LevenshteinDistance(String Bedeutung, String Antwort)
 		{
 
@@ -881,7 +905,7 @@ public class Vokabel {
 			return Bed;
 		}
 
-	    private Bewertung teileÜberprüfen(RefSupport<String> Antwort, RefSupport<String[]> teile, RefSupport<short[]>BedNR) throws Exception 
+	    private Bewertung TeileÜberprüfen(RefSupport<String> Antwort, RefSupport<String[]> teile, RefSupport<short[]>BedNR) throws Exception 
 	    {
 	        Bewertung functionReturnValue = Bewertung.undefiniert;
 	        // ERROR: Not supported in C#: OnErrorStatement
@@ -891,7 +915,7 @@ public class Vokabel {
 	        short richtig = 0;
 	        short Bedeutungen = 0;
 	        short ähnlich = 0;
-	        Object Antworten = null;
+	        String Antworten[] = null;
 	        if ((teile.getValue() == null))
 	        {
 	            functionReturnValue = Bewertung.AllesFalsch;
@@ -899,34 +923,35 @@ public class Vokabel {
 	        }
 	         
 	        Antworten = EnthältTrennzeichen(Antwort.getValue());
-	        for (i = Information.LBound(teile.getValue());i <= Information.UBound(teile.getValue());i++)
+	        for (i = 0;i <= (teile.getValue()).length -1;i++)
 	        {
 	            // Richtige Teilantworten finden
 	            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 420";
 	            // Inserted by CodeCompleter
-	            if (!String.IsNullOrEmpty(teile.getValue()[i]))
+	            if (!libString.IsNullOrEmpty(teile.getValue()[i]))
 	            {
-	                Bedeutungen = Bedeutungen + 1;
-	                for (ii = Information.LBound(Antworten);ii <= Information.UBound(Antworten);ii++)
+	                Bedeutungen  += 1;
+	                for (ii = 0;ii <= (Antworten).length -1 ;ii++)
 	                {
-	                    Antworten(ii) = Strings.Trim(Antworten(ii));
-	                    if (!String.IsNullOrEmpty(Antworten(ii)))
+	                    Antworten[ii] = (Antworten[ii]).trim();
+	                    if (!libString.IsNullOrEmpty(Antworten[ii]))
 	                    {
-	                        if (Antworten(ii))
+	                        if (lib.like(Antworten[ii], MakeVergl(teile.getValue()[i]))) // If Antworten(ii) Like MakeVergl(teile(i)) Then
 	                        {
-	                            // ERROR: Unknown binary operator Like
-	                            richtig = richtig + 1;
-	                            if (Strings.Len(mOldBed[BedNR.getValue()]) > 0)
+	                           
+	                            richtig += 1;
+	                            int intBedNR = BedNR.getValue()[0];
+	                            if ((mOldBed[intBedNR]).length() > 0)
 	                            {
-	                                mOldBed[BedNR.getValue()] = mOldBed[BedNR.getValue()] + "," + Antworten(ii);
+	                                mOldBed[intBedNR] = mOldBed[intBedNR] + "," + Antworten[ii];
 	                                libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 430";
 	                            }
 	                            else
 	                            {
 	                                // Inserted by CodeCompleter
-	                                mOldBed[BedNR.getValue()] = Antworten(ii);
+	                                mOldBed[intBedNR] = Antworten[ii];
 	                            } 
-	                            Antworten(ii) = "";
+	                            Antworten[ii] = "";
 	                            teile.getValue()[i] = "";
 	                            break;
 	                        }
@@ -939,22 +964,22 @@ public class Vokabel {
 	        }
 	        // TODO: might not be correct. Was : Exit For
 	        // Erst in zweitem Schritt Ähnlichkeiten feststellen!
-	        float Aehn = 0;
+	        boolean Aehn = false;
 	        float lAehnlichkeit = 0;
-	        for (i = Information.LBound(teile.getValue());i <= Information.UBound(teile.getValue());i++)
+	        for (i = 0;i <= (teile.getValue()).length-1;i++)
 	        {
 	            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 420";
 	            // Inserted by CodeCompleter
 	            Aehn = false;
 	            if (!String.IsNullOrEmpty(teile.getValue()[i]))
 	            {
-	                for (ii = Information.LBound(Antworten);ii <= Information.UBound(Antworten);ii++)
+	                for (ii = 0;ii <= (Antworten).length-1;ii++)
 	                {
-	                    Antworten(ii) = Strings.Trim(Antworten(ii));
-	                    if (!String.IsNullOrEmpty(Antworten(ii)))
+	                    Antworten[ii] = (Antworten[ii]).trim();
+	                    if (!libString.IsNullOrEmpty(Antworten[ii]))
 	                    {
-	                        RefSupport<short> refVar___0 = new RefSupport<short>(BedNR.getValue());
-	                        lAehnlichkeit = Aehnlichkeit(teile.getValue()[i], Antworten(ii), refVar___0);
+	                        RefSupport<short[]> refVar___0 = new RefSupport<short[]>(BedNR.getValue());
+	                        lAehnlichkeit = Aehnlichkeit(teile.getValue()[i], Antworten[ii], refVar___0);
 	                        BedNR.setValue(refVar___0.getValue());
 	                        if (lAehnlichkeit > 0.2)
 	                            Aehn = true;
