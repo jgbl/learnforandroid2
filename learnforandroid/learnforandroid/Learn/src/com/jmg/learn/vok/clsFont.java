@@ -1,12 +1,11 @@
 package com.jmg.learn.vok;
-
-import CS2JNet.JavaSupport.language.RefSupport;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import com.jmg.learn.*;
+import com.jmg.learn.libLearn;
+import com.jmg.lib.lib.RefSupport;
 import com.jmg.lib.lib.libString;
 
 public class clsFont {

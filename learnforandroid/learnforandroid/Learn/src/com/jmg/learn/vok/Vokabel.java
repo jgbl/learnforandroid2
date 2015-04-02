@@ -10,15 +10,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.CharUtils;
-
-import CS2JNet.JavaSupport.Collections.Generic.LCC.CollectionSupport;
-import CS2JNet.JavaSupport.language.RefSupport;
-
 import android.widget.TextView;
 
 import com.jmg.learn.*;
 import com.jmg.lib.lib;
+import com.jmg.lib.lib.RefSupport;
 import com.jmg.lib.lib.libString;
 
 public class Vokabel {
@@ -79,7 +75,7 @@ public class Vokabel {
 		{
 			AllesRichtig,
 			TeilweiseRichtig,
-			ähnlich,
+			aehnlich,
 			AllesFalsch,
 			undefiniert
 		}
@@ -563,7 +559,7 @@ public class Vokabel {
 				String[] Bedeutungen = null;
 				short i = 0;
 				short ii = 0;
-				short Lösungen = 0;
+				short Loesungen = 0;
 				// Anzahl der richtigen Antworten
 				short anzAntworten = 0;
 				// Anzahl der eingegebenen Antworten
@@ -571,8 +567,8 @@ public class Vokabel {
 
 				short Enthalten = 0;
 				// Anzahl der Antworten die nur einen TeilString enthalten
-				short ähnlich = 0;
-				// Anzahl der ähnlichen Antworten
+				short aehnlich = 0;
+				// Anzahl der aehnlichen Antworten
 				short TeilweiseRichtig = 0;
 				libLearn.gStatus = "Vokabel.CheckAnwort Line 248";
 				// Inserted by CodeCompleter
@@ -623,23 +619,29 @@ public class Vokabel {
 									Bedeutungen[ii] = "";
 									Antwort = "";
 
-									Lösungen  += 1;
+									Loesungen  += 1;
 
 									break; // TODO: might not be correct. Was : Exit For
 								// Falls eine Antwort mehrere Teilantworten enthält
 								} else {
-									TeilErgebnis = TeileÜberprüfen(Antwort, 
-											EnthältTrennzeichen(RemoveKomment(Bedeutungen[ii])), ii);
-									if (TeilErgebnis == Bewertung.AllesRichtig) {
+							        String[] s = EnthaeltTrennzeichen(RemoveKomment(Bedeutungen[ii]));
+							        RefSupport refVar___0 = new RefSupport(Antwort);
+							        RefSupport<String[]> refVar___1 = new RefSupport(s);    //;
+							        RefSupport refVar___2 = new RefSupport(ii);
+							        TeilErgebnis = TeileUeberpruefen(refVar___0, refVar___1, refVar___2);
+							        Antwort = (String) refVar___0.getValue();
+							        s = refVar___1.getValue();
+							        ii = (Short) refVar___2.getValue();
+							        if (TeilErgebnis == Bewertung.AllesRichtig) {
 										libLearn.gStatus = "Vokabel.CheckAnwort Line 288";
 										// Inserted by CodeCompleter
-										Lösungen = Lösungen + 1;
+										Loesungen  += 1;
 										mOldBed[ii] = Bedeutungen[ii];
 										Bedeutungen[ii] = "";
 										Antwort = "";
 										break; // TODO: might not be correct. Was : Exit For
 									} else if (TeilErgebnis == Bewertung.TeilweiseRichtig) {
-										TeilweiseRichtig = TeilweiseRichtig + 1;
+										TeilweiseRichtig  += 1;
 
 										//Bedeutungen(ii) = ""
 										//Antwort = ""
@@ -647,9 +649,13 @@ public class Vokabel {
 										libLearn.gStatus = "Vokabel.CheckAnwort Line 298";
 										// Inserted by CodeCompleter
 									} else {
-										if (Aehnlichkeit(Bedeutungen[ii], Antwort, ref ii) > 0.5) {
-											ähnlich = ähnlich + 1;
-										}
+								        RefSupport refVar___ii = new RefSupport(ii);
+								        boolean boolVar___0 = Aehnlichkeit(Bedeutungen[ii], Antwort, refVar___0) > 0.5;
+								        ii = (Short) refVar___ii.getValue();
+								        if (boolVar___0)
+								        {
+								            aehnlich += 1;
+								        }
 									}
 
 								}
@@ -660,48 +666,51 @@ public class Vokabel {
 					}
 				}
 				libLearn.gStatus = CodeLoc + " Auswertung";
-
-				if (Lösungen < anzBedeutungen) {
-					if (Lösungen > 0)
+				while (true)
+				{
+		
+					if (Loesungen < anzBedeutungen) {
+						if (Loesungen > 0)
+							functionReturnValue = Bewertung.TeilweiseRichtig;
+	
+					} else {
+						//MsgBox "Alles richtig!"
+						functionReturnValue = Bewertung.AllesRichtig;
+						//AntwortRichtig()
+						break ;
+	
+					}
+	
+	
+					if (Loesungen + TeilweiseRichtig < anzBedeutungen) {
+	
+	
+					} else {
+						//MsgBox Loesungen & " richtig " & Enthalten & " teilweise richtig."
 						functionReturnValue = Bewertung.TeilweiseRichtig;
-
-				} else {
-					//MsgBox "Alles richtig!"
-					functionReturnValue = Bewertung.AllesRichtig;
-					//AntwortRichtig()
-					goto EndCheck;
-
+						break ;
+					}
+	
+					if (Loesungen + Enthalten + TeilweiseRichtig + aehnlich == 0) {
+						//MsgBox "AllesFalsch"
+						functionReturnValue = Bewertung.AllesFalsch;
+						AntwortFalsch();
+					} else if (functionReturnValue != Bewertung.TeilweiseRichtig) {
+						//MsgBox Loesungen & " richtig, " & Enthalten & " teilweise richtig, " _
+						//& aehnlich & " aehnlich."
+						functionReturnValue = Bewertung.aehnlich;
+					}
+					break;
 				}
-
-
-				if (Lösungen + TeilweiseRichtig < anzBedeutungen) {
-
-
-				} else {
-					//MsgBox Lösungen & " richtig " & Enthalten & " teilweise richtig."
-					functionReturnValue = TeilweiseRichtig;
-					goto EndCheck;
-				}
-
-				if (Lösungen + Enthalten + TeilweiseRichtig + ähnlich == 0) {
-					//MsgBox "AllesFalsch"
-					functionReturnValue = Bewertung.AllesFalsch;
-					AntwortFalsch();
-				} else if (functionReturnValue != TeilweiseRichtig) {
-					//MsgBox Lösungen & " richtig, " & Enthalten & " teilweise richtig, " _
-					//& Ähnlich & " ähnlich."
-					functionReturnValue = Bewertung.ähnlich;
-				}
-				EndCheck:
 
 			} catch (Exception ex) {
-				clsErrorHandling.HandleError(ex, CodeLoc);
+				throw new Exception(CodeLoc, ex);
 			}
 			return functionReturnValue;
 
 		}
 
-	    private float aehnlichkeit(String Bedeutung, String Antwort, RefSupport<short[]> BedNR) throws Exception 
+	    private float Aehnlichkeit(String Bedeutung, String Antwort, RefSupport<short[]> BedNR) throws Exception 
 	    {
 	        
 	        final String CodeLoc = className + ".Aehnlichkeit";
@@ -723,7 +732,7 @@ public class Vokabel {
 	        //Bedeutung = Me.Bedeutungen(BedNR)
 	        //mOldBed(BedNR) = ""
 	        //Antwort = mAntworten(BedNR)
-	        Test = new String(new char[Bedeutung.length()]).replace('\0', '*'); //new String('*', Bedeutung.length());
+	        Test = new String (new char[Bedeutung.length()]).replace('\0', '*'); //new String('*', Bedeutung.length());
 	        char[] tst = Test.toCharArray();
 	        for (int ii = 0;ii <= Antwort.length() - 1;ii++)
 	        {
@@ -805,36 +814,36 @@ public class Vokabel {
 			Bedeutung = RemoveKomment(Bedeutung);
 			Antwort = RemoveKomment(Antwort);
 
-			char[] s = Bedeutung.ToCharArray();
-			char[] t = Antwort.ToCharArray();
+			char[] s = Bedeutung.toCharArray();
+			char[] t = Antwort.toCharArray();
 
 			// for all i and j, d[i,j] will hold the Levenshtein distance between
 			// the first i characters of s and the first j characters of t;
 			// note that d has (m+1)x(n+1) values
-			int[,] d = new int[s.GetUpperBound(0) + 2, t.GetUpperBound(0) + 2];
-			int m = s.GetUpperBound(0) + 1;
-			int n = t.GetUpperBound(0) + 1;
+			int[][] d = new int[s.length -1 + 2][t.length-1 + 2];
+			int m = s.length;
+			int n = t.length;
 			for (int i = 0; i <= m; i++) {
-				d[i, 0] = i;
+				d[i][0] = i;
 				//the distance of any first String to an empty second String
 			}
 			for (int j = 0; j <= n; j++) {
-				d[0, j] = j;
+				d[0][j] = j;
 				// the distance of any second String to an empty first String
 			}
 			for (int j = 1; j <= n; j++) {
 				for (int i = 1; i <= m; i++) {
 					if (s[i - 1] == t[j - 1]) {
-						d[i, j] = d[i - 1, j - 1];
+						d[i][j] = d[i - 1][j - 1];
 						//// no operation required(()
 					} else {
-						d[i, j] = Math.Min(Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1), d[i - 1, j - 1] + 1);
+						d[i][j] = Math.min(Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1), d[i - 1][j - 1] + 1);
 					}
 				}
 			}
 
 
-			return d[m, n];
+			return d[m][n];
 		}
 		private String MakeVergl(String Bed) throws Exception
 		{
@@ -905,16 +914,16 @@ public class Vokabel {
 			return Bed;
 		}
 
-	    private Bewertung TeileÜberprüfen(RefSupport<String> Antwort, RefSupport<String[]> teile, RefSupport<short[]>BedNR) throws Exception 
+	    private Bewertung TeileUeberpruefen(RefSupport<String> Antwort, RefSupport<String[]> teile, RefSupport<short[]>BedNR) throws Exception 
 	    {
 	        Bewertung functionReturnValue = Bewertung.undefiniert;
 	        // ERROR: Not supported in C#: OnErrorStatement
-	        libLearn.gStatus = "Vokabel.TeileÜberprüfen Start";
+	        libLearn.gStatus = "Vokabel.TeileUeberpruefen Start";
 	        short i = 0;
 	        short ii = 0;
 	        short richtig = 0;
 	        short Bedeutungen = 0;
-	        short ähnlich = 0;
+	        short aehnlich = 0;
 	        String Antworten[] = null;
 	        if ((teile.getValue() == null))
 	        {
@@ -922,11 +931,11 @@ public class Vokabel {
 	            return functionReturnValue;
 	        }
 	         
-	        Antworten = EnthältTrennzeichen(Antwort.getValue());
+	        Antworten = EnthaeltTrennzeichen(Antwort.getValue());
 	        for (i = 0;i <= (teile.getValue()).length -1;i++)
 	        {
 	            // Richtige Teilantworten finden
-	            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 420";
+	            libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 420";
 	            // Inserted by CodeCompleter
 	            if (!libString.IsNullOrEmpty(teile.getValue()[i]))
 	            {
@@ -944,7 +953,7 @@ public class Vokabel {
 	                            if ((mOldBed[intBedNR]).length() > 0)
 	                            {
 	                                mOldBed[intBedNR] = mOldBed[intBedNR] + "," + Antworten[ii];
-	                                libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 430";
+	                                libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 430";
 	                            }
 	                            else
 	                            {
@@ -963,12 +972,12 @@ public class Vokabel {
 	             
 	        }
 	        // TODO: might not be correct. Was : Exit For
-	        // Erst in zweitem Schritt Ähnlichkeiten feststellen!
+	        // Erst in zweitem Schritt aehnlichkeiten feststellen!
 	        boolean Aehn = false;
 	        float lAehnlichkeit = 0;
 	        for (i = 0;i <= (teile.getValue()).length-1;i++)
 	        {
-	            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 420";
+	            libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 420";
 	            // Inserted by CodeCompleter
 	            Aehn = false;
 	            if (!String.IsNullOrEmpty(teile.getValue()[i]))
@@ -986,10 +995,10 @@ public class Vokabel {
 	                         
 	                        if (lAehnlichkeit > 0.5)
 	                        {
-	                            ähnlich = ähnlich + 1;
+	                            aehnlich = aehnlich + 1;
 	                            break;
 	                            // TODO: might not be correct. Was : Exit For
-	                            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 440";
+	                            libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 440";
 	                        }
 	                         
 	                    }
@@ -1019,13 +1028,13 @@ public class Vokabel {
 	        else if (richtig < Bedeutungen)
 	        {
 	            functionReturnValue = Bewertung.TeilweiseRichtig;
-	            libLearn.gStatus = "Vokabel.TeileÜberprüfen Line 450";
+	            libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 450";
 	            // Inserted by CodeCompleter
 	            if (richtig == 0)
 	            {
 	                functionReturnValue = Bewertung.AllesFalsch;
-	                if (ähnlich > 0)
-	                    functionReturnValue = ähnlich;
+	                if (aehnlich > 0)
+	                    functionReturnValue = aehnlich;
 	                 
 	            }
 	             
@@ -1039,13 +1048,13 @@ public class Vokabel {
 	
 
 
-		private String[] EnthältTrennzeichen(String Antwort)
+		private String[] EnthaeltTrennzeichen(String Antwort)
 		{
 			String[] functionReturnValue = null;
 			// Rückgabewert ist Anzahl der Teilbedeutungen
 			 // ERROR: Not supported in C#: OnErrorStatement
 
-			libLearn.gStatus = "Vokabel.EnthältTrennzeichen Start";
+			libLearn.gStatus = "Vokabel.EnthaeltTrennzeichen Start";
 			String Trenn = null;
 			String[] teile = new String[-1 + 1];
 			short i = 0;
@@ -1057,7 +1066,7 @@ public class Vokabel {
 
 			for (i = 1; i <= Strings.Len(Antwort); i++) {
 				if (Strings.InStr(1, Trenn, Strings.Mid(Antwort, i, 1)) > 0) {
-					libLearn.gStatus = "Vokabel.EnthältTrennzeichen Line 464";
+					libLearn.gStatus = "Vokabel.EnthaeltTrennzeichen Line 464";
 					// Inserted by CodeCompleter
 					Array.Resize(ref teile, Trennz + 1);
 					teile[Trennz] = Strings.Mid(Antwort, lastTrenn + 1, i - lastTrenn - 1);
