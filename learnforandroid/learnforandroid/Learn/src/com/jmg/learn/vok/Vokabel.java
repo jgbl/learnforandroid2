@@ -7,6 +7,7 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -535,7 +536,7 @@ public class Vokabel {
 
 
 
-		public void SkipVokabel()
+		public void SkipVokabel() throws Exception
 		{
 			 // ERROR: Not supported in C#: OnErrorStatement
 
@@ -1000,8 +1001,7 @@ public class Vokabel {
 	                        {
 	                            aehnlich  += 1;
 	                            break;
-	                            // TODO: might not be correct. Was : Exit For
-	                            libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 440";
+	                            
 	                        }
 	                         
 	                    }
@@ -1037,8 +1037,7 @@ public class Vokabel {
 	            {
 	                functionReturnValue = Bewertung.AllesFalsch;
 	                if (aehnlich > 0)
-	                    functionReturnValue = aehnlich;
-	                 
+	                    lib.setEnumOrdinal(functionReturnValue, aehnlich);	                	
 	            }
 	             
 	        }
@@ -1059,22 +1058,22 @@ public class Vokabel {
 
 			libLearn.gStatus = "Vokabel.EnthaeltTrennzeichen Start";
 			String Trenn = null;
-			String[] teile = new String[-1 + 1];
+			String[] teile = new String[-1];
 			short i = 0;
-			short lastTrenn = 0;
+			short lastTrenn = -1;
 			short Trennz = 0;
 			Trenn = "/,.;:-\\";
 			Antwort = RemoveKomment(Antwort);
 			Antwort = Antwort + ",";
 
-			for (i = 1; i <= Strings.Len(Antwort); i++) {
-				if (Strings.InStr(1, Trenn, Strings.Mid(Antwort, i, 1)) > 0) {
+			for (i = 0; i <= (Antwort.length()-1); i++) {
+				if (Trenn.indexOf(Antwort.substring(i, i+1)) > -1) {
 					libLearn.gStatus = "Vokabel.EnthaeltTrennzeichen Line 464";
 					// Inserted by CodeCompleter
-					Array.Resize(ref teile, Trennz + 1);
-					teile[Trennz] = Strings.Mid(Antwort, lastTrenn + 1, i - lastTrenn - 1);
+					teile = Arrays.copyOf(teile, Trennz +1);
+					teile[Trennz] = Antwort.substring(lastTrenn+1,i );
 					lastTrenn = i;
-					Trennz = Trennz + 1;
+					Trennz += 1;
 				}
 			}
 
@@ -1085,16 +1084,16 @@ public class Vokabel {
 			}
 			return functionReturnValue;
 					}
-		public void AntwortRichtig()
+		public void AntwortRichtig() throws Exception
 		{
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			libLearn.gStatus = "Vokabel.AntwortRichtig Start";
-			if (mVok1[mIndex].z < 0)
-				mVok1[mIndex].z = 0;
-			mVok1[mIndex].z = mVok1[mIndex].z + 1;
+			if (mVok[mIndex].z < 0)
+				mVok[mIndex].z = 0;
+			mVok[mIndex].z = (short) (mVok[mIndex].z + 1);
 			aend = true;
-			if (mVok1[mIndex].z > 0) {
+			if (mVok[mIndex].z > 0) {
 				if (mLernVokabeln == null) {
 					this.InitAbfrage();
 				}
@@ -1110,10 +1109,10 @@ public class Vokabel {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			libLearn.gStatus = "Vokabel.AntwortFalsch Start";
-			if (mVok1[mIndex].z <= 0) {
-				mVok1[mIndex].z = mVok1[mIndex].z - 1;
+			if (mVok[mIndex].z <= 0) {
+				mVok[mIndex].z = (short) (mVok[mIndex].z - 1);
 			} else {
-				mVok1[mIndex].z = 0;
+				mVok[mIndex].z = 0;
 			}
 			aend = true;
 			AnzFalsch += 1;
@@ -1121,7 +1120,7 @@ public class Vokabel {
 			return;
 					}
 
-		public void InitAbfrage()
+		public void InitAbfrage() throws Exception
 		{
 			 // ERROR: Not supported in C#: OnErrorStatement
 
@@ -1136,7 +1135,7 @@ public class Vokabel {
 			//mLastIndex = 0
 			voknr = mLastIndex;
 
-			Status = "Init Abfrage";
+			libLearn.gStatus = "Init Abfrage";
 			if (mGesamtzahl > 1) {
 				libLearn.gStatus = "Vokabel.InitAbfrage Line 499";
 				// Inserted by CodeCompleter
@@ -1144,27 +1143,46 @@ public class Vokabel {
 					mSchrittweite = 5;
 				if (mSchrittweite >= mGesamtzahl) {
 					if (mGesamtzahl >= 5) {
-						mSchrittweite = mGesamtzahl - 1;
+						mSchrittweite = (short) (mGesamtzahl - 1);
 					} else {
-						mSchrittweite = mGesamtzahl;
+						mSchrittweite = (short) mGesamtzahl;
 					}
 				}
-				Array.Resize(mLernVokabeln, mSchrittweite + 1);
+				
+				mLernVokabeln = Arrays.copyOf(mLernVokabeln, mSchrittweite +1);
 				// Überprüfen ob Cache mit Lernvokabeln gefüllt ist
-				for (i = 1; i <= mSchrittweite; i++) {
-					if (mLernVokabeln[i] == 0) {
-						// falls Lernvokabel gelöscht ist neue holen
-						if (mAbfragebereich == -1 | blnDurch2 == true) {
-							VokabelVonAllenHolen(voknr, i);
-						} else {
-							libLearn.gStatus = "Vokabel.InitAbfrage Line 509";
-							// Inserted by CodeCompleter
-							Get_Vok(voknr, i, blnDurch, blnDurch2);
-						}
-					}
-				}
+				 for (i = 1;i <= mSchrittweite;i++)
+			        {
+			            if (mLernVokabeln[i] == 0)
+			            {
+			                // falls Lernvokabel gelÃ¶scht ist neue holen
+			                if (mAbfragebereich == -1 | blnDurch2 == true)
+			                {
+			                    RefSupport refVar___0 = new RefSupport(voknr);
+			                    RefSupport refVar___1 = new RefSupport(i);
+			                    vokabelVonAllenHolen(refVar___0, refVar___1);
+			                    voknr = (Integer) refVar___0.getValue();
+			                    i = (Short) refVar___1.getValue();
+			                }
+			                else
+			                {
+			                    libLearn.gStatus = "Vokabel.InitAbfrage Line 509";
+			                    // Inserted by CodeCompleter
+			                    RefSupport refVar___2 = new RefSupport(voknr);
+			                    RefSupport refVar___3 = new RefSupport(i);
+			                    RefSupport refVar___4 = new RefSupport(blnDurch);
+			                    RefSupport refVar___5 = new RefSupport(blnDurch2);
+			                    Get_Vok(refVar___2, refVar___3, refVar___4, refVar___5);
+			                    voknr = (Integer) refVar___2.getValue();
+			                    i = (Short) refVar___3.getValue();
+			                    blnDurch = (Boolean) refVar___4.getValue();
+			                    blnDurch2 = (Boolean) refVar___5.getValue();
+			                } 
+			            }
+			             
+			        }
 				// Nächste Vokabel im Puffer einstellen
-				mLernindex = mLernindex + 1;
+				mLernindex += 1;
 				// falls wir am Ende sind wieder an den Anfang gehen
 				if (mLernindex > mSchrittweite)
 					mLernindex = 1;
@@ -1172,9 +1190,9 @@ public class Vokabel {
 				libLearn.gStatus = "Vokabel.InitAbfrage Line 519";
 				// Inserted by CodeCompleter
 				mIndex = mLernVokabeln[mLernindex];
-				mOldBed[0] = ClsGlobal.MakeMask(Bedeutung1);
-				mOldBed[1] = ClsGlobal.MakeMask(Bedeutung2);
-				mOldBed[2] = ClsGlobal.MakeMask(Bedeutung3);
+				mOldBed[0] = lib.MakeMask(getBedeutung1());
+				mOldBed[1] = lib.MakeMask(getBedeutung2());
+				mOldBed[2] = lib.MakeMask(getBedeutung3());
 
 			} else {
 				//If mLernindex < mGesamtzahl Then mLernindex += 1 Else mLernindex = 1
@@ -1187,14 +1205,7 @@ public class Vokabel {
 			} else {
 				mblnLernInit = false;
 			}
-			goto _finally;
-			return;
-			// ErrHandler:
-
-			Interaction.MsgBox(Err().Description);
-			_finally:
-
-			Status = "";
+			libLearn.gStatus = "";
 			return;
 					}
 		public ArrayList<typVok> Select(String Wort, String Bedeutung)
@@ -1234,23 +1245,24 @@ public class Vokabel {
 		}
 
 
-	    public void get_Vok(RefSupport<int[]> vokNr, RefSupport<int[]> i, RefSupport<boolean[]> blnDurch, RefSupport<boolean[]> blnDurch2) throws Exception {
-	        Get_Vok:blnDurch.setValue(false);
+	    public void Get_Vok(RefSupport<Object> vokNr, RefSupport<Object> i, RefSupport<Object> blnDurch, RefSupport<Object> blnDurch2) throws Exception {
+	        Get_Vok:
+	        	blnDurch.setValue(false);
 	        do
 	        {
-	            if (vokNr.getValue() < mGesamtzahl)
+	            if ((Integer)vokNr.getValue() < mGesamtzahl)
 	            {
-	                vokNr.setValue(vokNr.getValue() + 1);
+	                vokNr.setValue((Integer)vokNr.getValue() + 1);
 	            }
 	            else
 	            {
 	                vokNr.setValue(1);
-	                if (blnDurch.getValue() == true)
+	                if ((Boolean)blnDurch.getValue() == true)
 	                {
 	                    blnDurch2.setValue(true);
 	                    //UPGRADE_ISSUE: Die Anweisung GoSub wird nicht unterstützt. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="C5A1A479-AB8B-4D40-AAF4-DB19A2E5E77F"'
-	                    RefSupport<int> refVar___0 = new RefSupport<int>(vokNr.getValue());
-	                    RefSupport<int> refVar___1 = new RefSupport<int>(i.getValue());
+	                    RefSupport<Object> refVar___0 = new RefSupport<Object>(vokNr.getValue());
+	                    RefSupport<Object> refVar___1 = new RefSupport<Object>(i.getValue());
 	                    vokabelVonAllenHolen(refVar___0,refVar___1);
 	                    vokNr.setValue(refVar___0.getValue());
 	                    i.setValue(refVar___1.getValue());
@@ -1260,48 +1272,57 @@ public class Vokabel {
 	                // TODO: might not be correct. Was : Exit Do
 	                blnDurch.setValue(true);
 	            } 
-	            if (mVok(vokNr.getValue()).z == mAbfragebereich | mAbfragebereich >= 6 & mVok(vokNr.getValue()).z >= 6 | mAbfragebereich == 0 & mVok(vokNr.getValue()).z <= 0)
+	            if (mVok[(Integer)vokNr.getValue()].z == mAbfragebereich 
+	            		| mAbfragebereich >= 6 & mVok[(Integer)vokNr.getValue()].z >= 6 
+	            		| mAbfragebereich == 0 & mVok[(Integer)vokNr.getValue()].z <= 0)
 	            {
-	                mLernVokabeln(i.getValue()) = vokNr.getValue();
+	                mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
 	                break;
 	            }
 	             
 	        }
 	        while (true);
 	        // TODO: might not be correct. Was : Exit Do
-	        RefSupport<int> refVar___2 = new RefSupport<int>(vokNr.getValue());
-	        RefSupport<int> refVar___3 = new RefSupport<int>(i.getValue());
+	        RefSupport refVar___2 = new RefSupport(vokNr.getValue());
+	        RefSupport refVar___3 = new RefSupport(i.getValue());
 	        vokabelVonAllenHolen(refVar___2,refVar___3);
 	        vokNr.setValue(refVar___2.getValue());
 	        i.setValue(refVar___3.getValue());
 	    }
 
-	    public void vokabelVonAllenHolen(RefSupport<int[]> vokNr, RefSupport<int[]> i) throws Exception {
+	    public void vokabelVonAllenHolen(RefSupport<Object> vokNr, RefSupport<Object> i) throws Exception {
 	        VokabelVonAllenHolen:
 	        do
 	        {
-	            if (vokNr.getValue() < Gesamtzahl)
+	            int intVokNr = (Integer) vokNr.getValue();
+	        	if ((Integer)vokNr.getValue() < mGesamtzahl)
 	            {
-	                vokNr.setValue(vokNr.getValue() + 1);
+	                intVokNr += 1;
+	        		vokNr.setValue(intVokNr);
 	            }
 	            else
 	            {
-	                vokNr.setValue(1);
+	            	intVokNr = 1;
+	            	vokNr.setValue(intVokNr);
 	            } 
-	            if (mAbfrageZufällig)
-	                vokNr.setValue(Conversion.Int(VBMath.Rnd(1) * mGesamtzahl) + 1);
+	            if (mAbfrageZufällig){
+	            	intVokNr = lib.rndInt(0,mGesamtzahl);
+	            	vokNr.setValue(intVokNr);
+	            }
+	            	
+	                
 	             
-	            if (mVok(vokNr.getValue()).z <= 1)
+	            if (mVok[intVokNr].z <= 1)
 	            {
-	                mLernVokabeln(i.getValue()) = vokNr.getValue();
+	                mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
 	                break;
 	            }
 	            else
 	            {
 	                // TODO: might not be correct. Was : Exit Do
-	                if (VBMath.Rnd(1) < 1 / mVok(vokNr.getValue()).z)
+	                if (Math.random() < 1 / mVok[(Integer)vokNr.getValue()].z)
 	                {
-	                    mLernVokabeln(i.getValue()) = vokNr.getValue();
+	                    mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
 	                    break;
 	                }
 	                 
@@ -1330,7 +1351,7 @@ public class Vokabel {
 				mVok[i] = mVok[i + 1];
 			}
 			mGesamtzahl = mGesamtzahl - 1;
-			Array.Resize(mVok, mGesamtzahl + 1);
+			mVok = Arrays.copyOf(mVok, mGesamtzahl +1 );
 			return;
 					}
 
@@ -1353,13 +1374,13 @@ public class Vokabel {
 			//
 			mGesamtzahl = mGesamtzahl + 1;
 			mIndex = mGesamtzahl;
-			Array.Resize(ref mVok, mIndex + 1);
+			mVok = Arrays.copyOf(mVok, mGesamtzahl +1 );
 			return;
 					}
 
-		public void SaveFile(String strFileName, boolean blnUniCode)
+		public void SaveFile(String strFileName, boolean blnUniCode) throws Exception
 		{
-			if (String.IsNullOrEmpty(strFileName))
+			if (libString.IsNullOrEmpty(strFileName))
 				return;
 			
 			java.io.OutputStreamWriter sWriter = null;
@@ -1381,13 +1402,15 @@ public class Vokabel {
 			tastbel = "";
 			
 
-			this.vok_Path = fname.getParent();
+			this.mVokPath = fname.getParent();
 			try {
 				Charset enc = Charset.defaultCharset();
-				if ((fname).exists()) {
-					using (java.io.InputStream in = new java.io.FileInputStream(fname)) {
-						CharUtils.		
-						using (java.io.InputStreamReader r = new java.io.InputStreamReader(in,enc))) {
+				if (fname.exists()) 
+				{
+					using (java.io.InputStream in = new java.io.FileInputStream(fname)) 
+					{
+						using (java.io.InputStreamReader r = new java.io.InputStreamReader(in,enc)) 
+						{
 							enc = Charset.forName(r.getEncoding());
 							r.Close();
 						}
@@ -1431,30 +1454,30 @@ public class Vokabel {
 				} else {
 					sWriter.WriteLine(spr | einst);
 				}
-				for (h = 1; h <= mVok1.GetUpperBound(0); h++) {
-					if (!String.IsNullOrEmpty(mVok1[h].Wort)) {
-						LWort = mVok1[h].Wort;
-						if (!String.IsNullOrEmpty(mVok1[h].Kom))
-							LWort += Strings.Chr(8) + mVok1[h].Kom;
+				for (h = 1; h <= mVok.GetUpperBound(0); h++) {
+					if (!String.IsNullOrEmpty(mVok[h].Wort)) {
+						LWort = mVok[h].Wort;
+						if (!String.IsNullOrEmpty(mVok[h].Kom))
+							LWort += Strings.Chr(8) + mVok[h].Kom;
 						if (!String.IsNullOrEmpty(LWort))
 							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
 						sWriter.WriteLine(LWort);
-						LWort = mVok1[h].Bed1;
-						if (!String.IsNullOrEmpty(LWort))
-							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
-						qf = 0;
-						sWriter.WriteLine(LWort);
-						LWort = mVok1[h].Bed2;
+						LWort = mVok[h].Bed1;
 						if (!String.IsNullOrEmpty(LWort))
 							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
 						qf = 0;
 						sWriter.WriteLine(LWort);
-						LWort = mVok1[h].Bed3;
+						LWort = mVok[h].Bed2;
 						if (!String.IsNullOrEmpty(LWort))
 							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
 						qf = 0;
 						sWriter.WriteLine(LWort);
-						sWriter.WriteLine(mVok1[h].z);
+						LWort = mVok[h].Bed3;
+						if (!String.IsNullOrEmpty(LWort))
+							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
+						qf = 0;
+						sWriter.WriteLine(LWort);
+						sWriter.WriteLine(mVok[h].z);
 					}
 
 				}
@@ -1473,26 +1496,26 @@ public class Vokabel {
 		public void revert()
 		{
 
-			for (int h = mVok1.GetLowerBound(0); h <= mVok1.GetUpperBound(0); h++) {
-				String vok = mVok1[h].Wort;
-				mVok1[h].Wort = mVok1[h].Bed1;
-				if (!String.IsNullOrEmpty(mVok1[h].Bed2)) {
-					mVok1[h].Wort += "/" + mVok1[h].Bed2;
-					mVok1[h].Bed2 = "";
-					if (!String.IsNullOrEmpty(mVok1[h].Bed3)) {
-						mVok1[h].Wort += "/" + mVok1[h].Bed3;
-						mVok1[h].Bed3 = "";
+			for (int h = mVok.GetLowerBound(0); h <= mVok.GetUpperBound(0); h++) {
+				String vok = mVok[h].Wort;
+				mVok[h].Wort = mVok[h].Bed1;
+				if (!String.IsNullOrEmpty(mVok[h].Bed2)) {
+					mVok[h].Wort += "/" + mVok[h].Bed2;
+					mVok[h].Bed2 = "";
+					if (!String.IsNullOrEmpty(mVok[h].Bed3)) {
+						mVok[h].Wort += "/" + mVok[h].Bed3;
+						mVok[h].Bed3 = "";
 					}
 				}
-				mVok1[h].Bed1 = vok;
-				mVok1[h].z = 0;
+				mVok[h].Bed1 = vok;
+				mVok[h].z = 0;
 			}
 		}
 
 		public void reset()
 		{
-			for (int h = mVok1.GetLowerBound(0); h <= mVok1.GetUpperBound(0); h++) {
-				mVok1[h].z = 0;
+			for (int h = mVok.GetLowerBound(0); h <= mVok.GetUpperBound(0); h++) {
+				mVok[h].z = 0;
 			}
 		}
 
@@ -1745,7 +1768,7 @@ public class Vokabel {
 		public void NewFile()
 		{
 			mLernVokabeln = new int[mSchrittweite + 1];
-			mVok1 = new typVok[1];
+			mVok = new typVok[1];
 			mLastIndex = 0;
 			mGesamtzahl = 0;
 			mIndex = 0;
@@ -2458,15 +2481,15 @@ public class Vokabel {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			libLearn.gStatus = "Vokabel.Class_Initialize Start";
-			mVok1 = new typVok[2];
+			mVok = new typVok[2];
 
 
-			mVok1[0].Wort = "empty";
-			mVok1[0].Bed1 = "empty";
-			mVok1[0].Bed2 = "empty";
-			mVok1[0].Bed3 = "empty";
-			mVok1[0].Kom = "empty";
-			mVok1[0].z = 0;
+			mVok[0].Wort = "empty";
+			mVok[0].Bed1 = "empty";
+			mVok[0].Bed2 = "empty";
+			mVok[0].Bed3 = "empty";
+			mVok[0].Kom = "empty";
+			mVok[0].z = 0;
 			libLearn.gStatus = "Vokabel.Class_Initialize Line 1228";
 			// Inserted by CodeCompleter
 			mConfirmChanges = true;

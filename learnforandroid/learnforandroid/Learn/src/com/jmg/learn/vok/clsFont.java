@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.jmg.learn.libLearn;
-import com.jmg.lib.lib.RefSupport;
+import com.jmg.lib.RefSupport;
 import com.jmg.lib.lib.libString;
 
 public class clsFont {
@@ -53,8 +53,6 @@ public class clsFont {
 			public View Container;
 			public static boolean FontNameExists(String vData)
 			{
-				boolean functionReturnValue = false;
-
 				//UPGRADE_ISSUE: Screen Eigenschaft Screen.FontCount wurde nicht aktualisiert. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="CC4C7EC0-C903-48FC-ACCC-81861D12DA4A"'
 				if(Typeface.create(vData, Typeface.NORMAL) != null)
 				{
@@ -209,7 +207,6 @@ public class clsFont {
 
 				    public void setName(String value) throws Exception {
 				        libLearn.gStatus = "clsFont.Name Start";
-				        short i = 0;
 				        value = (value.trim());
 				        mvarName = value;
 				        if (FontNameExists(value))
