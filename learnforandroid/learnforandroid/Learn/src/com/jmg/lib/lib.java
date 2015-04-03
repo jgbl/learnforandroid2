@@ -16,6 +16,7 @@ import android.app.*;
 import android.content.*;
 //import android.runtime.*;
 import android.provider.*;
+import android.widget.Toast;
 
 public class lib
 {
@@ -224,6 +225,80 @@ public class lib
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 
 	    return randomNum;
+	}
+	public static <T> T[] ResizeArray(T Array[], int newSize)
+	{
+		@SuppressWarnings("unchecked")
+		T[] NewArr = (T[]) java.lang.reflect.Array.newInstance(Array.getClass(), newSize);
+		int length = Array.length;
+		if (length>newSize) length = newSize;
+		System.arraycopy(Array, 0, NewArr, 0, length);
+		return NewArr;
+	}
+
+	public static int[] ResizeArray(int[] Array, int newSize) {
+		int[] NewArr = new int[newSize];
+		int length = Array.length;
+		if (length>newSize) length = newSize;
+		System.arraycopy(Array, 0, NewArr, 0, length);
+		return NewArr;
+	}
+	public static synchronized void ShowMessage(Context context, String msg)
+	{
+		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
+	   AlertDialog.Builder A = new AlertDialog.Builder(context);
+	   A.setPositiveButton("OK",listener);
+	   A.setMessage(msg);
+	   A.setTitle("Message");
+	   A.show();
+	}
+	public static synchronized boolean ShowMessageYesNo(Context context, String msg)
+	{
+		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
+	   try
+	   {
+			AlertDialog.Builder A = new AlertDialog.Builder(context);
+		   A.setPositiveButton("Yes",listener);
+		   A.setNegativeButton("No",listener);
+		   A.setMessage(msg);
+		   A.setTitle("Question");
+		   A.show();
+	   }
+	   catch (Exception ex)
+	   {
+		   ShowException(context, ex);
+	   }
+	   return DialogResultYes;
+	}
+	public static synchronized void ShowToast(Context context, String msg)
+	{
+		/*Looper.prepare();*/
+		Toast T = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+		T.show();
+	}
+	private static boolean DialogResultYes = false;
+	private static DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+		
+		@Override
+	    public void onClick(DialogInterface dialog, int which) 
+		{
+	        switch (which){
+	        case DialogInterface.BUTTON_POSITIVE:
+	            //Yes button clicked
+	        	DialogResultYes = true;
+	            break;
+
+	        case DialogInterface.BUTTON_NEGATIVE:
+	            //No button clicked
+	        	DialogResultYes = false;
+	            break;
+	        }
+		}
+	};
+	private static String getString(int id)
+	{
+		String mess = getResources().getString();
+		return mess;
 	}
 	
 }

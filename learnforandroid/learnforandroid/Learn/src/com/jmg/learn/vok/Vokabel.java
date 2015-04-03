@@ -1,5 +1,6 @@
 package com.jmg.learn.vok;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -11,6 +12,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import android.content.Context;
+import android.view.View;
 import android.widget.TextView;
 
 import com.jmg.learn.*;
@@ -203,7 +206,7 @@ public class Vokabel {
 
 		public String getProperties() throws Exception {
 				String txt = null;
-				txt = R.string.TotalNumber +": " + this.getGesamtzahl();
+				txt = getContext().getString(R.string.TotalNumber) + ": " + this.getGesamtzahl();
 				for (int i = -6; i <= 6; i++) {
 					txt += "\r\n" + "z = " + i + ": " + this.Select(null, null, i).size();
 				}
@@ -1070,7 +1073,9 @@ public class Vokabel {
 				if (Trenn.indexOf(Antwort.substring(i, i+1)) > -1) {
 					libLearn.gStatus = "Vokabel.EnthaeltTrennzeichen Line 464";
 					// Inserted by CodeCompleter
-					teile = Arrays.copyOf(teile, Trennz +1);
+					//String[] newteile = new String[Trennz +1];
+					//System.arraycopy(teile, 0, newteile, 0, teile.length)
+					teile = lib.ResizeArray(teile, Trennz+1);
 					teile[Trennz] = Antwort.substring(lastTrenn+1,i );
 					lastTrenn = i;
 					Trennz += 1;
@@ -1149,7 +1154,7 @@ public class Vokabel {
 					}
 				}
 				
-				mLernVokabeln = Arrays.copyOf(mLernVokabeln, mSchrittweite +1);
+				mLernVokabeln = lib.ResizeArray(mLernVokabeln, mSchrittweite +1);
 				// Überprüfen ob Cache mit Lernvokabeln gefüllt ist
 				 for (i = 1;i <= mSchrittweite;i++)
 			        {
@@ -1350,8 +1355,8 @@ public class Vokabel {
 			for (int i = index; i <= mGesamtzahl - 1; i++) {
 				mVok[i] = mVok[i + 1];
 			}
-			mGesamtzahl = mGesamtzahl - 1;
-			mVok = Arrays.copyOf(mVok, mGesamtzahl +1 );
+			mGesamtzahl -= 1;
+			mVok = lib.ResizeArray(mVok, mGesamtzahl +1 );
 			return;
 					}
 
@@ -1374,7 +1379,7 @@ public class Vokabel {
 			//
 			mGesamtzahl = mGesamtzahl + 1;
 			mIndex = mGesamtzahl;
-			mVok = Arrays.copyOf(mVok, mGesamtzahl +1 );
+			mVok = lib.ResizeArray(mVok, mGesamtzahl +1 );
 			return;
 					}
 
@@ -1405,38 +1410,36 @@ public class Vokabel {
 			this.mVokPath = fname.getParent();
 			try {
 				Charset enc = Charset.defaultCharset();
+				/*
 				if (fname.exists()) 
 				{
-					using (java.io.InputStream in = new java.io.FileInputStream(fname)) 
-					{
-						using (java.io.InputStreamReader r = new java.io.InputStreamReader(in,enc)) 
-						{
-							enc = Charset.forName(r.getEncoding());
-							r.Close();
-						}
-					}
+					java.io.InputStream in = new java.io.FileInputStream(fname); 
+					java.io.InputStreamReader r = new java.io.InputStreamReader(in,enc); 
+					enc = Charset.forName(r.getEncoding());
+					r.close();
+					in.close();
 				}
+				*/
 				if (blnUniCode) {
-					enc = System.Text.Encoding.Unicode;
+					enc = Charset.defaultCharset();
 				} else {
-					if (object.ReferenceEquals(enc, System.Text.Encoding.Unicode) || object.ReferenceEquals(enc, System.Text.Encoding.UTF8)) {
-						if (Interaction.MsgBox(ClsGlobal.GetLang("SaveAsUniCode", "Möchten Sie diese Datei als Unicode abspeichern?"), MsgBoxStyle.YesNo) == MsgBoxResult.No) {
-							enc = System.Text.Encoding.GetEncoding(1252);
-						}
+						if (lib.ShowMessageYesNo(getContext(), getContext().getString(R.string.SaveAsUniCode)) == false) {
+							enc = Charset.availableCharsets().get("Windows-1252");
 					} else {
-						enc = System.Text.Encoding.GetEncoding(1252);
+						enc = Charset.defaultCharset();
 					}
 				}
-				sWriter = new System.IO.StreamWriter(fname, false, enc);
+				FileOutputStream os = new java.io.FileOutputStream(fname);
+				sWriter = new java.io.OutputStreamWriter(os, enc);
 
-				System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-				spr = spr | -(tasta) * 32;
-				spr = spr | -(varbed) * 64;
-				spr = spr | -(varHebr) * 16;
-				spr = spr | this.Sprache;
+				//System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+				spr = (short) (spr | -(tasta) * 32);
+				spr = (short) (spr | -(varbed) * 64);
+				spr = (short) (spr | (varHebr ? 16 : 0));
+				spr = (short) (spr | this.mSprache.ordinal());
 
 				if (Strings.Len(fontfil) < 15) {
-					fontfil = Conversion.Str(this.Sprache + 1) + "," + System.Enum.GetName(typeof(libLearn.ClsGlobal.EnumSprachen), this.Sprache);
+					fontfil = Conversion.Str(this.mSprache + 1) + "," + System.Enum.GetName(typeof(libLearn.ClsGlobal.EnumSprachen), this.mSprache);
 					fontfil += "," + Conversion.Str(FontWort.Size);
 					fontfil += "," + FontWort.Name;
 					fontfil += "," + Conversion.Str(FontBed.Size);
@@ -2509,6 +2512,18 @@ public class Vokabel {
 		{
 			Init();
 			this.Container = Container;
+			
+		}
+		public Context getContext()
+		{
+			if (Container != null)
+			{
+				return Container.getContext();
+			}
+			else
+			{
+				return null;
+			}
 		}
 		public void OpenURL(String strLocation)
 		{

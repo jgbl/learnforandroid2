@@ -1770,6 +1770,7 @@ containing a value of this type.
         public static final int main=0x7f0c0000;
     }
     public static final class string {
+        public static final int SaveAsUniCode=0x7f0a0019;
         public static final int TotalNumber=0x7f0a0015;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
@@ -1832,6 +1833,9 @@ containing a value of this type.
         public static final int btnNext=0x7f0a0013;
         public static final int btnSkip=0x7f0a0014;
         public static final int hello_world=0x7f0a0011;
+        public static final int no=0x7f0a0017;
+        public static final int ok=0x7f0a0018;
+        public static final int yes=0x7f0a0016;
     }
     public static final class style {
         /** 
