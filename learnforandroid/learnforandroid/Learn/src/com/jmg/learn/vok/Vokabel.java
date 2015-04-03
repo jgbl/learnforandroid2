@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.jmg.learn.*;
 import com.jmg.lib.lib;
-import com.jmg.lib.lib.RefSupport;
+import com.jmg.lib.RefSupport;
 import com.jmg.lib.lib.libString;
 
 public class Vokabel {
@@ -37,7 +37,7 @@ public class Vokabel {
 		//Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		//
 
-		final String className = "Vokabel";
+		final static String className = "Vokabel";
 		// ******** Events ************
 		interface FehlerEventHandler
 		{
@@ -625,13 +625,14 @@ public class Vokabel {
 								// Falls eine Antwort mehrere Teilantworten enthält
 								} else {
 							        String[] s = EnthaeltTrennzeichen(RemoveKomment(Bedeutungen[ii]));
-							        RefSupport refVar___0 = new RefSupport(Antwort);
-							        RefSupport<String[]> refVar___1 = new RefSupport(s);    //;
-							        RefSupport refVar___2 = new RefSupport(ii);
-							        TeilErgebnis = TeileUeberpruefen(refVar___0, refVar___1, refVar___2);
-							        Antwort = (String) refVar___0.getValue();
-							        s = refVar___1.getValue();
-							        ii = (Short) refVar___2.getValue();
+							        RefSupport<String> refVar1 = new RefSupport<String>(Antwort);
+							        RefSupport<String[]> refVar2 = new RefSupport<String[]>(s);
+							        short[] refii = new short[]{ii};
+							        RefSupport<short[]> refVar3 = new RefSupport<short[]>(refii);
+							        TeilErgebnis = TeileUeberpruefen(refVar1, refVar2, refVar3);
+							        Antwort = (String) refVar1.getValue();
+							        s = refVar2.getValue();
+							        ii = (Short) refVar3.getValue()[0];
 							        if (TeilErgebnis == Bewertung.AllesRichtig) {
 										libLearn.gStatus = "Vokabel.CheckAnwort Line 288";
 										// Inserted by CodeCompleter
@@ -649,9 +650,10 @@ public class Vokabel {
 										libLearn.gStatus = "Vokabel.CheckAnwort Line 298";
 										// Inserted by CodeCompleter
 									} else {
-								        RefSupport refVar___ii = new RefSupport(ii);
-								        boolean boolVar___0 = Aehnlichkeit(Bedeutungen[ii], Antwort, refVar___0) > 0.5;
-								        ii = (Short) refVar___ii.getValue();
+								        short refII[] = new short[]{ii};
+										RefSupport<short[]> refVar___ii = new RefSupport<short[]>(refII);
+								        boolean boolVar___0 = Aehnlichkeit(Bedeutungen[ii], Antwort, refVar___ii) > 0.5;
+								        ii = (Short) refVar___ii.getValue()[0];
 								        if (boolVar___0)
 								        {
 								            aehnlich += 1;
@@ -899,14 +901,15 @@ public class Vokabel {
 			libLearn.gStatus = CodeLoc + " Start";
 			int f1 = 0;
 			int f2 = 0;
-			f1 = Strings.InStr(1, Bed, "[");
-			while (f1) {
-				f2 = Strings.InStr(f1 + 1, Bed, "]");
+			f1 = Bed.indexOf("[",0); //Strings.InStr(1, Bed, "[");
+			while (f1 > -1) {
+				f2 = Bed.indexOf("]", f1+1);//Strings.InStr(f1 + 1, Bed, "]");
 				libLearn.gStatus = "Vokabel.MakeVergl Line 392";
 				// Inserted by CodeCompleter
-				if (f2) {
-					Bed = Strings.Left(Bed, f1 - 1) + "" + Strings.Mid(Bed, f2 + 1, Strings.Len(Bed) - f2);
-					f1 = Strings.InStr(f2 + 1, Bed, "[");
+				if (f2 > -1) {
+					Bed = Bed.substring(0, f1-1) + Bed.substring(f2+1, Bed.length() -1); 
+							//'Strings.Left(Bed, f1 - 1) + "" + Strings.Mid(Bed, f2 + 1, Strings.Len(Bed) - f2);
+					f1 = Bed.indexOf("[", f2+1);//Strings.InStr(f2 + 1, Bed, "[");
 				} else {
 					f1 = f2;
 				}
@@ -980,7 +983,7 @@ public class Vokabel {
 	            libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 420";
 	            // Inserted by CodeCompleter
 	            Aehn = false;
-	            if (!String.IsNullOrEmpty(teile.getValue()[i]))
+	            if (!libString.IsNullOrEmpty(teile.getValue()[i]))
 	            {
 	                for (ii = 0;ii <= (Antworten).length-1;ii++)
 	                {
@@ -995,7 +998,7 @@ public class Vokabel {
 	                         
 	                        if (lAehnlichkeit > 0.5)
 	                        {
-	                            aehnlich = aehnlich + 1;
+	                            aehnlich  += 1;
 	                            break;
 	                            // TODO: might not be correct. Was : Exit For
 	                            libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 440";
@@ -1007,13 +1010,13 @@ public class Vokabel {
 	                // Inserted by CodeCompleter
 	                if (!Aehn)
 	                {
-	                    if (String.IsNullOrEmpty(mOldBed[BedNR.getValue()]))
+	                    if (libString.IsNullOrEmpty(mOldBed[BedNR.getValue()[0]]))
 	                    {
-	                        mOldBed[BedNR.getValue()] = ClsGlobal.MakeMask(teile.getValue()[i]);
+	                        mOldBed[BedNR.getValue()[0]] = lib.MakeMask(teile.getValue()[i]);
 	                    }
 	                    else
 	                    {
-	                        mOldBed[BedNR.getValue()] = mOldBed[BedNR.getValue()] + "," + ClsGlobal.MakeMask(teile.getValue()[i]);
+	                        mOldBed[BedNR.getValue()[0]] = mOldBed[BedNR.getValue()[0]] + "," + lib.MakeMask(teile.getValue()[i]);
 	                    } 
 	                }
 	                 

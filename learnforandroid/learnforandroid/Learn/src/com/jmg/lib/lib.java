@@ -5,6 +5,8 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.regex.Pattern;
 
+import com.jmg.learn.libLearn;
+
 
 //import com.microsoft.live.*;
 
@@ -15,16 +17,14 @@ import android.provider.*;
 
 public class lib
 {
-	public enum ReturnPreOrPostValue {
-		PRE,POST
-	}
-
+	
 
 	public lib()
 	{
 	}
 	private static String _status = "";
 	private static final String ONEDRIVE_APP_ID = "48122D4E";
+	private static final String ClassName = "lib.lib";
 	public static String getgstatus()
 	{
 		return _status;
@@ -178,58 +178,18 @@ public class lib
 	    return count;
 	    
 	}
-	/*
-	   Copyright 2010,2011 Kevin Glynn (kevin.glynn@twigletsoftware.com)
-
-	   Licensed under the Apache License, Version 2.0 (the "License");
-	   you may not use this file except in compliance with the License.
-	   You may obtain a copy of the License at
-
-	       http://www.apache.org/licenses/LICENSE-2.0
-
-	   Unless required by applicable law or agreed to in writing, software
-	   distributed under the License is distributed on an "AS IS" BASIS,
-	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	   See the License for the specific language governing permissions and
-	   limitations under the License.
-
-	   Author(s):
-
-	   Kevin Glynn (kevin.glynn@twigletsoftware.com)
-	*/
-
-
-	// Wraps a parameter so that it can be used as a ref or out param.
-	public class RefSupport<T> {
-
-		private T value;
-
-		public RefSupport(T inValue) {
-			value = inValue;
+	public static String MakeMask(String strBed)
+	{
+		int i = 0;
+		libLearn.gStatus = ClassName + ".MakeMask";
+		for (i = 0; i <= (strBed).length() -1 ; i++) {
+			if (!(".,;/[]()".indexOf(strBed.charAt(i)) > -1)) {
+				strBed = strBed.substring(0, i - 1) + "*" + strBed.substring(i, strBed.length() - i);
+			}
 		}
-		public RefSupport() {
-		}
-		
-		
-		/**
-		 * @param value the value to set
-		 */
-		public void setValue(T value) {
-			this.value = value;
-		}
+		return strBed;
 
-		public T setValue(T value, ReturnPreOrPostValue preOrPost) {
-			T preValue = this.value;
-			this.value = value;
-			return (preOrPost == ReturnPreOrPostValue.POST ? this.value : preValue);
-		}
-
-		/**
-		 * @return the value
-		 */
-		public T getValue() {
-			return this.value;
-		}
 	}
-
+	
 }
+
