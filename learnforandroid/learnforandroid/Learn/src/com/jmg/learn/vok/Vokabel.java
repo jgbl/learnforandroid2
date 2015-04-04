@@ -1574,7 +1574,7 @@ public class Vokabel {
 
 		
 		 
-		 public void LoadFromString(String strContent)
+		 public void LoadFromString(String strContent) throws Exception
 		 {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
@@ -1626,8 +1626,9 @@ public class Vokabel {
 				refStrTmp.setValue(tastbel);
 				GetNextLineFromString(strContent, refStrTmp);
 				tastbel= refStrTmp.getValue();
-				GetNextLineFromString(strContent, fontfil);
-				//UPGRADE_ISSUE: Die Anweisung GoSub wird nicht unterstützt. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="C5A1A479-AB8B-4D40-AAF4-DB19A2E5E77F"'
+				refStrTmp.setValue(fontfil);
+				GetNextLineFromString(strContent, refStrTmp);
+				fontfil = refStrTmp.getValue();
 				getfonts(fontfil, hh, h, indexlang, qf, lad);
 				//Windows Fonts extrahieren
 			} else {
@@ -1708,16 +1709,16 @@ public class Vokabel {
 			return;
 			}
 
-		    public void getfonts(RefSupport<String> fontfil, int hh, int h, int indexLang, int qf, boolean lad) throws Exception 
+		    public void getfonts(RefSupport<String> fontfil, RefSupport<Object> hh, RefSupport<Object> h, RefSupport<Object> indexLang, RefSupport<Object> qf, RefSupport<Object> lad) throws Exception 
 		    {
 		        getfonts:// ********** Hier werden die Fonts 'extrahiert'
 		        hh.setValue(1);
-		        if (Strings.InStr(fontfil.getValue(), ",") != 0)
+		        if ((fontfil.getValue().indexOf(",")) > -1)
 		        {
 		            fontfil.setValue(fontfil.getValue() + ",");
-		            h.setValue(Strings.InStr(hh.getValue(), fontfil.getValue(), ","));
-		            if (h.getValue() != 0 & h.getValue() - hh.getValue() > 0)
-		                indexLang.setValue(Conversion.Val(Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue())) - 1);
+		            h.setValue((fontfil.getValue().indexOf(",",(Integer)hh.getValue()-1))+1);
+		            if ((Integer)h.getValue() != 0 && (Integer)h.getValue() - (Integer)hh.getValue() > 0)
+		                indexLang.setValue(Integer.parseInt(fontfil.getValue().substring((Integer)hh.getValue()-1, (Integer)h.getValue())) - 1);
 		             
 		            hh.setValue(h.getValue() + 1);
 		            h.setValue(Strings.InStr(hh.getValue(), fontfil.getValue(), ","));
