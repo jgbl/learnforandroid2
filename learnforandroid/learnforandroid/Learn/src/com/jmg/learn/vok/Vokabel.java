@@ -1629,10 +1629,22 @@ public class Vokabel {
 				refStrTmp.setValue(fontfil);
 				GetNextLineFromString(strContent, refStrTmp);
 				fontfil = refStrTmp.getValue();
-				getfonts(fontfil, hh, h, indexlang, qf, lad);
+				 RefSupport refVar___0 = new RefSupport(fontfil);
+			        RefSupport refVar___1 = new RefSupport(hh);
+			        RefSupport refVar___2 = new RefSupport(h);
+			        RefSupport refVar___3 = new RefSupport(indexlang);
+			        RefSupport refVar___4 = new RefSupport(qf);
+			        RefSupport refVar___5 = new RefSupport(lad);
+			        Getfonts(refVar___0, refVar___1, refVar___2, refVar___3, refVar___4, refVar___5);
+			        fontfil = (String) refVar___0.getValue();
+			        hh = (Short) refVar___1.getValue();
+			        h = (Short) refVar___2.getValue();
+			        indexlang = (Short) refVar___3.getValue();
+			        qf = (Short) refVar___4.getValue();
+			        lad = (Short) refVar___5.getValue();
 				//Windows Fonts extrahieren
 			} else {
-				lad = false;
+				lad = 0;
 			}
 			while ((GetNextLineFromString(strContent))) {
 				libLearn.gStatus = "Vokabel.LoadFromString Line 689";
@@ -1709,82 +1721,88 @@ public class Vokabel {
 			return;
 			}
 
-		    public void getfonts(RefSupport<String> fontfil, RefSupport<Object> hh, RefSupport<Object> h, RefSupport<Object> indexLang, RefSupport<Object> qf, RefSupport<Object> lad) throws Exception 
+		    public void Getfonts(RefSupport<String> fontfil, RefSupport<Object> refhh, RefSupport<Object> refh, RefSupport<Object> refindexLang, RefSupport<Object> refqf, RefSupport<Object> reflad) throws Exception 
 		    {
-		        getfonts:// ********** Hier werden die Fonts 'extrahiert'
-		        hh.setValue(1);
+		        //getfonts:,// ********** Hier werden die Fonts 'extrahiert'
+		        int h = (Integer)refh.getValue();
+		    	int hh = (Integer)refhh.getValue();
+		    	int indexLang = (Integer) refindexLang.getValue();
+		    	int qf = (Integer)refqf.getValue();
+		        hh = 1;
 		        if ((fontfil.getValue().indexOf(",")) > -1)
 		        {
 		            fontfil.setValue(fontfil.getValue() + ",");
-		            h.setValue((fontfil.getValue().indexOf(",",(Integer)hh.getValue()-1))+1);
-		            if ((Integer)h.getValue() != 0 && (Integer)h.getValue() - (Integer)hh.getValue() > 0)
-		                indexLang.setValue(Integer.parseInt(fontfil.getValue().substring((Integer)hh.getValue()-1, (Integer)h.getValue())) - 1);
+		            h=((fontfil.getValue().indexOf(",",hh-1))+1);
+		            if (h != 0 && h - hh > 0)
+		                indexLang=(Integer.parseInt(fontfil.getValue().substring(hh-1, h - 1)));
 		             
-		            hh.setValue(h.getValue() + 1);
-		            h.setValue(Strings.InStr(hh.getValue(), fontfil.getValue(), ","));
+		            hh += 1;
+		            h = ((fontfil.getValue().indexOf(",", hh-1) )+1);
 		            try
 		            {
-		                if (h.getValue() != 0 & h.getValue() - hh.getValue() > 0)
-		                    Sprache = System.Enum.Parse(EnumSprachen.class, Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue()));
-		                 
+		                if (h != 0 && h - hh > 0)
+		                    mSprache = EnumSprachen.valueOf((fontfil.getValue().substring(hh-1, h-1)));
 		            }
 		            catch (Exception __dummyCatchVar0)
 		            {
-		                if (StringSupport.equals(Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue()), "Hebr竳ch"))
+		                if (fontfil.getValue().substring(hh-1, h-1).equals("Hebräisch"))
 		                {
-		                    Sprache = EnumSprachen.Hebrew;
+		                    mSprache = EnumSprachen.Hebrew;
 		                }
 		                else
 		                {
-		                    Sprache = EnumSprachen.Normal;
+		                    mSprache = EnumSprachen.Normal;
 		                } 
 		            }
 
-		            hh.setValue(h.getValue() + 1);
-		            for (qf.setValue(1);qf.getValue() <= 3;qf.setValue(qf.getValue() + 1, ReturnPreOrPostValue.POST))
+		            hh=h + 1;
+		            for (qf=1;qf <= 3;qf++)
 		            {
-		                h.setValue(Strings.InStr(hh.getValue(), fontfil.getValue(), ","));
-		                if (h.getValue() != 0 & h.getValue() - hh.getValue() > 0)
+		                h=(fontfil.getValue().indexOf(",",hh-1))+1;
+		                if (h != 0 && h - hh > 0)
 		                {
-		                    switch(qf.getValue())
+		                    switch(qf)
 		                    {
 		                        case 1: 
-		                            mWortFont.Size = Convert.ToByte(Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue()));
+		                            mWortFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h)));
 		                            break;
 		                        case 2: 
-		                            mBedFont.Size = Convert.ToByte(Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue()));
+		                            mBedFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h)));
 		                            break;
 		                        case 3: 
-		                            mKomFont.Size = Convert.ToByte(Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue()));
+		                            mKomFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h)));
 		                            break;
 		                    
 		                    }
 		                }
 		                 
-		                hh.setValue(h.getValue() + 1);
-		                h.setValue(Strings.InStr(hh.getValue(), fontfil.getValue(), ","));
-		                if (h.getValue() != 0 & h.getValue() - hh.getValue() > 0)
+		                hh=h+1;
+		                h=(fontfil.getValue().indexOf(",",hh-1))+1;
+		                if (h != 0 & h - hh > 0)
 		                {
-		                    switch(qf.getValue())
+		                    switch(qf)
 		                    {
 		                        case 1: 
-		                            mWortFont.Name = (Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue()));
+		                            mWortFont.setName(fontfil.getValue().substring(hh-1, h));
 		                            break;
 		                        case 2: 
-		                            mBedFont.Name = (Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue()));
+		                            mBedFont.setName(fontfil.getValue().substring(hh-1, h));
 		                            break;
 		                        case 3: 
-		                            mKomFont.Name = (Strings.Mid(fontfil.getValue(), hh.getValue(), h.getValue() - hh.getValue()));
+		                            mKomFont.setName(fontfil.getValue().substring(hh-1, h));
 		                            break;
 		                    
 		                    }
 		                }
 		                 
-		                hh.setValue(h.getValue() + 1);
+		                hh=(h + 1);
 		            }
-		            lad.setValue(true);
+		            reflad.setValue(-1);
 		        }
-		         
+		        refh.setValue(h);
+		        refhh.setValue(hh);
+		        refindexLang.setValue(indexLang);
+		        refqf.setValue(qf);
 		    }
 	    
 
