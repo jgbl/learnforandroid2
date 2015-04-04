@@ -295,11 +295,5 @@ public class lib
 	        }
 		}
 	};
-	private static String getString(int id)
-	{
-		String mess = getResources().getString();
-		return mess;
-	}
-	
 }
 

@@ -1389,6 +1389,7 @@ public class Vokabel {
 				return;
 			
 			java.io.OutputStreamWriter sWriter = null;
+			FileOutputStream os = null;
 			libLearn.gStatus = "Vokabel.SaveFile Start";
 			//
 			String LWort = null;
@@ -1420,16 +1421,22 @@ public class Vokabel {
 					in.close();
 				}
 				*/
-				if (blnUniCode) {
+				if (blnUniCode) 
+				{
 					enc = Charset.defaultCharset();
-				} else {
-						if (lib.ShowMessageYesNo(getContext(), getContext().getString(R.string.SaveAsUniCode)) == false) {
-							enc = Charset.availableCharsets().get("Windows-1252");
-					} else {
+				} 
+				else 
+				{
+					if (lib.ShowMessageYesNo(getContext(), getContext().getString(R.string.SaveAsUniCode)) == false) 
+					{
+						enc = Charset.availableCharsets().get("Windows-1252");
+					} 
+					else 
+					{
 						enc = Charset.defaultCharset();
 					}
 				}
-				FileOutputStream os = new java.io.FileOutputStream(fname);
+				os = new java.io.FileOutputStream(fname);
 				sWriter = new java.io.OutputStreamWriter(os, enc);
 
 				//System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
@@ -1438,74 +1445,76 @@ public class Vokabel {
 				spr = (short) (spr | (varHebr ? 16 : 0));
 				spr = (short) (spr | this.mSprache.ordinal());
 
-				if (Strings.Len(fontfil) < 15) {
-					fontfil = Conversion.Str(this.mSprache + 1) + "," + System.Enum.GetName(typeof(libLearn.ClsGlobal.EnumSprachen), this.mSprache);
-					fontfil += "," + Conversion.Str(FontWort.Size);
-					fontfil += "," + FontWort.Name;
-					fontfil += "," + Conversion.Str(FontBed.Size);
-					fontfil += "," + FontBed.Name;
-					fontfil += "," + Conversion.Str(FontKom.Size);
-					fontfil += "," + FontKom.Name;
+				if ((fontfil).length() < 15) {
+					fontfil = (this.mSprache.ordinal() + 1) + "," + (this.mSprache.name());
+					fontfil += "," + (getFontWort().getSize());
+					fontfil += "," + getFontWort().getName();
+					fontfil += "," + (getFontBed().getSize());
+					fontfil += "," + getFontBed().getName();
+					fontfil += "," + (getFontKom().getSize());
+					fontfil += "," + getFontKom().getName();
 
 				}
 
 
-				if (!String.IsNullOrEmpty(tastbel) | !String.IsNullOrEmpty(fontfil)) {
-					sWriter.WriteLine(spr | 128 | einst);
-					sWriter.WriteLine(tastbel);
-					sWriter.WriteLine(fontfil);
+				if (!libString.IsNullOrEmpty(tastbel) | !libString.IsNullOrEmpty(fontfil)) 
+				{
+					sWriter.write((spr | 128 | einst) +"\n");
+					sWriter.write(tastbel+"\n");
+					sWriter.write(fontfil+"\n");
 				} else {
-					sWriter.WriteLine(spr | einst);
+					sWriter.write((spr | einst)+"\n");
 				}
-				for (h = 1; h <= mVok.GetUpperBound(0); h++) {
-					if (!String.IsNullOrEmpty(mVok[h].Wort)) {
+				for (h = 0; h <= mVok.length -1; h++) {
+					if (!libString.IsNullOrEmpty(mVok[h].Wort)) {
 						LWort = mVok[h].Wort;
-						if (!String.IsNullOrEmpty(mVok[h].Kom))
-							LWort += Strings.Chr(8) + mVok[h].Kom;
-						if (!String.IsNullOrEmpty(LWort))
-							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
-						sWriter.WriteLine(LWort);
+						if (!libString.IsNullOrEmpty(mVok[h].Kom))
+							LWort += (char)8 + mVok[h].Kom;
+						if (!libString.IsNullOrEmpty(LWort))
+							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
+						sWriter.write(LWort+"\n");
 						LWort = mVok[h].Bed1;
-						if (!String.IsNullOrEmpty(LWort))
-							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
+						if (!libString.IsNullOrEmpty(LWort))
+							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
 						qf = 0;
-						sWriter.WriteLine(LWort);
+						sWriter.write(LWort+"\n");
 						LWort = mVok[h].Bed2;
-						if (!String.IsNullOrEmpty(LWort))
-							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
+						if (!libString.IsNullOrEmpty(LWort))
+							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
 						qf = 0;
-						sWriter.WriteLine(LWort);
+						sWriter.write(LWort+"\n");
 						LWort = mVok[h].Bed3;
-						if (!String.IsNullOrEmpty(LWort))
-							LWort = LWort.Replace(finalants.vbCr, "{CR}").Replace(finalants.vbLf, "{LF}");
+						if (!libString.IsNullOrEmpty(LWort))
+							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
 						qf = 0;
-						sWriter.WriteLine(LWort);
-						sWriter.WriteLine(mVok[h].z);
+						sWriter.write(LWort+"\n");
+						sWriter.write((mVok[h].z)+"\n");
 					}
 
 				}
 			} catch (Exception ex) {
-				throw ex;
+				throw new Exception("SaveVokError", ex);
 			} finally {
-				sWriter.Close();
-				sWriter.Dispose();
+				sWriter.close();
 				sWriter = null;
+				os.close();
+				os = null;
 			}
 			aend = false;
 
-			spr = spr & 7;
-			System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+			spr = (short) (spr & 7);
+			//System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
 		}
 		public void revert()
 		{
 
-			for (int h = mVok.GetLowerBound(0); h <= mVok.GetUpperBound(0); h++) {
+			for (int h = 0; h <= mVok.length-1; h++) {
 				String vok = mVok[h].Wort;
 				mVok[h].Wort = mVok[h].Bed1;
-				if (!String.IsNullOrEmpty(mVok[h].Bed2)) {
+				if (!libString.IsNullOrEmpty(mVok[h].Bed2)) {
 					mVok[h].Wort += "/" + mVok[h].Bed2;
 					mVok[h].Bed2 = "";
-					if (!String.IsNullOrEmpty(mVok[h].Bed3)) {
+					if (!libString.IsNullOrEmpty(mVok[h].Bed3)) {
 						mVok[h].Wort += "/" + mVok[h].Bed3;
 						mVok[h].Bed3 = "";
 					}
@@ -1517,38 +1526,48 @@ public class Vokabel {
 
 		public void reset()
 		{
-			for (int h = mVok.GetLowerBound(0); h <= mVok.GetUpperBound(0); h++) {
+			for (int h = 0; h <= mVok.length-1; h++) {
 				mVok[h].z = 0;
 			}
 		}
 
 		int static_GetNextLineFromString_startLine;
-		 private boolean getNextLineFromString(RefSupport<String> strContent, RefSupport<String> strRef, int FirstLine) throws Exception {
+		//Private Function GetNextLineFromString(ByRef strContent As String, Optional ByRef strRef As String = "nihxyz", Optional ByRef FirstLine As Single = 0) As Boolean
+		private boolean GetNextLineFromString(String strContent) throws Exception {
+			int FirstLine = 0;
+			RefSupport<String> strRef = new RefSupport<String>("nihxyz");
+			return GetNextLineFromString(strContent, strRef, FirstLine);
+		}
+		private boolean GetNextLineFromString(String strContent, RefSupport<String> strRef) throws Exception {
+			int FirstLine = 0;
+			return GetNextLineFromString(strContent, strRef, FirstLine);
+		}
+			  
+		 private boolean GetNextLineFromString(String strContent, RefSupport<String> strRef, int FirstLine) throws Exception {
 		        boolean functionReturnValue = false;
 		        // ERROR: Not supported in C#: OnErrorStatement
 		        libLearn.gStatus = "Vokabel.GetNextLineFromString Start";
 		        int crFound = 0;
-		        if (String.IsNullOrEmpty(strContent.getValue()))
+		        if (libString.IsNullOrEmpty(strContent))
 		        {
-		            Err().Raise(finalants.vbObjectError, "GetNextLineFromString", "String ist empty!");
+		            throw new RuntimeException("GetNextLineFromString\n" + "String ist empty!");
 		        }
 		         
-		        if (StringSupport.equals(strRef.getValue(), "nihxyz"))
+		        if ((strRef.getValue().equals("nihxyz")))
 		        {
-		            functionReturnValue = !(static_GetNextLineFromString_startLine > Strings.Len(strContent.getValue()));
+		            functionReturnValue = !(static_GetNextLineFromString_startLine > (strContent.length()));
 		            return functionReturnValue;
-		            libLearn.gStatus = "Vokabel.GetNextLineFromString Line 648";
 		        }
 		         
 		        // Inserted by CodeCompleter
-		        if (FirstLine.getValue())
+		        if (FirstLine != 0)
 		            static_GetNextLineFromString_startLine = 1;
 		         
-		        crFound = Strings.InStr(static_GetNextLineFromString_startLine, strContent.getValue(), finalants.vbCrLf);
+		        crFound =strContent.indexOf("\r", static_GetNextLineFromString_startLine -1) + 1;
 		        if (crFound == 0)
-		            crFound = Strings.Len(strContent.getValue());
+		            crFound = strContent.length();
 		         
-		        strRef.setValue(Strings.Mid(strContent.getValue(), static_GetNextLineFromString_startLine, crFound - static_GetNextLineFromString_startLine));
+		        strRef.setValue(strContent.substring(static_GetNextLineFromString_startLine, crFound - 1));
 		        static_GetNextLineFromString_startLine = crFound + 2;
 		        return functionReturnValue;
 		    }
@@ -1568,7 +1587,7 @@ public class Vokabel {
 			short sp = 0;
 			short einst = 0;
 			short tasta = 0;
-			String ext = new String(' ', 3);
+			String ext = new String (new char[3]).replace('\0', ' ');
 			short n = 0;
 			short lad = 0;
 			short indexlang = 0;
@@ -1590,20 +1609,23 @@ public class Vokabel {
 			libLearn.gStatus = "Vokabel.LoadFromString Line 669";
 			// Inserted by CodeCompleter
 
-
-			GetNextLineFromString(strContent, strTmp, true);
+			RefSupport<String>refStrTmp = new RefSupport<String>(strTmp);
+			GetNextLineFromString(strContent, refStrTmp, -1);
+			strTmp = refStrTmp.getValue();
 			//SPRACHE LADEN
-			sp = Conversion.Val(strTmp);
-			einst = sp & ((Math.Pow(2, 16)) - 256);
-			Varhebr = (sp & 16) != 0;
-			varbed = (sp & 64) != 0;
-			tasta = (sp & 32) != 0;
-			indexlang = sp & 7;
+			sp = (short) Integer.parseInt(strTmp);
+			einst = (short) (sp & (short)((Math.pow(2, 16)) - 256));
+			Varhebr = (short) ((sp & 16) != 0 ? -1 : 0);
+			varbed = (short) ((sp & 64) != 0 ? -1 :0);
+			tasta = (short) ((sp & 32) != 0 ? -1 :0);
+			indexlang = (short) (sp & 7);
 			libLearn.gStatus = "Vokabel.LoadFromString Line 679";
 			// Inserted by CodeCompleter
-			mSprache = indexlang;
-			if (sp & 128) {
-				GetNextLineFromString(strContent, tastbel);
+			lib.setEnumOrdinal(mSprache, indexlang);
+			if ((sp & 128) != 0) {
+				refStrTmp.setValue(tastbel);
+				GetNextLineFromString(strContent, refStrTmp);
+				tastbel= refStrTmp.getValue();
 				GetNextLineFromString(strContent, fontfil);
 				//UPGRADE_ISSUE: Die Anweisung GoSub wird nicht unterstützt. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="C5A1A479-AB8B-4D40-AAF4-DB19A2E5E77F"'
 				getfonts(fontfil, hh, h, indexlang, qf, lad);
