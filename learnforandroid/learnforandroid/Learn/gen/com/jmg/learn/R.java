@@ -1770,6 +1770,7 @@ containing a value of this type.
         public static final int main=0x7f0c0000;
     }
     public static final class string {
+        public static final int FileDoesNotExist=0x7f0a001a;
         public static final int SaveAsUniCode=0x7f0a0019;
         public static final int TotalNumber=0x7f0a0015;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 

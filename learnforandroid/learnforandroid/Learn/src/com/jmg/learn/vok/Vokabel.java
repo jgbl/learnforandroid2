@@ -1,15 +1,12 @@
 package com.jmg.learn.vok;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import android.content.Context;
@@ -324,7 +321,7 @@ public class Vokabel {
 	    public String getStatus() throws Exception {
 	        String functionReturnValue = null;
 	        // ERROR: Not supported in C#: OnErrorStatement
-	        libLearn.gStatus = "Vokabel.Status Start";
+	        libLearn.gStatus = "Vokabel.libLearn.gStatus Start";
 	        //
 	        //
 	        functionReturnValue = mSTatus;
@@ -333,7 +330,7 @@ public class Vokabel {
 
 	    public void setStatus(String value) throws Exception {
 	        // ERROR: Not supported in C#: OnErrorStatement
-	        libLearn.gStatus = "Vokabel.Status Start";
+	        libLearn.gStatus = "Vokabel.libLearn.gStatus Start";
 	        if (mSTatusO != null)
 	        {
 	            mSTatusO.setText(value);
@@ -862,13 +859,13 @@ public class Vokabel {
 			int intAsc = 0;
 			// Optionale Teile herausfiltern
 			try {
-				f1 = Bed.indexOf("(", 0) ;//Strings.InStr(1, Bed, "(");
+				f1 = Bed.indexOf("(", 0) ;//libString.InStr(1, Bed, "(");
 				libLearn.gStatus = CodeLoc + " Klammern verarbeiten";
 				while (f1>-1) {
-					f2 = Bed.indexOf(")",f1+1); //Strings.InStr(f1 + 1, Bed, ")");
+					f2 = Bed.indexOf(")",f1+1); //libString.InStr(f1 + 1, Bed, ")");
 					if (f2>-1) {
-						Bed = Bed.substring(0,f1-1) + "*" + Bed.substring(f2+1, Bed.length()-f2-1); //Strings.Left(Bed, f1 - 1) + "*" + Strings.Mid(Bed, f2 + 1, Strings.Len(Bed) - f2);
-						f1 = Bed.indexOf("(",f2+1); //Strings.InStr(f2 + 1, Bed, "(");
+						Bed = Bed.substring(0,f1-1) + "*" + Bed.substring(f2+1, Bed.length()-f2-1); //libString.Left(Bed, f1 - 1) + "*" + libString.Mid(Bed, f2 + 1, libString.Len(Bed) - f2);
+						f1 = Bed.indexOf("(",f2+1); //libString.InStr(f2 + 1, Bed, "(");
 					} else {
 						f1 = f2;
 					}
@@ -881,7 +878,7 @@ public class Vokabel {
 
 					for (i = 1; i <= (Bed).length(); i++) {
 						try {
-							intAsc = Bed.charAt(i-1);//Strings.Asc(Strings.Mid(Bed, i, 1));
+							intAsc = Bed.charAt(i-1);//libString.Asc(libString.Mid(Bed, i, 1));
 							if (intAsc < 65 | intAsc > 90) {
 								Bed = Bed.substring(0, i - 1) + "*" + Bed.substring(i, Bed.length() - i);
 							}
@@ -905,15 +902,15 @@ public class Vokabel {
 			libLearn.gStatus = CodeLoc + " Start";
 			int f1 = 0;
 			int f2 = 0;
-			f1 = Bed.indexOf("[",0); //Strings.InStr(1, Bed, "[");
+			f1 = Bed.indexOf("[",0); //libString.InStr(1, Bed, "[");
 			while (f1 > -1) {
-				f2 = Bed.indexOf("]", f1+1);//Strings.InStr(f1 + 1, Bed, "]");
+				f2 = Bed.indexOf("]", f1+1);//libString.InStr(f1 + 1, Bed, "]");
 				libLearn.gStatus = "Vokabel.MakeVergl Line 392";
 				// Inserted by CodeCompleter
 				if (f2 > -1) {
 					Bed = Bed.substring(0, f1-1) + Bed.substring(f2+1, Bed.length() -1); 
-							//'Strings.Left(Bed, f1 - 1) + "" + Strings.Mid(Bed, f2 + 1, Strings.Len(Bed) - f2);
-					f1 = Bed.indexOf("[", f2+1);//Strings.InStr(f2 + 1, Bed, "[");
+							//'libString.Left(Bed, f1 - 1) + "" + libString.Mid(Bed, f2 + 1, libString.Len(Bed) - f2);
+					f1 = Bed.indexOf("[", f2+1);//libString.InStr(f2 + 1, Bed, "[");
 				} else {
 					f1 = f2;
 				}
@@ -1163,8 +1160,8 @@ public class Vokabel {
 			                // falls Lernvokabel gelÃ¶scht ist neue holen
 			                if (mAbfragebereich == -1 | blnDurch2 == true)
 			                {
-			                    RefSupport refVar___0 = new RefSupport(voknr);
-			                    RefSupport refVar___1 = new RefSupport(i);
+			                    RefSupport<Object> refVar___0 = new RefSupport<Object>(voknr);
+			                    RefSupport<Object> refVar___1 = new RefSupport<Object>(i);
 			                    vokabelVonAllenHolen(refVar___0, refVar___1);
 			                    voknr = (Integer) refVar___0.getValue();
 			                    i = (Short) refVar___1.getValue();
@@ -1173,10 +1170,10 @@ public class Vokabel {
 			                {
 			                    libLearn.gStatus = "Vokabel.InitAbfrage Line 509";
 			                    // Inserted by CodeCompleter
-			                    RefSupport refVar___2 = new RefSupport(voknr);
-			                    RefSupport refVar___3 = new RefSupport(i);
-			                    RefSupport refVar___4 = new RefSupport(blnDurch);
-			                    RefSupport refVar___5 = new RefSupport(blnDurch2);
+			                    RefSupport<Object> refVar___2 = new RefSupport<Object>(voknr);
+			                    RefSupport<Object> refVar___3 = new RefSupport<Object>(i);
+			                    RefSupport<Object> refVar___4 = new RefSupport<Object>(blnDurch);
+			                    RefSupport<Object> refVar___5 = new RefSupport<Object>(blnDurch2);
 			                    Get_Vok(refVar___2, refVar___3, refVar___4, refVar___5);
 			                    voknr = (Integer) refVar___2.getValue();
 			                    i = (Short) refVar___3.getValue();
@@ -1288,8 +1285,8 @@ public class Vokabel {
 	        }
 	        while (true);
 	        // TODO: might not be correct. Was : Exit Do
-	        RefSupport refVar___2 = new RefSupport(vokNr.getValue());
-	        RefSupport refVar___3 = new RefSupport(i.getValue());
+	        RefSupport<Object> refVar___2 = new RefSupport<Object>(vokNr.getValue());
+	        RefSupport<Object> refVar___3 = new RefSupport<Object>(i.getValue());
 	        vokabelVonAllenHolen(refVar___2,refVar___3);
 	        vokNr.setValue(refVar___2.getValue());
 	        i.setValue(refVar___3.getValue());
@@ -1629,12 +1626,12 @@ public class Vokabel {
 				refStrTmp.setValue(fontfil);
 				GetNextLineFromString(strContent, refStrTmp);
 				fontfil = refStrTmp.getValue();
-				 RefSupport refVar___0 = new RefSupport(fontfil);
-			        RefSupport refVar___1 = new RefSupport(hh);
-			        RefSupport refVar___2 = new RefSupport(h);
-			        RefSupport refVar___3 = new RefSupport(indexlang);
-			        RefSupport refVar___4 = new RefSupport(qf);
-			        RefSupport refVar___5 = new RefSupport(lad);
+				 	RefSupport<String> refVar___0 = new RefSupport<String>(fontfil);
+			        RefSupport<Object> refVar___1 = new RefSupport<Object>(hh);
+			        RefSupport<Object> refVar___2 = new RefSupport<Object>(h);
+			        RefSupport<Object> refVar___3 = new RefSupport<Object>(indexlang);
+			        RefSupport<Object> refVar___4 = new RefSupport<Object>(qf);
+			        RefSupport<Object> refVar___5 = new RefSupport<Object>(lad);
 			        Getfonts(refVar___0, refVar___1, refVar___2, refVar___3, refVar___4, refVar___5);
 			        fontfil = (String) refVar___0.getValue();
 			        hh = (Short) refVar___1.getValue();
@@ -1649,31 +1646,43 @@ public class Vokabel {
 			while ((GetNextLineFromString(strContent))) {
 				libLearn.gStatus = "Vokabel.LoadFromString Line 689";
 				// Inserted by CodeCompleter
-				System.Windows.Forms.Application.DoEvents();
-				n = n + 1;
-				Array.Resize(ref mVok, n + 1);
-				GetNextLineFromString(strContent, mVok[n].Wort);
-
-				qf = Strings.InStr(mVok[n].Wort, Strings.Chr(0));
+				//System.Windows.Forms.Application.DoEvents();
+				n += 1;
+				lib.ResizeArray(mVok, n + 1);
+				RefSupport<String>refWort = new RefSupport<String>(mVok[n].Wort);
+				GetNextLineFromString(strContent, refWort);
+				mVok[n].Wort = refWort.getValue();
+				qf = (short) (mVok[n].Wort.indexOf(0)+1);
 				if (qf == 0)
-					qf = Strings.InStr(mVok[n].Wort, Strings.Chr(8));
+					qf = (short) (mVok[n].Wort.indexOf(8)+1);
 				if (qf != 0) {
-					mVok[n].Kom = Strings.Right(mVok[n].Wort, Strings.Len(mVok[n].Wort) - qf);
+					mVok[n].Kom = mVok[n].Wort.substring(qf);
 					libLearn.gStatus = "Vokabel.LoadFromString Line 699";
 					// Inserted by CodeCompleter
-					mVok[n].Wort = Strings.Left(mVok[n].Wort, qf - 1);
+					mVok[n].Wort = mVok[n].Wort.substring(qf - 1);
 				}
-
-				GetNextLineFromString(strContent, mVok[n].Bed1);
-				GetNextLineFromString(strContent, mVok[n].Bed2);
-				GetNextLineFromString(strContent, mVok[n].Bed3);
-				GetNextLineFromString(strContent, strTmp);
-				mVok[n].z = Conversion.Val(strTmp);
-				if (String.IsNullOrEmpty(mVok[n].Wort)) {
+				refStrTmp.setValue(mVok[n].Bed1);
+				GetNextLineFromString(strContent, refStrTmp);
+				mVok[n].Bed1 = refStrTmp.getValue();
+				
+				refStrTmp.setValue(mVok[n].Bed2);
+				GetNextLineFromString(strContent, refStrTmp);
+				mVok[n].Bed2 = refStrTmp.getValue();
+				
+				refStrTmp.setValue(mVok[n].Bed3);
+				GetNextLineFromString(strContent, refStrTmp);
+				mVok[n].Bed3 = refStrTmp.getValue();
+				
+				refStrTmp.setValue(strTmp);
+				GetNextLineFromString(strContent, refStrTmp);
+				strTmp = refStrTmp.getValue();
+				
+				mVok[n].z = (short) Integer.parseInt(strTmp);
+				if (libString.IsNullOrEmpty(mVok[n].Wort)) {
 					libLearn.gStatus = "Vokabel.LoadFromString Line 709";
 					// Inserted by CodeCompleter
-					n = n - 1;
-					Array.Resize(ref mVok, n + 1);
+					n  -= 1;
+					lib.ResizeArray(mVok, n + 1);
 				}
 
 			}
@@ -1685,7 +1694,7 @@ public class Vokabel {
 			//' ******** Schluß ist.....
 
 			//Defmouse 0
-			sp = sp & 7;
+			sp = (short) (sp & 7);
 			if (sp >= 0 & sp <= 3) {
 				indexlang = sp;
 			}
@@ -1703,21 +1712,6 @@ public class Vokabel {
 				mblnLernInit = false;
 			}
 			aend = false;
-			return;
-
-			// FErr:
-			if (Err().Number == 59)
-			{
-				Interaction.MsgBox("Wort zu lang!"); // ERROR: Not supported in C#: ResumeStatement
-			}
-
-			if (Interaction.MsgBox("Error in LoadFromString " + finalants.vbCrLf + Err().Description, MsgBoxStyle.RetryCancel, Err().Source) == MsgBoxResult.Retry) {
-				 // ERROR: Not supported in C#: ResumeStatement
-
-			}
-			 // ERROR: Not supported in C#: OnErrorStatement
-
-			goto closefile;
 			return;
 			}
 
@@ -1818,12 +1812,12 @@ public class Vokabel {
 			mIndex = 0;
 		}
 		
-		public void LoadFile(String strFileName)
+		public void LoadFile(String strFileName) throws Exception
 		{
-			LoadFile(String strFileName, false, false, false)
+			LoadFile(strFileName, false, false, false);
 		}
 		
-		public void LoadFile(String strFileName, boolean blnSingleLine, boolean blnAppend, boolean blnUnicode)
+		public void LoadFile(String strFileName, boolean blnSingleLine, boolean blnAppend, boolean blnUnicode) throws Exception
 		{
 			try
 			{
@@ -1835,17 +1829,19 @@ public class Vokabel {
 				short hh = 0;
 				short qf = 0;
 				short einst = 0;
-				short tasta = 0;
-				String ext = new String(' ', 3);
+				boolean tasta = false;
+				String ext = "   ";
 				short n = 0;
 				short lad = 0;
 				short indexlang = 0;
-				short varbed = 0;
+				boolean varbed = false;
 				String fontfil = null;
 				String Sprache = null;
 				String tastbel = null;
 				String strTmp = null;
-				System.IO.StreamReader sr = null;
+				java.io.InputStreamReader isr = null;
+				java.io.FileInputStream  is = null;
+				java.io.BufferedReader sr = null;
 				String tmp = null;
 				fontfil = "";
 				Sprache = "";
@@ -1855,101 +1851,118 @@ public class Vokabel {
 				mLastIndex = 0;
 				 // ERROR: Not supported in C#: OnErrorStatement
 	
-				Status = "Load File: " + strFileName;
 				libLearn.gStatus = "Load File: " + strFileName;
+				
 				mFileName = "";
 	
 				libLearn.gStatus = CodeLoc + " Open Stream";
 				// Inserted by CodeCompleter
-	
-				if (!String.IsNullOrEmpty(FileSystem.Dir(strFileName))) {
-					sr = new System.IO.StreamReader(strFileName, (System.Text.Encoding)(blnUnicode ? System.Text.Encoding.Unicode : System.Text.Encoding.GetEncoding(1252)));
+				java.io.File F = new java.io.File(strFileName);
+				if (F.exists()) {
+					is = new java.io.FileInputStream(F);
+					isr = new java.io.InputStreamReader(is, (blnUnicode ? Charset.defaultCharset() : Charset.availableCharsets().get("Windows-1252")));
+					sr = new java.io.BufferedReader(isr);
 				} else {
-					Interaction.MsgBox(ClsGlobal.GetLang("FileDoesNotExist", "Dateiname existiert nicht!", ));
+					lib.ShowMessage(getContext(), getContext().getString(R.string.FileDoesNotExist));
 					//Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc & "", "Dateiname_ungültig", "", "")
 					return;
 				}
-				_UniCode = (sr.CurrentEncoding.Equals(System.Text.Encoding.Unicode) || object.ReferenceEquals(sr.CurrentEncoding, System.Text.Encoding.UTF8));
-				if (System.IO.Path.GetExtension(strFileName).IndexOf(".k", System.StringComparison.CurrentCultureIgnoreCase) != -1)
+				_UniCode = (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8"));
+				if (lib.getExtension(F).toLowerCase().indexOf(".k") != -1)
 					_cardmode = true;
 				else
 					_cardmode = false;
 				libLearn.gStatus = CodeLoc + " ReadLine1";
-				tmp = sr.ReadLine();
-				sp = Convert.ToInt32(tmp);
-				einst = sp & ((Math.Pow(2, 16)) - 256);
+				tmp = sr.readLine();
+				sp = (short) Integer.parseInt(tmp);
+				einst = (short) (sp & (int)((Math.pow(2, 16)) - 256));
 				varHebr = (sp & 16) != 0;
 				varbed = (sp & 64) != 0;
 				tasta = (sp & 32) != 0;
 				libLearn.gStatus = CodeLoc + " Line 819";
 				// Inserted by CodeCompleter
-				indexlang = sp & 7;
+				indexlang = (short) (sp & 7);
 				if (!blnAppend)
-					mSprache = indexlang;
-				if (sp & 128) {
-					tastbel = sr.ReadLine();
-					fontfil = sr.ReadLine();
+					lib.setEnumOrdinal(mSprache,indexlang);
+				if ((sp & 128) != 0) {
+					tastbel = sr.readLine();
+					fontfil = sr.readLine();
 					if (!blnAppend)
-						getfonts(fontfil, hh, h, indexlang, qf, lad);
-					//Windows Fonts extrahieren
+					{
+						RefSupport<String> refVar___0 = new RefSupport<String>(fontfil);
+				        RefSupport<Object> refVar___1 = new RefSupport<Object>(hh);
+				        RefSupport<Object> refVar___2 = new RefSupport<Object>(h);
+				        RefSupport<Object> refVar___3 = new RefSupport<Object>(indexlang);
+				        RefSupport<Object> refVar___4 = new RefSupport<Object>(qf);
+				        RefSupport<Object> refVar___5 = new RefSupport<Object>(lad);
+				        Getfonts(refVar___0, refVar___1, refVar___2, refVar___3, refVar___4, refVar___5);
+				        fontfil = (String) refVar___0.getValue();
+				        hh = (Short) refVar___1.getValue();
+				        h = (Short) refVar___2.getValue();
+				        indexlang = (Short) refVar___3.getValue();
+				        qf = (Short) refVar___4.getValue();
+				        lad = (Short) refVar___5.getValue();
+					}
+				        //Windows Fonts extrahieren
 				} else {
-					lad = false;
+					lad = 0;
 				}
 				libLearn.gStatus = CodeLoc + " Line 829";
 				// Inserted by CodeCompleter
 				if (blnAppend)
-					n = mGesamtzahl;
-				while (!sr.EndOfStream) {
-					n = n + 1;
-					Array.Resize(ref mVok, n + 1);
+					n = (short) mGesamtzahl;
+				for (String x = sr.readLine(); x != null; x = sr.readLine()) 
+				{
+					n  += 1;
+					mVok = lib.ResizeArray(mVok, n + 1);
 					libLearn.gStatus = CodeLoc + " ReadLine2";
-					mVok[n].Wort = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
-					qf = Strings.InStr(mVok[n].Wort, Strings.Chr(0));
+					mVok[n].Wort = x.replace("{CR}", "\r").replace("{LF}", "\n");
+					qf = (short) libString.InStr(mVok[n].Wort, libString.Chr(0));
 					if (qf == 0)
-						qf = Strings.InStr(mVok[n].Wort, Strings.Chr(8));
+						qf = (short) libString.InStr(mVok[n].Wort, libString.Chr(8));
 					if (qf != 0) {
-						mVok[n].Kom = Strings.Right(mVok[n].Wort, Strings.Len(mVok[n].Wort) - qf);
+						mVok[n].Kom = libString.Right(mVok[n].Wort, libString.Len(mVok[n].Wort) - qf);
 						libLearn.gStatus = CodeLoc + " Line 839";
 						// Inserted by CodeCompleter
-						mVok[n].Wort = Strings.Left(mVok[n].Wort, qf - 1);
+						mVok[n].Wort = libString.Left(mVok[n].Wort, qf - 1);
 					} else {
 						mVok[n].Kom = "";
 					}
 					libLearn.gStatus = CodeLoc + " ReadLine3";
-					if (!sr.EndOfStream) {
-						mVok[n].Bed1 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+					if (!((x=sr.readLine()) == null)) {
+						mVok[n].Bed1 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 					}
 					if (!blnSingleLine) {
-						if (!sr.EndOfStream) {
+						if (!((x=sr.readLine()) == null)) {
 							libLearn.gStatus = CodeLoc + " ReadLine4";
-							mVok[n].Bed2 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+							mVok[n].Bed2 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 						}
 						libLearn.gStatus = CodeLoc + " Line 849";
 						// Inserted by CodeCompleter
-						if (!sr.EndOfStream) {
+						if (!((x=sr.readLine()) == null)) {
 							libLearn.gStatus = CodeLoc + " ReadLine5";
-							mVok[n].Bed3 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+							mVok[n].Bed3 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 						}
 					} else {
 						mVok[n].Bed2 = "";
 						mVok[n].Bed3 = "";
 					}
-					if (!sr.EndOfStream) {
+					if (!((x=sr.readLine()) == null)) {
 						libLearn.gStatus = CodeLoc + " ReadLine6";
-						strTmp = sr.ReadLine();
-						mVok[n].z = Conversion.Val(strTmp);
+						strTmp = x;
+						mVok[n].z = (short) Integer.parseInt(strTmp);
 					}
-					if (String.IsNullOrEmpty(mVok[n].Wort)) {
-						n = n - 1;
+					if (libString.IsNullOrEmpty(mVok[n].Wort)) {
+						n  -= 1;
 						libLearn.gStatus = CodeLoc + " Line 859";
 						// Inserted by CodeCompleter
-						Array.Resize(ref mVok, n + 1);
+						mVok = lib.ResizeArray(mVok, n + 1);
 					} else {
-						mVok[n].Wort = mVok[n].Wort.Replace("ùú", finalants.vbCrLf);
-						mVok[n].Kom = mVok[n].Kom.Replace("ùú", finalants.vbCrLf);
-						mVok[n].Bed1 = mVok[n].Bed1.Replace("ùú", finalants.vbCrLf);
-						mVok[n].Bed2 = mVok[n].Bed2.Replace("ùú", finalants.vbCrLf);
-						mVok[n].Bed3 = mVok[n].Bed3.Replace("ùú", finalants.vbCrLf);
+						mVok[n].Wort = mVok[n].Wort.replace("ùú", "\r\n");
+						mVok[n].Kom = mVok[n].Kom.replace("ùú", "\r\n");
+						mVok[n].Bed1 = mVok[n].Bed1.replace("ùú", "\r\n");
+						mVok[n].Bed2 = mVok[n].Bed2.replace("ùú", "\r\n");
+						mVok[n].Bed3 = mVok[n].Bed3.replace("ùú", "\r\n");
 					}
 					libLearn.gStatus = CodeLoc + " End While";
 				}
@@ -1962,11 +1975,11 @@ public class Vokabel {
 				libLearn.gStatus = CodeLoc + " CloseFile";
 				closefile:
 				// Inserted by CodeCompleter
-				sr.Close();
-				sr.Dispose();
-				sr = null;
+				sr.close();
+				isr.close();
+				is.close();
 				//Defmouse 0
-				sp = sp & 7;
+				sp = (short) (sp & 7);
 				if (sp >= 0 & sp <= 3) {
 					indexlang = sp;
 				}
@@ -1992,18 +2005,10 @@ public class Vokabel {
 			}
 			catch (Exception ex)
 			{
-			// FErr:
-				if (Err().Number == 59){Interaction.MsgBox("Wort zu lang!");}
-	
-				if (Interaction.MsgBox("Fileerror " + finalants.vbCrLf + Err().Description, MsgBoxStyle.RetryCancel) 
-						== MsgBoxResult.Retry) {
-				
-				}
-				 // ERROR: Not supported in C#: OnErrorStatement
-	
+				throw new RuntimeException("Error in Loadfile", ex);
 			}	
-			return;
 		}
+		/*
 		public void LoadFileAndConvert(String strFileName)
 		{
 			boolean blnSingleLine = false; boolean blnAppend = false;
@@ -2039,13 +2044,13 @@ public class Vokabel {
 			mLastIndex = 0;
 			 // ERROR: Not supported in C#: OnErrorStatement
 
-			Status = "Load File: " + strFileName;
+			libLearn.gStatus = "Load File: " + strFileName;
 			mFileName = "";
 
 			libLearn.gStatus = "Vokabel.LoadFile Line 799";
 			// Inserted by CodeCompleter
 
-			if (!String.IsNullOrEmpty(FileSystem.Dir(strFileName))) {
+			if (!libString.IsNullOrEmpty(FileSystem.Dir(strFileName))) {
 				sr = new System.IO.StreamReader(strFileName, System.Text.Encoding.GetEncoding(1252));
 			} else {
 				Interaction.MsgBox(ClsGlobal.GetLang("FileDoesNotExist", "Dateiname existiert nicht!", ));
@@ -2057,7 +2062,7 @@ public class Vokabel {
 			else
 				_cardmode = false;
 
-			sp = sr.ReadLine();
+			sp = sr.readLine();
 			einst = sp & ((Math.Pow(2, 16)) - 256);
 			varHebr = (sp & 16) != 0;
 			varbed = (sp & 64) != 0;
@@ -2068,8 +2073,8 @@ public class Vokabel {
 			if (!blnAppend)
 				mSprache = indexlang;
 			if (sp & 128) {
-				tastbel = sr.ReadLine();
-				fontfil = sr.ReadLine();
+				tastbel = sr.readLine();
+				fontfil = sr.readLine();
 				if (!blnAppend)
 					getfonts(ref fontfil, ref hh, ref h, ref indexlang, ref qf, ref lad);
 				//Windows Fonts extrahieren
@@ -2083,15 +2088,15 @@ public class Vokabel {
 			while (!sr.EndOfStream) {
 				n = n + 1;
 				Array.Resize(ref mVok, n + 1);
-				mVok[n].Wort = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
-				qf = Strings.InStr(mVok[n].Wort, Strings.Chr(0));
+				mVok[n].Wort = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
+				qf = libString.InStr(mVok[n].Wort, libString.Chr(0));
 				if (qf == 0)
-					qf = Strings.InStr(mVok[n].Wort, Strings.Chr(8));
+					qf = libString.InStr(mVok[n].Wort, libString.Chr(8));
 				if (qf != 0) {
-					mVok[n].Kom = Strings.Right(mVok[n].Wort, Strings.Len(mVok[n].Wort) - qf);
+					mVok[n].Kom = libString.Right(mVok[n].Wort, libString.Len(mVok[n].Wort) - qf);
 					libLearn.gStatus = "Vokabel.LoadFile Line 839";
 					// Inserted by CodeCompleter
-					mVok[n].Wort = Strings.Left(mVok[n].Wort, qf - 1);
+					mVok[n].Wort = libString.Left(mVok[n].Wort, qf - 1);
 				} else {
 					mVok[n].Kom = "";
 				}
@@ -2113,36 +2118,36 @@ public class Vokabel {
 
 				mVok[n].Wort = WordConvert;
 				if (!sr.EndOfStream) {
-					mVok[n].Bed1 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+					mVok[n].Bed1 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
 				}
 				if (!blnSingleLine) {
 					if (!sr.EndOfStream) {
-						mVok[n].Bed2 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+						mVok[n].Bed2 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
 					}
 					libLearn.gStatus = "Vokabel.LoadFile Line 849";
 					// Inserted by CodeCompleter
 					if (!sr.EndOfStream) {
-						mVok[n].Bed3 = sr.ReadLine().Replace("{CR}", finalants.vbCr).Replace("{LF}", finalants.vbLf);
+						mVok[n].Bed3 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
 					}
 				} else {
 					mVok[n].Bed2 = "";
 					mVok[n].Bed3 = "";
 				}
 				if (!sr.EndOfStream) {
-					strTmp = sr.ReadLine();
+					strTmp = sr.readLine();
 					mVok[n].z = Conversion.Val(strTmp);
 				}
-				if (String.IsNullOrEmpty(mVok[n].Wort)) {
+				if (libString.IsNullOrEmpty(mVok[n].Wort)) {
 					n = n - 1;
 					libLearn.gStatus = "Vokabel.LoadFile Line 859";
 					// Inserted by CodeCompleter
 					Array.Resize(ref mVok, n + 1);
 				} else {
-					mVok[n].Wort = mVok[n].Wort.Replace("ùú", finalants.vbCrLf);
-					mVok[n].Kom = mVok[n].Kom.Replace("ùú", finalants.vbCrLf);
-					mVok[n].Bed1 = mVok[n].Bed1.Replace("ùú", finalants.vbCrLf);
-					mVok[n].Bed2 = mVok[n].Bed2.Replace("ùú", finalants.vbCrLf);
-					mVok[n].Bed3 = mVok[n].Bed3.Replace("ùú", finalants.vbCrLf);
+					mVok[n].Wort = mVok[n].Wort.replace("ùú", "\r\n");
+					mVok[n].Kom = mVok[n].Kom.replace("ùú", "\r\n");
+					mVok[n].Bed1 = mVok[n].Bed1.replace("ùú", "\r\n");
+					mVok[n].Bed2 = mVok[n].Bed2.replace("ùú", "\r\n");
+					mVok[n].Bed3 = mVok[n].Bed3.replace("ùú", "\r\n");
 				}
 
 			}
@@ -2193,7 +2198,7 @@ public class Vokabel {
 			if (Err().Number == 59){Interaction.MsgBox("Wort zu lang!"); // ERROR: Not supported in C#: ResumeStatement
 	}
 
-			if (Interaction.MsgBox("Fileerror " + finalants.vbCrLf + Err().Description, MsgBoxStyle.RetryCancel) == MsgBoxResult.Retry) {
+			if (Interaction.MsgBox("Fileerror " + "\r\n" + Err().Description, MsgBoxStyle.RetryCancel) == MsgBoxResult.Retry) {
 				 // ERROR: Not supported in C#: ResumeStatement
 
 			}
@@ -2211,155 +2216,155 @@ public class Vokabel {
 			} else {
 				cTest = c;
 			}
-			switch (Strings.Asc(cTest)) {
+			switch (libString.Asc(cTest)) {
 				case 0x61:
 				case 0x62:
-					cConv = Strings.ChrW(Strings.Asc(c) - 0x61 + 0x5d0);
+					cConv = libString.ChrW(libString.Asc(c) - 0x61 + 0x5d0);
 					break;
 				case 0x63:
-					cConv = Strings.ChrW(0x5e1);
+					cConv = libString.ChrW(0x5e1);
 					break;
 				case 0x64:
-					cConv = Strings.ChrW(0x5d3);
+					cConv = libString.ChrW(0x5d3);
 					break;
 				case 0x65:
-					cConv = Strings.ChrW(0x5b6);
+					cConv = libString.ChrW(0x5b6);
 					break;
 				case 0x66:
-					cConv = Strings.ChrW(0x5b8);
+					cConv = libString.ChrW(0x5b8);
 					break;
 				case 0x67:
-					cConv = Strings.ChrW(0x5d2);
+					cConv = libString.ChrW(0x5d2);
 					break;
 				case 0x68:
-					cConv = Strings.ChrW(0x5d4);
+					cConv = libString.ChrW(0x5d4);
 					break;
 				case 0x69:
-					cConv = Strings.ChrW(0x5e2);
+					cConv = libString.ChrW(0x5e2);
 					break;
 				case 0x6a:
-					cConv = Strings.ChrW(0x5e6);
+					cConv = libString.ChrW(0x5e6);
 					break;
 				case 0x6b:
-					cConv = Strings.ChrW(0x5db);
+					cConv = libString.ChrW(0x5db);
 					break;
 				case 0x6c:
-					cConv = Strings.ChrW(0x5dc);
+					cConv = libString.ChrW(0x5dc);
 					break;
 				case 0x6d:
-					cConv = Strings.ChrW(0x5de);
+					cConv = libString.ChrW(0x5de);
 					break;
 				case 0x6e:
-					cConv = Strings.ChrW(0x5e0);
+					cConv = libString.ChrW(0x5e0);
 					break;
 				case 0x6f:
 					//o
-					cConv = Strings.ChrW(0x5b9);
+					cConv = libString.ChrW(0x5b9);
 					break;
-				case Strings.Asc('p'):
-					cConv = Strings.ChrW(0x5e4);
+				case libString.Asc('p'):
+					cConv = libString.ChrW(0x5e4);
 					break;
-				case Strings.Asc('q'):
-					cConv = Strings.ChrW(0x5e7);
+				case libString.Asc('q'):
+					cConv = libString.ChrW(0x5e7);
 					break;
-				case Strings.Asc('r'):
-					cConv = Strings.ChrW(0x5e8);
+				case libString.Asc('r'):
+					cConv = libString.ChrW(0x5e8);
 					break;
-				case Strings.Asc('s'):
-					cConv = Strings.ChrW(0x5e9) + Strings.ChrW(0x5c2);
+				case libString.Asc('s'):
+					cConv = libString.ChrW(0x5e9) + libString.ChrW(0x5c2);
 					break;
-				case Strings.Asc('t'):
-					cConv = Strings.ChrW(0x5ea);
+				case libString.Asc('t'):
+					cConv = libString.ChrW(0x5ea);
 					break;
-				case Strings.Asc('u'):
-					cConv = Strings.ChrW(0x5d8);
+				case libString.Asc('u'):
+					cConv = libString.ChrW(0x5d8);
 					break;
-				case Strings.Asc('v'):
-					cConv = Strings.ChrW(0x5d5);
+				case libString.Asc('v'):
+					cConv = libString.ChrW(0x5d5);
 					break;
-				case Strings.Asc('w'):
-					cConv = Strings.ChrW(0x5e9) + Strings.ChrW(0x5c1);
+				case libString.Asc('w'):
+					cConv = libString.ChrW(0x5e9) + libString.ChrW(0x5c1);
 					break;
-				case Strings.Asc('x'):
-					cConv = Strings.ChrW(0x5d7);
+				case libString.Asc('x'):
+					cConv = libString.ChrW(0x5d7);
 					break;
-				case Strings.Asc('y'):
-					cConv = Strings.ChrW(0x5d9);
+				case libString.Asc('y'):
+					cConv = libString.ChrW(0x5d9);
 					break;
-				case Strings.Asc('z'):
-					cConv = Strings.ChrW(0x5d6);
+				case libString.Asc('z'):
+					cConv = libString.ChrW(0x5d6);
 					break;
-				case Strings.Asc('('):
-					cConv = Strings.ChrW(0x5e2);
+				case libString.Asc('('):
+					cConv = libString.ChrW(0x5e2);
 					break;
-				case Strings.Asc(')'):
-					cConv = Strings.ChrW(0x5d0);
+				case libString.Asc(')'):
+					cConv = libString.ChrW(0x5d0);
 					break;
-				case Strings.Asc('+'):
-					cConv = Strings.ChrW(0x5b7);
+				case libString.Asc('+'):
+					cConv = libString.ChrW(0x5b7);
 					break;
-				case Strings.Asc('-'):
-					cConv = Strings.ChrW(0x5b7);
+				case libString.Asc('-'):
+					cConv = libString.ChrW(0x5b7);
 					break;
-				case Strings.Asc('0'):
-					cConv = Strings.ChrW(0x5c2);
+				case libString.Asc('0'):
+					cConv = libString.ChrW(0x5c2);
 					break;
-				case Strings.Asc('1'):
-					cConv = Strings.ChrW(0x5c5);
+				case libString.Asc('1'):
+					cConv = libString.ChrW(0x5c5);
 					break;
-				case Strings.Asc('2'):
-					cConv = Strings.ChrW(0x5b0);
+				case libString.Asc('2'):
+					cConv = libString.ChrW(0x5b0);
 					break;
-				case Strings.Asc('3'):
-					cConv = Strings.ChrW(0x5a6);
+				case libString.Asc('3'):
+					cConv = libString.ChrW(0x5a6);
 					break;
-				case Strings.Asc('4'):
+				case libString.Asc('4'):
 					cConv = "";
 					break;
-				case Strings.Asc('5'):
+				case libString.Asc('5'):
 					cConv = "";
 					break;
-				case Strings.Asc('6'):
+				case libString.Asc('6'):
 					cConv = "";
 					break;
-				case Strings.Asc('7'):
+				case libString.Asc('7'):
 					cConv = "";
 					break;
-				case Strings.Asc('9'):
-					cConv = Strings.ChrW(0x5bf);
+				case libString.Asc('9'):
+					cConv = libString.ChrW(0x5bf);
 					break;
-				case Strings.Asc('"'):
-					cConv = Strings.ChrW(0x5b5);
+				case libString.Asc('"'):
+					cConv = libString.ChrW(0x5b5);
 					break;
-				case Strings.Asc('I'):
-					cConv = Strings.ChrW(0x5b4);
+				case libString.Asc('I'):
+					cConv = libString.ChrW(0x5b4);
 					break;
-				case Strings.Asc('f'):
-					cConv = Strings.ChrW(0x5b8);
+				case libString.Asc('f'):
+					cConv = libString.ChrW(0x5b8);
 					break;
-				case Strings.Asc('o'):
-					cConv = Strings.ChrW(0x5c1);
+				case libString.Asc('o'):
+					cConv = libString.ChrW(0x5c1);
 					break;
-				case Strings.Asc('e'):
-					cConv = Strings.ChrW(0x5b6);
+				case libString.Asc('e'):
+					cConv = libString.ChrW(0x5b6);
 					break;
-				case Strings.Asc(':'):
-					cConv = Strings.ChrW(0x5b0);
+				case libString.Asc(':'):
+					cConv = libString.ChrW(0x5b0);
 					break;
-				case Strings.Asc('_'):
-					cConv = Strings.ChrW(0x5b2);
+				case libString.Asc('_'):
+					cConv = libString.ChrW(0x5b2);
 					break;
-				case Strings.Asc('.'):
-					cConv = Strings.ChrW(0x5c3);
+				case libString.Asc('.'):
+					cConv = libString.ChrW(0x5c3);
 					break;
-				case Strings.Asc('^'):
-					cConv = Strings.ChrW(0x5ab);
+				case libString.Asc('^'):
+					cConv = libString.ChrW(0x5ab);
 					break;
-				case Strings.Asc(']'):
-					cConv = Strings.ChrW(0x5df);
+				case libString.Asc(']'):
+					cConv = libString.ChrW(0x5df);
 					break;
-				case Strings.Asc('%'):
-					cConv = Strings.ChrW(0x5da) + Strings.ChrW(0x5bc) + Strings.ChrW(0x5b3);
+				case libString.Asc('%'):
+					cConv = libString.ChrW(0x5da) + libString.ChrW(0x5bc) + libString.ChrW(0x5b3);
 
 					break;
 
@@ -2375,140 +2380,140 @@ public class Vokabel {
 			//Else 
 			cTest = c;
 			// End If
-			switch (Strings.Asc(cTest)) {
-				case Strings.Asc('A'):
-					cConv = Strings.ChrW(0x391);
+			switch (libString.Asc(cTest)) {
+				case libString.Asc('A'):
+					cConv = libString.ChrW(0x391);
 					break;
-				case Strings.Asc('B'):
-					cConv = Strings.ChrW(0x392);
+				case libString.Asc('B'):
+					cConv = libString.ChrW(0x392);
 					break;
-				case Strings.Asc('C'):
-					cConv = Strings.ChrW(0x3a7);
+				case libString.Asc('C'):
+					cConv = libString.ChrW(0x3a7);
 					break;
-				case Strings.Asc('D'):
-					cConv = Strings.ChrW(0x394);
+				case libString.Asc('D'):
+					cConv = libString.ChrW(0x394);
 					break;
-				case Strings.Asc('E'):
-					cConv = Strings.ChrW(0x395);
+				case libString.Asc('E'):
+					cConv = libString.ChrW(0x395);
 					break;
-				case Strings.Asc('F'):
-					cConv = Strings.ChrW(0x3a6);
+				case libString.Asc('F'):
+					cConv = libString.ChrW(0x3a6);
 					break;
-				case Strings.Asc('G'):
-					cConv = Strings.ChrW(0x393);
+				case libString.Asc('G'):
+					cConv = libString.ChrW(0x393);
 					break;
-				case Strings.Asc('H'):
-					cConv = Strings.ChrW(0x397);
+				case libString.Asc('H'):
+					cConv = libString.ChrW(0x397);
 					break;
-				case Strings.Asc('I'):
-					cConv = Strings.ChrW(0x399);
+				case libString.Asc('I'):
+					cConv = libString.ChrW(0x399);
 					break;
-				case Strings.Asc('J'):
+				case libString.Asc('J'):
 					cConv = "ῳͅ";
 					break;
-				case Strings.Asc('K'):
-					cConv = Strings.ChrW(0x39a);
+				case libString.Asc('K'):
+					cConv = libString.ChrW(0x39a);
 					break;
-				case Strings.Asc('L'):
-					cConv = Strings.ChrW(0x39b);
+				case libString.Asc('L'):
+					cConv = libString.ChrW(0x39b);
 					break;
-				case Strings.Asc('M'):
-					cConv = Strings.ChrW(0x39c);
+				case libString.Asc('M'):
+					cConv = libString.ChrW(0x39c);
 					break;
-				case Strings.Asc('N'):
-					cConv = Strings.ChrW(0x39d);
+				case libString.Asc('N'):
+					cConv = libString.ChrW(0x39d);
 					break;
-				case Strings.Asc('O'):
-					cConv = Strings.ChrW(0x39f);
+				case libString.Asc('O'):
+					cConv = libString.ChrW(0x39f);
 					break;
-				case Strings.Asc('P'):
-					cConv = Strings.ChrW(0x3a0);
+				case libString.Asc('P'):
+					cConv = libString.ChrW(0x3a0);
 					break;
-				case Strings.Asc('Q'):
-					cConv = Strings.ChrW(0x398);
+				case libString.Asc('Q'):
+					cConv = libString.ChrW(0x398);
 					break;
-				case Strings.Asc('R'):
-					cConv = Strings.ChrW(0x3a1);
+				case libString.Asc('R'):
+					cConv = libString.ChrW(0x3a1);
 					break;
-				case Strings.Asc('S'):
-					cConv = Strings.ChrW(0x3a3);
+				case libString.Asc('S'):
+					cConv = libString.ChrW(0x3a3);
 					break;
-				case Strings.Asc('T'):
-					cConv = Strings.ChrW(0x3a4);
+				case libString.Asc('T'):
+					cConv = libString.ChrW(0x3a4);
 					break;
-				case Strings.Asc('U'):
-					cConv = Strings.ChrW(0x3a5);
+				case libString.Asc('U'):
+					cConv = libString.ChrW(0x3a5);
 					break;
-				case Strings.Asc('V'):
+				case libString.Asc('V'):
 					cConv = "ῃ";
 					break;
-				case Strings.Asc('W'):
-					cConv = Strings.ChrW(0x3a9);
+				case libString.Asc('W'):
+					cConv = libString.ChrW(0x3a9);
 					break;
-				case Strings.Asc('X'):
-					cConv = Strings.ChrW(0x39e);
+				case libString.Asc('X'):
+					cConv = libString.ChrW(0x39e);
 					break;
-				case Strings.Asc('Y'):
-					cConv = Strings.ChrW(0x3a8);
+				case libString.Asc('Y'):
+					cConv = libString.ChrW(0x3a8);
 					break;
-				case Strings.Asc('Z'):
-					cConv = Strings.ChrW(0x396);
+				case libString.Asc('Z'):
+					cConv = libString.ChrW(0x396);
 					break;
-				case Strings.Asc('…'):
+				case libString.Asc('…'):
 					cConv = "ί";
 					break;
-				case Strings.Asc('š'):
+				case libString.Asc('š'):
 					cConv = "έ";
 					break;
-				case Strings.Asc('Œ'):
+				case libString.Asc('Œ'):
 					cConv = "ἷ";
 					break;
-				case Strings.Asc('ƒ'):
+				case libString.Asc('ƒ'):
 					cConv = "ἱ";
 					break;
-				case Strings.Asc('†'):
+				case libString.Asc('†'):
 					cConv = "ἵ";
 					break;
-				case Strings.Asc('„'):
+				case libString.Asc('„'):
 					cConv = "ἰ";
 					break;
-				case Strings.Asc('ˆ'):
+				case libString.Asc('ˆ'):
 					cConv = "ὶ";
 					break;
-				case Strings.Asc('$'):
+				case libString.Asc('$'):
 					cConv = "ϛ";
 					break;
-				case Strings.Asc('%'):
+				case libString.Asc('%'):
 					cConv = "ϙ";
 					break;
-				case Strings.Asc('#'):
+				case libString.Asc('#'):
 					cConv = "ϝ";
 					break;
 				case 0x61: // TODO: to 0x7a
 					cConv = "αβχδεφγηιςκλμνοπθρστυᾳωξψζ".SubString("abcdefghijklmnopqrstuvwxyz".IndexOf(cTest), 1);
 					break;
-				case Strings.Asc('·'): // TODO: to Strings.Asc('Ï')
+				case libString.Asc('·'): // TODO: to libString.Asc('Ï')
 					cConv = "ῥῤἡἠήἥἤὴἣἢῆἧἦͺᾑᾐῄᾕᾔῂᾓᾒῇᾗᾖ".SubString("·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏ".IndexOf(cTest), 1);
 					break;
-				case Strings.Asc('\u008d'): // TODO: to Strings.Asc('¶')
+				case libString.Asc('\u008d'): // TODO: to libString.Asc('¶')
 					int Index = "\u008d\u008e\u008f\u0090\u009d\u009e¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶".IndexOf(cTest);
 					if (Index > -1) {
 						cConv = "ἶῑΐῒὲἓἁἀάἅἄὰἃἂᾶἇἆᾁᾴᾅᾄᾲᾃᾄᾷᾇᾆ".SubString(Index, 1);
 					}
 					break;
-				case Strings.Asc('Ð'): // TODO: to Strings.Asc('å')
+				case libString.Asc('Ð'): // TODO: to libString.Asc('å')
 					int Index = "ÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäå".IndexOf(cTest);
 					if (Index > -1) {
 						cConv = "ὁὀόὅὄὸὃὂὑὐύὕὔὺὓὔῦὗὖϋΰῢ".SubString(Index, 1);
 					}
 					break;
-				case Strings.Asc('æ'): // TODO: to Strings.Asc('û')
+				case libString.Asc('æ'): // TODO: to libString.Asc('û')
 					int Index = "æçèéêëìíîïðñòóôõö÷øùúû".IndexOf(cTest);
 					if (Index > -1) {
 						cConv = "ὡὠώὥὤὼὣὢῶὧὦᾡᾠῴᾥᾤῲᾣᾢῷᾧᾦ".SubString(Index, 1);
 					}
 					break;
-				case Strings.Asc('ü'): // TODO: to Strings.Asc('∙')
+				case libString.Asc('ü'): // TODO: to libString.Asc('∙')
 					int Index = "üýŒœŠšŸƒˆ˜–—‘’\"„†‡•…‰‹›™∙".IndexOf(cTest);
 					if (Index > -1) {
 						cConv = "εοἷἔἒἲέἒἱὶἑ῍΅῟῏῞῎ἰἵἴ῝ίἳῖἕἐῥ".SubString(Index, 1);
@@ -2519,6 +2524,8 @@ public class Vokabel {
 			}
 			return cConv;
 		}
+		*/
+		
 		//UPGRADE_NOTE: Class_Initialize wurde aktualisiert auf Init. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="A9E4979A-37FA-4718-9994-97DD76ED70A7"'
 		private void Init()
 		{
@@ -2566,34 +2573,34 @@ public class Vokabel {
 				return null;
 			}
 		}
-		public void OpenURL(String strLocation)
+		public void OpenURL(String strLocation) throws Exception
 		{
-			 // ERROR: Not supported in C#: OnErrorStatement
+			URL toDownload = new URL(strLocation);
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-			libLearn.gStatus = "Vok.OpenURL Start";
-			String b = null;
-			String strURL = null;
-			dynamic tempFile = null;
-			 // ERROR: Not supported in C#: OnErrorStatement
+		    try {
+		        byte[] chunk = new byte[4096];
+		        int bytesRead;
+		        InputStream stream = toDownload.openStream();
 
-			using (System.Net.WebClient iNet1 = new System.Net.WebClient()) {
+		        while ((bytesRead = stream.read(chunk)) > 0) {
+		            outputStream.write(chunk, 0, bytesRead);
+		        }
+		        stream.close();
 
-				strURL = strLocation;
-				b = iNet1.DownloadString(strURL);
-				if (Strings.Len(b) < 50) {
-					libLearn.gStatus = "Vok.OpenURL Line 39";
-					// Inserted by CodeCompleter
-					Err().Raise(finalants.vbObjectError, "OpenUrl", "Could not load URL " + strURL);
-				}
-				if (Strings.InStr(1, b, "<html>", finalants.vbTextCompare) > 0) {
-					Err().Raise(finalants.vbObjectError, "OpenUrl", b);
-				}
-				this.LoadFromString(b);
-				return;
-				// errH:
-				Interaction.MsgBox(Err().Description);
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		        
+		    }
+			String b = new String(outputStream.toByteArray());
+			if (libString.Len(b) < 50) {
+				libLearn.gStatus = "Vok.OpenURL Line 39";
+				// Inserted by CodeCompleter
+				throw new RuntimeException("OpenUrl: Could not load URL " + strLocation);
 			}
-			return;
+			if (libString.InStr(1, b, "<html>") > 0) {
+				throw new RuntimeException("OpenUrl:" +  b);
+			}
 		}		
 	public Vokabel() {
 		// TODO Auto-generated finalructor stub
