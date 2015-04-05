@@ -4,7 +4,7 @@
  * aapt tool from the resource data it found.  It
  * should not be modified by hand.
  */
-package android.support.v7.appcompat;
+package br.com.thinkti.android.filechooser;
 
 public final class R {
 	public static final class anim {
@@ -351,8 +351,26 @@ public final class R {
 		public static final int abc_textfield_search_activated_mtrl_alpha = 0x7f020030;
 		public static final int abc_textfield_search_default_mtrl_alpha = 0x7f020031;
 		public static final int abc_textfield_search_material = 0x7f020032;
+		public static final int and = 0x7f020033;
+		public static final int back = 0x7f020034;
+		public static final int doc = 0x7f020035;
+		public static final int folder = 0x7f020036;
+		public static final int folder_icon = 0x7f020037;
+		public static final int gif = 0x7f020038;
+		public static final int jpg = 0x7f02003a;
+		public static final int pdf = 0x7f02003b;
+		public static final int pdf_list = 0x7f02003c;
+		public static final int png = 0x7f02003d;
+		public static final int ppt = 0x7f02003e;
+		public static final int rtf = 0x7f02003f;
+		public static final int txt = 0x7f020040;
+		public static final int whitepage = 0x7f020041;
+		public static final int xls = 0x7f020042;
+		public static final int zip = 0x7f020043;
 	}
 	public static final class id {
+		public static final int TextView01 = 0x7f05004a;
+		public static final int TextView02 = 0x7f05004b;
 		public static final int action_bar = 0x7f050031;
 		public static final int action_bar_activity_content = 0x7f050018;
 		public static final int action_bar_container = 0x7f050030;
@@ -367,6 +385,7 @@ public final class R {
 		public static final int action_mode_bar_stub = 0x7f05002d;
 		public static final int action_mode_close_button = 0x7f050020;
 		public static final int activity_chooser_view_content = 0x7f050021;
+		public static final int adMob = 0x7f05004c;
 		public static final int always = 0x7f05000d;
 		public static final int beginning = 0x7f050012;
 		public static final int checkbox = 0x7f050029;
@@ -385,8 +404,10 @@ public final class R {
 		public static final int icon = 0x7f050026;
 		public static final int ifRoom = 0x7f05000c;
 		public static final int image = 0x7f050023;
+		public static final int img1 = 0x7f050049;
 		public static final int listMode = 0x7f050002;
 		public static final int list_item = 0x7f050025;
+		public static final int lvFiles = 0x7f05004d;
 		public static final int middle = 0x7f050013;
 		public static final int never = 0x7f05000b;
 		public static final int none = 0x7f050004;
@@ -444,6 +465,8 @@ public final class R {
 		public static final int abc_search_dropdown_item_icons_2line = 0x7f030014;
 		public static final int abc_search_view = 0x7f030015;
 		public static final int abc_simple_dropdown_hint = 0x7f030016;
+		public static final int file_view = 0x7f030018;
+		public static final int list_view = 0x7f030019;
 		public static final int support_simple_spinner_dropdown_item = 0x7f03001a;
 	}
 	public static final class string {
@@ -463,6 +486,14 @@ public final class R {
 		public static final int abc_shareactionprovider_share_with = 0x7f0a000f;
 		public static final int abc_shareactionprovider_share_with_application = 0x7f0a000e;
 		public static final int abc_toolbar_collapse_description = 0x7f0a0004;
+		public static final int app_name = 0x7f0a0010;
+		public static final int currentDir = 0x7f0a0011;
+		public static final int fileSize = 0x7f0a0012;
+		public static final int folder = 0x7f0a0013;
+		public static final int openFolder = 0x7f0a0015;
+		public static final int optionSelection = 0x7f0a0017;
+		public static final int parentDirectory = 0x7f0a0014;
+		public static final int selectThis = 0x7f0a0016;
 	}
 	public static final class style {
 		public static final int Base_TextAppearance_AppCompat = 0x7f0b0098;

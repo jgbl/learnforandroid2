@@ -136,11 +136,11 @@ public class Vokabel {
 			//lokale Kopie
 		private short mSchrittweite;
 			//lokale Kopie
-		private clsFont mWortFont = new clsFont(Container);
+		private clsFont mWortFont;// = new clsFont(Container);
 			//lokale Kopie
-		private clsFont mBedFont = new clsFont(Container);
+		private clsFont mBedFont;// = new clsFont(Container);
 			//lokale Kopie
-		private clsFont mKomFont = new clsFont(Container);
+		private clsFont mKomFont;// = new clsFont(Container);
 			//lokale Kopie
 		private short mAbfragebereich;
 			//lokale Kopie
@@ -186,6 +186,15 @@ public class Vokabel {
 			public String Kom;
 				//Zähler wie oft gewußt
 			public short z;
+			public typVok(String Wort, String Bed1, String Bed2, String Bed3, String Kom, short z)
+			{
+				this.Wort = Wort;
+				this.Bed1 = Bed1;
+				this.Bed2 = Bed2;
+				this.Bed3 = Bed3;
+				this.Kom = Kom;
+				this.z = z;
+			}
 		}
 		public boolean getUniCode() {
 			return _UniCode;
@@ -2528,20 +2537,14 @@ public class Vokabel {
 		*/
 		
 		//UPGRADE_NOTE: Class_Initialize wurde aktualisiert auf Init. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="A9E4979A-37FA-4718-9994-97DD76ED70A7"'
-		private void Init()
+		private void Init() throws Exception
 		{
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			libLearn.gStatus = "Vokabel.Class_Initialize Start";
 			mVok = new typVok[2];
 
-
-			mVok[0].Wort = "empty";
-			mVok[0].Bed1 = "empty";
-			mVok[0].Bed2 = "empty";
-			mVok[0].Bed3 = "empty";
-			mVok[0].Kom = "empty";
-			mVok[0].z = 0;
+            mVok[0] = new typVok("empty", "empty", "empty", "empty", "empty", (short) 0);
 			libLearn.gStatus = "Vokabel.Class_Initialize Line 1228";
 			// Inserted by CodeCompleter
 			mConfirmChanges = true;
@@ -2557,11 +2560,18 @@ public class Vokabel {
 		//	MyBase.New()
 		//	Init()
 		// End Sub
-		public Vokabel(Activity Container)
+		public Vokabel(Activity Container, TextView txtStatus) throws Exception
 		{
-			Init();
-			this.Container = Container;
 			
+			this.Container = Container;
+			Init(txtStatus);
+			mWortFont = new clsFont(Container);
+			//lokale Kopie
+			mBedFont = new clsFont(Container);
+			//lokale Kopie
+			mKomFont = new clsFont(Container);
+			//lokale Kopie
+			Init();
 		}
 		public Context getContext()
 		{
