@@ -15,4 +15,7 @@
     <string name="view">btnView</string>
     <string name="btnView">view</string>
     <string name="btnWrong">wrong</string>
+    <string name="action_loadfile">load file</string>
+    <string name="mnuFile">File</string>
+    <string name="mnuFileOpen">open file</string>
 </resources>

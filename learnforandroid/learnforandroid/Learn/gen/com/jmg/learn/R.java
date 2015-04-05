@@ -1676,6 +1676,7 @@ containing a value of this type.
         public static final int listMode=0x7f050002;
         public static final int list_item=0x7f050025;
         public static final int middle=0x7f050013;
+        public static final int mnuFileOpen=0x7f050049;
         public static final int never=0x7f05000b;
         public static final int none=0x7f050004;
         public static final int normal=0x7f050001;
@@ -1824,6 +1825,7 @@ containing a value of this type.
         /**  Content description for the Toolbar icon used to collapse an expanded action mode. [CHAR LIMIT=NONE] 
          */
         public static final int abc_toolbar_collapse_description=0x7f0a0004;
+        public static final int action_loadfile=0x7f0a001f;
         public static final int action_settings=0x7f0a0012;
         public static final int app_name=0x7f0a0010;
         public static final int btnNext=0x7f0a0013;
@@ -1832,6 +1834,8 @@ containing a value of this type.
         public static final int btnView=0x7f0a001d;
         public static final int btnWrong=0x7f0a001e;
         public static final int hello_world=0x7f0a0011;
+        public static final int mnuFile=0x7f0a0020;
+        public static final int mnuFileOpen=0x7f0a0021;
         public static final int no=0x7f0a0017;
         public static final int ok=0x7f0a0018;
         public static final int view=0x7f0a001c;

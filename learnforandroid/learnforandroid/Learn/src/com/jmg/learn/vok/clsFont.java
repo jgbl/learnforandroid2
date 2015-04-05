@@ -1,4 +1,5 @@
 package com.jmg.learn.vok;
+import android.app.Activity;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
@@ -50,7 +51,7 @@ public class clsFont {
 				//lokale Kopie
 			private Typeface mvarFontset;
 			private static String mFontName;
-			public View Container;
+			public Activity Container;
 			public static boolean FontNameExists(String vData)
 			{
 				//UPGRADE_ISSUE: Screen Eigenschaft Screen.FontCount wurde nicht aktualisiert. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="CC4C7EC0-C903-48FC-ACCC-81861D12DA4A"'
@@ -314,9 +315,9 @@ public void setFont(RefSupport<Typeface> vdata) throws Exception {
 
 
 
-			public clsFont(View Container) 
+			public clsFont(Activity container2) 
 			{
-				this.Container = Container;
+				this.Container = container2;
 			}
 		
 

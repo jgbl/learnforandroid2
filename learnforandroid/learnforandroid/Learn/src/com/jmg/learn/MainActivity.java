@@ -1,5 +1,9 @@
 package com.jmg.learn;
 
+import java.util.jar.JarFile;
+
+import com.jmg.learn.vok.*;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +11,8 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
+	
+	public Vokabel vok = new Vokabel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,15 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.mnuFileOpen)
+        {
+        	LoadFile();
+        }
         return super.onOptionsItemSelected(item);
     }
+    public void LoadFile()
+    {
+    	JFileChooser
+    }
+    
 }

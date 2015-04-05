@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
@@ -100,7 +101,7 @@ public class Vokabel {
 			public typFonts Sonst2;
 			public typFonts Sonst3;
 		}
-		public android.view.View Container;
+		public Activity Container;
 		// ******** Types ******
 
 
@@ -2556,7 +2557,7 @@ public class Vokabel {
 		//	MyBase.New()
 		//	Init()
 		// End Sub
-		public Vokabel(View Container)
+		public Vokabel(Activity Container)
 		{
 			Init();
 			this.Container = Container;
@@ -2566,7 +2567,7 @@ public class Vokabel {
 		{
 			if (Container != null)
 			{
-				return Container.getContext();
+				return Container.getBaseContext();
 			}
 			else
 			{
