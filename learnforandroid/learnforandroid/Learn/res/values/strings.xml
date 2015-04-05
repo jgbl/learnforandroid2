@@ -11,4 +11,8 @@
     <string name="ok">OK</string>
     <string name="SaveAsUniCode">Do you want to save this file as Unicode?</string>
     <string name="FileDoesNotExist">The file does not exist!</string>
+    <string name="btnRight">right</string>
+    <string name="view">btnView</string>
+    <string name="btnView">view</string>
+    <string name="btnWrong">wrong</string>
 </resources>

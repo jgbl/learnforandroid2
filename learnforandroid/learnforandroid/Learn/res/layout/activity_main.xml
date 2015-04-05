@@ -25,122 +25,85 @@
         android:text="@string/hello_world"
         android:textSize="@dimen/abc_text_size_medium_material" />
 
-    <CheckBox
-        android:id="@+id/chkMeaning1"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/txtMeaning3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Comment"
-        android:layout_marginTop="26dp"
+        android:layout_above="@+id/btnRight"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="56dp"
+        android:ems="10"
+        android:inputType="text"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/abc_text_size_large_material" />
 
-    <CheckBox
-        android:id="@+id/chkMeaning2"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/txtMeaning1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning1"
-        android:layout_below="@+id/chkMeaning1"
+        android:layout_above="@+id/txtMeaning2"
+        android:layout_alignLeft="@+id/txtMeaning2"
+        android:layout_marginBottom="56dp"
+        android:ems="10"
+        android:inputType="text"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
+        android:textSize="@dimen/abc_text_size_large_material" >
 
-    <CheckBox
-        android:id="@+id/chkMeaning3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning2"
-        android:layout_below="@+id/chkMeaning2"
-        android:text="@string/hello_world"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
+        <requestFocus />
+    </EditText>
 
-    <CheckBox
-        android:id="@+id/chkMeaning4"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/txtMeaning2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning3"
-        android:layout_below="@+id/chkMeaning3"
-        android:text="@string/hello_world"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
-
-    <CheckBox
-        android:id="@+id/chkMeaning5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning4"
-        android:layout_below="@+id/chkMeaning4"
-        android:text="@string/hello_world"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
-
-    <CheckBox
-        android:id="@+id/chkMeaning6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning5"
-        android:layout_below="@+id/chkMeaning5"
-        android:text="@string/hello_world"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
-
-    <CheckBox
-        android:id="@+id/chkMeaning7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning6"
-        android:layout_below="@+id/chkMeaning6"
-        android:text="@string/hello_world"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
-
-    <CheckBox
-        android:id="@+id/chkMeaning8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning7"
-        android:layout_below="@+id/chkMeaning7"
-        android:text="@string/hello_world"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
-
-    <CheckBox
-        android:id="@+id/chkMeaning9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning8"
-        android:layout_below="@+id/chkMeaning8"
-        android:text="@string/hello_world"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
-
-    <CheckBox
-        android:id="@+id/chkMeaning10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkMeaning9"
-        android:layout_below="@+id/chkMeaning9"
+        android:layout_above="@+id/txtMeaning3"
+        android:layout_alignLeft="@+id/txtMeaning3"
+        android:layout_marginBottom="56dp"
+        android:ems="10"
+        android:inputType="text"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/abc_text_size_large_material" />
 
     <Button
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnRight"
+        android:layout_width="70sp"
+        android:layout_height="40sp"
+        android:layout_alignLeft="@+id/txtMeaning3"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="28dp"
-        android:layout_toLeftOf="@+id/word"
-        android:text="@string/btnNext" />
+        android:layout_marginBottom="16dp"
+        android:text="@string/btnRight"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/btnSkip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnNext"
-        android:layout_alignBottom="@+id/btnNext"
-        android:layout_toRightOf="@+id/word"
-        android:text="@string/btnSkip" />
+        android:layout_width="70sp"
+        android:layout_height="40sp"
+        android:layout_alignBaseline="@+id/btnRight"
+        android:layout_alignBottom="@+id/btnRight"
+        android:layout_toRightOf="@+id/btnRight"
+        android:text="@string/btnSkip"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/btnView"
+        android:layout_width="70sp"
+        android:layout_height="40sp"
+        android:layout_below="@+id/txtMeaning3"
+        android:layout_toRightOf="@+id/btnSkip"
+        android:text="@string/btnView"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/btnWrong"
+        android:layout_width="70sp"
+        android:layout_height="40sp"
+        android:layout_alignBaseline="@+id/btnView"
+        android:layout_alignBottom="@+id/btnView"
+        android:layout_toRightOf="@+id/btnView"
+        android:text="@string/btnWrong"
+        android:textSize="12sp" />
 
 </RelativeLayout>
