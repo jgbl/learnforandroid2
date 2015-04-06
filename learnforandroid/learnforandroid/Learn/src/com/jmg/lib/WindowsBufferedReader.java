@@ -21,14 +21,17 @@ public class WindowsBufferedReader extends BufferedReader {
 	{
 		
 		String s = super.readLine();
-		int length = s.length();
-		if (length > 1)
+		if (s!= null)
 		{
-			char c = s.charAt(0);
-			int ic = c;
-			if (ic == 65279)
+			int length = s.length();
+			if (length > 1)
 			{
-				s = s.substring(1);
+				char c = s.charAt(0);
+				int ic = c;
+				if (ic == 65279)
+				{
+					s = s.substring(1);
+				}
 			}
 		}
 		return s;

@@ -18,4 +18,5 @@
     <string name="action_loadfile">load file</string>
     <string name="mnuFile">File</string>
     <string name="mnuFileOpen">open file</string>
+    <string name="Save">Do you want to save the vocabulary?</string>
 </resources>

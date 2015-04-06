@@ -2,7 +2,6 @@ package com.jmg.learn.vok;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.util.TypedValue;
-import android.view.View;
 import android.widget.TextView;
 
 import com.jmg.learn.libLearn;

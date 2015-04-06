@@ -14,7 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="@string/hello_world"
-        android:textSize="@dimen/abc_text_size_large_material" />
+        android:textSize="45sp"
+        android:textStyle="bold"
+        android:typeface="normal" />
 
     <TextView
         android:id="@+id/Comment"
@@ -23,7 +25,7 @@
         android:layout_below="@+id/word"
         android:layout_centerHorizontal="true"
         android:text="@string/hello_world"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        android:textSize="35sp" />
 
     <EditText
         android:id="@+id/txtMeaning3"
@@ -32,11 +34,14 @@
         android:layout_above="@+id/btnRight"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="56dp"
+        android:lines="2" 
+    	android:minLines="2"
+    	android:maxLines="20" 
         android:ems="10"
         android:inputType="text"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
+        android:textSize="45sp" />
 
     <EditText
         android:id="@+id/txtMeaning1"
@@ -45,11 +50,14 @@
         android:layout_above="@+id/txtMeaning2"
         android:layout_alignLeft="@+id/txtMeaning2"
         android:layout_marginBottom="56dp"
+        android:lines="2" 
+    	android:minLines="2"
+    	android:maxLines="20" 
         android:ems="10"
         android:inputType="text"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" >
+        android:textSize="45sp" >
 
         <requestFocus />
     </EditText>
@@ -61,50 +69,53 @@
         android:layout_above="@+id/txtMeaning3"
         android:layout_alignLeft="@+id/txtMeaning3"
         android:layout_marginBottom="56dp"
+        android:lines="2" 
+    	android:minLines="2"
+    	android:maxLines="20" 
         android:ems="10"
         android:inputType="text"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/abc_text_size_large_material" />
+        android:textSize="45sp" />
 
     <Button
         android:id="@+id/btnRight"
-        android:layout_width="70sp"
-        android:layout_height="40sp"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_alignLeft="@+id/txtMeaning3"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
         android:text="@string/btnRight"
-        android:textSize="12sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnSkip"
-        android:layout_width="70sp"
-        android:layout_height="40sp"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_alignBaseline="@+id/btnRight"
         android:layout_alignBottom="@+id/btnRight"
         android:layout_toRightOf="@+id/btnRight"
         android:text="@string/btnSkip"
-        android:textSize="12sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnView"
-        android:layout_width="70sp"
-        android:layout_height="40sp"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/txtMeaning3"
         android:layout_toRightOf="@+id/btnSkip"
         android:text="@string/btnView"
-        android:textSize="12sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnWrong"
-        android:layout_width="70sp"
-        android:layout_height="40sp"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_alignBaseline="@+id/btnView"
         android:layout_alignBottom="@+id/btnView"
         android:layout_toRightOf="@+id/btnView"
         android:text="@string/btnWrong"
-        android:textSize="12sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/txtStatus"

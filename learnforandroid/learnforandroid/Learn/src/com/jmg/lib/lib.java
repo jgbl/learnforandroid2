@@ -2,10 +2,7 @@
 
 //import android.support.v7.app.ActionBarActivity;
 import java.io.*;
-import java.lang.reflect.Field;
 import java.nio.channels.FileChannel;
-import java.util.EnumSet;
-import java.util.Enumeration;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -99,7 +96,7 @@ public class lib
 		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
 	   AlertDialog.Builder A = new AlertDialog.Builder(context);
 	   A.setPositiveButton("OK",listener());
-	   A.setMessage(ex.getMessage());
+	   A.setMessage(ex.getMessage() + "\n" + (ex.getCause() == null ? "" : ex.getCause().getMessage()));
 	   A.setTitle("Error");
 	   A.show();
 	}
@@ -141,7 +138,7 @@ public class lib
 		}
 		public static int InStr(int Start, String s, String Search)
 		{
-			return s.indexOf(s, Start-1) + 1;
+			return s.indexOf(Search, Start-1) + 1;
 		}
 		public static String Chr(int Code)
 		{
@@ -212,12 +209,21 @@ public class lib
 	}
 	public static String MakeMask(String strBed)
 	{
-		int i = 0;
-		libLearn.gStatus = ClassName + ".MakeMask";
-		for (i = 0; i <= (strBed).length() -1 ; i++) {
-			if (!(".,;/[]()".indexOf(strBed.charAt(i)) > -1)) {
-				strBed = strBed.substring(0, i - 1) + "*" + strBed.substring(i, strBed.length() - i);
+		try
+		{
+			int i = 0;
+			int Len = strBed.length();
+			if (Len == 0) return "";
+			libLearn.gStatus = ClassName + ".MakeMask";
+			for (i = 0; i <= Len -1 ; i++) {
+				if ((".,;/[]()".indexOf(strBed.charAt(i)) > -1)) {
+					strBed = strBed.substring(0, i) + "*" + (i < Len-1 ? strBed.substring(i+1):"");
+				}
 			}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
 		}
 		return strBed;
 

@@ -698,15 +698,13 @@ public class Vokabel {
 	        final String CodeLoc = className + ".Aehnlichkeit";
 	        libLearn.gStatus = CodeLoc + " Start";
 	        short Size1 = 0;
-	        short iMin = 0;
-	        Bedeutung = Bedeutung.toLowerCase();
-	        Antwort = Antwort.toLowerCase();
+	        Bedeutung = Bedeutung.toLowerCase(Locale.getDefault());
+	        Antwort = Antwort.toLowerCase(Locale.getDefault());
 	        Size1 = (short) RemoveKomment(Bedeutung).length();
 	        libLearn.gStatus = CodeLoc + " RemoveKomment";
 	        //Antwort = RemoveKomment(Antwort)
 	        libLearn.gStatus = CodeLoc + " Levenshtein";
 	        int levenshtein = LevenshteinDistance(Bedeutung, Antwort);
-	        iMin = (short) (Size1 - 1);
 	        boolean blnOldBed = !libString.IsNullOrEmpty(mOldBed[BedNR.getValue()[0]]);
 	        //TODO: Dim locs(Size1) As Integer
 	        int LastPos = 0;
@@ -853,7 +851,7 @@ public class Vokabel {
 				Bed = RemoveKomment(Bed);
 				libLearn.gStatus = CodeLoc + " Ungültige Zeichen ersetzen";
 				if (Bed.length() > 0) {
-					Bed = (Bed).toUpperCase();
+					Bed = (Bed).toUpperCase(Locale.getDefault());
 
 					for (i = 1; i <= (Bed).length(); i++) {
 						try {
@@ -1117,12 +1115,12 @@ public class Vokabel {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			short i = 0;
-			int voknr = 0;
+			short voknr = 0;
 			boolean blnDurch = false;
 			boolean blnDurch2 = false;
 
 			//mLastIndex = 0
-			voknr = mLastIndex;
+			voknr = (short) mLastIndex;
 
 			libLearn.gStatus = "Init Abfrage";
 			if (mGesamtzahl > 1) {
@@ -1150,7 +1148,7 @@ public class Vokabel {
 			                    RefSupport<Object> refVar___0 = new RefSupport<Object>(voknr);
 			                    RefSupport<Object> refVar___1 = new RefSupport<Object>(i);
 			                    vokabelVonAllenHolen(refVar___0, refVar___1);
-			                    voknr = (Integer) refVar___0.getValue();
+			                    voknr = (Short) refVar___0.getValue();
 			                    i = (Short) refVar___1.getValue();
 			                }
 			                else
@@ -1162,7 +1160,7 @@ public class Vokabel {
 			                    RefSupport<Object> refVar___4 = new RefSupport<Object>(blnDurch);
 			                    RefSupport<Object> refVar___5 = new RefSupport<Object>(blnDurch2);
 			                    Get_Vok(refVar___2, refVar___3, refVar___4, refVar___5);
-			                    voknr = (Integer) refVar___2.getValue();
+			                    voknr = (Short) refVar___2.getValue();
 			                    i = (Short) refVar___3.getValue();
 			                    blnDurch = (Boolean) refVar___4.getValue();
 			                    blnDurch2 = (Boolean) refVar___5.getValue();
@@ -1186,7 +1184,7 @@ public class Vokabel {
 			} else {
 				//If mLernindex < mGesamtzahl Then mLernindex += 1 Else mLernindex = 1
 			}
-			if (mLernVokabeln[mLernindex] > 0) {
+			if (mLernVokabeln != null && mLernVokabeln[mLernindex] > 0) {
 				mblnLernInit = true;
 				mLastIndex = voknr;
 				libLearn.gStatus = "Vokabel.InitAbfrage Line 529";
@@ -1234,90 +1232,95 @@ public class Vokabel {
 		}
 
 
-	    public void Get_Vok(RefSupport<Object> vokNr, RefSupport<Object> i, RefSupport<Object> blnDurch, RefSupport<Object> blnDurch2) throws Exception {
+	    public void Get_Vok(RefSupport<Object> refvokNr, RefSupport<Object> refi, RefSupport<Object> refblnDurch, RefSupport<Object> refblnDurch2) throws Exception 
+	    {
 	        Get_Vok:
-	        	blnDurch.setValue(false);
-	        do
+	        refblnDurch.setValue(false);
+	        short vokNr = (Short)refvokNr.getValue();
+	        short i = (Short)refi.getValue();
+	    	do
 	        {
-	            if ((Integer)vokNr.getValue() < mGesamtzahl)
+	            if (vokNr < mGesamtzahl)
 	            {
-	                vokNr.setValue((Integer)vokNr.getValue() + 1);
+	                vokNr+= 1;
 	            }
 	            else
 	            {
-	                vokNr.setValue(1);
-	                if ((Boolean)blnDurch.getValue() == true)
+	                vokNr=1;
+	                if ((Boolean)refblnDurch.getValue() == true)
 	                {
-	                    blnDurch2.setValue(true);
+	                    refblnDurch2.setValue(true);
 	                    //UPGRADE_ISSUE: Die Anweisung GoSub wird nicht unterstützt. Klicken Sie hier für weitere Informationen: 'ms-help://MS.VSExpressCC.v80/dv_commoner/local/redirect.htm?keyword="C5A1A479-AB8B-4D40-AAF4-DB19A2E5E77F"'
-	                    RefSupport<Object> refVar___0 = new RefSupport<Object>(vokNr.getValue());
-	                    RefSupport<Object> refVar___1 = new RefSupport<Object>(i.getValue());
+	                    RefSupport<Object> refVar___0 = new RefSupport<Object>(vokNr);
+	                    RefSupport<Object> refVar___1 = new RefSupport<Object>(i);
 	                    vokabelVonAllenHolen(refVar___0,refVar___1);
-	                    vokNr.setValue(refVar___0.getValue());
-	                    i.setValue(refVar___1.getValue());
+	                    vokNr=(Short)(refVar___0.getValue());
+	                    i= (Short)(refVar___1.getValue());
 	                    break;
 	                }
 	                 
 	                // TODO: might not be correct. Was : Exit Do
-	                blnDurch.setValue(true);
+	                refblnDurch.setValue(true);
 	            } 
-	            if (mVok.get((Integer)vokNr.getValue()).z == mAbfragebereich 
-	            		| mAbfragebereich >= 6 & mVok.get((Integer)vokNr.getValue()).z >= 6 
-	            		| mAbfragebereich == 0 & mVok.get((Integer)vokNr.getValue()).z <= 0)
+	            if (mVok.get(vokNr).z == mAbfragebereich 
+	            		| mAbfragebereich >= 6 & mVok.get(vokNr).z >= 6 
+	            		| mAbfragebereich == 0 & mVok.get(vokNr).z <= 0)
 	            {
-	                mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
+	                mLernVokabeln[i] = vokNr;
 	                break;
 	            }
 	             
 	        }
 	        while (true);
 	        // TODO: might not be correct. Was : Exit Do
-	        RefSupport<Object> refVar___2 = new RefSupport<Object>(vokNr.getValue());
-	        RefSupport<Object> refVar___3 = new RefSupport<Object>(i.getValue());
+	        RefSupport<Object> refVar___2 = new RefSupport<Object>(vokNr);
+	        RefSupport<Object> refVar___3 = new RefSupport<Object>(i);
 	        vokabelVonAllenHolen(refVar___2,refVar___3);
-	        vokNr.setValue(refVar___2.getValue());
-	        i.setValue(refVar___3.getValue());
+	        refvokNr.setValue(refVar___2.getValue());
+	        refi.setValue(refVar___3.getValue());
 	    }
 
-	    public void vokabelVonAllenHolen(RefSupport<Object> vokNr, RefSupport<Object> i) throws Exception {
-	        VokabelVonAllenHolen:
+	    public void vokabelVonAllenHolen(RefSupport<Object> refvokNr, RefSupport<Object> refi) throws Exception 
+	    {
+	    	short intVokNr = (Short) refvokNr.getValue();
+            short i = (Short)refi.getValue();
+        	
 	        do
 	        {
-	            int intVokNr = (Integer) vokNr.getValue();
-	        	if ((Integer)vokNr.getValue() < mGesamtzahl)
+	            if (intVokNr < mGesamtzahl)
 	            {
 	                intVokNr += 1;
-	        		vokNr.setValue(intVokNr);
+	        		
 	            }
 	            else
 	            {
 	            	intVokNr = 1;
-	            	vokNr.setValue(intVokNr);
 	            } 
 	            if (mAbfrageZufällig){
-	            	intVokNr = lib.rndInt(0,mGesamtzahl);
-	            	vokNr.setValue(intVokNr);
+	            	intVokNr = (short) lib.rndInt(0,mGesamtzahl);
 	            }
 	            	
 	                
 	             
 	            if (mVok.get(intVokNr).z <= 1)
 	            {
-	                mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
+	                mLernVokabeln[i] = intVokNr;
 	                break;
 	            }
 	            else
 	            {
 	                // TODO: might not be correct. Was : Exit Do
-	                if (Math.random() < 1 / mVok.get((Integer)vokNr.getValue()).z)
+	                if (Math.random() < 1 / mVok.get(intVokNr).z)
 	                {
-	                    mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
+	                    mLernVokabeln[i] = intVokNr;
 	                    break;
 	                }
 	                 
 	            } 
 	        }
 	        while (true);
+	    	refvokNr.setValue(intVokNr);
+	    	refi.setValue(i);
 	        return ;
 	    }
 
@@ -1707,15 +1710,17 @@ public class Vokabel {
 		    	short hh = (Short)refhh.getValue();
 		    	short indexLang = (Short) refindexLang.getValue();
 		    	short qf = (Short)refqf.getValue();
+		    	String tmpStr = null;
 		        hh = 1;
+		        fontfil.setValue(fontfil.getValue().trim());
 		        if ((fontfil.getValue().indexOf(",")) > -1)
 		        {
 		            fontfil.setValue(fontfil.getValue() + ",");
 		            h=(short) ((fontfil.getValue().indexOf(",",hh-1))+1);
 		            if (h != 0 && h - hh > 0)
-		                indexLang=(short) (Integer.parseInt(fontfil.getValue().substring(hh-1, h - 1)));
+		            	indexLang=(short) (Integer.parseInt(fontfil.getValue().substring(hh-1, h-1)));
 		             
-		            hh += 1;
+		            hh = (short) (h+1);
 		            h = (short) ((fontfil.getValue().indexOf(",", hh-1) )+1);
 		            try
 		            {
@@ -1743,13 +1748,13 @@ public class Vokabel {
 		                    switch(qf)
 		                    {
 		                        case 1: 
-		                            mWortFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h)));
+		                            mWortFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h-1).trim()));
 		                            break;
 		                        case 2: 
-		                            mBedFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h)));
+		                            mBedFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h-1).trim()));
 		                            break;
 		                        case 3: 
-		                            mKomFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h)));
+		                            mKomFont.setSize(Integer.parseInt(fontfil.getValue().substring(hh-1, h-1).trim()));
 		                            break;
 		                    
 		                    }
@@ -1762,13 +1767,13 @@ public class Vokabel {
 		                    switch(qf)
 		                    {
 		                        case 1: 
-		                            mWortFont.setName(fontfil.getValue().substring(hh-1, h));
+		                            mWortFont.setName(fontfil.getValue().substring(hh-1, h-1).trim());
 		                            break;
 		                        case 2: 
-		                            mBedFont.setName(fontfil.getValue().substring(hh-1, h));
+		                            mBedFont.setName(fontfil.getValue().substring(hh-1, h-1).trim());
 		                            break;
 		                        case 3: 
-		                            mKomFont.setName(fontfil.getValue().substring(hh-1, h));
+		                            mKomFont.setName(fontfil.getValue().substring(hh-1, h-1).trim());
 		                            break;
 		                    
 		                    }
@@ -1776,7 +1781,7 @@ public class Vokabel {
 		                 
 		                hh=(short) (h + 1);
 		            }
-		            reflad.setValue(-1);
+		            reflad.setValue((short)-1);
 		        }
 		        refh.setValue(h);
 		        refhh.setValue(hh);
@@ -1914,59 +1919,61 @@ public class Vokabel {
 					n = (short) mGesamtzahl;
 				for (String x = sr.readLine(); x != null; x = sr.readLine()) 
 				{
-					if (x == "") continue;
-					mVok.add(new typVok());
+					int Len = x.length();
+					if (Len==0) continue;
+					typVok CurVok = new typVok();
+					mVok.add(CurVok);
 					n  = (short)(mVok.size()-1);
 					//mVok = lib.ResizeArray(mVok, n + 1);
 					libLearn.gStatus = CodeLoc + " ReadLine2";
-					mVok.get(n).Wort = x.replace("{CR}", "\r").replace("{LF}", "\n");
-					qf = (short) libString.InStr(mVok.get(n).Wort, libString.Chr(0));
+					CurVok.Wort = x.replace("{CR}", "\r").replace("{LF}", "\n");
+					qf = (short) libString.InStr(CurVok.Wort, "\0");
 					if (qf == 0)
-						qf = (short) libString.InStr(mVok.get(n).Wort, libString.Chr(8));
+						qf = (short) libString.InStr(CurVok.Wort, libString.Chr(8));
 					if (qf != 0) {
-						mVok.get(n).Kom = libString.Right(mVok.get(n).Wort, libString.Len(mVok.get(n).Wort) - qf);
+						CurVok.Kom = libString.Right(CurVok.Wort, libString.Len(CurVok.Wort) - qf);
 						libLearn.gStatus = CodeLoc + " Line 839";
 						// Inserted by CodeCompleter
-						mVok.get(n).Wort = libString.Left(mVok.get(n).Wort, qf - 1);
+						CurVok.Wort = libString.Left(CurVok.Wort, qf - 1);
 					} else {
-						mVok.get(n).Kom = "";
+						CurVok.Kom = "";
 					}
 					libLearn.gStatus = CodeLoc + " ReadLine3";
 					if (!((x=sr.readLine()) == null)) {
-						mVok.get(n).Bed1 = x.replace("{CR}", "\r").replace("{LF}", "\n");
+						CurVok.Bed1 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 					}
 					if (!blnSingleLine) {
 						if (!((x=sr.readLine()) == null)) {
 							libLearn.gStatus = CodeLoc + " ReadLine4";
-							mVok.get(n).Bed2 = x.replace("{CR}", "\r").replace("{LF}", "\n");
+							CurVok.Bed2 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 						}
 						libLearn.gStatus = CodeLoc + " Line 849";
 						// Inserted by CodeCompleter
 						if (!((x=sr.readLine()) == null)) {
 							libLearn.gStatus = CodeLoc + " ReadLine5";
-							mVok.get(n).Bed3 = x.replace("{CR}", "\r").replace("{LF}", "\n");
+							CurVok.Bed3 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 						}
 					} else {
-						mVok.get(n).Bed2 = "";
-						mVok.get(n).Bed3 = "";
+						CurVok.Bed2 = "";
+						CurVok.Bed3 = "";
 					}
 					if (!((x=sr.readLine()) == null)) {
 						libLearn.gStatus = CodeLoc + " ReadLine6";
 						strTmp = x;
-						mVok.get(n).z = (short) Integer.parseInt(strTmp);
+						CurVok.z = (short) Integer.parseInt(strTmp);
 					}
-					if (libString.IsNullOrEmpty(mVok.get(n).Wort)) {
+					if (libString.IsNullOrEmpty(CurVok.Wort)) {
 						mVok.remove(n);
 						n  = (short) (mVok.size()-1);
 						libLearn.gStatus = CodeLoc + " Line 859";
 						// Inserted by CodeCompleter
 						//mVok = lib.ResizeArray(mVok, n + 1);
 					} else {
-						mVok.get(n).Wort = mVok.get(n).Wort.replace("ùú", "\r\n");
-						mVok.get(n).Kom = mVok.get(n).Kom.replace("ùú", "\r\n");
-						mVok.get(n).Bed1 = mVok.get(n).Bed1.replace("ùú", "\r\n");
-						mVok.get(n).Bed2 = mVok.get(n).Bed2.replace("ùú", "\r\n");
-						mVok.get(n).Bed3 = mVok.get(n).Bed3.replace("ùú", "\r\n");
+						CurVok.Wort = CurVok.Wort.replace("ùú", "\r\n");
+						CurVok.Kom = CurVok.Kom.replace("ùú", "\r\n");
+						CurVok.Bed1 = CurVok.Bed1.replace("ùú", "\r\n");
+						CurVok.Bed2 = CurVok.Bed2.replace("ùú", "\r\n");
+						CurVok.Bed3 = CurVok.Bed3.replace("ùú", "\r\n");
 					}
 					libLearn.gStatus = CodeLoc + " End While";
 				}

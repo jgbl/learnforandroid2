@@ -18,15 +18,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-
+import android.view.*;
+import android.view.View.OnClickListener;
+import android.widget.*;
 
 public class MainActivity extends ActionBarActivity {
 	
 	private static final int FILE_CHOOSER = 34823;
 	private Context context = this;
+	private Button _btnRight;
+	private Button _btnWrong;
+	private Button _btnSkip;
+	private Button _btnView;
+	
 	public Vokabel vok;
 
     @Override
@@ -36,12 +40,151 @@ public class MainActivity extends ActionBarActivity {
                 
         try {
 			vok = new Vokabel(this,(TextView) this.findViewById(R.id.txtStatus));
+			vok.setSchrittweite((short) 6);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
 		}
-        String extPath = android.os.Environment.getExternalStorageDirectory().getPath();
-		File F = new File(extPath);
+        CopyAsstes();
+        InitButtons();
+        
+        
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+    	super.onSaveInstanceState(outState);
+    	saveVok();
+    }
+    
+    @Override
+    public void onBackPressed() {
+        saveVok();
+        super.onBackPressed();
+        return;
+    }   
+    
+    
+    /*@Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);           
+    }*/
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {     
+
+        if(keyCode == KeyEvent.KEYCODE_HOME)
+        {
+           saveVok();
+        }
+        return super.onKeyDown(keyCode, event);
+    };
+    
+    private void saveVok()
+    {
+    	if (vok.aend)
+    	{
+    		if (lib.ShowMessageYesNo(this,getString(R.string.Save)))
+    				{
+    					try {
+							vok.SaveFile(vok.getFileName(), vok.getUniCode());
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							lib.ShowException(this, e);
+						}
+    				}
+    	}
+    }
+    
+    private void InitButtons()
+    {
+    	View v = findViewById(R.id.btnRight);
+    	Button b = (Button)v;
+    	_btnRight = b;
+    	b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					vok.AntwortRichtig();
+					getVokabel(false,false);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					lib.ShowException(MainActivity.this, e);
+					
+				}
+				
+			}
+		});
+    	v = findViewById(R.id.btnWrong);
+    	b = (Button)v;
+    	_btnWrong = b;
+    	b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					vok.AntwortFalsch();
+					getVokabel(false,true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					lib.ShowException(MainActivity.this, e);
+				}
+				
+			}
+		});
+    	v = findViewById(R.id.btnSkip);
+    	b = (Button)v;
+    	_btnSkip = b;
+    	b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					vok.SkipVokabel();
+					getVokabel(false,false);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					lib.ShowException(MainActivity.this, e);
+				}
+				
+			}
+		});
+    	v = findViewById(R.id.btnView);
+    	b = (Button)v;
+    	_btnView = b;
+    	b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					getVokabel(true,false);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					lib.ShowException(MainActivity.this, e);
+				}
+				
+			}
+		});
+    	
+    }
+    
+    private OnClickListener Click = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+    
+    private void CopyAsstes()
+    {
+    	
+		File F = android.os.Environment.getExternalStorageDirectory();
+		String extPath = F.getPath();
 		if (F.isDirectory() && F.exists())
 		{
 			String JMGDataDirectory = Path.combine(extPath, "learnforandroid","vok");
@@ -53,39 +196,44 @@ public class MainActivity extends ActionBarActivity {
 			AssetManager A = this.getAssets();
 			try 
 			{
-				F1 = new File(Path.combine(F1.getPath(),"Spanish"));
-				for (String File : A.list("Spanish"))
+				final String languages [] = new String[]{"Greek","Hebrew","KAR","Spanish"};
+				final String path = F1.getPath();
+				for (String language:languages)
 				{
-					InputStream myInput = A.open(Path.combine("Spanish",File));
-					String outFileName = Path.combine(F1.getPath(),File);
-					if (F1.isDirectory() == false)
+					F1 = new File(Path.combine(path,language));
+					for (String File : A.list(language))
 					{
-						F1.mkdirs();
-					}
-					//Open the empty db as the output stream
-					
-					File file = new File(outFileName);
-							
-					if (file.exists())
-					{
-						//file.delete();
-					}
-					else
-					{
-						file.createNewFile();
-						OutputStream myOutput = new FileOutputStream(file);
-
-						byte[] buffer = new byte[1024];
-						int length;
-						while ((length = myInput.read(buffer,0,1024)) > 0)
+						InputStream myInput = A.open(Path.combine(language,File));
+						String outFileName = Path.combine(F1.getPath(),File);
+						if (F1.isDirectory() == false)
 						{
-							myOutput.write(buffer, 0, length);
+							F1.mkdirs();
 						}
-
-						//Close the streams
-						myOutput.flush();
-						myOutput.close();
-						myInput.close();
+						//Open the empty db as the output stream
+						
+						File file = new File(outFileName);
+								
+						if (file.exists())
+						{
+							//file.delete();
+						}
+						else
+						{
+							file.createNewFile();
+							OutputStream myOutput = new FileOutputStream(file);
+	
+							byte[] buffer = new byte[1024];
+							int length;
+							while ((length = myInput.read(buffer,0,1024)) > 0)
+							{
+								myOutput.write(buffer, 0, length);
+							}
+	
+							//Close the streams
+							myOutput.flush();
+							myOutput.close();
+							myInput.close();
+						}
 					}
 				}
 			}
@@ -94,13 +242,13 @@ public class MainActivity extends ActionBarActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				lib.ShowException(this, e);
+				lib.ShowMessage(this, "CopyAssets");
 			}
 			
 		}
 
     }
-
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -145,12 +293,49 @@ public class MainActivity extends ActionBarActivity {
         if ((requestCode == FILE_CHOOSER) && (resultCode == -1)) {
             String fileSelected = data.getStringExtra("fileSelected");
             try {
+            	saveVok();
 				vok.LoadFile(fileSelected);
+				getVokabel(false,false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				lib.ShowException(this,e);
 			}
         }                   
+    }
+    public void getVokabel(boolean showBeds, boolean LoadNext)
+    {
+    	try {
+    		if (showBeds)
+    		{
+    			_btnRight.setEnabled(true);
+    			_btnWrong.setEnabled(true);
+    		}
+    		else
+    		{
+    			_btnRight.setEnabled(false);
+    			_btnWrong.setEnabled(false);
+    		}
+    		if (LoadNext) vok.setLernIndex((short) (vok.getLernIndex()+1));
+    		View v = findViewById(R.id.word);
+        	TextView t = (TextView)v;
+        	t.setText(vok.getWort());
+        	v = findViewById(R.id.Comment);
+        	t = (TextView)v;
+        	t.setText(vok.getKommentar());
+        	v = findViewById(R.id.txtMeaning1);
+        	t = (TextView)v;
+        	t.setText((showBeds?vok.getBedeutung1():""));
+        	v = findViewById(R.id.txtMeaning2);
+        	t = (TextView)v;
+        	t.setText((showBeds?vok.getBedeutung2():""));
+        	v = findViewById(R.id.txtMeaning3);
+        	t = (TextView)v;
+        	t.setText((showBeds?vok.getBedeutung3():""));
+        } catch (Exception e) {
+			// TODO Auto-generated catch block
+			lib.ShowException(this, e);
+		}
+    	
     }
     
 }
