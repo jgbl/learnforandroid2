@@ -11,13 +11,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.View;
 import android.widget.TextView;
 
 import com.jmg.learn.*;
 import com.jmg.lib.lib;
 import com.jmg.lib.RefSupport;
 import com.jmg.lib.lib.libString;
+
+
 
 public class Vokabel {
 
@@ -119,7 +120,7 @@ public class Vokabel {
 		final short ErrWrongfilename = 1001;
 
 		final short ErrNoFileHandle = 1002;
-		private typVok[] mVok;
+		private ArrVok mVok;
 			//enthält die Indexwerte der Lernvokabeln
 		private int[] mLernVokabeln;
 			//gibt an welcher Index zuletzt bei den Lernvokabeln verwendet wurde
@@ -162,41 +163,7 @@ public class Vokabel {
 		private String _Properties;
 		private boolean _UniCode;
 		
-		public class typVok
-		{
-			//Aufbau einer Vokabel
-			public String Wort;
-			public String Bed1;
-			public String Bed2;
-			public String Bed3;
-			public String[] getBedeutungen() {
-				return new String[] {Bed1,Bed2,Bed3};
-			}
-
-			public int getAnzBed() {
-				int functionReturnValue = 0;
-				for  (String Bed : getBedeutungen()) 
-				{
-					if (!libString.IsNullOrEmpty(Bed))
-						functionReturnValue += 1;
-				}
-				return functionReturnValue;
-			}
-			//Kommentar
-			public String Kom;
-				//Zähler wie oft gewußt
-			public short z;
-			public typVok(String Wort, String Bed1, String Bed2, String Bed3, String Kom, short z)
-			{
-				this.Wort = Wort;
-				this.Bed1 = Bed1;
-				this.Bed2 = Bed2;
-				this.Bed3 = Bed3;
-				this.Kom = Kom;
-				this.z = z;
-			}
-		}
-		public boolean getUniCode() {
+				public boolean getUniCode() {
 			return _UniCode;
 		}
 
@@ -207,7 +174,7 @@ public class Vokabel {
 		public String[] getBedeutungen() throws Exception {
 			return new String[] {getBedeutung1(),getBedeutung2(),getBedeutung3()}; 
 		}
-		public typVok[] getVokabeln() {
+		public ArrVok getVokabeln() {
 			return mVok; 
 		}
 
@@ -395,7 +362,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.ZÃƒÂ¤hler
-	        functionReturnValue = mVok[mIndex].z;
+	        functionReturnValue = mVok.get(mIndex).z;
 	        return functionReturnValue;
 	    }
 
@@ -405,7 +372,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
 	        //Syntax: X.ZÃƒÂ¤hler = 5
-	        mVok[mIndex].z = value;
+	        mVok.get(mIndex).z = value;
 	        aend = true;
 	    }
 
@@ -416,7 +383,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.Kommentar
-	        functionReturnValue = mVok[mIndex].Kom;
+	        functionReturnValue = mVok.get(mIndex).Kom;
 	        return functionReturnValue;
 	    }
 
@@ -426,7 +393,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
 	        //Syntax: X.Kommentar = 5
-	        mVok[mIndex].Kom = value;
+	        mVok.get(mIndex).Kom = value;
 	        aend = true;
 	    }
 
@@ -437,7 +404,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.Bedeutung3
-	        functionReturnValue = mVok[mIndex].Bed3.trim();
+	        functionReturnValue = mVok.get(mIndex).Bed3.trim();
 	        return functionReturnValue;
 	    }
 
@@ -447,7 +414,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
 	        //Syntax: X.Bedeutung3 = 5
-	        mVok[mIndex].Bed3 = value;
+	        mVok.get(mIndex).Bed3 = value;
 	        aend = true;
 	    }
 
@@ -458,7 +425,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.Bedeutung2
-	        functionReturnValue = (mVok[mIndex].Bed2).trim();
+	        functionReturnValue = (mVok.get(mIndex).Bed2).trim();
 	        return functionReturnValue;
 	    }
 
@@ -468,7 +435,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken Seite der Gleichung, verwendet.
 	        //Syntax: X.Bedeutung2 = 5
-	        mVok[mIndex].Bed2 = value;
+	        mVok.get(mIndex).Bed2 = value;
 	        aend = true;
 	    }
 
@@ -479,7 +446,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.Bedeutung1
-	        functionReturnValue = (mVok[mIndex].Bed1).trim();
+	        functionReturnValue = (mVok.get(mIndex).Bed1).trim();
 	        return functionReturnValue;
 	    }
 
@@ -492,7 +459,7 @@ public class Vokabel {
 	        if ((value).length() > 0)
 	        {
 	            aend = true;
-	            mVok[mIndex].Bed1 = value;
+	            mVok.get(mIndex).Bed1 = value;
 	        }
 	        else
 	        {
@@ -508,7 +475,7 @@ public class Vokabel {
 	        // ERROR: Not supported in C#: OnErrorStatement
 	        //wird beim Ermitteln einer Eignschaft auf der rechten Seite der Gleichung verwendet.
 	        //Syntax: Debug.Print X.Wort
-	        functionReturnValue = mVok[mIndex].Wort;
+	        functionReturnValue = mVok.get(mIndex).Wort;
 	        return functionReturnValue;
 	    }
 
@@ -520,7 +487,7 @@ public class Vokabel {
 	        //Syntax: X.Wort = 5
 	        if ((value).length() > 0)
 	        {
-	            mVok[mIndex].Wort = value;
+	            mVok.get(mIndex).Wort = value;
 	            aend = true;
 	        }
 	        else
@@ -1101,11 +1068,11 @@ public class Vokabel {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			libLearn.gStatus = "Vokabel.AntwortRichtig Start";
-			if (mVok[mIndex].z < 0)
-				mVok[mIndex].z = 0;
-			mVok[mIndex].z = (short) (mVok[mIndex].z + 1);
+			if (mVok.get(mIndex).z < 0)
+				mVok.get(mIndex).z = 0;
+			mVok.get(mIndex).z = (short) (mVok.get(mIndex).z + 1);
 			aend = true;
-			if (mVok[mIndex].z > 0) {
+			if (mVok.get(mIndex).z > 0) {
 				if (mLernVokabeln == null) {
 					this.InitAbfrage();
 				}
@@ -1121,10 +1088,10 @@ public class Vokabel {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			libLearn.gStatus = "Vokabel.AntwortFalsch Start";
-			if (mVok[mIndex].z <= 0) {
-				mVok[mIndex].z = (short) (mVok[mIndex].z - 1);
+			if (mVok.get(mIndex).z <= 0) {
+				mVok.get(mIndex).z = (short) (mVok.get(mIndex).z - 1);
 			} else {
-				mVok[mIndex].z = 0;
+				mVok.get(mIndex).z = 0;
 			}
 			aend = true;
 			AnzFalsch += 1;
@@ -1228,7 +1195,7 @@ public class Vokabel {
 		
 		public ArrayList<typVok> Select(String Wort, String Bedeutung, int Zaehler)
 		{
-			ArrayList<typVok> Sel = new ArrayList<Vokabel.typVok>();
+			ArrayList<typVok> Sel = new ArrayList<typVok>();
 			for (typVok vok: mVok) {
 				if (!libString.IsNullOrEmpty(Wort)) {
 					if (vok.Wort.contains(Wort)) {
@@ -1284,9 +1251,9 @@ public class Vokabel {
 	                // TODO: might not be correct. Was : Exit Do
 	                blnDurch.setValue(true);
 	            } 
-	            if (mVok[(Integer)vokNr.getValue()].z == mAbfragebereich 
-	            		| mAbfragebereich >= 6 & mVok[(Integer)vokNr.getValue()].z >= 6 
-	            		| mAbfragebereich == 0 & mVok[(Integer)vokNr.getValue()].z <= 0)
+	            if (mVok.get((Integer)vokNr.getValue()).z == mAbfragebereich 
+	            		| mAbfragebereich >= 6 & mVok.get((Integer)vokNr.getValue()).z >= 6 
+	            		| mAbfragebereich == 0 & mVok.get((Integer)vokNr.getValue()).z <= 0)
 	            {
 	                mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
 	                break;
@@ -1324,7 +1291,7 @@ public class Vokabel {
 	            	
 	                
 	             
-	            if (mVok[intVokNr].z <= 1)
+	            if (mVok.get(intVokNr).z <= 1)
 	            {
 	                mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
 	                break;
@@ -1332,7 +1299,7 @@ public class Vokabel {
 	            else
 	            {
 	                // TODO: might not be correct. Was : Exit Do
-	                if (Math.random() < 1 / mVok[(Integer)vokNr.getValue()].z)
+	                if (Math.random() < 1 / mVok.get((Integer)vokNr.getValue()).z)
 	                {
 	                    mLernVokabeln[(Integer)i.getValue()] = (Integer)vokNr.getValue();
 	                    break;
@@ -1359,11 +1326,9 @@ public class Vokabel {
 			//
 			if (index == -1)
 				index = mIndex;
-			for (int i = index; i <= mGesamtzahl - 1; i++) {
-				mVok[i] = mVok[i + 1];
-			}
-			mGesamtzahl -= 1;
-			mVok = lib.ResizeArray(mVok, mGesamtzahl +1 );
+			mVok.remove(index);
+			mGesamtzahl = mVok.size();
+			//mVok = lib.ResizeArray(mVok, mGesamtzahl +1 );
 			return;
 					}
 
@@ -1384,9 +1349,10 @@ public class Vokabel {
 
 			libLearn.gStatus = "Vokabel.AddVokabel Start";
 			//
-			mGesamtzahl = mGesamtzahl + 1;
-			mIndex = mGesamtzahl;
-			mVok = lib.ResizeArray(mVok, mGesamtzahl +1 );
+			mVok.add(new typVok("", "", "", "", "", (short) 0));
+			mGesamtzahl = mVok.size();
+			mIndex = mGesamtzahl-1;
+			//mVok = lib.ResizeArray(mVok, mGesamtzahl +1 );
 			return;
 					}
 
@@ -1472,30 +1438,30 @@ public class Vokabel {
 				} else {
 					sWriter.write((spr | einst)+"\n");
 				}
-				for (h = 0; h <= mVok.length -1; h++) {
-					if (!libString.IsNullOrEmpty(mVok[h].Wort)) {
-						LWort = mVok[h].Wort;
-						if (!libString.IsNullOrEmpty(mVok[h].Kom))
-							LWort += (char)8 + mVok[h].Kom;
+				for (h = 0; h <= mVok.size() -1; h++) {
+					if (!libString.IsNullOrEmpty(mVok.get(h).Wort)) {
+						LWort = mVok.get(h).Wort;
+						if (!libString.IsNullOrEmpty(mVok.get(h).Kom))
+							LWort += (char)8 + mVok.get(h).Kom;
 						if (!libString.IsNullOrEmpty(LWort))
 							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
 						sWriter.write(LWort+"\n");
-						LWort = mVok[h].Bed1;
-						if (!libString.IsNullOrEmpty(LWort))
-							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
-						qf = 0;
-						sWriter.write(LWort+"\n");
-						LWort = mVok[h].Bed2;
+						LWort = mVok.get(h).Bed1;
 						if (!libString.IsNullOrEmpty(LWort))
 							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
 						qf = 0;
 						sWriter.write(LWort+"\n");
-						LWort = mVok[h].Bed3;
+						LWort = mVok.get(h).Bed2;
 						if (!libString.IsNullOrEmpty(LWort))
 							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
 						qf = 0;
 						sWriter.write(LWort+"\n");
-						sWriter.write((mVok[h].z)+"\n");
+						LWort = mVok.get(h).Bed3;
+						if (!libString.IsNullOrEmpty(LWort))
+							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
+						qf = 0;
+						sWriter.write(LWort+"\n");
+						sWriter.write((mVok.get(h).z)+"\n");
 					}
 
 				}
@@ -1515,26 +1481,26 @@ public class Vokabel {
 		public void revert()
 		{
 
-			for (int h = 0; h <= mVok.length-1; h++) {
-				String vok = mVok[h].Wort;
-				mVok[h].Wort = mVok[h].Bed1;
-				if (!libString.IsNullOrEmpty(mVok[h].Bed2)) {
-					mVok[h].Wort += "/" + mVok[h].Bed2;
-					mVok[h].Bed2 = "";
-					if (!libString.IsNullOrEmpty(mVok[h].Bed3)) {
-						mVok[h].Wort += "/" + mVok[h].Bed3;
-						mVok[h].Bed3 = "";
+			for (int h = 0; h <= mVok.size()-1; h++) {
+				String vok = mVok.get(h).Wort;
+				mVok.get(h).Wort = mVok.get(h).Bed1;
+				if (!libString.IsNullOrEmpty(mVok.get(h).Bed2)) {
+					mVok.get(h).Wort += "/" + mVok.get(h).Bed2;
+					mVok.get(h).Bed2 = "";
+					if (!libString.IsNullOrEmpty(mVok.get(h).Bed3)) {
+						mVok.get(h).Wort += "/" + mVok.get(h).Bed3;
+						mVok.get(h).Bed3 = "";
 					}
 				}
-				mVok[h].Bed1 = vok;
-				mVok[h].z = 0;
+				mVok.get(h).Bed1 = vok;
+				mVok.get(h).z = 0;
 			}
 		}
 
 		public void reset()
 		{
-			for (int h = 0; h <= mVok.length-1; h++) {
-				mVok[h].z = 0;
+			for (int h = 0; h <= mVok.size()-1; h++) {
+				mVok.get(h).z = 0;
 			}
 		}
 
@@ -1587,20 +1553,14 @@ public class Vokabel {
 
 			libLearn.gStatus = "Vokabel.LoadFromString Start";
 
-			short Varhebr = 0;
 			short qf = 0;
 			short hh = 0;
 			short h = 0;
 			short sp = 0;
-			short einst = 0;
-			short tasta = 0;
-			String ext = new String (new char[3]).replace('\0', ' ');
 			short n = 0;
 			short lad = 0;
 			short indexlang = 0;
-			short varbed = 0;
 			String fontfil = null;
-			String Sprache = null;
 			String tastbel = null;
 			String strTmp = null;
 			mLernVokabeln = new int[mSchrittweite + 1];
@@ -1609,7 +1569,6 @@ public class Vokabel {
 
 			mFileName = "";
 			fontfil = "";
-			Sprache = "";
 			tastbel = "";
 			strTmp = "";
 
@@ -1621,10 +1580,6 @@ public class Vokabel {
 			strTmp = refStrTmp.getValue();
 			//SPRACHE LADEN
 			sp = (short) Integer.parseInt(strTmp);
-			einst = (short) (sp & (short)((Math.pow(2, 16)) - 256));
-			Varhebr = (short) ((sp & 16) != 0 ? -1 : 0);
-			varbed = (short) ((sp & 64) != 0 ? -1 :0);
-			tasta = (short) ((sp & 32) != 0 ? -1 :0);
 			indexlang = (short) (sp & 7);
 			libLearn.gStatus = "Vokabel.LoadFromString Line 679";
 			// Inserted by CodeCompleter
@@ -1657,48 +1612,50 @@ public class Vokabel {
 				libLearn.gStatus = "Vokabel.LoadFromString Line 689";
 				// Inserted by CodeCompleter
 				//System.Windows.Forms.Application.DoEvents();
-				n += 1;
-				lib.ResizeArray(mVok, n + 1);
-				RefSupport<String>refWort = new RefSupport<String>(mVok[n].Wort);
+				mVok.add(new typVok());
+				n = (short) (mVok.size()-1);
+				//lib.ResizeArray(mVok, n + 1);
+				RefSupport<String>refWort = new RefSupport<String>(mVok.get(n).Wort);
 				GetNextLineFromString(strContent, refWort);
-				mVok[n].Wort = refWort.getValue();
-				qf = (short) (mVok[n].Wort.indexOf(0)+1);
+				mVok.get(n).Wort = refWort.getValue();
+				qf = (short) (mVok.get(n).Wort.indexOf(0)+1);
 				if (qf == 0)
-					qf = (short) (mVok[n].Wort.indexOf(8)+1);
+					qf = (short) (mVok.get(n).Wort.indexOf(8)+1);
 				if (qf != 0) {
-					mVok[n].Kom = mVok[n].Wort.substring(qf);
+					mVok.get(n).Kom = mVok.get(n).Wort.substring(qf);
 					libLearn.gStatus = "Vokabel.LoadFromString Line 699";
 					// Inserted by CodeCompleter
-					mVok[n].Wort = mVok[n].Wort.substring(qf - 1);
+					mVok.get(n).Wort = mVok.get(n).Wort.substring(qf - 1);
 				}
-				refStrTmp.setValue(mVok[n].Bed1);
+				refStrTmp.setValue(mVok.get(n).Bed1);
 				GetNextLineFromString(strContent, refStrTmp);
-				mVok[n].Bed1 = refStrTmp.getValue();
+				mVok.get(n).Bed1 = refStrTmp.getValue();
 				
-				refStrTmp.setValue(mVok[n].Bed2);
+				refStrTmp.setValue(mVok.get(n).Bed2);
 				GetNextLineFromString(strContent, refStrTmp);
-				mVok[n].Bed2 = refStrTmp.getValue();
+				mVok.get(n).Bed2 = refStrTmp.getValue();
 				
-				refStrTmp.setValue(mVok[n].Bed3);
+				refStrTmp.setValue(mVok.get(n).Bed3);
 				GetNextLineFromString(strContent, refStrTmp);
-				mVok[n].Bed3 = refStrTmp.getValue();
+				mVok.get(n).Bed3 = refStrTmp.getValue();
 				
 				refStrTmp.setValue(strTmp);
 				GetNextLineFromString(strContent, refStrTmp);
 				strTmp = refStrTmp.getValue();
 				
-				mVok[n].z = (short) Integer.parseInt(strTmp);
-				if (libString.IsNullOrEmpty(mVok[n].Wort)) {
+				mVok.get(n).z = (short) Integer.parseInt(strTmp);
+				if (libString.IsNullOrEmpty(mVok.get(n).Wort)) {
 					libLearn.gStatus = "Vokabel.LoadFromString Line 709";
 					// Inserted by CodeCompleter
-					n  -= 1;
-					lib.ResizeArray(mVok, n + 1);
+					mVok.remove(n);
+					n  = (short) (mVok.size()-1);
+					//lib.ResizeArray(mVok, n + 1);
 				}
 
 			}
 			mGesamtzahl = n;
 			mIndex = 1;
-			closefile:
+			
 
 			// ******** Hier gehts hin wenn ein Fehler auftrit oder wenn _
 			//' ******** Schluß ist.....
@@ -1816,7 +1773,8 @@ public class Vokabel {
 		public void NewFile()
 		{
 			mLernVokabeln = new int[mSchrittweite + 1];
-			mVok = new typVok[1];
+			mVok = new ArrVok();
+			mVok.add(new typVok());
 			mLastIndex = 0;
 			mGesamtzahl = 0;
 			mIndex = 0;
@@ -1838,24 +1796,16 @@ public class Vokabel {
 				short h = 0;
 				short hh = 0;
 				short qf = 0;
-				short einst = 0;
-				boolean tasta = false;
-				String ext = "   ";
 				short n = 0;
 				short lad = 0;
 				short indexlang = 0;
-				boolean varbed = false;
 				String fontfil = null;
-				String Sprache = null;
-				String tastbel = null;
 				String strTmp = null;
 				java.io.InputStreamReader isr = null;
 				java.io.FileInputStream  is = null;
 				java.io.BufferedReader sr = null;
 				String tmp = null;
 				fontfil = "";
-				Sprache = "";
-				tastbel = "";
 				strTmp = "";
 				mLernVokabeln = new int[mSchrittweite + 1];
 				mLastIndex = 0;
@@ -1868,34 +1818,43 @@ public class Vokabel {
 				libLearn.gStatus = CodeLoc + " Open Stream";
 				// Inserted by CodeCompleter
 				java.io.File F = new java.io.File(strFileName);
-				if (F.exists()) {
-					is = new java.io.FileInputStream(F);
-					isr = new java.io.InputStreamReader(is, (blnUnicode ? Charset.defaultCharset() : Charset.availableCharsets().get("Windows-1252")));
-					sr = new java.io.BufferedReader(isr);
-				} else {
-					lib.ShowMessage(getContext(), getContext().getString(R.string.FileDoesNotExist));
-					//Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc & "", "Dateiname_ungültig", "", "")
-					return;
+				do
+				{
+					if (F.exists()) {
+						is = new java.io.FileInputStream(F);
+						isr = new java.io.InputStreamReader(is, (blnUnicode ? Charset.defaultCharset() : Charset.availableCharsets().get("Windows-1252")));
+						sr = new java.io.BufferedReader(isr);
+					} else {
+						lib.ShowMessage(getContext(), getContext().getString(R.string.FileDoesNotExist));
+						//Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc & "", "Dateiname_ungültig", "", "")
+						return;
+					}
+					_UniCode = (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8"));
+					if (lib.getExtension(F).toLowerCase().indexOf(".k") != -1)
+						_cardmode = true;
+					else
+						_cardmode = false;
+					libLearn.gStatus = CodeLoc + " ReadLine1";
+					tmp = sr.readLine();
+					try
+					{
+						sp = (short) Integer.parseInt(tmp.trim());
+					}
+					catch (NumberFormatException ex)
+					{
+						lib.ShowException(getContext(), ex);
+						sp -=1;
+						blnUnicode = !blnUnicode;
+					}
 				}
-				_UniCode = (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8"));
-				if (lib.getExtension(F).toLowerCase().indexOf(".k") != -1)
-					_cardmode = true;
-				else
-					_cardmode = false;
-				libLearn.gStatus = CodeLoc + " ReadLine1";
-				tmp = sr.readLine();
-				sp = (short) Integer.parseInt(tmp);
-				einst = (short) (sp & (int)((Math.pow(2, 16)) - 256));
+				while (sp==-1);
 				varHebr = (sp & 16) != 0;
-				varbed = (sp & 64) != 0;
-				tasta = (sp & 32) != 0;
 				libLearn.gStatus = CodeLoc + " Line 819";
 				// Inserted by CodeCompleter
 				indexlang = (short) (sp & 7);
 				if (!blnAppend)
 					lib.setEnumOrdinal(mSprache,indexlang);
 				if ((sp & 128) != 0) {
-					tastbel = sr.readLine();
 					fontfil = sr.readLine();
 					if (!blnAppend)
 					{
@@ -1923,56 +1882,58 @@ public class Vokabel {
 					n = (short) mGesamtzahl;
 				for (String x = sr.readLine(); x != null; x = sr.readLine()) 
 				{
-					n  += 1;
-					mVok = lib.ResizeArray(mVok, n + 1);
+					mVok.add(new typVok());
+					n  = (short)(mVok.size()-1);
+					//mVok = lib.ResizeArray(mVok, n + 1);
 					libLearn.gStatus = CodeLoc + " ReadLine2";
-					mVok[n].Wort = x.replace("{CR}", "\r").replace("{LF}", "\n");
-					qf = (short) libString.InStr(mVok[n].Wort, libString.Chr(0));
+					mVok.get(n).Wort = x.replace("{CR}", "\r").replace("{LF}", "\n");
+					qf = (short) libString.InStr(mVok.get(n).Wort, libString.Chr(0));
 					if (qf == 0)
-						qf = (short) libString.InStr(mVok[n].Wort, libString.Chr(8));
+						qf = (short) libString.InStr(mVok.get(n).Wort, libString.Chr(8));
 					if (qf != 0) {
-						mVok[n].Kom = libString.Right(mVok[n].Wort, libString.Len(mVok[n].Wort) - qf);
+						mVok.get(n).Kom = libString.Right(mVok.get(n).Wort, libString.Len(mVok.get(n).Wort) - qf);
 						libLearn.gStatus = CodeLoc + " Line 839";
 						// Inserted by CodeCompleter
-						mVok[n].Wort = libString.Left(mVok[n].Wort, qf - 1);
+						mVok.get(n).Wort = libString.Left(mVok.get(n).Wort, qf - 1);
 					} else {
-						mVok[n].Kom = "";
+						mVok.get(n).Kom = "";
 					}
 					libLearn.gStatus = CodeLoc + " ReadLine3";
 					if (!((x=sr.readLine()) == null)) {
-						mVok[n].Bed1 = x.replace("{CR}", "\r").replace("{LF}", "\n");
+						mVok.get(n).Bed1 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 					}
 					if (!blnSingleLine) {
 						if (!((x=sr.readLine()) == null)) {
 							libLearn.gStatus = CodeLoc + " ReadLine4";
-							mVok[n].Bed2 = x.replace("{CR}", "\r").replace("{LF}", "\n");
+							mVok.get(n).Bed2 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 						}
 						libLearn.gStatus = CodeLoc + " Line 849";
 						// Inserted by CodeCompleter
 						if (!((x=sr.readLine()) == null)) {
 							libLearn.gStatus = CodeLoc + " ReadLine5";
-							mVok[n].Bed3 = x.replace("{CR}", "\r").replace("{LF}", "\n");
+							mVok.get(n).Bed3 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 						}
 					} else {
-						mVok[n].Bed2 = "";
-						mVok[n].Bed3 = "";
+						mVok.get(n).Bed2 = "";
+						mVok.get(n).Bed3 = "";
 					}
 					if (!((x=sr.readLine()) == null)) {
 						libLearn.gStatus = CodeLoc + " ReadLine6";
 						strTmp = x;
-						mVok[n].z = (short) Integer.parseInt(strTmp);
+						mVok.get(n).z = (short) Integer.parseInt(strTmp);
 					}
-					if (libString.IsNullOrEmpty(mVok[n].Wort)) {
-						n  -= 1;
+					if (libString.IsNullOrEmpty(mVok.get(n).Wort)) {
+						mVok.remove(n);
+						n  = (short) (mVok.size()-1);
 						libLearn.gStatus = CodeLoc + " Line 859";
 						// Inserted by CodeCompleter
-						mVok = lib.ResizeArray(mVok, n + 1);
+						//mVok = lib.ResizeArray(mVok, n + 1);
 					} else {
-						mVok[n].Wort = mVok[n].Wort.replace("ùú", "\r\n");
-						mVok[n].Kom = mVok[n].Kom.replace("ùú", "\r\n");
-						mVok[n].Bed1 = mVok[n].Bed1.replace("ùú", "\r\n");
-						mVok[n].Bed2 = mVok[n].Bed2.replace("ùú", "\r\n");
-						mVok[n].Bed3 = mVok[n].Bed3.replace("ùú", "\r\n");
+						mVok.get(n).Wort = mVok.get(n).Wort.replace("ùú", "\r\n");
+						mVok.get(n).Kom = mVok.get(n).Kom.replace("ùú", "\r\n");
+						mVok.get(n).Bed1 = mVok.get(n).Bed1.replace("ùú", "\r\n");
+						mVok.get(n).Bed2 = mVok.get(n).Bed2.replace("ùú", "\r\n");
+						mVok.get(n).Bed3 = mVok.get(n).Bed3.replace("ùú", "\r\n");
 					}
 					libLearn.gStatus = CodeLoc + " End While";
 				}
@@ -2098,21 +2059,21 @@ public class Vokabel {
 			while (!sr.EndOfStream) {
 				n = n + 1;
 				Array.Resize(ref mVok, n + 1);
-				mVok[n].Wort = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
-				qf = libString.InStr(mVok[n].Wort, libString.Chr(0));
+				mVok.get(n).Wort = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
+				qf = libString.InStr(mVok.get(n).Wort, libString.Chr(0));
 				if (qf == 0)
-					qf = libString.InStr(mVok[n].Wort, libString.Chr(8));
+					qf = libString.InStr(mVok.get(n).Wort, libString.Chr(8));
 				if (qf != 0) {
-					mVok[n].Kom = libString.Right(mVok[n].Wort, libString.Len(mVok[n].Wort) - qf);
+					mVok.get(n).Kom = libString.Right(mVok.get(n].Wort, libString.Len(mVok[n).Wort) - qf);
 					libLearn.gStatus = "Vokabel.LoadFile Line 839";
 					// Inserted by CodeCompleter
-					mVok[n].Wort = libString.Left(mVok[n].Wort, qf - 1);
+					mVok.get(n).Wort = libString.Left(mVok.get(n).Wort, qf - 1);
 				} else {
-					mVok[n].Kom = "";
+					mVok.get(n).Kom = "";
 				}
 				String WordConvert = "";
 				char cTest = '\0';
-				foreach (char c in mVok[n].Wort) {
+				foreach (char c in mVok.get(n).Wort) {
 					String cConv = c;
 					if (this.Sprache == EnumSprachen.Hebrew) {
 						this.aend = true;
@@ -2126,38 +2087,38 @@ public class Vokabel {
 
 				}
 
-				mVok[n].Wort = WordConvert;
+				mVok.get(n).Wort = WordConvert;
 				if (!sr.EndOfStream) {
-					mVok[n].Bed1 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
+					mVok.get(n).Bed1 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
 				}
 				if (!blnSingleLine) {
 					if (!sr.EndOfStream) {
-						mVok[n].Bed2 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
+						mVok.get(n).Bed2 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
 					}
 					libLearn.gStatus = "Vokabel.LoadFile Line 849";
 					// Inserted by CodeCompleter
 					if (!sr.EndOfStream) {
-						mVok[n].Bed3 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
+						mVok.get(n).Bed3 = sr.readLine().replace("{CR}", "\r").replace("{LF}", "\n");
 					}
 				} else {
-					mVok[n].Bed2 = "";
-					mVok[n].Bed3 = "";
+					mVok.get(n).Bed2 = "";
+					mVok.get(n).Bed3 = "";
 				}
 				if (!sr.EndOfStream) {
 					strTmp = sr.readLine();
-					mVok[n].z = Conversion.Val(strTmp);
+					mVok.get(n).z = Conversion.Val(strTmp);
 				}
-				if (libString.IsNullOrEmpty(mVok[n].Wort)) {
+				if (libString.IsNullOrEmpty(mVok.get(n).Wort)) {
 					n = n - 1;
 					libLearn.gStatus = "Vokabel.LoadFile Line 859";
 					// Inserted by CodeCompleter
 					Array.Resize(ref mVok, n + 1);
 				} else {
-					mVok[n].Wort = mVok[n].Wort.replace("ùú", "\r\n");
-					mVok[n].Kom = mVok[n].Kom.replace("ùú", "\r\n");
-					mVok[n].Bed1 = mVok[n].Bed1.replace("ùú", "\r\n");
-					mVok[n].Bed2 = mVok[n].Bed2.replace("ùú", "\r\n");
-					mVok[n].Bed3 = mVok[n].Bed3.replace("ùú", "\r\n");
+					mVok.get(n).Wort = mVok.get(n).Wort.replace("ùú", "\r\n");
+					mVok.get(n).Kom = mVok.get(n).Kom.replace("ùú", "\r\n");
+					mVok.get(n).Bed1 = mVok.get(n).Bed1.replace("ùú", "\r\n");
+					mVok.get(n).Bed2 = mVok.get(n).Bed2.replace("ùú", "\r\n");
+					mVok.get(n).Bed3 = mVok.get(n).Bed3.replace("ùú", "\r\n");
 				}
 
 			}
@@ -2542,9 +2503,9 @@ public class Vokabel {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			libLearn.gStatus = "Vokabel.Class_Initialize Start";
-			mVok = new typVok[2];
+			mVok = new ArrVok();
 
-            mVok[0] = new typVok("empty", "empty", "empty", "empty", "empty", (short) 0);
+            mVok.add(new typVok("empty", "empty", "empty", "empty", "empty", (short) 0));
 			libLearn.gStatus = "Vokabel.Class_Initialize Line 1228";
 			// Inserted by CodeCompleter
 			mConfirmChanges = true;
@@ -2577,7 +2538,7 @@ public class Vokabel {
 		{
 			if (Container != null)
 			{
-				return Container.getBaseContext();
+				return Container;
 			}
 			else
 			{
