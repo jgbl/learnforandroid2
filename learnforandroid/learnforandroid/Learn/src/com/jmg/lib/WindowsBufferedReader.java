@@ -1,6 +1,7 @@
 package com.jmg.lib;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Reader;
 
 public class WindowsBufferedReader extends BufferedReader {
@@ -16,9 +17,18 @@ public class WindowsBufferedReader extends BufferedReader {
 	}
 	
 	@Override
-	public String readLine()
+	public String readLine() throws IOException
 	{
-		return this.readLine().replace("\r", "");
+		
+		String s = super.readLine();
+		int length = s.length();
+		char c = s.charAt(0);
+		int ic = c;
+		if (ic == 65279 && length > 1)
+		{
+			s = s.substring(1);
+		}
+		return s;
 	}
 
 }

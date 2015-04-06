@@ -4,6 +4,8 @@
 import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.channels.FileChannel;
+import java.util.EnumSet;
+import java.util.Enumeration;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -220,15 +222,11 @@ public class lib
 		return strBed;
 
 	}
-	public static void setEnumOrdinal(Enum object, int ordinal) throws RuntimeException
+	public static <T> void setEnumOrdinal(T object, int ordinal) throws RuntimeException
 	{
-	    Field field;
-	    try {
-	        field = object.getClass().getSuperclass().getDeclaredField("ordinal");
-	        field.setAccessible(true);
-	        field.set(object, ordinal);
-	    } catch (Exception ex) {
-	        throw new RuntimeException("Can't update enum ordinal: " + ex);
+	    for(T value: EnumSet.allOf((Class<T>) object))
+	    {
+	    	
 	    }
 	}
 	/**

@@ -8,12 +8,14 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
 import android.widget.TextView;
 
 import com.jmg.learn.*;
+import com.jmg.lib.WindowsBufferedReader;
 import com.jmg.lib.lib;
 import com.jmg.lib.RefSupport;
 import com.jmg.lib.lib.libString;
@@ -1803,7 +1805,7 @@ public class Vokabel {
 				String strTmp = null;
 				java.io.InputStreamReader isr = null;
 				java.io.FileInputStream  is = null;
-				java.io.BufferedReader sr = null;
+				WindowsBufferedReader sr = null;
 				String tmp = null;
 				fontfil = "";
 				strTmp = "";
@@ -1823,14 +1825,14 @@ public class Vokabel {
 					if (F.exists()) {
 						is = new java.io.FileInputStream(F);
 						isr = new java.io.InputStreamReader(is, (blnUnicode ? Charset.defaultCharset() : Charset.availableCharsets().get("Windows-1252")));
-						sr = new java.io.BufferedReader(isr);
+						sr = new WindowsBufferedReader(isr);
 					} else {
 						lib.ShowMessage(getContext(), getContext().getString(R.string.FileDoesNotExist));
 						//Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc & "", "Dateiname_ungültig", "", "")
 						return;
 					}
 					_UniCode = (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8"));
-					if (lib.getExtension(F).toLowerCase().indexOf(".k") != -1)
+					if (lib.getExtension(F).toLowerCase(Locale.getDefault()).indexOf(".k") != -1)
 						_cardmode = true;
 					else
 						_cardmode = false;

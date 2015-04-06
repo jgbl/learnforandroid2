@@ -14,6 +14,7 @@ import com.jmg.learn.vok.*;
 import com.jmg.lib.*;
 
 import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -25,12 +26,14 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity {
 	
 	private static final int FILE_CHOOSER = 34823;
+	private Context context = this;
 	public Vokabel vok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+                
         try {
 			vok = new Vokabel(this,(TextView) this.findViewById(R.id.txtStatus));
 		} catch (Exception e) {
