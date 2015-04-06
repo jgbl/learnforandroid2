@@ -222,16 +222,15 @@ public class lib
 		return strBed;
 
 	}
+	
 	/*
-	@SuppressWarnings("unchecked")
-	public static <T> void setEnumOrdinal(T object, int ordinal) throws RuntimeException
+	public static <E> getEnumByOrdinal(<E> object, int ordinal) throws RuntimeException
 	{
-	    for(T value: EnumSet.allOf((Class<E>) object));
-	    {
-	    	
-	    }
+	   E value;
+		return value;
 	}
 	*/
+	
 	/**
 	 * Returns a pseudo-random number between min and max, inclusive.
 	 * The difference between min and max can be at most

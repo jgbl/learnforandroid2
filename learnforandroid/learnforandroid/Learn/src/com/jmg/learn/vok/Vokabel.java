@@ -1020,7 +1020,8 @@ public class Vokabel {
 	                	{
 	                		if (b.ordinal()==aehnlich)
 	                		{
-	                			functionReturnValue = b
+	                			functionReturnValue = b;
+	                			break;
 	                		}
 	                	}
 	                    //lib.setEnumOrdinal(functionReturnValue, aehnlich);	                	
@@ -1592,7 +1593,15 @@ public class Vokabel {
 			indexlang = (short) (sp & 7);
 			libLearn.gStatus = "Vokabel.LoadFromString Line 679";
 			// Inserted by CodeCompleter
-			lib.setEnumOrdinal(mSprache, indexlang);
+			//lib.setEnumOrdinal(mSprache, indexlang);
+			for (EnumSprachen Sprache: EnumSprachen.values())
+			{
+				if (Sprache.ordinal() == indexlang)
+				{
+					mSprache = Sprache;
+					break;
+				}
+			}
 			if ((sp & 128) != 0) {
 				refStrTmp.setValue(tastbel);
 				GetNextLineFromString(strContent, refStrTmp);
@@ -1694,20 +1703,20 @@ public class Vokabel {
 		    public void Getfonts(RefSupport<String> fontfil, RefSupport<Object> refhh, RefSupport<Object> refh, RefSupport<Object> refindexLang, RefSupport<Object> refqf, RefSupport<Object> reflad) throws Exception 
 		    {
 		        //getfonts:,// ********** Hier werden die Fonts 'extrahiert'
-		        int h = (Integer)refh.getValue();
-		    	int hh = (Integer)refhh.getValue();
-		    	int indexLang = (Integer) refindexLang.getValue();
-		    	int qf = (Integer)refqf.getValue();
+		        short h = (Short)refh.getValue();
+		    	short hh = (Short)refhh.getValue();
+		    	short indexLang = (Short) refindexLang.getValue();
+		    	short qf = (Short)refqf.getValue();
 		        hh = 1;
 		        if ((fontfil.getValue().indexOf(",")) > -1)
 		        {
 		            fontfil.setValue(fontfil.getValue() + ",");
-		            h=((fontfil.getValue().indexOf(",",hh-1))+1);
+		            h=(short) ((fontfil.getValue().indexOf(",",hh-1))+1);
 		            if (h != 0 && h - hh > 0)
-		                indexLang=(Integer.parseInt(fontfil.getValue().substring(hh-1, h - 1)));
+		                indexLang=(short) (Integer.parseInt(fontfil.getValue().substring(hh-1, h - 1)));
 		             
 		            hh += 1;
-		            h = ((fontfil.getValue().indexOf(",", hh-1) )+1);
+		            h = (short) ((fontfil.getValue().indexOf(",", hh-1) )+1);
 		            try
 		            {
 		                if (h != 0 && h - hh > 0)
@@ -1725,10 +1734,10 @@ public class Vokabel {
 		                } 
 		            }
 
-		            hh=h + 1;
+		            hh=(short) (h + 1);
 		            for (qf=1;qf <= 3;qf++)
 		            {
-		                h=(fontfil.getValue().indexOf(",",hh-1))+1;
+		                h=(short) ((fontfil.getValue().indexOf(",",hh-1))+1);
 		                if (h != 0 && h - hh > 0)
 		                {
 		                    switch(qf)
@@ -1746,8 +1755,8 @@ public class Vokabel {
 		                    }
 		                }
 		                 
-		                hh=h+1;
-		                h=(fontfil.getValue().indexOf(",",hh-1))+1;
+		                hh=(short) (h+1);
+		                h=(short) ((fontfil.getValue().indexOf(",",hh-1))+1);
 		                if (h != 0 & h - hh > 0)
 		                {
 		                    switch(qf)
@@ -1765,7 +1774,7 @@ public class Vokabel {
 		                    }
 		                }
 		                 
-		                hh=(h + 1);
+		                hh=(short) (h + 1);
 		            }
 		            reflad.setValue(-1);
 		        }
@@ -1854,6 +1863,9 @@ public class Vokabel {
 						lib.ShowException(getContext(), ex);
 						sp -=1;
 						blnUnicode = !blnUnicode;
+						if (sr!= null) sr.close();
+						if (isr!= null) isr.close();
+						if (is!=null) is.close();
 					}
 				}
 				while (sp==-1);
@@ -1862,9 +1874,20 @@ public class Vokabel {
 				// Inserted by CodeCompleter
 				indexlang = (short) (sp & 7);
 				if (!blnAppend)
-					lib.setEnumOrdinal(mSprache,indexlang);
+				{
+					for (EnumSprachen Sprache: EnumSprachen.values())
+					{
+						if (Sprache.ordinal() == indexlang)
+						{
+							mSprache = Sprache;
+							break;
+						}
+					}
+				}
 				if ((sp & 128) != 0) {
-					fontfil = sr.readLine();
+					String x;
+					while ((x = sr.readLine()).length()==0);
+					fontfil = x;
 					if (!blnAppend)
 					{
 						RefSupport<String> refVar___0 = new RefSupport<String>(fontfil);
@@ -1891,6 +1914,7 @@ public class Vokabel {
 					n = (short) mGesamtzahl;
 				for (String x = sr.readLine(); x != null; x = sr.readLine()) 
 				{
+					if (x == "") continue;
 					mVok.add(new typVok());
 					n  = (short)(mVok.size()-1);
 					//mVok = lib.ResizeArray(mVok, n + 1);
