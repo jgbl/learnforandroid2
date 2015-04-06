@@ -1016,7 +1016,14 @@ public class Vokabel {
 	            {
 	                functionReturnValue = Bewertung.AllesFalsch;
 	                if (aehnlich > 0)
-	                    lib.setEnumOrdinal(functionReturnValue, aehnlich);	                	
+	                	for (Bewertung b: Bewertung.values())
+	                	{
+	                		if (b.ordinal()==aehnlich)
+	                		{
+	                			functionReturnValue = b
+	                		}
+	                	}
+	                    //lib.setEnumOrdinal(functionReturnValue, aehnlich);	                	
 	            }
 	             
 	        }
