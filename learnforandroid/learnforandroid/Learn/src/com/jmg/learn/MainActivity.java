@@ -18,7 +18,9 @@ import android.text.SpannedString;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -31,6 +33,9 @@ public class MainActivity extends ActionBarActivity {
 	private Button _btnWrong;
 	private Button _btnSkip;
 	private Button _btnView;
+	private EditText _txtMeaning1;
+	private EditText _txtMeaning2;
+	private EditText _txtMeaning3;
 	
 	public Vokabel vok;
 
@@ -46,8 +51,14 @@ public class MainActivity extends ActionBarActivity {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
 		}
-        CopyAsstes();
-        InitButtons();
+        CopyAssets();
+        try {
+			InitButtons();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			lib.ShowException(this, e);
+		}
         
         
     }
@@ -110,7 +121,7 @@ public class MainActivity extends ActionBarActivity {
     	return true;
     }
     
-    private void InitButtons()
+    private void InitButtons() throws Exception
     {
     	View v = findViewById(R.id.btnRight);
     	Button b = (Button)v;
@@ -180,7 +191,20 @@ public class MainActivity extends ActionBarActivity {
 				
 			}
 		});
-    	
+    	_txtMeaning1 = (EditText)findViewById(R.id.txtMeaning1);
+    	_txtMeaning2 = (EditText)findViewById(R.id.txtMeaning2);
+    	_txtMeaning3 = (EditText)findViewById(R.id.txtMeaning3);
+    	if (_txtMeaning3.getBottom() > _btnRight.getTop())
+    	{
+    		double scale = _txtMeaning3.getBottom() + 20 - _btnRight.getTop();
+    		Display display = getWindowManager().getDefaultDisplay();
+    		@SuppressWarnings("deprecation")
+			int height = display.getHeight();
+    		scale = (height-scale)/height;
+    		_txtMeaning1.setTextSize((float) (_txtMeaning1.getTextSize() * scale));
+    		_txtMeaning2.setTextSize((float) (_txtMeaning2.getTextSize() * scale));
+    		_txtMeaning3.setTextSize((float) (_txtMeaning3.getTextSize() * scale));
+    	}
     }
     
     private OnClickListener Click = new OnClickListener() {
@@ -192,7 +216,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 	};
     
-    private void CopyAsstes()
+    private void CopyAssets()
     {
     	
 		File F = android.os.Environment.getExternalStorageDirectory();
@@ -313,21 +337,19 @@ public class MainActivity extends ActionBarActivity {
 				vok.LoadFile(fileSelected);
 				if (vok.getCardMode())
 				{
-					EditText txtMeaning1 = (android.widget.EditText)findViewById(R.id.txtMeaning1);
-					txtMeaning1.setMaxLines(30);
-					txtMeaning1.setLines(20);
-					txtMeaning1.setTextSize(25);
-					findViewById(R.id.txtMeaning2).setVisibility(View.GONE);
-					findViewById(R.id.txtMeaning3).setVisibility(View.GONE);
+					_txtMeaning1.setMaxLines(30);
+					_txtMeaning1.setLines(20);
+					_txtMeaning1.setTextSize(20);
+					_txtMeaning2.setVisibility(View.GONE);
+					_txtMeaning3.setVisibility(View.GONE);
 				}
 				else
 				{
-					EditText txtMeaning1 = (android.widget.EditText)findViewById(R.id.txtMeaning1);
-					txtMeaning1.setMaxLines(10);
-					txtMeaning1.setLines(2);
-					txtMeaning1.setTextSize(45);
-					findViewById(R.id.txtMeaning2).setVisibility(View.VISIBLE);
-					findViewById(R.id.txtMeaning3).setVisibility(View.VISIBLE);
+					_txtMeaning1.setMaxLines(10);
+					_txtMeaning1.setLines(2);
+					_txtMeaning1.setTextSize(40);
+					_txtMeaning2.setVisibility(View.VISIBLE);
+					_txtMeaning3.setVisibility(View.VISIBLE);
 				}
 					
 				getVokabel(false,false);

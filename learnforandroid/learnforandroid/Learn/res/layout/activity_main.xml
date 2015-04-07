@@ -41,7 +41,7 @@
         android:minLines="2"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="45sp" />
+        android:textSize="40sp" />
 
     <EditText
         android:id="@+id/txtMeaning1"
@@ -57,7 +57,7 @@
         android:minLines="2"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="45sp" >
+        android:textSize="40sp" >
 
         <requestFocus />
     </EditText>
@@ -76,7 +76,7 @@
         android:minLines="2"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="45sp" />
+        android:textSize="40sp" />
 
 <RelativeLayout
     android:layout_centerInParent="true"

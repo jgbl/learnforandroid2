@@ -1814,7 +1814,7 @@ public class Vokabel implements Parcelable {
 		
 		public void LoadFile(String strFileName) throws Exception
 		{
-			LoadFile(strFileName, false, false, false);
+			LoadFile(strFileName, false, false, true);
 		}
 		
 		public void LoadFile(String strFileName, boolean blnSingleLine, boolean blnAppend, boolean blnUnicode) throws Exception
