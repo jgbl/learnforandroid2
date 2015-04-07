@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="EN"><head>
+<title>Java2Html converter</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="description" content="A freeware Java to HTML converter as applet, application or plugin for Kawa" />
+  <meta name="author" content="Markus Gebhard, markus@jave.de" />
+  <meta name="keywords" content="java2html, markus, gebhard, java, open, source, code, html, j2h, eclipse, plugin java2tex, java2tex, javatolatex, java2latex, javatohtml, converter, plugin, kawa, ide, applet, application" />
+  <meta name="ROBOTS" content="index,follow" />
+  <meta name="author" content="Markus Gebhard" />
+  <meta name="publisher" content="Markus Gebhard" />
+  <meta name="copyright" content="Markus Gebhard" />
+  <meta name="Content-Language" content="EN" />
+  <meta http-equiv="imagetoolbar" content="no" /><style type="text/css">
+  <!-- body { font-family: Verdana,Arial,Geneva,Helvetica; background-color: #FFFFFF; } -->
+  <!-- code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; } -->
+  <!-- pre { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; } -->
+  <!-- h1 {border-bottom:0px; padding-bottom:2px; padding-top:2px; margin:0px;} -->
+  <!-- h2 {margin:0px; padding-left:3px; padding-top:6px; height:32px; font-family: Verdana,Arial,Geneva,Helvetica; font-size: 13pt; background-image:url('../../design/h2_background.gif'); background-repeat:no-repeat; background-position: center left;} -->
+  <!-- h3 {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 11pt; } -->
+  <!-- h4 {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 10pt; font-weight: bold; } -->
+  <!-- table {border-collapse:separate} -->
+  <!-- table.layout {border-collapse:collapse; border-width:0px} --> 
+  <!-- td.navhead {font-family: Verdana,Arial,Geneva,Helvetica; font-weight: bold; font-size: 10pt; text-align:center; white-space:nowrap; background-color:#eaccb6} -->
+  <!-- td.navitem {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 10pt; padding-left: 5px; padding-top: 5px; padding-bottom:5px; text-align:left; white-space:nowrap; } -->
+  <!-- td.navhead a { text-decoration: none; color: black; } -->
+  <!-- td.navhead a:hover { text-decoration: underline; } -->
+  <!-- td.navitem a { text-decoration: none; } -->
+  <!-- td.navitem a:hover { text-decoration: underline; } -->
+  <!-- li { padding-bottom: 3px; } -->
+</style>  <link rel="icon" href="favicon.ico" />
+</head>
+<body>
+
+<a name="top"></a>
+
+<center>
+<table class="layout" border="0" width="100%">
+  <tr bgcolor="#f7e8dd" style="padding: 0px;">
+    <td rowspan="2" width="116" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/left_top_corner.gif" width="109" height="45" border="0" alt="" />
+    </td>
+    <td rowspan="2">
+      <center>
+<h1>Java2Html - JSPWiki Plugin</h1>
+      </center>
+    </td>
+    <td align="right" style="vertical-align:top; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/right_corner_top.gif" border="0" width="8" height="10" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" style="vertical-align:bottom; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../../design/right_corner_bottom.gif" border="0" width="8" height="9" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td rowspan="2" valign="top" style="padding: 0px; background-image: url('../../design/left_fill.gif'); background-repeat: repeat-y; background-position: top left; background-color:#f7e8dd;">    <!-- Navigation bar -->
+<table class="layout" style="padding: 0px;" bgcolor="#f7e8dd" border="0" width="100%">
+ <tr><td class="navhead"><a href="http://www.java2html.de">Java2Html</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#description">Description</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/news.html">News</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#features">Features</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#screenshot">Screenshots</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/applet.html">Online Converter</a></td></tr>
+ <tr><td><a href="https://www.paypal.com/affil/pal=markus%40jave.de" target="_blank"><img src="../../design/donate.gif" width="73" height="44" border="0" alt="donate" /></a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/download.html">Download</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/eclipse.html">Eclipse Plugin</a></td></tr>
+ <tr><td>&nbsp;</td></tr>
+
+ <tr><td class="navhead"><a href="http://www.java2html.de/docs/index.html">Documentation</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/index.html">Index</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/styles.html">Available Styles</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/api/index.html">JavaDoc API</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/anttask/index.html">Ant Task</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/wiki/jspwiki.html">JSPWiki Plugin</a></td></tr>
+
+ <tr><td>&nbsp;</td></tr>
+
+ <tr><td class="navhead">Links</td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/uses.html">Uses</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.jave.de/projects/index.html">Other Projects</a></td></tr>
+
+ <tr><td valign="top" style="padding: 0px; margin: 0px" align="left"><img style="padding: 0px; margin: 0px" src="../../design/left_middle.gif" width="103" height="32" alt="" /></td></tr>
+
+</table>
+    <!-- Navigation bar -->    </td>
+    <td align="left" style="vertical-align:top; padding: 0px; background-image: url('../../design/dark_pixel.gif'); background-repeat: repeat-x">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/left_top_inner_corner.gif" width="27" height="18" alt="" />
+    </td>
+    <td rowspan="3">
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#FFFFFF" align="left" valign="top" style="padding: 0px;">
+      <!-- Main content --><h2>JSPWiki Plugin</h2>
+<blockquote>
+	<p>The <code>java2html.jar</code> file in the download package contains a plugin for
+	the <a href="http://www.jspwiki.org">JSPWiki</a>.</p>
+	<p>The plugin class is: <code>de.java2html.plugin.jspwiki.Java2HtmlPlugin</code></p>
+</blockquote>
+
+<h2>Installation</h2>
+<blockquote>
+	<ol>
+		<li>Copy the <code>java2html.jar</code> file to the <code>lib</code> folder of your JSPWiki installation<br />
+ (for example to the folder <code>$TOMCAT_HOME/webapps/JSPWiki/WEB-INF/lib/</code>).</li>
+		<li>Add the package <code>de.java2html.plugin.jspwiki</code> to the plugin searchpath
+   in the file <code>WEB_INF/jspwiki.properties</code><br />
+   (for example <code>jspwiki.plugin.searchPath = de.java2html.plugin.jspwiki</code>).</li>
+		<li>optional: Edit the <code>*.css</code> files in the JSPWiki/templates/default folder to use a smaller font
+    for rendering <code>&lt;CODE&gt;</code>-Elements<br />
+    (for example add the line: <code>CODE { font-size: 12px }</code>).</li>
+		<li>Shutdown and restart tomcat.</li>
+	</ol>
+</blockquote>
+
+<h2>Usage</h2>
+<blockquote>
+	There are three alternative ways for using the plugin:
+	<ol>
+		<li><b>Multi line usage</b>
+		<blockquote>
+			Intended for including the Java source code in the wiki text. Example:
+			<blockquote>
+				<table border="1">
+					<tr>
+						<td><pre>[{Java2HtmlPlugin 
+
+public class HelloWorld {  
+  public static void main(String args[]) {
+    System.out.println("Hello World!");
+  }
+}
+}]</pre>
+						</td>
+					</tr>
+				</table>
+			</blockquote>
+			Note that there must be an empty line before the source code.
+		</blockquote></li>
+		<li><b>Attachment reference usage</b>
+		<blockquote>
+			Refers to a source code file attached to the current page. Example:
+			<blockquote>
+				<table border="1"><tr><td><pre>[{Java2HtmlPlugin attachment='HelloWorld.java'}]</pre></td></tr></table>
+			</blockquote>
+		</blockquote></li>
+		<li><b>Url reference usage</b>
+			<blockquote>
+				<p>Refers to a source code file given by a <code>http:</code> or <code>file:</code> Url.</p>
+
+				<p>Note: For security reasons this feature is disabled by default. As a file from the given Url is read on the
+    server, this feature could allow people to visualize any file on your server. To enable http or file access
+    you have to add the following lines to your <code>jspwiki.properties</code> file:</p>
+				<blockquote>
+					<code>de.java2html.http.url.enabled=true</code><br />
+					<code>de.java2html.file.url.enabled=true</code>
+				</blockquote>
+
+				Example usage:
+				<blockquote>
+					<table border="1"><tr><td><pre>[{Java2HtmlPlugin url='file:F:/src/de/java2html/plugin/jspwiki/Java2HtmlPlugin.java'}]</pre></td></tr></table>
+				</blockquote>
+			</blockquote>
+		</li>
+	</ol>
+</blockquote>
+
+<h2>Options</h2>
+<blockquote>
+	There are multiple options available for adjusting the output of the converter:
+	<blockquote>
+		<table border="1">
+			<tr>
+				<th>Parameter</th>
+				<th>Description</th>
+				<th>Example</th>
+			</tr>
+			<tr>
+				<td><code>style</code></td>
+				<td>
+        Adjusts the output style. The style must be one of the predefined <a href="../styles.html">Java2Html styles</a>.
+        Default is <code>Eclipse</code>.
+				</td>
+				<td><code>style='monochrome'</code></td>
+			</tr>
+			<tr>
+				<td><code>border</code></td>
+				<td>        boolean flag for rendering a table border around the converted result. Default is <code>false</code>.</td>
+				<td><code>border='true'</code></td>
+			</tr>
+			<tr>
+				<td><code>lineNumbers</code></td>
+				<td>boolean flag for rendering line numbers. Default is <code>false</code>.</td>
+				<td><code>lineNumbers='true'</code></td>
+			</tr>
+			<tr>
+				<td><code>tabSize</code></td>
+				<td>number of spaces representing a tab character. Default is <code>2</code>.</td>
+				<td><code>tabSize='4'</code></td>
+			</tr>
+			<tr>
+				<td><code>alignment</code></td>
+				<td>
+        Specifies the horizontal alignment of the output. Supported values are <code>left</code>, <code>center</code>, <code>right</code>. Default is <code>left</code>.
+				</td>
+				<td><code>alignment='center'</code></td>
+			</tr>
+			<tr>
+				<td><code>printVersion</code></td>
+				<td>If this property is set the plugin does nothing but printing its name and version number.</td>
+				<td><code>printVersion='true'</code></td>
+			</tr>
+		</table>
+	</blockquote>
+</blockquote>
+
+<h2>Properties file</h2>
+<blockquote>
+	<p>In order to specify default options for the Java2Html plugin you can also put
+	a <a href="../properties.html"><code>java2html.properties</code></a> file
+	on the classpath.</p>
+
+	<p>I recommend doing so by putting the file into the folder
+	<code>webapps/JSPWiki/WEB-INF/classes/</code>.
+	Don't forget to shutdown and restart Tomcat to activate the changes.</p>
+</blockquote>
+      <!-- Main content -->
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#f7e8dd" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/left_bottom_corner_top.gif" width="103" height="32" border="0" alt="" />
+    </td>
+    <td align="left" style="vertical-align:bottom; padding: 0px;">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../../design/left_bottom_inner_corner.gif" width="27" height="18" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" bgcolor="#f7e8dd" style="vertical-align:middle; padding: 0px;">
+      <a href="http://validator.w3.org/check?uri=referer"><img
+          src="../../design/valid-xhtml10.png"
+          alt="Valid XHTML 1.0!" height="31" width="88" border="0" /></a>
+    </td>
+    <td align="left" bgcolor="#f7e8dd" rowspan="2"><table>
+  <tr>
+    <td align="left" valign="top">
+<address>
+&copy; Markus Gebhard (markus@jave.de), 2000 - 2006<br />
+last modified:&nbsp;Feb 5, 2006</address>
+    </td>
+    <td>&nbsp;&nbsp;</td>
+<!--    <td align="center" valign="middle">
+      <a href="http://sourceforge.net/projects/jdemo/"><img src="http://sourceforge.net/sflogo.php?group_id=91566&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+    </td>-->
+  </tr>
+</table>    </td>
+    <td align="right" style="vertical-align:top; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/right_corner_top.gif" width="8" height="10" border="0" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#f7e8dd" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/left_bottom_corner.gif" width="116" height="40" alt=""/>
+    </td>
+    <td align="right" style="vertical-align:bottom; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../../design/right_corner_bottom.gif" width="8" height="9" border="0" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td style="vertical-align:top; padding: 0px; background-image: url('../../design/dark_pixel.gif'); background-repeat: repeat-x">
+    </td>
+    <td></td>
+  </tr>
+
+
+</table>
+
+</center>
+</body></html><!-- Source files: 
+ F:\PRJ31\Website_Java2Html\src\docs\wiki\..\..\copyright.content
+ F:\PRJ31\Website_Java2Html\src\docs\wiki\..\..\navigation_bar.content
+ F:\PRJ31\Website_Java2Html\src\docs\wiki\..\..\sites.template
+ F:\PRJ31\Website_Java2Html\src\docs\wiki\..\..\style.content
+ F:\PRJ31\Website_Java2Html\src\docs\wiki\jspwiki.page
+-->

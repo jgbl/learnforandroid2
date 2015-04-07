@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="EN"><head>
+<title>Java2Html converter</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="description" content="A freeware Java to HTML converter as applet, application or plugin for Kawa" />
+  <meta name="author" content="Markus Gebhard, markus@jave.de" />
+  <meta name="keywords" content="java2html, markus, gebhard, java, open, source, code, html, j2h, eclipse, plugin java2tex, java2tex, javatolatex, java2latex, javatohtml, converter, plugin, kawa, ide, applet, application" />
+  <meta name="ROBOTS" content="index,follow" />
+  <meta name="author" content="Markus Gebhard" />
+  <meta name="publisher" content="Markus Gebhard" />
+  <meta name="copyright" content="Markus Gebhard" />
+  <meta name="Content-Language" content="EN" />
+  <meta http-equiv="imagetoolbar" content="no" /><style type="text/css">
+  <!-- body { font-family: Verdana,Arial,Geneva,Helvetica; background-color: #FFFFFF; } -->
+  <!-- code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; } -->
+  <!-- pre { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; } -->
+  <!-- h1 {border-bottom:0px; padding-bottom:2px; padding-top:2px; margin:0px;} -->
+  <!-- h2 {margin:0px; padding-left:3px; padding-top:6px; height:32px; font-family: Verdana,Arial,Geneva,Helvetica; font-size: 13pt; background-image:url('../../design/h2_background.gif'); background-repeat:no-repeat; background-position: center left;} -->
+  <!-- h3 {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 11pt; } -->
+  <!-- h4 {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 10pt; font-weight: bold; } -->
+  <!-- table {border-collapse:separate} -->
+  <!-- table.layout {border-collapse:collapse; border-width:0px} --> 
+  <!-- td.navhead {font-family: Verdana,Arial,Geneva,Helvetica; font-weight: bold; font-size: 10pt; text-align:center; white-space:nowrap; background-color:#eaccb6} -->
+  <!-- td.navitem {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 10pt; padding-left: 5px; padding-top: 5px; padding-bottom:5px; text-align:left; white-space:nowrap; } -->
+  <!-- td.navhead a { text-decoration: none; color: black; } -->
+  <!-- td.navhead a:hover { text-decoration: underline; } -->
+  <!-- td.navitem a { text-decoration: none; } -->
+  <!-- td.navitem a:hover { text-decoration: underline; } -->
+  <!-- li { padding-bottom: 3px; } -->
+</style>  <link rel="icon" href="favicon.ico" />
+</head>
+<body>
+
+<a name="top"></a>
+
+<center>
+<table class="layout" border="0" width="100%">
+  <tr bgcolor="#f7e8dd" style="padding: 0px;">
+    <td rowspan="2" width="116" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/left_top_corner.gif" width="109" height="45" border="0" alt="" />
+    </td>
+    <td rowspan="2">
+      <center>
+<h1>Java2Html - Ant Task</h1>
+      </center>
+    </td>
+    <td align="right" style="vertical-align:top; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/right_corner_top.gif" border="0" width="8" height="10" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" style="vertical-align:bottom; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../../design/right_corner_bottom.gif" border="0" width="8" height="9" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td rowspan="2" valign="top" style="padding: 0px; background-image: url('../../design/left_fill.gif'); background-repeat: repeat-y; background-position: top left; background-color:#f7e8dd;">    <!-- Navigation bar -->
+<table class="layout" style="padding: 0px;" bgcolor="#f7e8dd" border="0" width="100%">
+ <tr><td class="navhead"><a href="http://www.java2html.de">Java2Html</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#description">Description</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/news.html">News</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#features">Features</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#screenshot">Screenshots</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/applet.html">Online Converter</a></td></tr>
+ <tr><td><a href="https://www.paypal.com/affil/pal=markus%40jave.de" target="_blank"><img src="../../design/donate.gif" width="73" height="44" border="0" alt="donate" /></a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/download.html">Download</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/eclipse.html">Eclipse Plugin</a></td></tr>
+ <tr><td>&nbsp;</td></tr>
+
+ <tr><td class="navhead"><a href="http://www.java2html.de/docs/index.html">Documentation</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/index.html">Index</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/styles.html">Available Styles</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/api/index.html">JavaDoc API</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/anttask/index.html">Ant Task</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/wiki/jspwiki.html">JSPWiki Plugin</a></td></tr>
+
+ <tr><td>&nbsp;</td></tr>
+
+ <tr><td class="navhead">Links</td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/uses.html">Uses</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.jave.de/projects/index.html">Other Projects</a></td></tr>
+
+ <tr><td valign="top" style="padding: 0px; margin: 0px" align="left"><img style="padding: 0px; margin: 0px" src="../../design/left_middle.gif" width="103" height="32" alt="" /></td></tr>
+
+</table>
+    <!-- Navigation bar -->    </td>
+    <td align="left" style="vertical-align:top; padding: 0px; background-image: url('../../design/dark_pixel.gif'); background-repeat: repeat-x">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/left_top_inner_corner.gif" width="27" height="18" alt="" />
+    </td>
+    <td rowspan="3">
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#FFFFFF" align="left" valign="top" style="padding: 0px;">
+      <!-- Main content --><h2>Ant Task</h2>
+<blockquote>
+	<p>This task converts Java source files to HTML, TeX or other supported formats
+	using the Java2Html converter.</p>
+
+	<p><strong>Note:</strong> This task depends on external libraries not included
+	in the Ant distribution. You must have <code>java2html.jar</code> 
+	on the classpath or in Ants lib folder at <code>ANT_HOME/lib</code>.</p>
+</blockquote>
+
+<h2>Parameters</h2>
+<blockquote>
+	<table border="1" cellpadding="2" cellspacing="1">
+		<tr>
+  <td width="12%" valign="top"><b>Attribute</b></td>
+  <td width="78%" valign="top"><b>Description</b></td>
+  <td width="10%" valign="top"><b>Required</b></td>
+		</tr>
+		<tr>
+    <td valign="top">srcdir</td>
+    <td valign="top">Source folder containing files (or subfolders with files) for conversion.</td>
+    <td align="center" valign="top">No, default is the project directory</td>
+		</tr>
+		<tr>
+    <td valign="top">destdir</td>
+    <td valign="top">Destination folder for output of the converted files.</td>
+    <td align="center" valign="top">Yes</td>
+  </tr>
+  <tr>
+    <td valign="top">includes</td>
+    <td valign="top">File mask for input files, e.g. <code>**/*.java</code></td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">outputFormat</td>
+    <td valign="top">File format for conversion output. Valid values are all names of currently implemented converters, e.g.:
+	<ul>
+		<li><code>html</code> for XHTML 1.0 Transitional (inlined fonts)</li>
+		<li><code>xhtml11</code> for XHTML 1.1 (with stylesheet)</li>
+		<li><code>xhtml</code> for XHTML 1.0 transitional (with stylesheet)</li>
+		<li><code>tex</code> for TeX</li>
+		<li><code>rtf</code> for RTF</li>
+		<li><code>xml</code> for XML</li>
+	</ul>
+    </td>
+    <td align="center" valign="top">No, default is <code>html</code></td>
+		</tr>
+		<tr>
+    <td valign="top">tabs</td>
+    <td valign="top">Width in spaces for a tab character.</td>
+    <td align="center" valign="top">No, default is <code>2</code></td>
+		</tr>
+		<tr>
+    <td valign="top">style</td>
+    <td valign="top">Sets the table name for the output style. Valid values are:
+    <ul>
+    <li><code>eclipse</code> For a style similar to the one in the Eclipse IDE</li>
+    <li><code>kawa</code> For a style similar to the one in the Kawa IDE</li>
+    <li><code>monochrome</code> For a monochrome style w/o colors</li>
+    </ul>
+    </td>
+    <td align="center" valign="top">No, default is <code>eclipse</code></td>
+		</tr>
+		<tr>
+    <td valign="top">showLineNumbers</td>
+    <td valign="top">Show line numbers in conversion output: <code>true</code> or <code>false</code></td>
+    <td align="center" valign="top">No, default is <code>true</code></td>
+		</tr>
+		<tr>
+    <td valign="top">showFileName</td>
+    <td valign="top">Show the file name in conversion output: <code>true</code> or <code>false</code></td>
+    <td align="center" valign="top">No, default is <code>false</code></td>
+		</tr>
+		<tr>
+    <td valign="top">showDefaultTitle</td>
+    <td valign="top">Sets the title of generated html pages (if any) to the relative name of the source file, e.g. <code>de/java2html/Java2Html.java</code>:
+     <code>true</code> or <code>false</code></td>
+    <td align="center" valign="top">No, default is <code>false</code></td>
+		</tr>
+		<tr>
+    <td valign="top">showTableBorder</td>
+    <td valign="top">Show a border around the conversion output: <code>true</code> or <code>false</code></td>
+    <td align="center" valign="top">No, default is <code>false</code></td>
+		</tr>
+		<tr>
+    <td valign="top">includeDocumentHeader</td>
+    <td valign="top">Add a document header at the beginning of the output file: <code>true</code> or <code>false</code></td>
+    <td align="center" valign="top">No, default is <code>true</code></td>
+		</tr>
+		<tr>
+    <td valign="top">includeDocumentFooter</td>
+    <td valign="top">Add a document footer at the end of the output file: <code>true</code> or <code>false</code></td>
+    <td align="center" valign="top">No, default is <code>true</code></td>
+		</tr>
+		<tr>
+    <td valign="top">addLineAnchors</td>
+    <td valign="top">Add html-anchors to each line for html output: <code>true</code> or <code>false</code></td>
+    <td align="center" valign="top">No, default is <code>false</code></td>
+		</tr>
+		<tr>
+    <td valign="top">lineAnchorPrefix</td>
+    <td valign="top">String that will be added as prefix for the line anchors for html output.</td>
+    <td align="center" valign="top">No</td>
+		</tr>
+		<tr>
+    <td valign="top">horizontalAlignment</td>
+    <td valign="top">
+       Horizontal alignment of the output: <code>left</code>, <code>center</code> or <code>right</code> 
+    </td>
+    <td align="center" valign="top">No, default is <code>left</code></td>
+		</tr>
+		<tr>
+    <td valign="top">useShortFileName</td>
+    <td valign="top">
+       Use short (ClassName.html) or long (ClassName.java.html) filenames for output: <code>true</code> or <code>false</code> 
+    </td>
+    <td align="center" valign="top">No, default is <code>false</code></td>
+		</tr>
+		<tr>
+    <td valign="top">overwrite</td>
+    <td valign="top">Overwrite existing files even if the destination files are newer: <code>true</code> or <code>false</code></td>
+    <td align="center" valign="top">No, default is <code>false</code></td>
+		</tr>
+	</table>
+	
+	<p>Note that some of the options are not supported by all output formats.</p>
+	<p>Most default options are derived from a <code>java2html.properties</code> file on the classpath if there exists any.</p>
+</blockquote>
+
+<h2>Example</h2>
+<blockquote>
+
+<pre>&lt;taskdef name=&#34;java2html&#34;
+    classname=&#34;de.java2html.anttasks.Java2HtmlTask&#34;
+    classpath=&#34;${build.dir}&#34;
+/&gt;
+&lt;java2html
+       srcdir=&#34;${src.dir}&#34;
+       destdir=&#34;${scratch.dir}&#34;
+       includes=&#34;**/*.java&#34;
+       style=&#34;eclipse&#34;
+       showLineNumbers=&#34;true&#34;
+       showFileName=&#34;true&#34;
+       showTableBorder=&#34;true&#34;
+/&gt;
+</pre>
+
+	<p>Converts all *.java files from the <code>${src.dir}</code> and its subfolders to 
+	<code>${scratch.dir}</code> using the eclipse output style. Line numbers, the
+	filename and a table border are added to the result.</p>
+</blockquote>      <!-- Main content -->
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#f7e8dd" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/left_bottom_corner_top.gif" width="103" height="32" border="0" alt="" />
+    </td>
+    <td align="left" style="vertical-align:bottom; padding: 0px;">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../../design/left_bottom_inner_corner.gif" width="27" height="18" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" bgcolor="#f7e8dd" style="vertical-align:middle; padding: 0px;">
+      <a href="http://validator.w3.org/check?uri=referer"><img
+          src="../../design/valid-xhtml10.png"
+          alt="Valid XHTML 1.0!" height="31" width="88" border="0" /></a>
+    </td>
+    <td align="left" bgcolor="#f7e8dd" rowspan="2"><table>
+  <tr>
+    <td align="left" valign="top">
+<address>
+&copy; Markus Gebhard (markus@jave.de), 2000 - 2006<br />
+last modified:&nbsp;Feb 26, 2006</address>
+    </td>
+    <td>&nbsp;&nbsp;</td>
+<!--    <td align="center" valign="middle">
+      <a href="http://sourceforge.net/projects/jdemo/"><img src="http://sourceforge.net/sflogo.php?group_id=91566&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+    </td>-->
+  </tr>
+</table>    </td>
+    <td align="right" style="vertical-align:top; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/right_corner_top.gif" width="8" height="10" border="0" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#f7e8dd" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../../design/left_bottom_corner.gif" width="116" height="40" alt=""/>
+    </td>
+    <td align="right" style="vertical-align:bottom; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../../design/right_corner_bottom.gif" width="8" height="9" border="0" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td style="vertical-align:top; padding: 0px; background-image: url('../../design/dark_pixel.gif'); background-repeat: repeat-x">
+    </td>
+    <td></td>
+  </tr>
+
+
+</table>
+
+</center>
+</body></html><!-- Source files: 
+ F:\PRJ31\Website_Java2Html\src\docs\anttask\..\..\copyright.content
+ F:\PRJ31\Website_Java2Html\src\docs\anttask\..\..\navigation_bar.content
+ F:\PRJ31\Website_Java2Html\src\docs\anttask\..\..\sites.template
+ F:\PRJ31\Website_Java2Html\src\docs\anttask\..\..\style.content
+ F:\PRJ31\Website_Java2Html\src\docs\anttask\index.page
+-->

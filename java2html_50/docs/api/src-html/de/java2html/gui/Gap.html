@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>de/java2html/gui/Gap.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 4.2 [2006-02-05] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">de.java2html.gui;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.Canvas;</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.Dimension;</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;An&nbsp;empty&nbsp;space&nbsp;-&nbsp;useful&nbsp;for&nbsp;some&nbsp;grphical&nbsp;user&nbsp;interfaces.</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;For&nbsp;questions,&nbsp;suggestions,&nbsp;bug-reports,&nbsp;enhancement-requests&nbsp;etc.</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;I&nbsp;may&nbsp;be&nbsp;contacted&nbsp;at:</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&lt;a&nbsp;href=&#34;mailto:markus@jave.de&#34;&gt;markus@jave.de</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;The&nbsp;Java2html&nbsp;home&nbsp;page&nbsp;is&nbsp;located&nbsp;at:</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&lt;a&nbsp;href=&#34;http://www.java2html.de&#34;&gt;http://www.java2html.de</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;&nbsp;</font><font color="#3f5fbf">&lt;a&nbsp;href=&#34;mailto:markus@jave.de&#34;&gt;Markus&nbsp;Gebhard</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@version&nbsp;</font><font color="#3f5fbf">2.0,&nbsp;05/07/02</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;Copyright&nbsp;(C)&nbsp;Markus&nbsp;Gebhard&nbsp;2000-2002</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;modify&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;as&nbsp;published&nbsp;by&nbsp;the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;of&nbsp;the&nbsp;License,&nbsp;or&nbsp;(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;This&nbsp;program&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;along&nbsp;with&nbsp;this&nbsp;program;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place&nbsp;-&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;&nbsp;02111-1307,&nbsp;USA.</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#3f5fbf">*/</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">Gap&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">Canvas</font><font color="#000000">{</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">xDim,yDim;</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Gap</font><font color="#000000">(){</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">(</font><font color="#990000">8</font><font color="#000000">,</font><font color="#990000">22</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#000000">}</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Gap</font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">xDim,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">yDim</font><font color="#000000">){</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.xDim&nbsp;=&nbsp;xDim;</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.yDim&nbsp;=&nbsp;yDim;</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#000000">}</font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Dimension&nbsp;getPreferredSize</font><font color="#000000">(){</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">Dimension</font><font color="#000000">(</font><font color="#000000">xDim,&nbsp;yDim</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#000000">}</font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Dimension&nbsp;getMinimumSize</font><font color="#000000">(){</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">Dimension</font><font color="#000000">(</font><font color="#000000">xDim,&nbsp;yDim</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#000000">}</font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Dimension&nbsp;getMaximumSize</font><font color="#000000">(){</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">Dimension</font><font color="#000000">(</font><font color="#000000">xDim,&nbsp;yDim</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#000000">}</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

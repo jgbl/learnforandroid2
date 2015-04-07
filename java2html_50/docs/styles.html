@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="EN"><head>
+<title>Java2Html converter</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="description" content="A freeware Java to HTML converter as applet, application or plugin for Kawa" />
+  <meta name="author" content="Markus Gebhard, markus@jave.de" />
+  <meta name="keywords" content="java2html, markus, gebhard, java, open, source, code, html, j2h, eclipse, plugin java2tex, java2tex, javatolatex, java2latex, javatohtml, converter, plugin, kawa, ide, applet, application" />
+  <meta name="ROBOTS" content="index,follow" />
+  <meta name="author" content="Markus Gebhard" />
+  <meta name="publisher" content="Markus Gebhard" />
+  <meta name="copyright" content="Markus Gebhard" />
+  <meta name="Content-Language" content="EN" />
+  <meta http-equiv="imagetoolbar" content="no" /><style type="text/css">
+  <!-- body { font-family: Verdana,Arial,Geneva,Helvetica; background-color: #FFFFFF; } -->
+  <!-- code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; } -->
+  <!-- pre { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; } -->
+  <!-- h1 {border-bottom:0px; padding-bottom:2px; padding-top:2px; margin:0px;} -->
+  <!-- h2 {margin:0px; padding-left:3px; padding-top:6px; height:32px; font-family: Verdana,Arial,Geneva,Helvetica; font-size: 13pt; background-image:url('../design/h2_background.gif'); background-repeat:no-repeat; background-position: center left;} -->
+  <!-- h3 {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 11pt; } -->
+  <!-- h4 {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 10pt; font-weight: bold; } -->
+  <!-- table {border-collapse:separate} -->
+  <!-- table.layout {border-collapse:collapse; border-width:0px} --> 
+  <!-- td.navhead {font-family: Verdana,Arial,Geneva,Helvetica; font-weight: bold; font-size: 10pt; text-align:center; white-space:nowrap; background-color:#eaccb6} -->
+  <!-- td.navitem {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 10pt; padding-left: 5px; padding-top: 5px; padding-bottom:5px; text-align:left; white-space:nowrap; } -->
+  <!-- td.navhead a { text-decoration: none; color: black; } -->
+  <!-- td.navhead a:hover { text-decoration: underline; } -->
+  <!-- td.navitem a { text-decoration: none; } -->
+  <!-- td.navitem a:hover { text-decoration: underline; } -->
+  <!-- li { padding-bottom: 3px; } -->
+</style>  <link rel="icon" href="favicon.ico" />
+</head>
+<body>
+
+<a name="top"></a>
+
+<center>
+<table class="layout" border="0" width="100%">
+  <tr bgcolor="#f7e8dd" style="padding: 0px;">
+    <td rowspan="2" width="116" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/left_top_corner.gif" width="109" height="45" border="0" alt="" />
+    </td>
+    <td rowspan="2">
+      <center>
+<h1>Java2Html - Output Styles</h1>
+      </center>
+    </td>
+    <td align="right" style="vertical-align:top; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/right_corner_top.gif" border="0" width="8" height="10" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" style="vertical-align:bottom; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../design/right_corner_bottom.gif" border="0" width="8" height="9" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td rowspan="2" valign="top" style="padding: 0px; background-image: url('../design/left_fill.gif'); background-repeat: repeat-y; background-position: top left; background-color:#f7e8dd;">    <!-- Navigation bar -->
+<table class="layout" style="padding: 0px;" bgcolor="#f7e8dd" border="0" width="100%">
+ <tr><td class="navhead"><a href="http://www.java2html.de">Java2Html</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#description">Description</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/news.html">News</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#features">Features</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#screenshot">Screenshots</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/applet.html">Online Converter</a></td></tr>
+ <tr><td><a href="https://www.paypal.com/affil/pal=markus%40jave.de" target="_blank"><img src="../design/donate.gif" width="73" height="44" border="0" alt="donate" /></a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/download.html">Download</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/eclipse.html">Eclipse Plugin</a></td></tr>
+ <tr><td>&nbsp;</td></tr>
+
+ <tr><td class="navhead"><a href="http://www.java2html.de/docs/index.html">Documentation</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/index.html">Index</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/styles.html">Available Styles</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/api/index.html">JavaDoc API</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/anttask/index.html">Ant Task</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/wiki/jspwiki.html">JSPWiki Plugin</a></td></tr>
+
+ <tr><td>&nbsp;</td></tr>
+
+ <tr><td class="navhead">Links</td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/uses.html">Uses</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.jave.de/projects/index.html">Other Projects</a></td></tr>
+
+ <tr><td valign="top" style="padding: 0px; margin: 0px" align="left"><img style="padding: 0px; margin: 0px" src="../design/left_middle.gif" width="103" height="32" alt="" /></td></tr>
+
+</table>
+    <!-- Navigation bar -->    </td>
+    <td align="left" style="vertical-align:top; padding: 0px; background-image: url('../design/dark_pixel.gif'); background-repeat: repeat-x">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/left_top_inner_corner.gif" width="27" height="18" alt="" />
+    </td>
+    <td rowspan="3">
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#FFFFFF" align="left" valign="top" style="padding: 0px;">
+      <!-- Main content --><!-- --><h2>Default Styles</h2>
+<blockquote>
+<h3>Style &quot;Eclipse&quot;:</h3>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="center" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#3f5fbf">/**</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;is&nbsp;about&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">ClassName</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">.</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#3f3fbf">{@link&nbsp;com.yourCompany.aPackage.SuperClass}</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">author</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">ClassName&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">SuperClass&nbsp;</font><font color="#000000">{</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">/*&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;multiple&nbsp;lines.&nbsp;*/</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">integer&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;final&nbsp;static&nbsp;</b></font><font color="#7f0055"><b>char&nbsp;</b></font><font color="#000000">character&nbsp;=&nbsp;</font><font color="#990000">'A'</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;only&nbsp;this&nbsp;line</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;string&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;zero&#34;</font><font color="#000000">;</font><br />
+<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+<p />
+<h3>Style &quot;Kawa&quot;:</h3>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="center" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#008000">/**</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#008000">*&nbsp;This&nbsp;is&nbsp;about&nbsp;</font><font color="#008000">&lt;code&gt;</font><font color="#008000">ClassName</font><font color="#008000">&lt;/code&gt;</font><font color="#008000">.</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#008000">*&nbsp;</font><font color="#008000">{@link&nbsp;com.yourCompany.aPackage.SuperClass}</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#008000">*&nbsp;</font><font color="#005500">@author&nbsp;</font><font color="#008000">author</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#008000">*/</font><br />
+<font color="#0000c0"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">ClassName&nbsp;</font><font color="#0000c0"><b>extends&nbsp;</b></font><font color="#000000">SuperClass&nbsp;</font><font color="#000000">{</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#008000">/*&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;multiple&nbsp;lines.&nbsp;*/</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#0000c0"><b>private&nbsp;</b></font><font color="#c00000"><b>int&nbsp;</b></font><font color="#000000">integer&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#0000c0"><b>public&nbsp;final&nbsp;static&nbsp;</b></font><font color="#c00000"><b>char&nbsp;</b></font><font color="#000000">character&nbsp;=&nbsp;</font><font color="#990000">'A'</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#008000">//&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;only&nbsp;this&nbsp;line</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#0000c0"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;string&nbsp;=&nbsp;</font><font color="#990000">&#34;zero&#34;</font><font color="#000000">;</font><br />
+<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+<p />
+<h3>Style &quot;Monochrome&quot;:</h3>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="center" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#000000"><i>/**</i></font><br />
+<font color="#ffffff">&nbsp;</font><font color="#000000"><i>*&nbsp;This&nbsp;is&nbsp;about&nbsp;</i></font><font color="#000000">&lt;code&gt;</font><font color="#000000"><i>ClassName</i></font><font color="#000000">&lt;/code&gt;</font><font color="#000000"><i>.</i></font><br />
+<font color="#ffffff">&nbsp;</font><font color="#000000"><i>*&nbsp;</i></font><font color="#000000">{@link&nbsp;com.yourCompany.aPackage.SuperClass}</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#000000"><i>*&nbsp;</i></font><font color="#000000">@author&nbsp;</font><font color="#000000"><i>author</i></font><br />
+<font color="#ffffff">&nbsp;</font><font color="#000000"><i>*/</i></font><br />
+<font color="#000000"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">ClassName&nbsp;</font><font color="#000000"><b>extends&nbsp;</b></font><font color="#000000">SuperClass&nbsp;</font><font color="#000000">{</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000"><i>/*&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;multiple&nbsp;lines.&nbsp;*/</i></font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000"><b>private&nbsp;</b></font><font color="#000000"><b>int&nbsp;</b></font><font color="#000000">integer&nbsp;=&nbsp;</font><font color="#000000">0</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000"><b>public&nbsp;final&nbsp;static&nbsp;</b></font><font color="#000000"><b>char&nbsp;</b></font><font color="#000000">character&nbsp;=&nbsp;</font><font color="#000000">'A'</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000"><i>//&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;only&nbsp;this&nbsp;line</i></font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;string&nbsp;=&nbsp;</font><font color="#000000">&#34;zero&#34;</font><font color="#000000">;</font><br />
+<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+<p />
+</blockquote>
+<h2>Additional Style options</h2>
+<blockquote>
+<h3>Show table border:</h3>
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="center" class="java">
+<table border="2" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#3f5fbf">/**</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;is&nbsp;about&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">ClassName</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">.</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#3f3fbf">{@link&nbsp;com.yourCompany.aPackage.SuperClass}</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">author</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">ClassName&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">SuperClass&nbsp;</font><font color="#000000">{</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">/*&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;multiple&nbsp;lines.&nbsp;*/</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">integer&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;final&nbsp;static&nbsp;</b></font><font color="#7f0055"><b>char&nbsp;</b></font><font color="#000000">character&nbsp;=&nbsp;</font><font color="#990000">'A'</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;only&nbsp;this&nbsp;line</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;string&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;zero&#34;</font><font color="#000000">;</font><br />
+<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+<p />
+<h3>Show filename:</h3>
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="center" class="java">
+<table border="2" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+ClassName.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#3f5fbf">/**</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;is&nbsp;about&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">ClassName</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">.</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#3f3fbf">{@link&nbsp;com.yourCompany.aPackage.SuperClass}</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">author</font><br />
+<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">ClassName&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">SuperClass&nbsp;</font><font color="#000000">{</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">/*&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;multiple&nbsp;lines.&nbsp;*/</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">integer&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;final&nbsp;static&nbsp;</b></font><font color="#7f0055"><b>char&nbsp;</b></font><font color="#000000">character&nbsp;=&nbsp;</font><font color="#990000">'A'</font><font color="#000000">;</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;only&nbsp;this&nbsp;line</font><br />
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;string&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;zero&#34;</font><font color="#000000">;</font><br />
+<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+<p />
+<h3>Show line numbers:</h3>
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="center" class="java">
+<table border="2" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+ClassName.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#808080">01</font>&nbsp;<font color="#3f5fbf">/**</font><br />
+<font color="#808080">02</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;is&nbsp;about&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">ClassName</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">.</font><br />
+<font color="#808080">03</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#3f3fbf">{@link&nbsp;com.yourCompany.aPackage.SuperClass}</font><br />
+<font color="#808080">04</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">author</font><br />
+<font color="#808080">05</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<font color="#808080">06</font>&nbsp;<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">ClassName&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">SuperClass&nbsp;</font><font color="#000000">{</font><br />
+<font color="#808080">07</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">/*&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;multiple&nbsp;lines.&nbsp;*/</font><br />
+<font color="#808080">08</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">integer&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<font color="#808080">09</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;final&nbsp;static&nbsp;</b></font><font color="#7f0055"><b>char&nbsp;</b></font><font color="#000000">character&nbsp;=&nbsp;</font><font color="#990000">'A'</font><font color="#000000">;</font><br />
+<font color="#808080">10</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;This&nbsp;comment&nbsp;may&nbsp;span&nbsp;only&nbsp;this&nbsp;line</font><br />
+<font color="#808080">11</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;string&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;zero&#34;</font><font color="#000000">;</font><br />
+<font color="#808080">12</font>&nbsp;<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+<p />
+</blockquote>      <!-- Main content -->
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#f7e8dd" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/left_bottom_corner_top.gif" width="103" height="32" border="0" alt="" />
+    </td>
+    <td align="left" style="vertical-align:bottom; padding: 0px;">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../design/left_bottom_inner_corner.gif" width="27" height="18" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" bgcolor="#f7e8dd" style="vertical-align:middle; padding: 0px;">
+      <a href="http://validator.w3.org/check?uri=referer"><img
+          src="../design/valid-xhtml10.png"
+          alt="Valid XHTML 1.0!" height="31" width="88" border="0" /></a>
+    </td>
+    <td align="left" bgcolor="#f7e8dd" rowspan="2"><table>
+  <tr>
+    <td align="left" valign="top">
+<address>
+&copy; Markus Gebhard (markus@jave.de), 2000 - 2006<br />
+last modified:&nbsp;Feb 26, 2006</address>
+    </td>
+    <td>&nbsp;&nbsp;</td>
+<!--    <td align="center" valign="middle">
+      <a href="http://sourceforge.net/projects/jdemo/"><img src="http://sourceforge.net/sflogo.php?group_id=91566&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+    </td>-->
+  </tr>
+</table>    </td>
+    <td align="right" style="vertical-align:top; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/right_corner_top.gif" width="8" height="10" border="0" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#f7e8dd" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/left_bottom_corner.gif" width="116" height="40" alt=""/>
+    </td>
+    <td align="right" style="vertical-align:bottom; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../design/right_corner_bottom.gif" width="8" height="9" border="0" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td style="vertical-align:top; padding: 0px; background-image: url('../design/dark_pixel.gif'); background-repeat: repeat-x">
+    </td>
+    <td></td>
+  </tr>
+
+
+</table>
+
+</center>
+</body></html><!-- Source files: 
+ F:\PRJ31\Website_Java2Html\src\docs\..\..\..\java2html_build\generated\styles.content
+ F:\PRJ31\Website_Java2Html\src\docs\..\copyright.content
+ F:\PRJ31\Website_Java2Html\src\docs\..\navigation_bar.content
+ F:\PRJ31\Website_Java2Html\src\docs\..\sites.template
+ F:\PRJ31\Website_Java2Html\src\docs\..\style.content
+ F:\PRJ31\Website_Java2Html\src\docs\styles.page
+-->

@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import br.com.thinkti.android.filechooser.*;
 
@@ -13,7 +13,6 @@ import com.jmg.learn.vok.*;
 import com.jmg.lib.*;
 
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.content.Context;
@@ -39,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-                
+		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
         try {
 			vok = new Vokabel(this,(TextView) this.findViewById(R.id.txtStatus));
 			vok.setSchrittweite((short) 6);
@@ -52,7 +51,15 @@ public class MainActivity extends ActionBarActivity {
         
         
     }
-    
+    public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
+		
+		@Override
+		public void uncaughtException(Thread thread, Throwable ex) {
+			// TODO Auto-generated method stub
+			lib.ShowException(MainActivity.this, ex);
+		}
+	};
+        
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
@@ -63,8 +70,7 @@ public class MainActivity extends ActionBarActivity {
     
     @Override
     public void onBackPressed() {
-        saveVok();
-        super.onBackPressed();
+        if (saveVok()) super.onBackPressed();
         return;
     }   
     
@@ -85,20 +91,23 @@ public class MainActivity extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     };
     
-    private void saveVok()
+    private boolean saveVok()
     {
     	if (vok.aend)
     	{
     		if (lib.ShowMessageYesNo(this,getString(R.string.Save)))
     				{
     					try {
-							vok.SaveFile();;
+							vok.SaveFile();
+							vok.aend=false;
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							lib.ShowException(this, e);
 						}
     				}
+    		return false;
     	}
+    	return true;
     }
     
     private void InitButtons()
@@ -302,6 +311,25 @@ public class MainActivity extends ActionBarActivity {
             try {
             	saveVok();
 				vok.LoadFile(fileSelected);
+				if (vok.getCardMode())
+				{
+					EditText txtMeaning1 = (android.widget.EditText)findViewById(R.id.txtMeaning1);
+					txtMeaning1.setMaxLines(30);
+					txtMeaning1.setLines(20);
+					txtMeaning1.setTextSize(25);
+					findViewById(R.id.txtMeaning2).setVisibility(View.GONE);
+					findViewById(R.id.txtMeaning3).setVisibility(View.GONE);
+				}
+				else
+				{
+					EditText txtMeaning1 = (android.widget.EditText)findViewById(R.id.txtMeaning1);
+					txtMeaning1.setMaxLines(10);
+					txtMeaning1.setLines(2);
+					txtMeaning1.setTextSize(45);
+					findViewById(R.id.txtMeaning2).setVisibility(View.VISIBLE);
+					findViewById(R.id.txtMeaning3).setVisibility(View.VISIBLE);
+				}
+					
 				getVokabel(false,false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -348,11 +376,22 @@ public class MainActivity extends ActionBarActivity {
     {
     	if(txt.startsWith("{\\rtf1\\"))
     			{
-    				txt = lib.rtfToHtml(new StringReader(txt));
-    				return Html.fromHtml(txt);
+    				//txt = Java2Html.convertToHtml(txt, JavaSourceConversionOptions.getDefault());
+    				//return Html.fromHtml(txt);
+    				//return new SpannedString(stripRtf(txt));
     			}
     			return new SpannedString(txt);
     	
     }
-    
+    public String stripRtf(String str)
+    {
+        String basicRtfPattern = "/\\{\\*?\\\\[^{}]+}|[{}]|\\\\[A-Za-z]+\\n?(?:-?\\d+)?[ ]?/g";
+        String newLineSlashesPattern = "/\\\\\\n/g";
+
+        String stripped = str.replaceAll(basicRtfPattern,"");
+        String removeNewlineSlashes = stripped.replaceAll(newLineSlashesPattern, "\n");
+        String removeWhitespace = removeNewlineSlashes.trim();
+
+        return removeWhitespace;
+    }
 }

@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="EN"><head>
+<title>Java2Html converter</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="description" content="A freeware Java to HTML converter as applet, application or plugin for Kawa" />
+  <meta name="author" content="Markus Gebhard, markus@jave.de" />
+  <meta name="keywords" content="java2html, markus, gebhard, java, open, source, code, html, j2h, eclipse, plugin java2tex, java2tex, javatolatex, java2latex, javatohtml, converter, plugin, kawa, ide, applet, application" />
+  <meta name="ROBOTS" content="index,follow" />
+  <meta name="author" content="Markus Gebhard" />
+  <meta name="publisher" content="Markus Gebhard" />
+  <meta name="copyright" content="Markus Gebhard" />
+  <meta name="Content-Language" content="EN" />
+  <meta http-equiv="imagetoolbar" content="no" /><style type="text/css">
+  <!-- body { font-family: Verdana,Arial,Geneva,Helvetica; background-color: #FFFFFF; } -->
+  <!-- code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; } -->
+  <!-- pre { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; } -->
+  <!-- h1 {border-bottom:0px; padding-bottom:2px; padding-top:2px; margin:0px;} -->
+  <!-- h2 {margin:0px; padding-left:3px; padding-top:6px; height:32px; font-family: Verdana,Arial,Geneva,Helvetica; font-size: 13pt; background-image:url('../design/h2_background.gif'); background-repeat:no-repeat; background-position: center left;} -->
+  <!-- h3 {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 11pt; } -->
+  <!-- h4 {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 10pt; font-weight: bold; } -->
+  <!-- table {border-collapse:separate} -->
+  <!-- table.layout {border-collapse:collapse; border-width:0px} --> 
+  <!-- td.navhead {font-family: Verdana,Arial,Geneva,Helvetica; font-weight: bold; font-size: 10pt; text-align:center; white-space:nowrap; background-color:#eaccb6} -->
+  <!-- td.navitem {font-family: Verdana,Arial,Geneva,Helvetica; font-size: 10pt; padding-left: 5px; padding-top: 5px; padding-bottom:5px; text-align:left; white-space:nowrap; } -->
+  <!-- td.navhead a { text-decoration: none; color: black; } -->
+  <!-- td.navhead a:hover { text-decoration: underline; } -->
+  <!-- td.navitem a { text-decoration: none; } -->
+  <!-- td.navitem a:hover { text-decoration: underline; } -->
+  <!-- li { padding-bottom: 3px; } -->
+</style>  <link rel="icon" href="favicon.ico" />
+</head>
+<body>
+
+<a name="top"></a>
+
+<center>
+<table class="layout" border="0" width="100%">
+  <tr bgcolor="#f7e8dd" style="padding: 0px;">
+    <td rowspan="2" width="116" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/left_top_corner.gif" width="109" height="45" border="0" alt="" />
+    </td>
+    <td rowspan="2">
+      <center>
+<h1>Java2Html - Properties File</h1>
+      </center>
+    </td>
+    <td align="right" style="vertical-align:top; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/right_corner_top.gif" border="0" width="8" height="10" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" style="vertical-align:bottom; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../design/right_corner_bottom.gif" border="0" width="8" height="9" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td rowspan="2" valign="top" style="padding: 0px; background-image: url('../design/left_fill.gif'); background-repeat: repeat-y; background-position: top left; background-color:#f7e8dd;">    <!-- Navigation bar -->
+<table class="layout" style="padding: 0px;" bgcolor="#f7e8dd" border="0" width="100%">
+ <tr><td class="navhead"><a href="http://www.java2html.de">Java2Html</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#description">Description</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/news.html">News</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#features">Features</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de#screenshot">Screenshots</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/applet.html">Online Converter</a></td></tr>
+ <tr><td><a href="https://www.paypal.com/affil/pal=markus%40jave.de" target="_blank"><img src="../design/donate.gif" width="73" height="44" border="0" alt="donate" /></a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/download.html">Download</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/eclipse.html">Eclipse Plugin</a></td></tr>
+ <tr><td>&nbsp;</td></tr>
+
+ <tr><td class="navhead"><a href="http://www.java2html.de/docs/index.html">Documentation</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/index.html">Index</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/styles.html">Available Styles</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/api/index.html">JavaDoc API</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/anttask/index.html">Ant Task</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/docs/wiki/jspwiki.html">JSPWiki Plugin</a></td></tr>
+
+ <tr><td>&nbsp;</td></tr>
+
+ <tr><td class="navhead">Links</td></tr>
+ <tr><td class="navitem"><a href="http://www.java2html.de/uses.html">Uses</a></td></tr>
+ <tr><td class="navitem"><a href="http://www.jave.de/projects/index.html">Other Projects</a></td></tr>
+
+ <tr><td valign="top" style="padding: 0px; margin: 0px" align="left"><img style="padding: 0px; margin: 0px" src="../design/left_middle.gif" width="103" height="32" alt="" /></td></tr>
+
+</table>
+    <!-- Navigation bar -->    </td>
+    <td align="left" style="vertical-align:top; padding: 0px; background-image: url('../design/dark_pixel.gif'); background-repeat: repeat-x">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/left_top_inner_corner.gif" width="27" height="18" alt="" />
+    </td>
+    <td rowspan="3">
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#FFFFFF" align="left" valign="top" style="padding: 0px;">
+      <!-- Main content --><h2>Properties File</h2>
+<blockquote>
+	<p>The default options for conversion output can be defined in an optional properties file.</p>
+
+	<p>The Java2Html library tries to load a file named <code>java2html.properties</code> from the
+classpath. If it exists the default options will be adjusted to the options defined in the properties file.</p>
+
+	<p>Here is a sample properties file containing all default options (<a href="java2html.properties">Download the file</a>):</p>
+	
+	<blockquote>
+		<table border="1">
+			<tr>
+				<td><pre>#Sun Feb 26 17:18:50 CET 2006
+defaultStyleName=Eclipse
+showFileName=false
+showTableBorder=false
+showLineNumbers=false
+showJava2HtmlLink=false
+horizontalAlignment=left
+TAB_SIZE=2
+Background_COLOR=255,255,255
+Background_BOLD=false
+Background_ITALIC=false
+Line\ numbers_COLOR=128,128,128
+Line\ numbers_BOLD=false
+Line\ numbers_ITALIC=false
+Multi-line\ comments_COLOR=63,127,95
+Multi-line\ comments_BOLD=false
+Multi-line\ comments_ITALIC=false
+Single-line\ comments_COLOR=63,127,95
+Single-line\ comments_BOLD=false
+Single-line\ comments_ITALIC=false
+Keywords_COLOR=127,0,85
+Keywords_BOLD=true
+Keywords_ITALIC=false
+Strings_COLOR=42,0,255
+Strings_BOLD=false
+Strings_ITALIC=false
+Character\ constants_COLOR=153,0,0
+Character\ constants_BOLD=false
+Character\ constants_ITALIC=false
+Numeric\ constants_COLOR=153,0,0
+Numeric\ constants_BOLD=false
+Numeric\ constants_ITALIC=false
+Parenthesis_COLOR=0,0,0
+Parenthesis_BOLD=false
+Parenthesis_ITALIC=false
+Primitive\ Types_COLOR=127,0,85
+Primitive\ Types_BOLD=true
+Primitive\ Types_ITALIC=false
+Others_COLOR=0,0,0
+Others_BOLD=false
+Others_ITALIC=false
+Javadoc\ keywords_COLOR=127,159,191
+Javadoc\ keywords_BOLD=false
+Javadoc\ keywords_ITALIC=false
+Javadoc\ HTML\ tags_COLOR=127,127,159
+Javadoc\ HTML\ tags_BOLD=false
+Javadoc\ HTML\ tags_ITALIC=false
+Javadoc\ links_COLOR=63,63,191
+Javadoc\ links_BOLD=false
+Javadoc\ links_ITALIC=false
+Javadoc\ others_COLOR=63,95,191
+Javadoc\ others_BOLD=false
+Javadoc\ others_ITALIC=false
+Undefined_COLOR=255,97,0
+Undefined_BOLD=false
+Undefined_ITALIC=false
+Annotation_COLOR=100,100,100
+Annotation_BOLD=false
+Annotation_ITALIC=false</pre>
+				</td>
+			</tr>
+		</table>	
+	</blockquote>
+	<p>Note that you do not need to overwrite all options. Just remove the properties you don't want to change.</p>
+</blockquote>
+      <!-- Main content -->
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#f7e8dd" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/left_bottom_corner_top.gif" width="103" height="32" border="0" alt="" />
+    </td>
+    <td align="left" style="vertical-align:bottom; padding: 0px;">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../design/left_bottom_inner_corner.gif" width="27" height="18" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" bgcolor="#f7e8dd" style="vertical-align:middle; padding: 0px;">
+      <a href="http://validator.w3.org/check?uri=referer"><img
+          src="../design/valid-xhtml10.png"
+          alt="Valid XHTML 1.0!" height="31" width="88" border="0" /></a>
+    </td>
+    <td align="left" bgcolor="#f7e8dd" rowspan="2"><table>
+  <tr>
+    <td align="left" valign="top">
+<address>
+&copy; Markus Gebhard (markus@jave.de), 2000 - 2006<br />
+last modified:&nbsp;Feb 26, 2006</address>
+    </td>
+    <td>&nbsp;&nbsp;</td>
+<!--    <td align="center" valign="middle">
+      <a href="http://sourceforge.net/projects/jdemo/"><img src="http://sourceforge.net/sflogo.php?group_id=91566&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+    </td>-->
+  </tr>
+</table>    </td>
+    <td align="right" style="vertical-align:top; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/right_corner_top.gif" width="8" height="10" border="0" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td bgcolor="#f7e8dd" align="left" style="vertical-align:top; padding: 0px;">
+      <img style="vertical-align:top; padding: 0px; margin: 0px" src="../design/left_bottom_corner.gif" width="116" height="40" alt=""/>
+    </td>
+    <td align="right" style="vertical-align:bottom; padding: 0px;" bgcolor="#f7e8dd">
+      <img style="vertical-align:bottom; padding: 0px; margin: 0px" src="../design/right_corner_bottom.gif" width="8" height="9" border="0" alt="" />
+    </td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td style="vertical-align:top; padding: 0px; background-image: url('../design/dark_pixel.gif'); background-repeat: repeat-x">
+    </td>
+    <td></td>
+  </tr>
+
+
+</table>
+
+</center>
+</body></html><!-- Source files: 
+ F:\PRJ31\Website_Java2Html\src\docs\..\..\..\java2html_build\generated\java2html.properties
+ F:\PRJ31\Website_Java2Html\src\docs\..\copyright.content
+ F:\PRJ31\Website_Java2Html\src\docs\..\navigation_bar.content
+ F:\PRJ31\Website_Java2Html\src\docs\..\sites.template
+ F:\PRJ31\Website_Java2Html\src\docs\..\style.content
+ F:\PRJ31\Website_Java2Html\src\docs\properties.page
+-->

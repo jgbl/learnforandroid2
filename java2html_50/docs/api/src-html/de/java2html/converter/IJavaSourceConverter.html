@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>de/java2html/converter/IJavaSourceConverter.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">de.java2html.converter;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.IOException;</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.Writer;</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.javasource.JavaSource;</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.options.JavaSourceConversionOptions;</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">Markus&nbsp;Gebhard</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;interface&nbsp;</b></font><font color="#000000">IJavaSourceConverter&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">ConverterMetaData&nbsp;getMetaData</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;the&nbsp;default&nbsp;filename&nbsp;extension&nbsp;for&nbsp;the&nbsp;output&nbsp;format&nbsp;of&nbsp;this&nbsp;converter,</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;e.g.&nbsp;&#34;html&#34;&nbsp;or&nbsp;&#34;tex&#34;.&nbsp;</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@deprecated&nbsp;</font><font color="#3f5fbf">As&nbsp;of&nbsp;25.01.2006&nbsp;(Markus&nbsp;Gebhard),&nbsp;replaced&nbsp;by&nbsp;</font><font color="#3f3fbf">{@link&nbsp;#getMetaData()}</font><font color="#3f5fbf">,&nbsp;</font><font color="#3f3fbf">{@link&nbsp;ConverterMetaData#getDefaultFileExtension()}</font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getDefaultFileExtension</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Converts&nbsp;the&nbsp;given&nbsp;source&nbsp;code&nbsp;to&nbsp;the&nbsp;giveen&nbsp;writer,&nbsp;using&nbsp;the&nbsp;specified&nbsp;conversion&nbsp;options.</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">source&nbsp;The&nbsp;source&nbsp;code&nbsp;to&nbsp;be&nbsp;converted&nbsp;to&nbsp;the&nbsp;output&nbsp;format&nbsp;specified</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;this&nbsp;converter.</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">writer&nbsp;The&nbsp;writer&nbsp;to&nbsp;write&nbsp;the&nbsp;output&nbsp;to.</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">options&nbsp;the&nbsp;options&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;conversion.</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@throws&nbsp;</font><font color="#3f5fbf">IOException&nbsp;if&nbsp;an&nbsp;output&nbsp;error&nbsp;occures&nbsp;while&nbsp;writing&nbsp;to&nbsp;the&nbsp;given&nbsp;writer.</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">convert</font><font color="#000000">(</font><font color="#000000">JavaSource&nbsp;source,&nbsp;JavaSourceConversionOptions&nbsp;options,&nbsp;Writer&nbsp;writer</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">title&nbsp;An&nbsp;optional&nbsp;title&nbsp;(e.g.&nbsp;for&nbsp;the&nbsp;html&nbsp;title&nbsp;tag)&nbsp;or&nbsp;an&nbsp;empty&nbsp;string&nbsp;or&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">null</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;none.&nbsp;</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">writeDocumentHeader</font><font color="#000000">(</font><font color="#000000">Writer&nbsp;writer,&nbsp;JavaSourceConversionOptions&nbsp;options,&nbsp;String&nbsp;title</font><font color="#000000">)</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">writeDocumentFooter</font><font color="#000000">(</font><font color="#000000">Writer&nbsp;writer,&nbsp;JavaSourceConversionOptions&nbsp;options</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">writeBlockSeparator</font><font color="#000000">(</font><font color="#000000">Writer&nbsp;writer,&nbsp;JavaSourceConversionOptions&nbsp;options</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

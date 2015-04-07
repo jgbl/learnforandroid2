@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>de/java2html/JavaSourceCanvas.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">de.java2html;</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.BorderLayout;</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.Color;</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.Dimension;</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.Frame;</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.Graphics;</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.event.WindowAdapter;</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.event.WindowEvent;</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.StringTokenizer;</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.JComponent;</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.javasource.JavaSource;</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.javasource.JavaSourceParser;</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.javasource.JavaSourceType;</font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.options.JavaSourceStyleTable;</font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.util.RGB;</font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;Experimental:&nbsp;A&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">java.awt.Canvas</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">for&nbsp;displaying&nbsp;parsed&nbsp;java&nbsp;source&nbsp;code&nbsp;as&nbsp;one&nbsp;pixel</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;per&nbsp;character.&nbsp;The&nbsp;code&nbsp;will&nbsp;be&nbsp;displayed&nbsp;in&nbsp;colored&nbsp;pixels&nbsp;with&nbsp;one&nbsp;square&nbsp;block&nbsp;of&nbsp;pixels&nbsp;for</font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;each&nbsp;character&nbsp;in&nbsp;the&nbsp;code.&nbsp;At&nbsp;the&nbsp;moment&nbsp;there&nbsp;is&nbsp;not&nbsp;really&nbsp;any&nbsp;use&nbsp;for&nbsp;this&nbsp;class&nbsp;yet,&nbsp;however</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;it&nbsp;could&nbsp;be&nbsp;cool&nbsp;to&nbsp;write&nbsp;a&nbsp;plugin&nbsp;for&nbsp;IDEs&nbsp;to&nbsp;be&nbsp;able&nbsp;to&nbsp;navigate&nbsp;in&nbsp;a&nbsp;source&nbsp;code&nbsp;by&nbsp;clicking&nbsp;in</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;this&nbsp;overview&nbsp;component...&nbsp;Just&nbsp;an&nbsp;idea&nbsp;;-)</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;For&nbsp;questions,&nbsp;suggestions,&nbsp;bug-reports,&nbsp;enhancement-requests&nbsp;etc.</font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;I&nbsp;may&nbsp;be&nbsp;contacted&nbsp;at:</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&lt;a&nbsp;href=&#34;mailto:markus@jave.de&#34;&gt;markus@jave.de</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;The&nbsp;Java2html&nbsp;home&nbsp;page&nbsp;is&nbsp;located&nbsp;at:</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&lt;a&nbsp;href=&#34;http://www.java2html.de&#34;&gt;http://www.java2html.de</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;&nbsp;</font><font color="#3f5fbf">&lt;a&nbsp;href=&#34;mailto:markus@jave.de&#34;&gt;Markus&nbsp;Gebhard</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@version&nbsp;</font><font color="#3f5fbf">2.0,&nbsp;05/07/02</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;Copyright&nbsp;(C)&nbsp;Markus&nbsp;Gebhard&nbsp;2000-2002</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or</font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;modify&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License</font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;as&nbsp;published&nbsp;by&nbsp;the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;of&nbsp;the&nbsp;License,&nbsp;or&nbsp;(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#3f5fbf">*</font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;This&nbsp;program&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the</font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;along&nbsp;with&nbsp;this&nbsp;program;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software</font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#3f5fbf">*&nbsp;Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place&nbsp;-&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;&nbsp;02111-1307,&nbsp;USA.</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#3f5fbf">*/</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">JavaSourceCanvas&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">JComponent</font><font color="#000000">{</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#000000">JavaSource&nbsp;source;</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">scale=</font><font color="#990000">1</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//number&nbsp;of&nbsp;pixels&nbsp;per&nbsp;character</font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">JavaSourceStyleTable&nbsp;colorTable&nbsp;=&nbsp;JavaSourceStyleTable.getDefault</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">JavaSourceCanvas</font><font color="#000000">(</font><font color="#000000">JavaSource&nbsp;source</font><font color="#000000">){</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.source=source;</font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;method&nbsp;was&nbsp;once&nbsp;used&nbsp;for&nbsp;drawing&nbsp;the&nbsp;source&nbsp;code</font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;(a&nbsp;pixel&nbsp;for&nbsp;each&nbsp;character)</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;I&nbsp;will&nbsp;leave&nbsp;it&nbsp;here&nbsp;-&nbsp;maybe&nbsp;someone&nbsp;will&nbsp;use&nbsp;it&nbsp;some&nbsp;day&nbsp;</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Dimension&nbsp;getPreferredSize</font><font color="#000000">(){</font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">Dimension</font><font color="#000000">(</font><font color="#000000">scale*source.getMaxLineLength</font><font color="#000000">()</font><font color="#000000">,</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">scale*source.getLineCount</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;method&nbsp;was&nbsp;once&nbsp;used&nbsp;for&nbsp;drawing&nbsp;the&nbsp;source&nbsp;code</font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;(a&nbsp;pixel&nbsp;for&nbsp;each&nbsp;character).</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;I&nbsp;will&nbsp;leave&nbsp;it&nbsp;here&nbsp;-&nbsp;maybe&nbsp;someone&nbsp;will&nbsp;use&nbsp;it&nbsp;some&nbsp;day&nbsp;</font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">paint</font><font color="#000000">(</font><font color="#000000">Graphics&nbsp;g</font><font color="#000000">){</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//White&nbsp;background&nbsp;where&nbsp;source&nbsp;code</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">g.setColor</font><font color="#000000">(</font><font color="#000000">Color.white</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Dimension&nbsp;d=getPreferredSize</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">g.fillRect</font><font color="#000000">(</font><font color="#990000">0</font><font color="#000000">,</font><font color="#990000">0</font><font color="#000000">,d.width,d.height</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">y=</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">index=</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">StringTokenizer&nbsp;st=</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">StringTokenizer</font><font color="#000000">(</font><font color="#000000">source.getCode</font><font color="#000000">()</font><font color="#000000">,</font><font color="#2a00ff">&#34;\n\r&#34;</font><font color="#000000">,true</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>while&nbsp;</b></font><font color="#000000">(</font><font color="#000000">st.hasMoreTokens</font><font color="#000000">()){</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;line=st.nextToken</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">line.charAt</font><font color="#000000">(</font><font color="#990000">0</font><font color="#000000">)</font><font color="#000000">==</font><font color="#990000">'\n'&nbsp;</font><font color="#000000">||&nbsp;line.charAt</font><font color="#000000">(</font><font color="#990000">0</font><font color="#000000">)</font><font color="#000000">==</font><font color="#990000">'\r'</font><font color="#000000">){</font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">++index;</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">++y;</font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#7f0055"><b>else</b></font><font color="#000000">{</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">paint</font><font color="#000000">(</font><font color="#000000">g,&nbsp;y,&nbsp;index,&nbsp;index+line.length</font><font color="#000000">()</font><font color="#000000">-</font><font color="#990000">1</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">index+=line.length</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">paint</font><font color="#000000">(</font><font color="#000000">Graphics&nbsp;g,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">y,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">start,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">end</font><font color="#000000">){</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">x=</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">index1=start;</font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">index2=start;</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">JavaSourceType</font><font color="#000000">[]&nbsp;</font><font color="#000000">sourceTypes=source.getClassification</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>while</b></font><font color="#000000">(</font><font color="#000000">index2&lt;=end</font><font color="#000000">){</font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>while</b></font><font color="#000000">(</font><font color="#000000">index2&lt;end&nbsp;&amp;&amp;&nbsp;sourceTypes</font><font color="#000000">[</font><font color="#000000">index2+</font><font color="#990000">1</font><font color="#000000">]</font><font color="#000000">==sourceTypes</font><font color="#000000">[</font><font color="#000000">index1</font><font color="#000000">]){</font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">++index2;</font><br />
+<a name="line.113"><font color="#808080">113</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.114"><font color="#808080">114</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><br />
+<a name="line.115"><font color="#808080">115</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">sourceTypes</font><font color="#000000">[</font><font color="#000000">index1</font><font color="#000000">]</font><font color="#000000">!=JavaSourceType.BACKGROUND</font><font color="#000000">){</font><br />
+<a name="line.116"><font color="#808080">116</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">g.setColor</font><font color="#000000">(</font><font color="#000000">getAwtColor</font><font color="#000000">(</font><font color="#000000">colorTable.get</font><font color="#000000">(</font><font color="#000000">sourceTypes</font><font color="#000000">[</font><font color="#000000">index1</font><font color="#000000">])</font><font color="#000000">.getColor</font><font color="#000000">()))</font><font color="#000000">;</font><br />
+<a name="line.117"><font color="#808080">117</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><br />
+<a name="line.118"><font color="#808080">118</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">scale==</font><font color="#990000">1</font><font color="#000000">)</font><br />
+<a name="line.119"><font color="#808080">119</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">g.drawLine</font><font color="#000000">(</font><font color="#000000">x,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y,</font><br />
+<a name="line.120"><font color="#808080">120</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">(</font><font color="#000000">x+index2-index1</font><font color="#000000">)</font><font color="#000000">,&nbsp;y</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.121"><font color="#808080">121</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>else</b></font><br />
+<a name="line.122"><font color="#808080">122</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">scale==</font><font color="#990000">2</font><font color="#000000">){</font><br />
+<a name="line.123"><font color="#808080">123</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">g.drawLine</font><font color="#000000">(</font><font color="#990000">2</font><font color="#000000">*x,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#990000">2</font><font color="#000000">*y,</font><br />
+<a name="line.124"><font color="#808080">124</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#990000">2</font><font color="#000000">*</font><font color="#000000">(</font><font color="#000000">x+index2-index1</font><font color="#000000">)</font><font color="#000000">+</font><font color="#990000">1</font><font color="#000000">,&nbsp;</font><font color="#990000">2</font><font color="#000000">*y</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.125"><font color="#808080">125</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">g.drawLine</font><font color="#000000">(</font><font color="#990000">2</font><font color="#000000">*x,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#990000">2</font><font color="#000000">*y+</font><font color="#990000">1</font><font color="#000000">,</font><br />
+<a name="line.126"><font color="#808080">126</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#990000">2</font><font color="#000000">*</font><font color="#000000">(</font><font color="#000000">x+index2-index1</font><font color="#000000">)</font><font color="#000000">+</font><font color="#990000">1</font><font color="#000000">,&nbsp;</font><font color="#990000">2</font><font color="#000000">*y+</font><font color="#990000">1</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.127"><font color="#808080">127</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.128"><font color="#808080">128</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>else</b></font><br />
+<a name="line.129"><font color="#808080">129</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">System.err.println</font><font color="#000000">(</font><font color="#2a00ff">&#34;scale&gt;2&nbsp;not&nbsp;implemented&nbsp;yet!&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.130"><font color="#808080">130</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.131"><font color="#808080">131</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><br />
+<a name="line.132"><font color="#808080">132</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">x+=index2-index1+</font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.133"><font color="#808080">133</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><br />
+<a name="line.134"><font color="#808080">134</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">index1=index2+</font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.135"><font color="#808080">135</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">index2=index1;</font><br />
+<a name="line.136"><font color="#808080">136</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.137"><font color="#808080">137</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.138"><font color="#808080">138</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.139"><font color="#808080">139</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">Color&nbsp;getAwtColor</font><font color="#000000">(</font><font color="#000000">RGB&nbsp;rgb</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.140"><font color="#808080">140</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">Color</font><font color="#000000">(</font><font color="#000000">rgb.getRed</font><font color="#000000">()</font><font color="#000000">,&nbsp;rgb.getGreen</font><font color="#000000">()</font><font color="#000000">,&nbsp;rgb.getBlue</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.141"><font color="#808080">141</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.142"><font color="#808080">142</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.143"><font color="#808080">143</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">main</font><font color="#000000">(</font><font color="#000000">String&nbsp;args</font><font color="#000000">[])&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">Exception</font><font color="#000000">{</font><br />
+<a name="line.144"><font color="#808080">144</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">JavaSourceParser&nbsp;parser&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JavaSourceParser</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.145"><font color="#808080">145</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">JavaSource&nbsp;j&nbsp;=&nbsp;parser.parse</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">java.io.File</font><font color="#000000">(</font><font color="#2a00ff">&#34;f:\\eclipse\\de\\java2html\\JavaSource2TeXConverter.java&#34;</font><font color="#000000">))</font><font color="#000000">;</font><br />
+<a name="line.146"><font color="#808080">146</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">JavaSourceCanvas&nbsp;canny=</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JavaSourceCanvas</font><font color="#000000">(</font><font color="#000000">j</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.147"><font color="#808080">147</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Frame&nbsp;f=</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">Frame</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.148"><font color="#808080">148</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">f.addWindowListener</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">WindowAdapter</font><font color="#000000">(){</font><br />
+<a name="line.149"><font color="#808080">149</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">windowClosing</font><font color="#000000">(</font><font color="#000000">WindowEvent&nbsp;e</font><font color="#000000">){</font><br />
+<a name="line.150"><font color="#808080">150</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">System.exit</font><font color="#000000">(</font><font color="#990000">0</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.151"><font color="#808080">151</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.152"><font color="#808080">152</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">})</font><font color="#000000">;</font><br />
+<a name="line.153"><font color="#808080">153</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.154"><font color="#808080">154</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">f.setLayout</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BorderLayout</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.155"><font color="#808080">155</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">f.add</font><font color="#000000">(</font><font color="#000000">canny,&nbsp;BorderLayout.CENTER</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.156"><font color="#808080">156</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">f.pack</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.157"><font color="#808080">157</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">f.setVisible</font><font color="#000000">(</font><font color="#7f0055"><b>true</b></font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.158"><font color="#808080">158</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.159"><font color="#808080">159</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

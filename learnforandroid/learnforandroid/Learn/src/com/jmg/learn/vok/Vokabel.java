@@ -1601,7 +1601,7 @@ public class Vokabel implements Parcelable {
 			GetNextLineFromString(strContent, refStrTmp, -1);
 			strTmp = refStrTmp.getValue();
 			//SPRACHE LADEN
-			sp = (short) Integer.parseInt(strTmp);
+			sp = (short) Integer.parseInt(strTmp.trim());
 			indexlang = (short) (sp & 7);
 			libLearn.gStatus = "Vokabel.LoadFromString Line 679";
 			// Inserted by CodeCompleter
@@ -1673,7 +1673,7 @@ public class Vokabel implements Parcelable {
 				GetNextLineFromString(strContent, refStrTmp);
 				strTmp = refStrTmp.getValue();
 				
-				mVok.get(n).z = (short) Integer.parseInt(strTmp);
+				mVok.get(n).z = (short) Integer.parseInt(strTmp.trim());
 				if (libString.IsNullOrEmpty(mVok.get(n).Wort)) {
 					libLearn.gStatus = "Vokabel.LoadFromString Line 709";
 					// Inserted by CodeCompleter
@@ -1727,7 +1727,7 @@ public class Vokabel implements Parcelable {
 		            fontfil.setValue(fontfil.getValue() + ",");
 		            h=(short) ((fontfil.getValue().indexOf(",",hh-1))+1);
 		            if (h != 0 && h - hh > 0)
-		            	indexLang=(short) (Integer.parseInt(fontfil.getValue().substring(hh-1, h-1)));
+		            	indexLang=(short) (Integer.parseInt(fontfil.getValue().substring(hh-1, h-1).trim()));
 		             
 		            hh = (short) (h+1);
 		            h = (short) ((fontfil.getValue().indexOf(",", hh-1) )+1);
@@ -1874,7 +1874,8 @@ public class Vokabel implements Parcelable {
 					}
 					catch (NumberFormatException ex)
 					{
-						lib.ShowException(getContext(), ex);
+						//lib.ShowException(getContext(), ex);
+						this.setStatus(ex.getMessage());
 						sp -=1;
 						blnUnicode = !blnUnicode;
 						if (sr!= null) sr.close();
@@ -1900,8 +1901,8 @@ public class Vokabel implements Parcelable {
 				}
 				if ((sp & 128) != 0) {
 					String x;
-					while ((x = sr.readLine()).length()==0);
-					fontfil = x;
+					while ((x = sr.readLine()).length()==0 && x!=null);
+					fontfil = x.replaceAll("\"$|^\"", "");;
 					if (!blnAppend)
 					{
 						RefSupport<String> refVar___0 = new RefSupport<String>(fontfil);
@@ -1976,7 +1977,7 @@ public class Vokabel implements Parcelable {
 					if (!((x=sr.readLine()) == null)) {
 						libLearn.gStatus = CodeLoc + " ReadLine6";
 						strTmp = x;
-						CurVok.z = (short) Integer.parseInt(strTmp);
+						CurVok.z = (short) Integer.parseInt(strTmp.trim());
 					}
 					if (libString.IsNullOrEmpty(CurVok.Wort)) {
 						mVok.remove(n);

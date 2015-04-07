@@ -6,10 +6,6 @@ import java.nio.channels.FileChannel;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import javax.swing.JEditorPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.EditorKit;
-
 import com.jmg.learn.libLearn;
 
 
@@ -97,12 +93,12 @@ public class lib
 	}
 	*/
 		
-	public static synchronized void ShowException(Context context, Exception ex)
+	public static synchronized void ShowException(Context context, Throwable ex)
 	{
 		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
 	   AlertDialog.Builder A = new AlertDialog.Builder(context);
 	   A.setPositiveButton("OK",listener());
-	   A.setMessage(ex.getMessage() + "\n" + (ex.getCause() == null ? "" : ex.getCause().getMessage()));
+	   A.setMessage(ex.getMessage() + "\n" + (ex.getCause() == null ? "" : ex.getCause().getMessage())+ "\nStatus: " + libLearn.gStatus);
 	   A.setTitle("Error");
 	   A.show();
 	}
@@ -199,7 +195,7 @@ public class lib
 	  }
 	  return sb.toString();
 	}
-
+	
 	public static int countMatches(String str, String sub) {
 	    if (libString.IsNullOrEmpty(str) || libString.IsNullOrEmpty(sub)) {
 	        return 0;
@@ -349,6 +345,7 @@ public class lib
 			return null;
 		}
 	}
+	/*
 	public static String rtfToHtml(Reader rtf) throws IOException {
 		JEditorPane p = new JEditorPane();
 		p.setContentType("text/rtf");
@@ -365,6 +362,7 @@ public class lib
 		}
 		return null;
 	}
+	*/
 
 }
 

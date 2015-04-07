@@ -1672,7 +1672,7 @@ containing a value of this type.
         public static final int adMob=0x7f05004c;
         public static final int always=0x7f05000d;
         public static final int beginning=0x7f050012;
-        public static final int btnRight=0x7f050042;
+        public static final int btnRight=0x7f050044;
         public static final int btnSkip=0x7f050045;
         public static final int btnView=0x7f050046;
         public static final int btnWrong=0x7f050047;
@@ -1724,7 +1724,7 @@ containing a value of this type.
         public static final int tabMode=0x7f050003;
         public static final int title=0x7f050027;
         public static final int txtMeaning1=0x7f050043;
-        public static final int txtMeaning2=0x7f050044;
+        public static final int txtMeaning2=0x7f050042;
         public static final int txtMeaning3=0x7f050041;
         public static final int txtStatus=0x7f050048;
         public static final int up=0x7f050016;

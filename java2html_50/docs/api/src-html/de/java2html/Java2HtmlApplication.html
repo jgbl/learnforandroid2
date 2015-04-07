@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>de/java2html/Java2HtmlApplication.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">de.java2html;</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.BorderLayout;</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.FlowLayout;</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.event.ActionEvent;</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.event.ActionListener;</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.Box;</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.JButton;</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.JFrame;</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.JPanel;</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.JTabbedPane;</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.gui.DirectTextConversionPanel;</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.gui.FileConversionPanel;</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.gui.GuiTools;</font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.gui.IStatisticsView;</font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.gui.Java2HtmlOptionsPanel;</font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">de.java2html.javasource.JavaSourceStatistic;</font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Main&nbsp;application&nbsp;for&nbsp;the&nbsp;Java2Html&nbsp;converter.</font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;For&nbsp;questions,&nbsp;suggestions,&nbsp;bug-reports,&nbsp;enhancement-requests&nbsp;etc.&nbsp;I&nbsp;may&nbsp;be</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;contacted&nbsp;at:&nbsp;&lt;a&nbsp;href=&#34;mailto:markus@jave.de&#34;&gt;markus@jave.de</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;The&nbsp;Java2html&nbsp;home&nbsp;page&nbsp;is&nbsp;located&nbsp;at:&nbsp;&lt;a&nbsp;href=&#34;http://www.java2html.de&#34;&gt;</font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;http://www.java2html.de</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">&lt;a&nbsp;href=&#34;mailto:markus@jave.de&#34;&gt;Markus&nbsp;Gebhard</font><font color="#7f7f9f">&lt;/a&gt;</font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@version&nbsp;</font><font color="#3f5fbf">2.1,&nbsp;06/30/02</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Copyright&nbsp;(C)&nbsp;Markus&nbsp;Gebhard&nbsp;2000-2002</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify&nbsp;it</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by&nbsp;the&nbsp;Free</font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or&nbsp;(at&nbsp;your&nbsp;option)</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;any&nbsp;later&nbsp;version.</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;program&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,&nbsp;but&nbsp;WITHOUT</font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of&nbsp;MERCHANTABILITY&nbsp;or</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;See&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;more&nbsp;details.</font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;along&nbsp;with</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;this&nbsp;program;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software&nbsp;Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple</font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Place&nbsp;-&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307,&nbsp;USA.</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">Java2HtmlApplication&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;final&nbsp;</b></font><font color="#000000">JFrame&nbsp;frame;</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;final&nbsp;</b></font><font color="#000000">JButton&nbsp;bExit;</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;final&nbsp;</b></font><font color="#000000">Java2HtmlOptionsPanel&nbsp;optionsPanel&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">Java2HtmlOptionsPanel</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Java2HtmlApplication</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>final&nbsp;</b></font><font color="#000000">JTabbedPane&nbsp;tabbedPane&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JTabbedPane</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">tabbedPane.addTab</font><font color="#000000">(</font><font color="#2a00ff">&#34;File&nbsp;Conversion&#34;</font><font color="#000000">,&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">FileConversionPanel</font><font color="#000000">(</font><font color="#000000">optionsPanel</font><font color="#000000">)</font><font color="#000000">.getContent</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">tabbedPane.addTab</font><font color="#000000">(</font><font color="#2a00ff">&#34;Direct&nbsp;Text&nbsp;Conversion&#34;</font><font color="#000000">,&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">DirectTextConversionPanel</font><font color="#000000">(</font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">optionsPanel,</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">IStatisticsView</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setStatistics</font><font color="#000000">(</font><font color="#000000">JavaSourceStatistic&nbsp;statistic</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//nothing&nbsp;to&nbsp;do</font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">})</font><font color="#000000">.getContent</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">bExit&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JButton</font><font color="#000000">(</font><font color="#2a00ff">&#34;Exit&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">bExit.addActionListener</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ActionListener</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">actionPerformed</font><font color="#000000">(</font><font color="#000000">ActionEvent&nbsp;evt</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">System.exit</font><font color="#000000">(</font><font color="#990000">0</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">})</font><font color="#000000">;</font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>final&nbsp;</b></font><font color="#000000">JPanel&nbsp;southPanel&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JPanel</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">FlowLayout</font><font color="#000000">(</font><font color="#000000">FlowLayout.RIGHT</font><font color="#000000">))</font><font color="#000000">;</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">southPanel.add</font><font color="#000000">(</font><font color="#000000">bExit</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>final&nbsp;</b></font><font color="#000000">JPanel&nbsp;pOptions&nbsp;=&nbsp;GuiTools.createBorderedPanel</font><font color="#000000">(</font><font color="#2a00ff">&#34;Options&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">pOptions.setLayout</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BorderLayout</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">pOptions.add</font><font color="#000000">(</font><font color="#000000">optionsPanel.getContent</font><font color="#000000">()</font><font color="#000000">,&nbsp;BorderLayout.CENTER</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">JPanel&nbsp;p&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JPanel</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BorderLayout</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">p.add</font><font color="#000000">(</font><font color="#000000">pOptions,&nbsp;BorderLayout.NORTH</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">p.add</font><font color="#000000">(</font><font color="#000000">Box.createVerticalGlue</font><font color="#000000">()</font><font color="#000000">,&nbsp;BorderLayout.CENTER</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">frame&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JFrame</font><font color="#000000">(</font><font color="#000000">Version.getJava2HtmlConverterTitle</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">frame.setDefaultCloseOperation</font><font color="#000000">(</font><font color="#000000">JFrame.EXIT_ON_CLOSE</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">frame.getContentPane</font><font color="#000000">()</font><font color="#000000">.setLayout</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BorderLayout</font><font color="#000000">(</font><font color="#990000">4</font><font color="#000000">,&nbsp;</font><font color="#990000">4</font><font color="#000000">))</font><font color="#000000">;</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">frame.getContentPane</font><font color="#000000">()</font><font color="#000000">.add</font><font color="#000000">(</font><font color="#000000">p,&nbsp;BorderLayout.EAST</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">frame.getContentPane</font><font color="#000000">()</font><font color="#000000">.add</font><font color="#000000">(</font><font color="#000000">tabbedPane,&nbsp;BorderLayout.CENTER</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">frame.getContentPane</font><font color="#000000">()</font><font color="#000000">.add</font><font color="#000000">(</font><font color="#000000">southPanel,&nbsp;BorderLayout.SOUTH</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">show</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">frame.pack</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">GuiTools.centerOnScreen</font><font color="#000000">(</font><font color="#000000">frame</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">frame.setVisible</font><font color="#000000">(</font><font color="#7f0055"><b>true</b></font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">main</font><font color="#000000">(</font><font color="#000000">String&nbsp;args</font><font color="#000000">[])&nbsp;{</font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">args&nbsp;!=&nbsp;</font><font color="#7f0055"><b>null&nbsp;</b></font><font color="#000000">&amp;&amp;&nbsp;args.length&nbsp;&gt;&nbsp;</font><font color="#990000">0</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Java2Html.main</font><font color="#000000">(</font><font color="#000000">args</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return</b></font><font color="#000000">;</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">GuiTools.setNativeLookAndFeel</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Java2HtmlApplication&nbsp;application&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">Java2HtmlApplication</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">application.show</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>
