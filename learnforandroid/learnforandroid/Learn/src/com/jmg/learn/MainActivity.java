@@ -325,7 +325,7 @@ public class MainActivity extends ActionBarActivity {
     		if (LoadNext) vok.setLernIndex((short) (vok.getLernIndex()+1));
     		View v = findViewById(R.id.word);
         	TextView t = (TextView)v;
-        	t.setText(vok.getWort());
+        	t.setText(getSpanned(vok.getWort()),TextView.BufferType.SPANNABLE);
         	v = findViewById(R.id.Comment);
         	t = (TextView)v;
         	t.setText(getSpanned(vok.getKommentar()),TextView.BufferType.SPANNABLE);
