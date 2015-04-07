@@ -5,15 +5,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.jar.JarFile;
-
 import br.com.thinkti.android.filechooser.*;
 
 import com.jmg.learn.vok.*;
 import com.jmg.lib.*;
 
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.SpannedString;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -54,8 +56,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
-    	super.onSaveInstanceState(outState);
     	saveVok();
+    	outState.putParcelable("vok", vok);
+    	super.onSaveInstanceState(outState);
     }
     
     @Override
@@ -89,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
     		if (lib.ShowMessageYesNo(this,getString(R.string.Save)))
     				{
     					try {
-							vok.SaveFile(vok.getFileName(), vok.getUniCode());
+							vok.SaveFile();;
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							lib.ShowException(this, e);
@@ -269,6 +272,10 @@ public class MainActivity extends ActionBarActivity {
         {
         	LoadFile();
         }
+        if (id== R.id.mnuFileSave)
+        {
+        	saveVok();
+        }
         return super.onOptionsItemSelected(item);
     }
     public void LoadFile()
@@ -321,7 +328,7 @@ public class MainActivity extends ActionBarActivity {
         	t.setText(vok.getWort());
         	v = findViewById(R.id.Comment);
         	t = (TextView)v;
-        	t.setText(vok.getKommentar());
+        	t.setText(getSpanned(vok.getKommentar()),TextView.BufferType.SPANNABLE);
         	v = findViewById(R.id.txtMeaning1);
         	t = (TextView)v;
         	t.setText((showBeds?vok.getBedeutung1():""));
@@ -335,6 +342,16 @@ public class MainActivity extends ActionBarActivity {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
 		}
+    	
+    }
+    public Spanned getSpanned(String txt) throws IOException
+    {
+    	if(txt.startsWith("{\\rtf1\\"))
+    			{
+    				txt = lib.rtfToHtml(new StringReader(txt));
+    				return Html.fromHtml(txt);
+    			}
+    			return new SpannedString(txt);
     	
     }
     

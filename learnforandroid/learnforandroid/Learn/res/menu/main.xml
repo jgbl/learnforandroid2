@@ -10,5 +10,7 @@
         app:showAsAction="never"/>
     <item android:id="@+id/mnuFileOpen" android:title="@string/mnuFileOpen">
     </item>
+    <item android:id="@+id/mnuFileSave" android:title="@string/mnuFileSave">
+    </item>
 
 </menu>

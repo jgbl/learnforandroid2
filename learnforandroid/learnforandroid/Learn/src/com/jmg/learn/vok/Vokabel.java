@@ -12,6 +12,8 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.TextView;
 
 import com.jmg.learn.*;
@@ -22,7 +24,7 @@ import com.jmg.lib.lib.libString;
 
 
 
-public class Vokabel {
+public class Vokabel implements Parcelable {
 
 	//Learn For All New Version
 		//By J.M.Goebel (jhmgbl2@t-online.dee)
@@ -1234,7 +1236,7 @@ public class Vokabel {
 
 	    public void Get_Vok(RefSupport<Object> refvokNr, RefSupport<Object> refi, RefSupport<Object> refblnDurch, RefSupport<Object> refblnDurch2) throws Exception 
 	    {
-	        Get_Vok:
+	        //Get_Vok:
 	        refblnDurch.setValue(false);
 	        short vokNr = (Short)refvokNr.getValue();
 	        short i = (Short)refi.getValue();
@@ -1310,7 +1312,10 @@ public class Vokabel {
 	            else
 	            {
 	                // TODO: might not be correct. Was : Exit Do
-	                if (Math.random() < 1 / mVok.get(intVokNr).z)
+	                double r = Math.random();
+	                double z = (double)mVok.get(intVokNr).z;
+	            	double p = 1 / z;
+	                if (r < p)
 	                {
 	                    mLernVokabeln[i] = intVokNr;
 	                    break;
@@ -1369,6 +1374,12 @@ public class Vokabel {
 			return;
 					}
 
+		
+		public void SaveFile() throws Exception
+		{
+			SaveFile(mFileName, _UniCode);
+		}
+		
 		public void SaveFile(String strFileName, boolean blnUniCode) throws Exception
 		{
 			if (libString.IsNullOrEmpty(strFileName))
@@ -1387,10 +1398,8 @@ public class Vokabel {
 			short tasta = 0;
 			short varbed = 0;
 			String fontfil = null;
-			String Sprache = null;
 			String tastbel = null;
 			fontfil = "";
-			Sprache = "";
 			tastbel = "";
 			
 
@@ -1916,7 +1925,14 @@ public class Vokabel {
 				libLearn.gStatus = CodeLoc + " Line 829";
 				// Inserted by CodeCompleter
 				if (blnAppend)
+				{
 					n = (short) mGesamtzahl;
+				}
+				else
+				{
+					mVok.clear();
+					mVok.add(new typVok("empty", "empty", "empty", "empty", "empty", (short) 0));
+				}
 				for (String x = sr.readLine(); x != null; x = sr.readLine()) 
 				{
 					int Len = x.length();
@@ -1984,7 +2000,7 @@ public class Vokabel {
 				// ******** Hier gehts hin wenn ein Fehler auftrit oder wenn _
 				//' ******** Schluß ist.....
 				libLearn.gStatus = CodeLoc + " CloseFile";
-				closefile:
+				//closefile:
 				// Inserted by CodeCompleter
 				sr.close();
 				isr.close();
@@ -2549,7 +2565,7 @@ public class Vokabel {
 			libLearn.gStatus = "Vokabel.Class_Initialize Line 1228";
 			// Inserted by CodeCompleter
 			mConfirmChanges = true;
-			mSchrittweite = 10;
+			mSchrittweite = 6;
 			mAbfragebereich = -1;
 			mAbfrageZufällig = false;
 			mLerngeschwindigkeit = 1;
@@ -2616,6 +2632,16 @@ public class Vokabel {
 		}		
 	public Vokabel() {
 		// TODO Auto-generated finalructor stub
+	}
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

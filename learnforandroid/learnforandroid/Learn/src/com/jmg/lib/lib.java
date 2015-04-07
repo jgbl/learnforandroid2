@@ -6,6 +6,10 @@ import java.nio.channels.FileChannel;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import javax.swing.JEditorPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.EditorKit;
+
 import com.jmg.learn.libLearn;
 
 
@@ -81,7 +85,7 @@ public class lib
 		i.setDataAndType(uri, "image/*");
 		context.startActivity(i);
 	}
-		private static class ExStateInfo
+	/*	private static class ExStateInfo
 	{
 		public Context context;
 		public RuntimeException ex;
@@ -91,6 +95,8 @@ public class lib
 			this.ex = ex;
 		}
 	}
+	*/
+		
 	public static synchronized void ShowException(Context context, Exception ex)
 	{
 		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
@@ -343,5 +349,22 @@ public class lib
 			return null;
 		}
 	}
+	public static String rtfToHtml(Reader rtf) throws IOException {
+		JEditorPane p = new JEditorPane();
+		p.setContentType("text/rtf");
+		EditorKit kitRtf = p.getEditorKitForContentType("text/rtf");
+		try {
+			kitRtf.read(rtf, p.getDocument(), 0);
+			kitRtf = null;
+			EditorKit kitHtml = p.getEditorKitForContentType("text/html");
+			Writer writer = new StringWriter();
+			kitHtml.write(writer, p.getDocument(), 0, p.getDocument().getLength());
+			return writer.toString();
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
 
