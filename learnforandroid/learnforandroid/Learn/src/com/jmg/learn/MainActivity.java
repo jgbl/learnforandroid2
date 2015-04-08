@@ -268,9 +268,10 @@ public class MainActivity extends ActionBarActivity {
     	
 		File F = android.os.Environment.getExternalStorageDirectory();
 		String extPath = F.getPath();
+		JMGDataDirectory = Path.combine(extPath, "learnforandroid","vok");
+		
 		if (F.isDirectory() && F.exists())
 		{
-			JMGDataDirectory = Path.combine(extPath, "learnforandroid","vok");
 			File F1 = new File(JMGDataDirectory);
 			if (F1.isDirectory() == false && !F1.exists())
 			{
@@ -377,7 +378,7 @@ public class MainActivity extends ActionBarActivity {
     	    	    	
     	intent.putStringArrayListExtra("filterFileExtension", extensions);
     	intent.putExtra("blnUniCode",blnUniCode);
-    	intent.putExtra("DefaultDir", JMGDataDirectory);
+    	intent.putExtra("DefaultDir", new File(JMGDataDirectory).exists()?JMGDataDirectory:"/sdcard/");
     	_blnUniCode = blnUniCode;
     	
     	this.startActivityForResult(intent, FILE_CHOOSER);
@@ -397,7 +398,7 @@ public class MainActivity extends ActionBarActivity {
 				{
 					_txtMeaning1.setMaxLines(30);
 					_txtMeaning1.setLines(20);
-					_txtMeaning1.setTextSize((float) (20*scale));
+					_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (20*scale));
 					_txtMeaning2.setVisibility(View.GONE);
 					_txtMeaning3.setVisibility(View.GONE);
 				}
@@ -405,7 +406,7 @@ public class MainActivity extends ActionBarActivity {
 				{
 					_txtMeaning1.setMaxLines(10);
 					_txtMeaning1.setLines(2);
-					_txtMeaning1.setTextSize((float) (40*scale));
+					_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (40*scale));
 					_txtMeaning2.setVisibility(View.VISIBLE);
 					_txtMeaning3.setVisibility(View.VISIBLE);
 				}
