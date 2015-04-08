@@ -350,7 +350,7 @@ public class MainActivity extends ActionBarActivity {
 				{
 					_txtMeaning1.setMaxLines(30);
 					_txtMeaning1.setLines(20);
-					_txtMeaning1.setTextSize(20);
+					_txtMeaning1.setTextSize((float) (20*scale));
 					_txtMeaning2.setVisibility(View.GONE);
 					_txtMeaning3.setVisibility(View.GONE);
 				}
@@ -358,7 +358,7 @@ public class MainActivity extends ActionBarActivity {
 				{
 					_txtMeaning1.setMaxLines(10);
 					_txtMeaning1.setLines(2);
-					_txtMeaning1.setTextSize(40);
+					_txtMeaning1.setTextSize((float) (40*scale));
 					_txtMeaning2.setVisibility(View.VISIBLE);
 					_txtMeaning3.setVisibility(View.VISIBLE);
 				}
