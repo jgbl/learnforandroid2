@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity {
 	private Button _btnWrong;
 	private Button _btnSkip;
 	private Button _btnView;
+	private Button _btnEdit;
 	private TextView _txtWord;
 	private TextView _txtKom;
 	private TextView _txtStatus;
@@ -198,6 +199,26 @@ public class MainActivity extends ActionBarActivity {
 				
 			}
 		});
+    	
+    	v = findViewById(R.id.btnEdit);
+    	b = (Button)v;
+    	_btnEdit = b;
+    	b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					vok.setBedeutung1(_txtMeaning1.getText().toString());
+					vok.setBedeutung2(_txtMeaning2.getText().toString());
+					vok.setBedeutung3(_txtMeaning3.getText().toString());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					lib.ShowException(MainActivity.this, e);
+				}
+				
+			}
+		});
+    	
     	_txtMeaning1 = (EditText)findViewById(R.id.txtMeaning1);
     	_txtMeaning2 = (EditText)findViewById(R.id.txtMeaning2);
     	_txtMeaning3 = (EditText)findViewById(R.id.txtMeaning3);
@@ -226,6 +247,8 @@ public class MainActivity extends ActionBarActivity {
     		_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnSkip.getTextSize() * scale));
     		_btnView.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnView.getTextSize() * scale));
     		_btnWrong.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnWrong.getTextSize() * scale));
+    		_btnEdit.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnEdit.getTextSize() * scale));
+    		
     		
     		RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
     		params.topMargin = (int) (params.topMargin * scale);
@@ -252,6 +275,10 @@ public class MainActivity extends ActionBarActivity {
     		params.height = (int) (params.height * scale);
     		params.width = (int)(params.width * scale);
     		_btnView.setLayoutParams(params);
+    		params = (android.widget.RelativeLayout.LayoutParams) _btnEdit.getLayoutParams();
+    		params.height = (int) (params.height * scale);
+    		params.width = (int)(params.width * scale);
+    		_btnEdit.setLayoutParams(params);
     	}
     }
     
