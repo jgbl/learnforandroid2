@@ -15,14 +15,18 @@ import com.jmg.lib.*;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.*;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 
 public class MainActivity extends ActionBarActivity {
@@ -194,17 +198,28 @@ public class MainActivity extends ActionBarActivity {
     	_txtMeaning1 = (EditText)findViewById(R.id.txtMeaning1);
     	_txtMeaning2 = (EditText)findViewById(R.id.txtMeaning2);
     	_txtMeaning3 = (EditText)findViewById(R.id.txtMeaning3);
-    	if (_txtMeaning3.getBottom() > _btnRight.getTop())
+    	Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        int height = metrics.heightPixels;
+		scale = (double)height / (double)1024;
+    	/*lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() 
+    			+ "\nbtnRight.Top: " + _btnRight.getTop()
+    			+ "\nDisplayHeight: " + height);*/
+    	if (scale != 1)
     	{
-    		scale = _txtMeaning3.getBottom() + 20 - _btnRight.getTop();
-    		Display display = getWindowManager().getDefaultDisplay();
-    		@SuppressWarnings("deprecation")
-			int height = display.getHeight();
-    		scale = (height-scale)/height;
     		lib.ShowMessage(this, "Scaling font by " + scale + " Screenheight = " + height);
-    		_txtMeaning1.setTextSize((float) (_txtMeaning1.getTextSize() * scale));
-    		_txtMeaning2.setTextSize((float) (_txtMeaning2.getTextSize() * scale));
-    		_txtMeaning3.setTextSize((float) (_txtMeaning3.getTextSize() * scale));
+    		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning1.getTextSize() * scale));
+    		_txtMeaning2.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning2.getTextSize() * scale));
+    		_txtMeaning3.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning3.getTextSize() * scale));
+    		RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
+    		params.topMargin = (int) (params.topMargin * scale);
+    		_txtMeaning1.setLayoutParams(params);
+    		params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning2.getLayoutParams();
+    		params.topMargin = (int) (params.topMargin * scale);
+    		_txtMeaning2.setLayoutParams(params);
+    		params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning3.getLayoutParams();
+    		params.topMargin = (int) (params.topMargin * scale);
+    		_txtMeaning3.setLayoutParams(params);
     	}
     }
     
