@@ -23,13 +23,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 
 public class MainActivity extends ActionBarActivity {
@@ -42,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
 	private Button _btnView;
 	private TextView _txtWord;
 	private TextView _txtKom;
+	private TextView _txtStatus;
 	private EditText _txtMeaning1;
 	private EditText _txtMeaning2;
 	private EditText _txtMeaning3;
@@ -205,7 +203,8 @@ public class MainActivity extends ActionBarActivity {
     	_txtMeaning3 = (EditText)findViewById(R.id.txtMeaning3);
     	_txtWord = (TextView)findViewById(R.id.word);
     	_txtKom = (TextView)findViewById(R.id.Comment);
-    	
+    	_txtStatus = (TextView)findViewById(R.id.txtStatus);
+    	    	
     	Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         int height = metrics.heightPixels;
@@ -221,6 +220,8 @@ public class MainActivity extends ActionBarActivity {
     		_txtMeaning3.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning3.getTextSize() * scale));
     		_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtWord.getTextSize() * scale));
     		_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtKom.getTextSize() * scale));
+    		_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtStatus.getTextSize() * scale));
+    		
     		_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnRight.getTextSize() * scale));
     		_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnSkip.getTextSize() * scale));
     		_btnView.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnView.getTextSize() * scale));
@@ -254,15 +255,7 @@ public class MainActivity extends ActionBarActivity {
     	}
     }
     
-    private OnClickListener Click = new OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			
-		}
-	};
-	public String JMGDataDirectory;
+    public String JMGDataDirectory;
     private void CopyAssets()
     {
     	
@@ -397,7 +390,7 @@ public class MainActivity extends ActionBarActivity {
 				if (vok.getCardMode())
 				{
 					_txtMeaning1.setMaxLines(30);
-					_txtMeaning1.setLines(20);
+					_txtMeaning1.setLines(16);
 					_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (20*scale));
 					_txtMeaning2.setVisibility(View.GONE);
 					_txtMeaning3.setVisibility(View.GONE);
@@ -484,7 +477,7 @@ public class MainActivity extends ActionBarActivity {
         	{
         		t.setTypeface(Typeface.DEFAULT);
         	}
-        	if (libString.IsNullOrEmpty(vok.getBedeutung2()))
+        	if (libString.IsNullOrEmpty(vok.getBedeutung2()) || vok.getCardMode())
         	{
         		t.setVisibility(View.GONE);
         	}
@@ -504,7 +497,7 @@ public class MainActivity extends ActionBarActivity {
         	{
         		t.setTypeface(Typeface.DEFAULT);
         	}
-        	if (libString.IsNullOrEmpty(vok.getBedeutung3()))
+        	if (libString.IsNullOrEmpty(vok.getBedeutung3()) || vok.getCardMode())
         	{
         		t.setVisibility(View.GONE);
         	}

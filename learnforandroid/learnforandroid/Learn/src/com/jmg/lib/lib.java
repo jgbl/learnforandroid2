@@ -130,7 +130,7 @@ public class lib
 	{
 		public static boolean IsNullOrEmpty(String s)
 		{
-			if(s == null || s == ""){return true;}
+			if(s == null || s == "" || s.length() == 0){return true;}
 			else{return false;}
 		}
 		public static int InStr(String s, String Search)

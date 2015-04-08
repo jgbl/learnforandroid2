@@ -166,7 +166,6 @@ public class Vokabel implements Parcelable {
 		private String mSTatus;
 		private structFonts mFonts;
 		private boolean _cardmode;
-		private String _Properties;
 		private boolean _UniCode;
 		
 				public boolean getUniCode() {
@@ -544,8 +543,6 @@ public class Vokabel implements Parcelable {
 				short i = 0;
 				short ii = 0;
 				short Loesungen = 0;
-				// Anzahl der richtigen Antworten
-				short anzAntworten = 0;
 				// Anzahl der eingegebenen Antworten
 				short anzBedeutungen = 0;
 
@@ -584,7 +581,6 @@ public class Vokabel implements Parcelable {
 					Antworten[i] = (Antworten[i]).trim();
 					String Antwort = RemoveKomment(Antworten[i]);
 					if (!libString.IsNullOrEmpty(Antworten[i])) {
-						anzAntworten += 1;
 						for (ii = 0; ii <= (Bedeutungen.length-1); ii++) {
 							Bedeutungen[ii] = (Bedeutungen[ii]).trim();
 
@@ -1394,7 +1390,6 @@ public class Vokabel implements Parcelable {
 			String LWort = null;
 			File fname = new File(strFileName);
 			short h = 0;
-			short qf = 0;
 			short spr = 0;
 			short einst = 0;
 			short tasta = 0;
@@ -1482,17 +1477,14 @@ public class Vokabel implements Parcelable {
 						LWort = mVok.get(h).Bed1;
 						if (!libString.IsNullOrEmpty(LWort))
 							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
-						qf = 0;
 						sWriter.write(LWort+"\n");
 						LWort = mVok.get(h).Bed2;
 						if (!libString.IsNullOrEmpty(LWort))
 							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
-						qf = 0;
 						sWriter.write(LWort+"\n");
 						LWort = mVok.get(h).Bed3;
 						if (!libString.IsNullOrEmpty(LWort))
 							LWort = LWort.replace("\r", "{CR}").replace("\n", "{LF}");
-						qf = 0;
 						sWriter.write(LWort+"\n");
 						sWriter.write((mVok.get(h).z)+"\n");
 					}
@@ -1730,8 +1722,7 @@ public class Vokabel implements Parcelable {
 		    	short hh = (Short)refhh.getValue();
 		    	short indexLang = (Short) refindexLang.getValue();
 		    	short qf = (Short)refqf.getValue();
-		    	String tmpStr = null;
-		        hh = 1;
+		    	hh = 1;
 		        fontfil.setValue(fontfil.getValue().trim());
 		        if ((fontfil.getValue().indexOf(",")) > -1)
 		        {
