@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import br.com.thinkti.android.filechooser.*;
 
 import com.jmg.learn.vok.*;
+import com.jmg.learn.vok.Vokabel.EnumSprachen;
 import com.jmg.lib.*;
 
 import android.support.v7.app.ActionBarActivity;
@@ -402,9 +403,17 @@ public class MainActivity extends ActionBarActivity {
     		View v = findViewById(R.id.word);
         	TextView t = (TextView)v;
         	t.setText(getSpanned(vok.getWort()),TextView.BufferType.SPANNABLE);
+        	if (vok.getSprache() == EnumSprachen.Hebrew || vok.getSprache() == EnumSprachen.Griechisch)
+        	{
+        		t.setTypeface(vok.TypefaceCardo);
+        	}
         	v = findViewById(R.id.Comment);
         	t = (TextView)v;
         	t.setText(getSpanned(vok.getKommentar()),TextView.BufferType.SPANNABLE);
+        	if (vok.getSprache() == EnumSprachen.Hebrew || vok.getSprache() == EnumSprachen.Griechisch)
+        	{
+        		t.setTypeface(vok.TypefaceCardo);
+        	}
         	v = findViewById(R.id.txtMeaning1);
         	t = (TextView)v;
         	t.setText((showBeds?vok.getBedeutung1():""));

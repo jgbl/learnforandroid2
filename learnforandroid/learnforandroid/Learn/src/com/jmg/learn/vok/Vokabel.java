@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.TextView;
@@ -76,6 +77,7 @@ public class Vokabel implements Parcelable {
 		public boolean aend;
 		public boolean varHebr;
 		public int AnzRichtig;
+		public Typeface TypefaceCardo; 
 
 		public int AnzFalsch;
 		public enum Bewertung
@@ -1406,6 +1408,15 @@ public class Vokabel implements Parcelable {
 			this.mVokPath = fname.getParent();
 			try {
 				Charset enc = Charset.forName("UTF-8");
+				Charset CharsetWindows = null;
+				try {	
+					CharsetWindows = Charset.forName("Windows-1252");
+					}
+					catch (Exception ex)
+					{
+						this.setStatus(ex.getMessage());
+					}
+				if (CharsetWindows == null) CharsetWindows = Charset.defaultCharset();
 				/*
 				if (fname.exists()) 
 				{
@@ -1424,7 +1435,7 @@ public class Vokabel implements Parcelable {
 				{
 					if (lib.ShowMessageYesNo(getContext(), getContext().getString(R.string.SaveAsUniCode)) == false) 
 					{
-						enc = Charset.availableCharsets().get("Windows-1252");
+						enc = CharsetWindows;
 					} 
 					else 
 					{
@@ -1853,9 +1864,18 @@ public class Vokabel implements Parcelable {
 				do
 				{
 					if (F.exists()) {
+						Charset CharsetWindows = null;
+						try {	
+							CharsetWindows = Charset.forName("Windows-1252");
+							}
+							catch (Exception ex)
+							{
+								this.setStatus(ex.getMessage());
+							}
+						if (CharsetWindows == null) CharsetWindows = Charset.defaultCharset();
 						Charset CharSetUnicode = (sp>=-1 ? Charset.forName("UTF-8") : Charset.forName("UTF-16"));
 						is = new java.io.FileInputStream(F);
-						isr = new java.io.InputStreamReader(is, (blnUnicode ? CharSetUnicode : Charset.availableCharsets().get("Windows-1252")));
+						isr = new java.io.InputStreamReader(is, (blnUnicode ? CharSetUnicode : CharsetWindows));
 						sr = new WindowsBufferedReader(isr);
 					} else {
 						lib.ShowMessage(getContext(), getContext().getString(R.string.FileDoesNotExist));
@@ -2594,6 +2614,7 @@ public class Vokabel implements Parcelable {
 			//lokale Kopie
 			mKomFont = new clsFont(Container);
 			//lokale Kopie
+			TypefaceCardo = Typeface.createFromAsset(getContext().getAssets(), "Cardo104s.ttf");
 			Init();
 		}
 		public Context getContext()
