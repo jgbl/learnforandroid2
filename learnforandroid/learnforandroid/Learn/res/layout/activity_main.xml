@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="@string/hello_world"
-        android:textSize="45px"
+        android:textSize="60px"
         android:textStyle="bold"
         android:typeface="normal" />
 
@@ -79,6 +79,7 @@
         android:textSize="40px" />
 
 <RelativeLayout
+    android:id="@+id/layoutButtonst"
     android:layout_centerInParent="true"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -121,6 +122,7 @@
         android:text="@string/btnWrong"
         android:textSize="20px" />
 </RelativeLayout>
+
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"

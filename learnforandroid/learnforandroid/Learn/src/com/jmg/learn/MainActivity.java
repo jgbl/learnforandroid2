@@ -12,6 +12,7 @@ import br.com.thinkti.android.filechooser.*;
 import com.jmg.learn.vok.*;
 import com.jmg.learn.vok.Vokabel.EnumSprachen;
 import com.jmg.lib.*;
+import com.jmg.lib.lib.libString;
 
 import android.support.v7.app.ActionBarActivity;
 import android.text.Spanned;
@@ -23,6 +24,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.*;
@@ -38,6 +40,8 @@ public class MainActivity extends ActionBarActivity {
 	private Button _btnWrong;
 	private Button _btnSkip;
 	private Button _btnView;
+	private TextView _txtWord;
+	private TextView _txtKom;
 	private EditText _txtMeaning1;
 	private EditText _txtMeaning2;
 	private EditText _txtMeaning3;
@@ -199,6 +203,9 @@ public class MainActivity extends ActionBarActivity {
     	_txtMeaning1 = (EditText)findViewById(R.id.txtMeaning1);
     	_txtMeaning2 = (EditText)findViewById(R.id.txtMeaning2);
     	_txtMeaning3 = (EditText)findViewById(R.id.txtMeaning3);
+    	_txtWord = (TextView)findViewById(R.id.word);
+    	_txtKom = (TextView)findViewById(R.id.Comment);
+    	
     	Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         int height = metrics.heightPixels;
@@ -212,6 +219,13 @@ public class MainActivity extends ActionBarActivity {
     		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning1.getTextSize() * scale));
     		_txtMeaning2.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning2.getTextSize() * scale));
     		_txtMeaning3.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning3.getTextSize() * scale));
+    		_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtWord.getTextSize() * scale));
+    		_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtKom.getTextSize() * scale));
+    		_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnRight.getTextSize() * scale));
+    		_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnSkip.getTextSize() * scale));
+    		_btnView.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnView.getTextSize() * scale));
+    		_btnWrong.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnWrong.getTextSize() * scale));
+    		
     		RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1.getLayoutParams();
     		params.topMargin = (int) (params.topMargin * scale);
     		_txtMeaning1.setLayoutParams(params);
@@ -221,6 +235,22 @@ public class MainActivity extends ActionBarActivity {
     		params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning3.getLayoutParams();
     		params.topMargin = (int) (params.topMargin * scale);
     		_txtMeaning3.setLayoutParams(params);
+    		params = (android.widget.RelativeLayout.LayoutParams) _btnRight.getLayoutParams();
+    		params.height = (int) (params.height * scale);
+    		params.width = (int)(params.width * scale);
+    		_btnRight.setLayoutParams(params);
+    		params = (android.widget.RelativeLayout.LayoutParams) _btnWrong.getLayoutParams();
+    		params.height = (int) (params.height * scale);
+    		params.width = (int)(params.width * scale);
+    		_btnWrong.setLayoutParams(params);
+    		params = (android.widget.RelativeLayout.LayoutParams) _btnSkip.getLayoutParams();
+    		params.height = (int) (params.height * scale);
+    		params.width = (int)(params.width * scale);
+    		_btnSkip.setLayoutParams(params);
+    		params = (android.widget.RelativeLayout.LayoutParams) _btnView.getLayoutParams();
+    		params.height = (int) (params.height * scale);
+    		params.width = (int)(params.width * scale);
+    		_btnView.setLayoutParams(params);
     	}
     }
     
@@ -232,7 +262,7 @@ public class MainActivity extends ActionBarActivity {
 			
 		}
 	};
-    
+	public String JMGDataDirectory;
     private void CopyAssets()
     {
     	
@@ -240,7 +270,7 @@ public class MainActivity extends ActionBarActivity {
 		String extPath = F.getPath();
 		if (F.isDirectory() && F.exists())
 		{
-			String JMGDataDirectory = Path.combine(extPath, "learnforandroid","vok");
+			JMGDataDirectory = Path.combine(extPath, "learnforandroid","vok");
 			File F1 = new File(JMGDataDirectory);
 			if (F1.isDirectory() == false && !F1.exists())
 			{
@@ -336,10 +366,10 @@ public class MainActivity extends ActionBarActivity {
     {
     	Intent intent = new Intent(this, FileChooser.class);
     	ArrayList<String> extensions = new ArrayList<String>();
-    	extensions.add(".k??");
-    	extensions.add(".v??");
-    	extensions.add(".K??");
-    	extensions.add(".V??");
+    	extensions.add(".k");
+    	extensions.add(".v");
+    	extensions.add(".K");
+    	extensions.add(".V");
     	extensions.add(".KAR");
     	extensions.add(".VOK");
     	extensions.add(".kar");
@@ -347,6 +377,7 @@ public class MainActivity extends ActionBarActivity {
     	    	    	
     	intent.putStringArrayListExtra("filterFileExtension", extensions);
     	intent.putExtra("blnUniCode",blnUniCode);
+    	intent.putExtra("DefaultDir", JMGDataDirectory);
     	_blnUniCode = blnUniCode;
     	
     	this.startActivityForResult(intent, FILE_CHOOSER);
@@ -400,29 +431,86 @@ public class MainActivity extends ActionBarActivity {
     			_btnWrong.setEnabled(false);
     		}
     		if (LoadNext) vok.setLernIndex((short) (vok.getLernIndex()+1));
+    		
     		View v = findViewById(R.id.word);
         	TextView t = (TextView)v;
         	t.setText(getSpanned(vok.getWort()),TextView.BufferType.SPANNABLE);
-        	if (vok.getSprache() == EnumSprachen.Hebrew || vok.getSprache() == EnumSprachen.Griechisch)
+        	if (vok.getSprache() == EnumSprachen.Hebrew 
+        			|| vok.getSprache() == EnumSprachen.Griechisch
+        			|| (vok.getFontWort().getName() == "Cardo"))
         	{
         		t.setTypeface(vok.TypefaceCardo);
         	}
+        	else
+        	{
+        		t.setTypeface(Typeface.DEFAULT);
+        	}
+        	
         	v = findViewById(R.id.Comment);
         	t = (TextView)v;
         	t.setText(getSpanned(vok.getKommentar()),TextView.BufferType.SPANNABLE);
-        	if (vok.getSprache() == EnumSprachen.Hebrew || vok.getSprache() == EnumSprachen.Griechisch)
+        	if (vok.getSprache() == EnumSprachen.Hebrew 
+        			|| vok.getSprache() == EnumSprachen.Griechisch
+        			|| (vok.getFontKom().getName() == "Cardo"))
         	{
         		t.setTypeface(vok.TypefaceCardo);
         	}
+        	else
+        	{
+        		t.setTypeface(Typeface.DEFAULT);
+        	}
+        	
         	v = findViewById(R.id.txtMeaning1);
         	t = (TextView)v;
         	t.setText((showBeds?vok.getBedeutung1():""));
+        	if (vok.getFontBed().getName() == "Cardo")
+        	{
+        		t.setTypeface(vok.TypefaceCardo);
+        	}
+        	else
+        	{
+        		t.setTypeface(Typeface.DEFAULT);
+        	}
+        	
         	v = findViewById(R.id.txtMeaning2);
         	t = (TextView)v;
         	t.setText((showBeds?vok.getBedeutung2():""));
+        	if (vok.getFontBed().getName() == "Cardo")
+        	{
+        		t.setTypeface(vok.TypefaceCardo);
+        	}
+        	else
+        	{
+        		t.setTypeface(Typeface.DEFAULT);
+        	}
+        	if (libString.IsNullOrEmpty(vok.getBedeutung2()))
+        	{
+        		t.setVisibility(View.GONE);
+        	}
+        	else
+        	{
+        		t.setVisibility(View.VISIBLE);
+        	}
+        	
         	v = findViewById(R.id.txtMeaning3);
         	t = (TextView)v;
         	t.setText((showBeds?vok.getBedeutung3():""));
+        	if (vok.getFontBed().getName() == "Cardo")
+        	{
+        		t.setTypeface(vok.TypefaceCardo);
+        	}
+        	else
+        	{
+        		t.setTypeface(Typeface.DEFAULT);
+        	}
+        	if (libString.IsNullOrEmpty(vok.getBedeutung3()))
+        	{
+        		t.setVisibility(View.GONE);
+        	}
+        	else
+        	{
+        		t.setVisibility(View.VISIBLE);
+        	}
         } catch (Exception e) {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
