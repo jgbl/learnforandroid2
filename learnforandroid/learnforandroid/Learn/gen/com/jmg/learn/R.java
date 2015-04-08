@@ -1698,7 +1698,8 @@ containing a value of this type.
         public static final int lvFiles=0x7f05004d;
         public static final int middle=0x7f050013;
         public static final int mnuFileOpen=0x7f05004f;
-        public static final int mnuFileSave=0x7f050050;
+        public static final int mnuFileOpenASCII=0x7f050050;
+        public static final int mnuFileSave=0x7f050051;
         public static final int never=0x7f05000b;
         public static final int none=0x7f050004;
         public static final int normal=0x7f050001;
@@ -1792,6 +1793,7 @@ containing a value of this type.
     }
     public static final class string {
         public static final int FileDoesNotExist=0x7f0a0021;
+        public static final int FileFormatNotRecognized=0x7f0a002c;
         public static final int Save=0x7f0a0029;
         public static final int SaveAsUniCode=0x7f0a0020;
         public static final int TotalNumber=0x7f0a001c;
@@ -1865,6 +1867,7 @@ containing a value of this type.
         public static final int hello_world=0x7f0a0018;
         public static final int mnuFile=0x7f0a0027;
         public static final int mnuFileOpen=0x7f0a0028;
+        public static final int mnuFileOpenASCII=0x7f0a002b;
         public static final int mnuFileSave=0x7f0a002a;
         public static final int no=0x7f0a001e;
         public static final int ok=0x7f0a001f;

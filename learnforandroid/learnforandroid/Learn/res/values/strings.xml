@@ -20,4 +20,6 @@
     <string name="mnuFileOpen">open file</string>
     <string name="Save">Do you want to save the vocabulary?</string>
     <string name="mnuFileSave">Save</string>
+    <string name="mnuFileOpenASCII">open ASCII</string>
+    <string name="FileFormatNotRecognized">The file format could not be recognized! Aborting load!</string>
 </resources>

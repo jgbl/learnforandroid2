@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
 	private EditText _txtMeaning1;
 	private EditText _txtMeaning2;
 	private EditText _txtMeaning3;
-	
+	private double scale = 1;
 	public Vokabel vok;
 
     @Override
@@ -196,11 +196,12 @@ public class MainActivity extends ActionBarActivity {
     	_txtMeaning3 = (EditText)findViewById(R.id.txtMeaning3);
     	if (_txtMeaning3.getBottom() > _btnRight.getTop())
     	{
-    		double scale = _txtMeaning3.getBottom() + 20 - _btnRight.getTop();
+    		scale = _txtMeaning3.getBottom() + 20 - _btnRight.getTop();
     		Display display = getWindowManager().getDefaultDisplay();
     		@SuppressWarnings("deprecation")
 			int height = display.getHeight();
     		scale = (height-scale)/height;
+    		lib.ShowMessage(this, "Scaling font by " + scale + " Screenheight = " + height);
     		_txtMeaning1.setTextSize((float) (_txtMeaning1.getTextSize() * scale));
     		_txtMeaning2.setTextSize((float) (_txtMeaning2.getTextSize() * scale));
     		_txtMeaning3.setTextSize((float) (_txtMeaning3.getTextSize() * scale));
@@ -303,7 +304,11 @@ public class MainActivity extends ActionBarActivity {
         }
         else if (id == R.id.mnuFileOpen)
         {
-        	LoadFile();
+        	LoadFile(true);
+        }
+        else if (id == R.id.mnuFileOpenASCII)
+        {
+        	LoadFile(false);
         }
         if (id== R.id.mnuFileSave)
         {
@@ -311,7 +316,7 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void LoadFile()
+    public void LoadFile(boolean blnUniCode)
     {
     	Intent intent = new Intent(this, FileChooser.class);
     	ArrayList<String> extensions = new ArrayList<String>();
@@ -325,8 +330,13 @@ public class MainActivity extends ActionBarActivity {
     	extensions.add(".vok");
     	    	    	
     	intent.putStringArrayListExtra("filterFileExtension", extensions);
+    	intent.putExtra("blnUniCode",blnUniCode);
+    	_blnUniCode = blnUniCode;
+    	
     	this.startActivityForResult(intent, FILE_CHOOSER);
     }
+    
+    boolean _blnUniCode = true;
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -334,7 +344,8 @@ public class MainActivity extends ActionBarActivity {
             String fileSelected = data.getStringExtra("fileSelected");
             try {
             	saveVok();
-				vok.LoadFile(fileSelected);
+            	
+				vok.LoadFile(fileSelected,false,false,_blnUniCode);
 				if (vok.getCardMode())
 				{
 					_txtMeaning1.setMaxLines(30);

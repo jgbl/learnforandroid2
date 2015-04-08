@@ -1405,7 +1405,7 @@ public class Vokabel implements Parcelable {
 
 			this.mVokPath = fname.getParent();
 			try {
-				Charset enc = Charset.defaultCharset();
+				Charset enc = Charset.forName("UTF-8");
 				/*
 				if (fname.exists()) 
 				{
@@ -1418,7 +1418,7 @@ public class Vokabel implements Parcelable {
 				*/
 				if (blnUniCode) 
 				{
-					enc = Charset.defaultCharset();
+					enc = Charset.forName("UTF-8");
 				} 
 				else 
 				{
@@ -1428,7 +1428,7 @@ public class Vokabel implements Parcelable {
 					} 
 					else 
 					{
-						enc = Charset.defaultCharset();
+						enc = Charset.forName("UTF-8");
 					}
 				}
 				os = new java.io.FileOutputStream(fname);
@@ -1460,7 +1460,7 @@ public class Vokabel implements Parcelable {
 				} else {
 					sWriter.write((spr | einst)+"\n");
 				}
-				for (h = 0; h <= mVok.size() -1; h++) {
+				for (h = 1; h <= mVok.size() -1; h++) {
 					if (!libString.IsNullOrEmpty(mVok.get(h).Wort)) {
 						LWort = mVok.get(h).Wort;
 						if (!libString.IsNullOrEmpty(mVok.get(h).Kom))
@@ -1853,15 +1853,16 @@ public class Vokabel implements Parcelable {
 				do
 				{
 					if (F.exists()) {
+						Charset CharSetUnicode = (sp>=-1 ? Charset.forName("UTF-8") : Charset.forName("UTF-16"));
 						is = new java.io.FileInputStream(F);
-						isr = new java.io.InputStreamReader(is, (blnUnicode ? Charset.defaultCharset() : Charset.availableCharsets().get("Windows-1252")));
+						isr = new java.io.InputStreamReader(is, (blnUnicode ? CharSetUnicode : Charset.availableCharsets().get("Windows-1252")));
 						sr = new WindowsBufferedReader(isr);
 					} else {
 						lib.ShowMessage(getContext(), getContext().getString(R.string.FileDoesNotExist));
 						//Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc & "", "Dateiname_ungültig", "", "")
 						return;
 					}
-					_UniCode = (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8"));
+					_UniCode = (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8") || isr.getEncoding().equals("UTF16"));
 					if (lib.getExtension(F).toLowerCase(Locale.getDefault()).indexOf(".k") != -1)
 						_cardmode = true;
 					else
@@ -1870,20 +1871,24 @@ public class Vokabel implements Parcelable {
 					tmp = sr.readLine();
 					try
 					{
-						sp = (short) Integer.parseInt(tmp.trim());
+						sp = (short) Integer.parseInt(tmp.trim()); // .replaceAll("[^\\d]", "")'
 					}
 					catch (NumberFormatException ex)
 					{
 						//lib.ShowException(getContext(), ex);
 						this.setStatus(ex.getMessage());
 						sp -=1;
-						blnUnicode = !blnUnicode;
+						blnUnicode = (sp>-2 ? !blnUnicode : true);
 						if (sr!= null) sr.close();
 						if (isr!= null) isr.close();
 						if (is!=null) is.close();
 					}
 				}
-				while (sp==-1);
+				while (sp<0 && sp >= -2);
+				if (sp < -1)
+				{
+					lib.ShowMessage(getContext(), getContext().getString(R.string.FileFormatNotRecognized));
+				}
 				varHebr = (sp & 16) != 0;
 				libLearn.gStatus = CodeLoc + " Line 819";
 				// Inserted by CodeCompleter
