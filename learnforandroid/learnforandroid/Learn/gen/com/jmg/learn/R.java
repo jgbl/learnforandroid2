@@ -1858,6 +1858,7 @@ containing a value of this type.
         public static final int action_loadfile=0x7f0a0026;
         public static final int action_settings=0x7f0a0019;
         public static final int app_name=0x7f0a0010;
+        public static final int btnEdit=0x7f0a002d;
         public static final int btnNext=0x7f0a001a;
         public static final int btnRight=0x7f0a0022;
         public static final int btnSkip=0x7f0a001b;
