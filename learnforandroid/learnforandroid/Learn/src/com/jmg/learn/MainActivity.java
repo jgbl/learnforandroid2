@@ -260,7 +260,7 @@ public class MainActivity extends ActionBarActivity {
         int height = metrics.heightPixels;
         int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
         height = height - viewTop;
-        scale = (double)height / (double)1024;
+        scale = (double)height / (double)950;
     	/*lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() 
     			+ "\nbtnRight.Top: " + _btnRight.getTop()
     			+ "\nDisplayHeight: " + height);*/
