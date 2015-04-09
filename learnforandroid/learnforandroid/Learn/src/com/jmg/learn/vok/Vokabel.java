@@ -359,7 +359,16 @@ public class Vokabel implements Parcelable {
 	        }
 	         
 	    }
-
+	    public int[] getLernvokabeln()
+	    {
+	    	return mLernVokabeln;
+	    }
+	    
+	    public void setLernvokabeln(int[] Lernvokabeln)
+	    {
+	    	mLernVokabeln = Lernvokabeln;
+	    }
+	    
 	    public short getZaehler() throws Exception {
 	        short functionReturnValue = 0;
 	        // ERROR: Not supported in C#: OnErrorStatement

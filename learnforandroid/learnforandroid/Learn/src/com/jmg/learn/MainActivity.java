@@ -62,6 +62,18 @@ public class MainActivity extends ActionBarActivity {
         CopyAssets();
         try {
 			InitButtons();
+			if (savedInstanceState != null)
+			{
+				String filename = savedInstanceState.getString("vokpath");
+		    	int index = savedInstanceState.getInt("vokindex");
+		    	int[] Lernvokabeln = savedInstanceState.getIntArray("Lernvokabeln");
+		    	int Lernindex = savedInstanceState.getInt("Lernindex");
+		    	if (!libString.IsNullOrEmpty(filename) && index>0)
+		    	{
+		    		LoadVokabel(filename, index, Lernvokabeln, Lernindex);
+		    	}
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,14 +94,19 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
-    	saveVok();
+    	saveVok(true);
     	outState.putParcelable("vok", vok);
+    	outState.putString("vokpath", vok.getFileName());
+    	outState.putInt("vokindex", vok.getIndex());
+    	outState.putIntArray("Lernvokabeln", vok.getLernvokabeln());
+    	outState.putInt("Lernindex", vok.getLernIndex());
+    	
     	super.onSaveInstanceState(outState);
     }
     
     @Override
     public void onBackPressed() {
-        if (saveVok()) super.onBackPressed();
+        if (saveVok(false)) super.onBackPressed();
         return;
     }   
     
@@ -105,16 +122,16 @@ public class MainActivity extends ActionBarActivity {
 
         if(keyCode == KeyEvent.KEYCODE_HOME)
         {
-           saveVok();
+           saveVok(false);
         }
         return super.onKeyDown(keyCode, event);
     };
     
-    private boolean saveVok()
+    private boolean saveVok(boolean dontPrompt)
     {
     	if (vok.aend)
     	{
-    		if (lib.ShowMessageYesNo(this,getString(R.string.Save)))
+    		if (dontPrompt || lib.ShowMessageYesNo(this,getString(R.string.Save)))
     				{
     					try {
 							vok.SaveFile();
@@ -127,6 +144,13 @@ public class MainActivity extends ActionBarActivity {
     		return false;
     	}
     	return true;
+    }
+    
+    @Override
+    protected void onResume()
+    {
+    	super.onResume();
+    	//resize();
     }
     
     private void InitButtons() throws Exception
@@ -226,10 +250,17 @@ public class MainActivity extends ActionBarActivity {
     	_txtKom = (TextView)findViewById(R.id.Comment);
     	_txtStatus = (TextView)findViewById(R.id.txtStatus);
     	    	
+    	
+    }
+    
+    private void resize()
+    {
     	Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         int height = metrics.heightPixels;
-		scale = (double)height / (double)1024;
+        int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        height = height - viewTop;
+        scale = (double)height / (double)1024;
     	/*lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() 
     			+ "\nbtnRight.Top: " + _btnRight.getTop()
     			+ "\nDisplayHeight: " + height);*/
@@ -357,6 +388,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        resize();
         return true;
     }
 
@@ -379,7 +411,7 @@ public class MainActivity extends ActionBarActivity {
         }
         if (id== R.id.mnuFileSave)
         {
-        	saveVok();
+        	saveVok(false);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -410,34 +442,44 @@ public class MainActivity extends ActionBarActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == FILE_CHOOSER) && (resultCode == -1)) {
             String fileSelected = data.getStringExtra("fileSelected");
-            try {
-            	saveVok();
-            	
-				vok.LoadFile(fileSelected,false,false,_blnUniCode);
-				if (vok.getCardMode())
-				{
-					_txtMeaning1.setMaxLines(30);
-					_txtMeaning1.setLines(16);
-					_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (20*scale));
-					_txtMeaning2.setVisibility(View.GONE);
-					_txtMeaning3.setVisibility(View.GONE);
-				}
-				else
-				{
-					_txtMeaning1.setMaxLines(10);
-					_txtMeaning1.setLines(2);
-					_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (40*scale));
-					_txtMeaning2.setVisibility(View.VISIBLE);
-					_txtMeaning3.setVisibility(View.VISIBLE);
-				}
-					
-				getVokabel(false,false);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				lib.ShowException(this,e);
-			}
+            LoadVokabel (fileSelected,1,null,0);
         }                   
     }
+    public void LoadVokabel(String fileSelected, int index, int[]Lernvokabeln, int Lernindex)
+    {
+    	 try {
+        	saveVok(false);
+        	
+    		vok.LoadFile(fileSelected,false,false,_blnUniCode);
+    		if (vok.getCardMode())
+    		{
+    			_txtMeaning1.setMaxLines(30);
+    			_txtMeaning1.setLines(16);
+    			_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (20*scale));
+    			_txtMeaning2.setVisibility(View.GONE);
+    			_txtMeaning3.setVisibility(View.GONE);
+    		}
+    		else
+    		{
+    			_txtMeaning1.setMaxLines(10);
+    			_txtMeaning1.setLines(2);
+    			_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (40*scale));
+    			_txtMeaning2.setVisibility(View.VISIBLE);
+    			_txtMeaning3.setVisibility(View.VISIBLE);
+    		}
+    			
+    		if (index >0 ) vok.setIndex(index);
+    		if (Lernvokabeln != null) vok.setLernvokabeln(Lernvokabeln);
+    		if (Lernindex > 0) vok.setLernIndex((short) Lernindex);
+    		
+    		getVokabel(false,false);
+    	} catch (Exception e) {
+    		// TODO Auto-generated catch block
+    		lib.ShowException(this,e);
+    	}
+    }
+    
+    
     public void getVokabel(boolean showBeds, boolean LoadNext)
     {
     	try {
