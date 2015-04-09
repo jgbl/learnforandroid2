@@ -1699,6 +1699,7 @@ containing a value of this type.
         public static final int list_item=0x7f050025;
         public static final int lvFiles=0x7f05004f;
         public static final int middle=0x7f050013;
+        public static final int mnuDelete=0x7f050054;
         public static final int mnuFileOpen=0x7f050051;
         public static final int mnuFileOpenASCII=0x7f050052;
         public static final int mnuFileSave=0x7f050053;
@@ -1868,6 +1869,7 @@ containing a value of this type.
         public static final int fileSize=0x7f0a0012;
         public static final int folder=0x7f0a0013;
         public static final int hello_world=0x7f0a0018;
+        public static final int mnuDelete=0x7f0a002e;
         public static final int mnuFile=0x7f0a0027;
         public static final int mnuFileOpen=0x7f0a0028;
         public static final int mnuFileOpenASCII=0x7f0a002b;

@@ -409,9 +409,14 @@ public class MainActivity extends ActionBarActivity {
         {
         	LoadFile(false);
         }
-        if (id== R.id.mnuFileSave)
+        else if (id== R.id.mnuFileSave)
         {
         	saveVok(false);
+        }
+        if (id== R.id.mnuDelete)
+        {
+        	vok.DeleteVokabel();
+        	getVokabel(false, false);
         }
         return super.onOptionsItemSelected(item);
     }

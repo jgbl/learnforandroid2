@@ -1321,7 +1321,7 @@ public class Vokabel implements Parcelable {
 	                // TODO: might not be correct. Was : Exit Do
 	                double r = Math.random();
 	                double z = (double)mVok.get(intVokNr).z;
-	            	double p = 1 / z;
+	            	double p = 1 / (z * (mGesamtzahl > 50 ? (float) mGesamtzahl / (float) 50 : 1));
 	                if (r < p)
 	                {
 	                    mLernVokabeln[i] = intVokNr;

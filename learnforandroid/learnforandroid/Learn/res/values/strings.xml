@@ -23,4 +23,5 @@
     <string name="mnuFileOpenASCII">open ASCII</string>
     <string name="FileFormatNotRecognized">The file format could not be recognized! Aborting load!</string>
     <string name="btnEdit">Edit</string>
+    <string name="mnuDelete">delete word</string>
 </resources>

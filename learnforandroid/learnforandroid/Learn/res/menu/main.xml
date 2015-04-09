@@ -12,6 +12,7 @@
     </item>
     <item android:id="@+id/mnuFileOpenASCII" android:title="@string/mnuFileOpenASCII"></item><item android:id="@+id/mnuFileSave" android:title="@string/mnuFileSave">
     </item>
+    <item android:id="@+id/mnuDelete" android:title="@string/mnuDelete"></item>
     
 
 </menu>
