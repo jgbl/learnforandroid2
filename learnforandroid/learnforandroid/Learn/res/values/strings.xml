@@ -24,4 +24,16 @@
     <string name="FileFormatNotRecognized">The file format could not be recognized! Aborting load!</string>
     <string name="btnEdit">Edit</string>
     <string name="mnuDelete">delete word</string>
+    <string-array name="spnAbfragebereichEntries">
+        <item >All</item>
+        <item >0</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >4</item>
+        <item >5</item>
+        <item >6</item>
+    </string-array>
+        <string name="spnAbfragebereichDescription">Specifies the range of vocabulary to be asked</string>
+        <string name="spnAbfragebereich">asking range</string>
 </resources>

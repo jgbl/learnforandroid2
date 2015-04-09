@@ -19,6 +19,7 @@ import android.text.Spanned;
 import android.text.SpannedString;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -32,6 +33,7 @@ import android.widget.*;
 public class MainActivity extends ActionBarActivity {
 	
 	private static final int FILE_CHOOSER = 34823;
+	private static final int Settings_Activity = 34824;
 	private Context context = this;
 	private Button _btnRight;
 	private Button _btnWrong;
@@ -113,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
     
     /*@Override
     public void onAttachedToWindow() {
-        super.onAttachedToWindow();
+        super.onAtFILE_CHOOSERtachedToWindow();
         this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);           
     }*/
 
@@ -399,7 +401,7 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            ShowSettings();
         }
         else if (id == R.id.mnuFileOpen)
         {
@@ -441,14 +443,25 @@ public class MainActivity extends ActionBarActivity {
     	this.startActivityForResult(intent, FILE_CHOOSER);
     }
     
+    public void ShowSettings()
+    {
+    	Intent intent = new Intent(this, SettingsActivity.class);
+    	intent.putExtra("Abfragebereich", vok.getAbfragebereich());
+    	
+    	this.startActivityForResult(intent, Settings_Activity);
+    }
+    
     boolean _blnUniCode = true;
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((requestCode == FILE_CHOOSER) && (resultCode == -1)) {
+        if ((requestCode == FILE_CHOOSER) && (resultCode == Activity.RESULT_OK)) {
             String fileSelected = data.getStringExtra("fileSelected");
             LoadVokabel (fileSelected,1,null,0);
-        }                   
+        } 
+        else if ((requestCode == Settings_Activity) && (resultCode == Activity.RESULT_OK)) {
+            vok.setAbfragebereich(data.getExtras().getShort("Abfragebereich"));
+        } 
     }
     public void LoadVokabel(String fileSelected, int index, int[]Lernvokabeln, int Lernindex)
     {

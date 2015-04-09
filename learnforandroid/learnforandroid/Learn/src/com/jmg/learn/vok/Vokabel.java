@@ -1272,8 +1272,8 @@ public class Vokabel implements Parcelable {
 	                refblnDurch.setValue(true);
 	            } 
 	            if (mVok.get(vokNr).z == mAbfragebereich 
-	            		| mAbfragebereich >= 6 & mVok.get(vokNr).z >= 6 
-	            		| mAbfragebereich == 0 & mVok.get(vokNr).z <= 0)
+	            		|| mAbfragebereich >= 6 && mVok.get(vokNr).z >= 6 
+	            		|| mAbfragebereich == 0 && mVok.get(vokNr).z <= 0)
 	            {
 	                mLernVokabeln[i] = vokNr;
 	                break;

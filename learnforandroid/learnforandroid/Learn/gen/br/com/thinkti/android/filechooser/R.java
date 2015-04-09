@@ -369,8 +369,8 @@ public final class R {
 		public static final int zip = 0x7f020043;
 	}
 	public static final class id {
-		public static final int TextView01 = 0x7f05004c;
-		public static final int TextView02 = 0x7f05004d;
+		public static final int TextView01 = 0x7f05004d;
+		public static final int TextView02 = 0x7f05004e;
 		public static final int action_bar = 0x7f050031;
 		public static final int action_bar_activity_content = 0x7f050018;
 		public static final int action_bar_container = 0x7f050030;
@@ -385,7 +385,7 @@ public final class R {
 		public static final int action_mode_bar_stub = 0x7f05002d;
 		public static final int action_mode_close_button = 0x7f050020;
 		public static final int activity_chooser_view_content = 0x7f050021;
-		public static final int adMob = 0x7f05004e;
+		public static final int adMob = 0x7f05004f;
 		public static final int always = 0x7f05000d;
 		public static final int beginning = 0x7f050012;
 		public static final int checkbox = 0x7f050029;
@@ -404,10 +404,10 @@ public final class R {
 		public static final int icon = 0x7f050026;
 		public static final int ifRoom = 0x7f05000c;
 		public static final int image = 0x7f050023;
-		public static final int img1 = 0x7f05004b;
+		public static final int img1 = 0x7f05004c;
 		public static final int listMode = 0x7f050002;
 		public static final int list_item = 0x7f050025;
-		public static final int lvFiles = 0x7f05004f;
+		public static final int lvFiles = 0x7f050050;
 		public static final int middle = 0x7f050013;
 		public static final int never = 0x7f05000b;
 		public static final int none = 0x7f050004;
@@ -465,9 +465,9 @@ public final class R {
 		public static final int abc_search_dropdown_item_icons_2line = 0x7f030014;
 		public static final int abc_search_view = 0x7f030015;
 		public static final int abc_simple_dropdown_hint = 0x7f030016;
-		public static final int file_view = 0x7f030018;
-		public static final int list_view = 0x7f030019;
-		public static final int support_simple_spinner_dropdown_item = 0x7f03001a;
+		public static final int file_view = 0x7f030019;
+		public static final int list_view = 0x7f03001a;
+		public static final int support_simple_spinner_dropdown_item = 0x7f03001b;
 	}
 	public static final class string {
 		public static final int abc_action_bar_home_description = 0x7f0a0001;
