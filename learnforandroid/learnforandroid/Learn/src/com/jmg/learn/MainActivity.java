@@ -52,35 +52,43 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
-        try {
-			vok = new Vokabel(this,(TextView) this.findViewById(R.id.txtStatus));
-			vok.setSchrittweite((short) 6);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			lib.ShowException(this, e);
-		}
-        CopyAssets();
-        try {
-			InitButtons();
-			if (savedInstanceState != null)
-			{
-				String filename = savedInstanceState.getString("vokpath");
-		    	int index = savedInstanceState.getInt("vokindex");
-		    	int[] Lernvokabeln = savedInstanceState.getIntArray("Lernvokabeln");
-		    	int Lernindex = savedInstanceState.getInt("Lernindex");
-		    	if (!libString.IsNullOrEmpty(filename) && index>0)
-		    	{
-		    		LoadVokabel(filename, index, Lernvokabeln, Lernindex);
-		    	}
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			lib.ShowException(this, e);
-		}
+        try
+        {
+        	setContentView(R.layout.activity_main);
+    		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
+            try {
+    			vok = new Vokabel(this,(TextView) this.findViewById(R.id.txtStatus));
+    			vok.setSchrittweite((short) 6);
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			lib.ShowException(this, e);
+    		}
+            CopyAssets();
+            try {
+    			InitButtons();
+    			if (savedInstanceState != null)
+    			{
+    				String filename = savedInstanceState.getString("vokpath");
+    		    	int index = savedInstanceState.getInt("vokindex");
+    		    	int[] Lernvokabeln = savedInstanceState.getIntArray("Lernvokabeln");
+    		    	int Lernindex = savedInstanceState.getInt("Lernindex");
+    		    	if (!libString.IsNullOrEmpty(filename) && index>0)
+    		    	{
+    		    		LoadVokabel(filename, index, Lernvokabeln, Lernindex);
+    		    	}
+    			}
+    			
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			lib.ShowException(this, e);
+    		}
+        }
+        catch (Exception ex)
+        {
+        	lib.ShowException(this, ex);
+        }
+        
         
         
     }
@@ -389,9 +397,17 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        resize();
-        return true;
+        try
+        {
+        	getMenuInflater().inflate(R.menu.main, menu);
+            resize();
+            return true;	
+        }
+        catch (Exception ex)
+        {
+        	lib.ShowException(this, ex);
+        }
+    	return false;
     }
 
     @Override
