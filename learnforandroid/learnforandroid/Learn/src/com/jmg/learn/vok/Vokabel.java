@@ -13,8 +13,6 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.widget.TextView;
 
 import com.jmg.learn.*;
@@ -25,7 +23,7 @@ import com.jmg.lib.lib.libString;
 
 
 
-public class Vokabel implements Parcelable {
+public class Vokabel {
 
 	//Learn For All New Version
 		//By J.M.Goebel (jhmgbl2@t-online.dee)
@@ -2661,6 +2659,7 @@ public class Vokabel implements Parcelable {
 	public Vokabel() {
 		// TODO Auto-generated finalructor stub
 	}
+	/*
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -2671,5 +2670,6 @@ public class Vokabel implements Parcelable {
 		// TODO Auto-generated method stub
 		
 	}
+	*/
 
 }

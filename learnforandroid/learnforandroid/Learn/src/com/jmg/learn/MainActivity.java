@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onSaveInstanceState(Bundle outState)
     {
     	saveVok(true);
-    	outState.putParcelable("vok", vok);
+    	//outState.putParcelable("vok", vok);
     	outState.putString("vokpath", vok.getFileName());
     	outState.putInt("vokindex", vok.getIndex());
     	outState.putIntArray("Lernvokabeln", vok.getLernvokabeln());
