@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
 	private EditText _txtMeaning3;
 	private double scale = 1;
 	public Vokabel vok;
-
+	public String CharsetASCII = "Windows-1252";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -446,8 +446,7 @@ public class MainActivity extends ActionBarActivity {
     public void ShowSettings()
     {
     	Intent intent = new Intent(this, SettingsActivity.class);
-    	intent.putExtra("Abfragebereich", vok.getAbfragebereich());
-    	
+    	intent.putExtra("CharsetASCII", vok.CharsetASCII);
     	this.startActivityForResult(intent, Settings_Activity);
     }
     
@@ -461,6 +460,7 @@ public class MainActivity extends ActionBarActivity {
         } 
         else if ((requestCode == Settings_Activity) && (resultCode == Activity.RESULT_OK)) {
             vok.setAbfragebereich(data.getExtras().getShort("Abfragebereich"));
+            vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
         } 
     }
     public void LoadVokabel(String fileSelected, int index, int[]Lernvokabeln, int Lernindex)

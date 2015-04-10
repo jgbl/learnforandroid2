@@ -206,6 +206,7 @@ public class Vokabel implements Parcelable {
 		public	void setFonts(structFonts value) { mFonts = value; }
 		
 		public short  getLernIndex() {	return mLernindex;	}
+		public String CharsetASCII = "windows-1252";
 		
 		public	void setLernIndex(short value) throws Exception 
 		{
@@ -1414,7 +1415,7 @@ public class Vokabel implements Parcelable {
 				Charset enc = Charset.forName("UTF-8");
 				Charset CharsetWindows = null;
 				try {	
-					CharsetWindows = Charset.forName("Windows-1252");
+					CharsetWindows = Charset.forName(CharsetASCII);
 					}
 					catch (Exception ex)
 					{
@@ -1866,7 +1867,7 @@ public class Vokabel implements Parcelable {
 					if (F.exists()) {
 						Charset CharsetWindows = null;
 						try {	
-							CharsetWindows = Charset.forName("Windows-1252");
+							CharsetWindows = Charset.forName(CharsetASCII);
 							}
 							catch (Exception ex)
 							{

@@ -36,4 +36,6 @@
     </string-array>
         <string name="spnAbfragebereichDescription">Specifies the range of vocabulary to be asked</string>
         <string name="spnAbfragebereich">asking range</string>
+        <string name="spnASCIIFont">Charset for ASCII</string>
+        <string name="spnASCIIFontDescription">Charset for loading ASCII files</string>
 </resources>

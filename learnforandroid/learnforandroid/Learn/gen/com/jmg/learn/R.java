@@ -1655,8 +1655,8 @@ containing a value of this type.
     }
     public static final class id {
         public static final int Comment=0x7f050040;
-        public static final int TextView01=0x7f05004d;
-        public static final int TextView02=0x7f05004e;
+        public static final int TextView01=0x7f05004e;
+        public static final int TextView02=0x7f05004f;
         public static final int action_bar=0x7f050031;
         public static final int action_bar_activity_content=0x7f050018;
         public static final int action_bar_container=0x7f050030;
@@ -1670,9 +1670,9 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f05002e;
         public static final int action_mode_bar_stub=0x7f05002d;
         public static final int action_mode_close_button=0x7f050020;
-        public static final int action_settings=0x7f050051;
+        public static final int action_settings=0x7f050052;
         public static final int activity_chooser_view_content=0x7f050021;
-        public static final int adMob=0x7f05004f;
+        public static final int adMob=0x7f050050;
         public static final int always=0x7f05000d;
         public static final int beginning=0x7f050012;
         public static final int btnEdit=0x7f05004a;
@@ -1696,16 +1696,16 @@ containing a value of this type.
         public static final int icon=0x7f050026;
         public static final int ifRoom=0x7f05000c;
         public static final int image=0x7f050023;
-        public static final int img1=0x7f05004c;
+        public static final int img1=0x7f05004d;
         public static final int layoutButtons=0x7f050045;
         public static final int listMode=0x7f050002;
         public static final int list_item=0x7f050025;
-        public static final int lvFiles=0x7f050050;
+        public static final int lvFiles=0x7f050051;
         public static final int middle=0x7f050013;
-        public static final int mnuDelete=0x7f050055;
-        public static final int mnuFileOpen=0x7f050052;
-        public static final int mnuFileOpenASCII=0x7f050053;
-        public static final int mnuFileSave=0x7f050054;
+        public static final int mnuDelete=0x7f050056;
+        public static final int mnuFileOpen=0x7f050053;
+        public static final int mnuFileOpenASCII=0x7f050054;
+        public static final int mnuFileSave=0x7f050055;
         public static final int never=0x7f05000b;
         public static final int none=0x7f050004;
         public static final int normal=0x7f050001;
@@ -1727,6 +1727,7 @@ containing a value of this type.
         public static final int showHome=0x7f050006;
         public static final int showTitle=0x7f050008;
         public static final int split_action_bar=0x7f050019;
+        public static final int spnASCII=0x7f05004c;
         public static final int spnAbfragebereich=0x7f05004b;
         public static final int submit_area=0x7f05003c;
         public static final int tabMode=0x7f050003;
@@ -1864,7 +1865,7 @@ containing a value of this type.
         public static final int action_loadfile=0x7f0a0026;
         public static final int action_settings=0x7f0a0019;
         public static final int app_name=0x7f0a0010;
-        public static final int askingRange=0x7f0a0031;
+        public static final int askingRange=0x7f0a0033;
         public static final int btnEdit=0x7f0a002d;
         public static final int btnNext=0x7f0a001a;
         public static final int btnRight=0x7f0a0022;
@@ -1886,6 +1887,8 @@ containing a value of this type.
         public static final int optionSelection=0x7f0a0017;
         public static final int parentDirectory=0x7f0a0014;
         public static final int selectThis=0x7f0a0016;
+        public static final int spnASCIIFont=0x7f0a0031;
+        public static final int spnASCIIFontDescription=0x7f0a0032;
         public static final int spnAbfragebereich=0x7f0a0030;
         public static final int spnAbfragebereichDescription=0x7f0a002f;
         public static final int view=0x7f0a0023;
