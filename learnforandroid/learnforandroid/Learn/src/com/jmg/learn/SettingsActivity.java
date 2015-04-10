@@ -34,7 +34,13 @@ public class SettingsActivity extends Activity
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
-		spnAbfragebereich.setAdapter(adapter);
+		spnAbfragebereich.setAdapter(
+			      new com.jmg.lib.NothingSelectedSpinnerAdapter(
+			            adapter,
+			            R.layout.contact_spinner_row_nothing_selected,
+			            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+			            this));
+		//spnAbfragebereich.setAdapter(adapter);
 		spnAbfragebereich.setSelection(getIntent().getShortExtra("Abfragebereich", (short) -1)+1);
 		spnAbfragebereich.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -60,9 +66,15 @@ public class SettingsActivity extends Activity
 			adapterASCII.add(c.name());
 		}
 		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapterASCII.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
-		spnASCII.setAdapter(adapterASCII);
+		spnASCII.setAdapter(
+			      new com.jmg.lib.NothingSelectedSpinnerAdapter(
+			            adapterASCII,
+			            R.layout.contact_spinner_row_nothing_selected,
+			            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+			            this));
+		//spnASCII.setAdapter(adapterASCII);
 		String CharsetASCII = getIntent().getStringExtra("CharsetASCII");
 		if (!libString.IsNullOrEmpty(CharsetASCII))
 		{

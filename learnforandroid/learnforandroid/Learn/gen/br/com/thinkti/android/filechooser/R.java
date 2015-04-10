@@ -33,8 +33,8 @@ public final class R {
 		public static final int lvFiles = 0x7f060051;
 	}
 	public static final class layout {
-		public static final int file_view = 0x7f030019;
-		public static final int list_view = 0x7f03001a;
+		public static final int file_view = 0x7f03001a;
+		public static final int list_view = 0x7f03001b;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f050000;

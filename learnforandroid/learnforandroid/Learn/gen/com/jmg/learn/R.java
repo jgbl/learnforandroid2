@@ -1793,9 +1793,10 @@ containing a value of this type.
         public static final int abc_simple_dropdown_hint=0x7f030016;
         public static final int activity_main=0x7f030017;
         public static final int activity_settings=0x7f030018;
-        public static final int file_view=0x7f030019;
-        public static final int list_view=0x7f03001a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
+        public static final int contact_spinner_row_nothing_selected=0x7f030019;
+        public static final int file_view=0x7f03001a;
+        public static final int list_view=0x7f03001b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
     }
     public static final class menu {
         public static final int main=0x7f0d0000;
@@ -1891,6 +1892,7 @@ containing a value of this type.
         public static final int spnASCIIFontDescription=0x7f050032;
         public static final int spnAbfragebereich=0x7f050030;
         public static final int spnAbfragebereichDescription=0x7f05002f;
+        public static final int spnSelect=0x7f050034;
         public static final int view=0x7f050023;
         public static final int yes=0x7f05001d;
     }
