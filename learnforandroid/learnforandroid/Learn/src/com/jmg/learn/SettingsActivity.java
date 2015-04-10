@@ -10,9 +10,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 
@@ -26,6 +28,12 @@ public class SettingsActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
+		initSpinners();
+		initButtons();
+	}
+	
+	private void initSpinners()
+	{
 		spnAbfragebereich = (Spinner) findViewById(R.id.spnAbfragebereich);
 		spnASCII = (Spinner) findViewById(R.id.spnASCII);
 		// Create an ArrayAdapter using the string array and a default spinner layout
@@ -34,13 +42,7 @@ public class SettingsActivity extends Activity
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
-		spnAbfragebereich.setAdapter(
-			      new com.jmg.lib.NothingSelectedSpinnerAdapter(
-			            adapter,
-			            R.layout.contact_spinner_row_nothing_selected,
-			            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-			            this));
-		//spnAbfragebereich.setAdapter(adapter);
+		spnAbfragebereich.setAdapter(adapter);
 		spnAbfragebereich.setSelection(getIntent().getShortExtra("Abfragebereich", (short) -1)+1);
 		spnAbfragebereich.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -49,7 +51,7 @@ public class SettingsActivity extends Activity
 					int position, long id) {
 				// TODO Auto-generated method stub
 				intent.putExtra("Abfragebereich", (short)(position-1));
-				setResult(Activity.RESULT_OK, intent);
+				
 			}
 
 			@Override
@@ -68,13 +70,7 @@ public class SettingsActivity extends Activity
 		// Specify the layout to use when the list of choices appears
 		adapterASCII.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
-		spnASCII.setAdapter(
-			      new com.jmg.lib.NothingSelectedSpinnerAdapter(
-			            adapterASCII,
-			            R.layout.contact_spinner_row_nothing_selected,
-			            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-			            this));
-		//spnASCII.setAdapter(adapterASCII);
+		spnASCII.setAdapter(adapterASCII);
 		String CharsetASCII = getIntent().getStringExtra("CharsetASCII");
 		if (!libString.IsNullOrEmpty(CharsetASCII))
 		{
@@ -101,7 +97,7 @@ public class SettingsActivity extends Activity
 				// TODO Auto-generated method stub
 				intent.putExtra("CharsetASCII", ((String)
 						(parent.getSelectedItem())));
-				setResult(Activity.RESULT_OK, intent);
+				
 			}
 
 			@Override
@@ -110,6 +106,32 @@ public class SettingsActivity extends Activity
 				setResult(Activity.RESULT_CANCELED, null);
 			}
 		});
+
+	}
+	
+	private void initButtons()
+	{
+		Button b = (Button)findViewById(R.id.btnOK);
+		b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				setResult(Activity.RESULT_OK, intent);
+				finish();
+			}
+		});
+		b = (Button)findViewById(R.id.btnCancel);
+		b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				setResult(Activity.RESULT_CANCELED, intent);
+				finish();
+			}
+		});
+				
 	}
 	
 public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {

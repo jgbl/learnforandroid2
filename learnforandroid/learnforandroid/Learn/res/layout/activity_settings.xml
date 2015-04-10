@@ -3,29 +3,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="194dp"
-        android:orientation="vertical" >
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+		android:orientation="vertical">
+	    <RelativeLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="left|right"
+	        android:orientation="vertical"
+	        android:id="@+id/layoutSettings"
+	        >
+	            
+	        <TextView
+	            android:id="@+id/txtSettings"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/txtSettings"
+	            android:textSize="30sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	
+	        <TextView
+	            android:id="@+id/txtAbfragebereich"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtSettings"
+	            android:text="@string/txtAbfragebereich"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	
+	        <Spinner
+	            android:id="@+id/spnAbfragebereich"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtAbfragebereich"
+	            android:layout_gravity="right"
+	            android:layout_toRightOf="@+id/txtAbfragebereich"
+	            android:contentDescription="@string/spnAbfragebereichDescription"
+	            android:gravity="right"
+	            android:prompt="@string/spnAbfragebereich" />
+	
+	        <TextView
+	            android:id="@+id/txtCharsetASCII"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtAbfragebereich"
+	            android:text="@string/txtCharsetASCII"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <Spinner
+	            android:id="@+id/spnASCII"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtCharsetASCII"
+	            android:layout_gravity="right"
+	            android:layout_toRightOf="@+id/txtCharsetASCII"
+	            android:contentDescription="@string/spnASCIIFontDescription"
+	            android:gravity="right"
+	            android:prompt="@string/spnASCIIFont" />
+		    
+	    </RelativeLayout>
 
-        <Spinner
-            android:id="@+id/spnAbfragebereich"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/spnAbfragebereichDescription"
-            android:prompt="@string/spnAbfragebereich"
-            style="?android:attr/spinnerItemStyle"
-         />
+	    <RelativeLayout
+	        android:id="@+id/layoutButtons"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/layoutSettings"
+	        android:layout_centerHorizontal="true" >
 
-        <Spinner
-            android:id="@+id/spnASCII"
-            style="?android:attr/spinnerItemStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/spnASCIIFontDescription"
-            android:prompt="@string/spnASCIIFont" />
-
-    </LinearLayout>
-    
+				<Button
+			        android:id="@+id/btnCancel"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentBottom="true"
+			        android:text="@string/btnCancel"
+			        android:textSize="20sp" />
+				<Button
+			        android:id="@+id/btnOK"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentBottom="true"
+			        android:layout_toRightOf="@+id/btnCancel"
+			        android:text="@string/btnOK"
+			        android:textSize="20sp" />
+	
+			    
+			        
+		 </RelativeLayout>
+	</RelativeLayout>
 
 </ScrollView>

@@ -40,4 +40,9 @@
         <string name="spnASCIIFontDescription">Charset for loading ASCII files</string>
         <string name="askingRange">asking range</string>
         <string name="spnSelect">select ...</string>
+        <string name="txtSettings">Settings</string>
+        <string name="txtAbfragebereich">asking range:</string>
+        <string name="txtCharsetASCII">charset ascii:</string>
+        <string name="btnOK">OK</string>
+        <string name="btnCancel">Cancel</string>
 </resources>
