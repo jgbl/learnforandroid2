@@ -38,4 +38,5 @@
         <string name="spnAbfragebereich">asking range</string>
         <string name="spnASCIIFont">Charset for ASCII</string>
         <string name="spnASCIIFontDescription">Charset for loading ASCII files</string>
+        <string name="askingRange">asking range</string>
 </resources>
