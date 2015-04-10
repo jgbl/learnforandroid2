@@ -25,32 +25,10 @@
 	            android:typeface="normal" />
 	
 	        <TextView
-	            android:id="@+id/txtAbfragebereich"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_below="@+id/txtSettings"
-	            android:text="@string/txtAbfragebereich"
-	            android:textSize="18sp"
-	            android:textStyle="bold"
-	            android:typeface="normal" />
-	
-	        <Spinner
-	            android:id="@+id/spnAbfragebereich"
-	            style="?android:attr/spinnerItemStyle"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignBaseline="@id/txtAbfragebereich"
-	            android:layout_gravity="right"
-	            android:layout_toRightOf="@+id/txtAbfragebereich"
-	            android:contentDescription="@string/spnAbfragebereichDescription"
-	            android:gravity="right"
-	            android:prompt="@string/spnAbfragebereich" />
-	
-	        <TextView
 	            android:id="@+id/txtCharsetASCII"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_below="@+id/txtAbfragebereich"
+	            android:layout_below="@+id/txtSettings"
 	            android:text="@string/txtCharsetASCII"
 	            android:textSize="18sp"
 	            android:textStyle="bold"
@@ -62,11 +40,57 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBaseline="@id/txtCharsetASCII"
+	            android:layout_alignParentRight="true"
 	            android:layout_gravity="right"
-	            android:layout_toRightOf="@+id/txtCharsetASCII"
 	            android:contentDescription="@string/spnASCIIFontDescription"
 	            android:gravity="right"
 	            android:prompt="@string/spnASCIIFont" />
+	        
+	        <TextView
+	            android:id="@+id/txtAbfragebereich"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtCharsetASCII"
+	            android:text="@string/txtAbfragebereich"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	
+	        <Spinner
+	            android:id="@+id/spnAbfragebereich"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtAbfragebereich"
+	            android:layout_alignLeft="@id/spnASCII"
+	            android:layout_gravity="right"
+	            android:contentDescription="@string/spnAbfragebereichDescription"
+	            android:gravity="right"
+	            android:prompt="@string/spnAbfragebereich" />
+	
+	        
+	        
+	        <TextView
+	            android:id="@+id/txtStep"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtAbfragebereich"
+	            android:text="@string/txtStep"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <Spinner
+	            android:id="@+id/spnStep"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtStep"
+	            android:layout_alignLeft="@id/spnASCII"
+	            android:layout_gravity="right"
+	            android:contentDescription="@string/spnStepDescriptions"
+	            android:gravity="right"
+	            android:prompt="@string/spnStep" />
 		    
 	    </RelativeLayout>
 

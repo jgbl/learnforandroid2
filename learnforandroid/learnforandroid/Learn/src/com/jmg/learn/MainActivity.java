@@ -463,6 +463,7 @@ public class MainActivity extends ActionBarActivity {
     {
     	Intent intent = new Intent(this, SettingsActivity.class);
     	intent.putExtra("CharsetASCII", vok.CharsetASCII);
+    	intent.putExtra("Step", vok.getSchrittweite());
     	this.startActivityForResult(intent, Settings_Activity);
     }
     
@@ -470,14 +471,22 @@ public class MainActivity extends ActionBarActivity {
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((requestCode == FILE_CHOOSER) && (resultCode == Activity.RESULT_OK)) {
-            String fileSelected = data.getStringExtra("fileSelected");
-            LoadVokabel (fileSelected,1,null,0);
-        } 
-        else if ((requestCode == Settings_Activity) && (resultCode == Activity.RESULT_OK)) {
-            vok.setAbfragebereich(data.getExtras().getShort("Abfragebereich"));
-            vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
-        } 
+    	try {
+	    	if ((requestCode == FILE_CHOOSER) && (resultCode == Activity.RESULT_OK)) {
+	            String fileSelected = data.getStringExtra("fileSelected");
+	            LoadVokabel (fileSelected,1,null,0);
+	        } 
+	        else if ((requestCode == Settings_Activity) && (resultCode == Activity.RESULT_OK)) {
+	            vok.setAbfragebereich(data.getExtras().getShort("Abfragebereich"));
+	            
+	            vok.setSchrittweite(data.getExtras().getShort("Step"));
+				
+	            vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
+	        }
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			lib.ShowException(MainActivity.this, e);
+		}
     }
     public void LoadVokabel(String fileSelected, int index, int[]Lernvokabeln, int Lernindex)
     {

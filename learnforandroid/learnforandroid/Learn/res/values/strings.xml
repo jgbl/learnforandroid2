@@ -45,4 +45,17 @@
         <string name="txtCharsetASCII">charset ascii:</string>
         <string name="btnOK">OK</string>
         <string name="btnCancel">Cancel</string>
+        <string name="txtStep">Step:</string>
+        <string name="spnStep">step</string>
+        <string name="spnStepDescriptions">enter the step used for repeating not known vocabulary</string>
+        <string-array name="spnStepEntries">
+            <item >5</item>
+            <item >6</item>
+            <item >7</item>
+            <item >8</item>
+            <item >9</item>
+            <item >10</item>
+            <item >15</item>
+            <item >20</item>
+        </string-array>
 </resources>
