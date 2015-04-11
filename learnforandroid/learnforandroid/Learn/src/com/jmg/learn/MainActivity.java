@@ -205,7 +205,8 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				try {
 					vok.AntwortFalsch();
-					getVokabel(false,true);
+					flashwords();
+					//getVokabel(false,true);
 					//runFlashWords();
 					//Handler handler = new Handler();
 					//handler.postDelayed(runnableGetVok, (2000+vok.getAnzBed()*1000)*3);
@@ -315,33 +316,104 @@ public class MainActivity extends ActionBarActivity {
     
     private void flashwords() throws Exception
     {
+    	Timer T = new Timer("flash");
+    	long delay = 0;
     	for (int i = 0; i < 3; i++)
     	{
     		//_txtWord.setBackgroundResource(R.layout.roundedbox);
-    		_txtWord.showBorders=true;
-    		_txtWord.invalidate();
-    		try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		//_txtWord.setBackgroundResource(0);
-    		_txtWord.showBorders=false;
-    		_txtWord.invalidate();
+    		T.schedule(new showWordBordersTimerTask(), delay);
+    		delay += 2000;
+    		T.schedule(new hideWordBordersTimerTask(), delay);
     		BorderedEditText Beds[] = {_txtMeaning1, _txtMeaning2, _txtMeaning3};
     		for (int ii = 0; ii < vok.getAnzBed(); i++)
     		{
-    			Beds[ii].showBorders = true;//setBackgroundResource(R.layout.roundedbox);
-    			Beds[ii].invalidate();
-    			Thread.sleep(1000);
-    			Beds[ii].showBorders = false;//.setBackgroundResource(0);
-    			Beds[ii].invalidate();
+    			T.schedule(new showBedBordersTimerTask(Beds[ii]), delay);
+    			delay += 1000;
+    			T.schedule(new hideBedBordersTimerTask(Beds[ii]), delay);
     		}
+    		
     	}
+    	delay += 1000;
+    	T.schedule(new CancelTimerTask(T), delay);
+    }
+    private class showWordBordersTimerTask extends TimerTask {
+    		
+    	@Override
+    	public void run() {
+    		// TODO Auto-generated method stub
+    		showWordBorders();
+    	}
+
     }
     
-    private void resize()
+    private class hideWordBordersTimerTask extends TimerTask {
+
+    	@Override
+    	public void run() {
+    		// TODO Auto-generated method stub
+    		hideWordBorders();
+    	}
+
+    }
+
+    private class showBedBordersTimerTask extends TimerTask {
+		public BorderedEditText Bed;
+    	public showBedBordersTimerTask(BorderedEditText Bed)
+		{
+			// TODO Auto-generated constructor stub
+    		this.Bed = Bed;
+		}
+    	@Override
+    	public void run() {
+    		// TODO Auto-generated method stub
+    		Bed.setShowBorders(true);
+    	}
+
+    }
+    
+    private class hideBedBordersTimerTask extends TimerTask {
+    	public BorderedEditText Bed;
+    	public hideBedBordersTimerTask(BorderedEditText Bed)
+		{
+			// TODO Auto-generated constructor stub
+    		this.Bed = Bed;
+		}
+    	@Override
+    	public void run() {
+    		// TODO Auto-generated method stub
+    		Bed.setShowBorders(false);
+    	}
+
+    }
+
+    private class CancelTimerTask extends TimerTask {
+    	public Timer T;
+    	public CancelTimerTask(Timer T)
+		{
+			// TODO Auto-generated constructor stub
+    		this.T = T;
+		}
+    	@Override
+    	public void run() {
+    		// TODO Auto-generated method stub
+    		T.cancel();
+    	}
+
+    }
+
+    
+    private void showWordBorders() {
+		// TODO Auto-generated method stub
+    	_txtWord.setShowBorders(true);
+	}
+    
+    private void hideWordBorders() {
+		// TODO Auto-generated method stub
+    	_txtWord.setShowBorders(false);
+	}
+
+
+	private void resize()
     {
     	Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();

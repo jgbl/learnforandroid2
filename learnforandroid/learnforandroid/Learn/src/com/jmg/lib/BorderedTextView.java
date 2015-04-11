@@ -31,6 +31,13 @@ public class BorderedTextView extends TextView {
         super(context);
         init();
     }
+    
+    public void setShowBorders(boolean showBorders)
+    {
+    	this.showBorders = showBorders;
+    	this.invalidate();
+    }
+    
     private void init(){
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.BLACK);
