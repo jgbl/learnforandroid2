@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.jmg.learn.MainActivity" >
 
-    <TextView
+    <com.jmg.lib.BorderedTextView
         android:id="@+id/word"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:textStyle="bold"
         android:typeface="normal" />
 
-    <TextView
+    <com.jmg.lib.BorderedTextView
         android:id="@+id/Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,28 +26,11 @@
         android:layout_centerHorizontal="true"
         android:text="@string/hello_world"
         android:textSize="35px" />
-
-    <EditText
-        android:id="@+id/txtMeaning3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtMeaning2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="56px"
-        android:ems="10"
-        android:inputType="text|textMultiLine"
-        android:lines="2"
-        android:maxLines="20"
-        android:minLines="2"
-        android:text="@string/hello_world"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="40px" />
-
-    <EditText
+    
+    <com.jmg.lib.BorderedEditText
         android:id="@+id/txtMeaning1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtMeaning2"
         android:layout_below="@+id/Comment"
         android:layout_marginTop="120px"
         android:ems="10"
@@ -60,9 +43,9 @@
         android:textSize="40px" >
 
         <requestFocus />
-    </EditText>
+    </com.jmg.lib.BorderedEditText>
 
-    <EditText
+    <com.jmg.lib.BorderedEditText
         android:id="@+id/txtMeaning2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,8 +60,25 @@
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="40px" />
+    
 
-    <TextView
+    <com.jmg.lib.BorderedEditText
+        android:id="@+id/txtMeaning3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtMeaning2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56px"
+        android:ems="10"
+        android:inputType="text|textMultiLine"
+        android:lines="2"
+        android:maxLines="20"
+        android:minLines="2"
+        android:text="@string/hello_world"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="40px" />
+   
+    <com.jmg.lib.BorderedTextView
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -4,6 +4,7 @@
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 import java.util.regex.Pattern;
 
 import com.jmg.learn.libLearn;
@@ -15,6 +16,7 @@ import android.app.*;
 import android.content.*;
 //import android.runtime.*;
 import android.provider.*;
+import android.util.Log;
 import android.widget.Toast;
 
 public class lib
@@ -27,6 +29,7 @@ public class lib
 	private static String _status = "";
 	private static final String ONEDRIVE_APP_ID = "48122D4E";
 	private static final String ClassName = "lib.lib";
+	public static final String TAG = "com.jmg.lib.lib";
 	public static String getgstatus()
 	{
 		return _status;
@@ -363,6 +366,34 @@ public class lib
 		return null;
 	}
 	*/
+	private static long SLEEP_TIME = 2; // for 2 second
+	private static CountDownLatch latch;		
+	public static void Sleep(int Seconds) throws InterruptedException
+	{
+		latch = new CountDownLatch(1);
+		SLEEP_TIME = Seconds;
+		MyLauncher launcher = new MyLauncher();
+		            launcher.start();
+		//latch.await();
+	}
+	private static class MyLauncher extends Thread 
+	{
+        @Override
+        /**
+         * Sleep for 2 seconds as you can also change SLEEP_TIME 2 to any. 
+         */
+        public void run() {
+            try {
+                // Sleeping
+                Thread.sleep(SLEEP_TIME * 1000);
+                latch.countDown();
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+            //do something you want to do
+           //And your code will be executed after 2 second
+        }
+	}
 
 }
 

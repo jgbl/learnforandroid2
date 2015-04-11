@@ -1248,7 +1248,7 @@ public class Vokabel {
 	        short i = (Short)refi.getValue();
 	    	do
 	        {
-	            if (vokNr < mGesamtzahl)
+	            if (vokNr < mGesamtzahl -1)
 	            {
 	                vokNr+= 1;
 	            }
@@ -2671,5 +2671,9 @@ public class Vokabel {
 		
 	}
 	*/
+	public int getAnzBed() throws Exception {
+		// TODO Auto-generated method stub
+		return mVok.get(mIndex).getAnzBed();
+	}
 
 }

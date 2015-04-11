@@ -467,7 +467,7 @@ public final class R {
 		public static final int abc_simple_dropdown_hint = 0x7f030016;
 		public static final int file_view = 0x7f030019;
 		public static final int list_view = 0x7f03001a;
-		public static final int support_simple_spinner_dropdown_item = 0x7f03001b;
+		public static final int support_simple_spinner_dropdown_item = 0x7f03001c;
 	}
 	public static final class string {
 		public static final int abc_action_bar_home_description = 0x7f0a0001;

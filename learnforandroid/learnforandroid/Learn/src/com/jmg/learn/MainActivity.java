@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import br.com.thinkti.android.filechooser.*;
 
 import com.jmg.learn.vok.*;
@@ -28,6 +31,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -42,12 +46,12 @@ public class MainActivity extends ActionBarActivity {
 	private Button _btnSkip;
 	private Button _btnView;
 	private Button _btnEdit;
-	private TextView _txtWord;
-	private TextView _txtKom;
-	private TextView _txtStatus;
-	private EditText _txtMeaning1;
-	private EditText _txtMeaning2;
-	private EditText _txtMeaning3;
+	private BorderedTextView _txtWord;
+	private BorderedTextView _txtKom;
+	private BorderedTextView _txtStatus;
+	private BorderedEditText _txtMeaning1;
+	private BorderedEditText _txtMeaning2;
+	private BorderedEditText _txtMeaning3;
 	private double scale = 1;
 	public Vokabel vok;
 	public String CharsetASCII = "Windows-1252";
@@ -202,6 +206,9 @@ public class MainActivity extends ActionBarActivity {
 				try {
 					vok.AntwortFalsch();
 					getVokabel(false,true);
+					//runFlashWords();
+					//Handler handler = new Handler();
+					//handler.postDelayed(runnableGetVok, (2000+vok.getAnzBed()*1000)*3);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
@@ -262,14 +269,76 @@ public class MainActivity extends ActionBarActivity {
 			}
 		});
     	
-    	_txtMeaning1 = (EditText)findViewById(R.id.txtMeaning1);
-    	_txtMeaning2 = (EditText)findViewById(R.id.txtMeaning2);
-    	_txtMeaning3 = (EditText)findViewById(R.id.txtMeaning3);
-    	_txtWord = (TextView)findViewById(R.id.word);
-    	_txtKom = (TextView)findViewById(R.id.Comment);
-    	_txtStatus = (TextView)findViewById(R.id.txtStatus);
-    	    	
+    	_txtMeaning1 = (BorderedEditText)findViewById(R.id.txtMeaning1);
+    	_txtMeaning2 = (BorderedEditText)findViewById(R.id.txtMeaning2);
+    	_txtMeaning3 = (BorderedEditText)findViewById(R.id.txtMeaning3);
+    	_txtWord = (BorderedTextView)findViewById(R.id.word);
+    	_txtKom = (BorderedTextView)findViewById(R.id.Comment);
+    	_txtStatus = (BorderedTextView)findViewById(R.id.txtStatus);
+    	setBtnsEnabled(false);    	
     	
+    }
+    
+    private void setBtnsEnabled(boolean enable)
+    {
+    	_btnEdit.setEnabled(enable);
+    	_btnRight.setEnabled(enable);
+    	_btnSkip.setEnabled(enable);
+    	_btnView.setEnabled(enable);
+    	_btnWrong.setEnabled(enable);   	
+    }
+    
+    private Runnable runnableGetVok = new Runnable() {
+    	   @Override
+    	   public void run() {
+    	      /* do what you need to do */
+    		   getVokabel(false,true);
+    	   }
+    	};
+    
+    private void runFlashWords()
+    {
+    	new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					flashwords();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+    }
+    
+    private void flashwords() throws Exception
+    {
+    	for (int i = 0; i < 3; i++)
+    	{
+    		//_txtWord.setBackgroundResource(R.layout.roundedbox);
+    		_txtWord.showBorders=true;
+    		_txtWord.invalidate();
+    		try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		//_txtWord.setBackgroundResource(0);
+    		_txtWord.showBorders=false;
+    		_txtWord.invalidate();
+    		BorderedEditText Beds[] = {_txtMeaning1, _txtMeaning2, _txtMeaning3};
+    		for (int ii = 0; ii < vok.getAnzBed(); i++)
+    		{
+    			Beds[ii].showBorders = true;//setBackgroundResource(R.layout.roundedbox);
+    			Beds[ii].invalidate();
+    			Thread.sleep(1000);
+    			Beds[ii].showBorders = false;//.setBackgroundResource(0);
+    			Beds[ii].invalidate();
+    		}
+    	}
     }
     
     private void resize()
@@ -485,6 +554,7 @@ public class MainActivity extends ActionBarActivity {
 	    	if ((requestCode == FILE_CHOOSER) && (resultCode == Activity.RESULT_OK)) {
 	            String fileSelected = data.getStringExtra("fileSelected");
 	            LoadVokabel (fileSelected,1,null,0);
+	            
 	        } 
 	        else if ((requestCode == Settings_Activity) && (resultCode == Activity.RESULT_OK)) {
 	            vok.setAbfragebereich(data.getExtras().getShort("Abfragebereich"));
@@ -528,7 +598,7 @@ public class MainActivity extends ActionBarActivity {
     		if (index >0 ) vok.setIndex(index);
     		if (Lernvokabeln != null) vok.setLernvokabeln(Lernvokabeln);
     		if (Lernindex > 0) vok.setLernIndex((short) Lernindex);
-    		
+    		if (vok.getGesamtzahl()>1) setBtnsEnabled(true); 
     		getVokabel(false,false);
     	} catch (Exception e) {
     		// TODO Auto-generated catch block

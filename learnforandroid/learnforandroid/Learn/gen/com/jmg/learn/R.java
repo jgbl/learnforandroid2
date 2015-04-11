@@ -1739,9 +1739,9 @@ containing a value of this type.
         public static final int title=0x7f050027;
         public static final int txtAbfragebereich=0x7f05004f;
         public static final int txtCharsetASCII=0x7f05004d;
-        public static final int txtMeaning1=0x7f050043;
+        public static final int txtMeaning1=0x7f050041;
         public static final int txtMeaning2=0x7f050042;
-        public static final int txtMeaning3=0x7f050041;
+        public static final int txtMeaning3=0x7f050043;
         public static final int txtSettings=0x7f05004c;
         public static final int txtStatus=0x7f050044;
         public static final int txtStep=0x7f050051;
@@ -1804,7 +1804,8 @@ containing a value of this type.
         public static final int activity_settings=0x7f030018;
         public static final int file_view=0x7f030019;
         public static final int list_view=0x7f03001a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
+        public static final int roundedbox=0x7f03001b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
     }
     public static final class menu {
         public static final int main=0x7f0d0000;
