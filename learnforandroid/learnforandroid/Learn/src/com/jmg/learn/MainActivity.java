@@ -22,6 +22,8 @@ import android.util.TypedValue;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -49,6 +51,8 @@ public class MainActivity extends ActionBarActivity {
 	private double scale = 1;
 	public Vokabel vok;
 	public String CharsetASCII = "Windows-1252";
+	public SharedPreferences prefs; // = this.getPreferences(Context.MODE_PRIVATE);
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +61,13 @@ public class MainActivity extends ActionBarActivity {
         	setContentView(R.layout.activity_main);
     		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
             try {
+            	prefs = this.getPreferences(Context.MODE_PRIVATE);
     			vok = new Vokabel(this,(TextView) this.findViewById(R.id.txtStatus));
-    			vok.setSchrittweite((short) 6);
+    			vok.setSchrittweite((short) prefs.getInt("Schrittweite",6));
+    			CharsetASCII = prefs.getString("CharsetASCII", "Windows-1252");
+    			vok.CharsetASCII = CharsetASCII;
+    			vok.setAbfragebereich((short) prefs.getInt("Abfragebereich",-1));
+    			
     		} catch (Exception e) {
     			// TODO Auto-generated catch block
     			lib.ShowException(this, e);
@@ -462,7 +471,8 @@ public class MainActivity extends ActionBarActivity {
     public void ShowSettings()
     {
     	Intent intent = new Intent(this, SettingsActivity.class);
-    	intent.putExtra("CharsetASCII", vok.CharsetASCII);
+    	intent.putExtra("Abfragebereich",vok.getAbfragebereich());
+        intent.putExtra("CharsetASCII", vok.CharsetASCII);
     	intent.putExtra("Step", vok.getSchrittweite());
     	this.startActivityForResult(intent, Settings_Activity);
     }
@@ -478,10 +488,14 @@ public class MainActivity extends ActionBarActivity {
 	        } 
 	        else if ((requestCode == Settings_Activity) && (resultCode == Activity.RESULT_OK)) {
 	            vok.setAbfragebereich(data.getExtras().getShort("Abfragebereich"));
-	            
 	            vok.setSchrittweite(data.getExtras().getShort("Step"));
-				
-	            vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
+				vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
+	            Editor editor = prefs.edit();
+	            editor.putInt("Schrittweite",vok.getSchrittweite());
+    			editor.putString("CharsetASCII", vok.CharsetASCII);
+    			editor.putInt("Abfragebereich", vok.getAbfragebereich());
+    			editor.commit();
+    			
 	        }
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
