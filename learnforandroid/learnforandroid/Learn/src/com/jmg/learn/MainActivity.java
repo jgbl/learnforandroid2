@@ -205,11 +205,12 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				try {
 					vok.AntwortFalsch();
+					setBtnsEnabled(false);
 					flashwords();
 					//getVokabel(false,true);
 					//runFlashWords();
-					//Handler handler = new Handler();
-					//handler.postDelayed(runnableGetVok, (2000+vok.getAnzBed()*1000)*3);
+					Handler handler = new Handler();
+					handler.postDelayed(runnableGetVok, (1500+vok.getAnzBed()*2000)*3);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
@@ -316,39 +317,33 @@ public class MainActivity extends ActionBarActivity {
     
     private void flashwords() throws Exception
     {
-    	Timer T = new Timer("flash");
-    	long delay = 0;
+    	Handler handler = new Handler();
+		long delay = 0;
     	for (int i = 0; i < 3; i++)
     	{
     		//_txtWord.setBackgroundResource(R.layout.roundedbox);
-    		T.schedule(new showWordBordersTimerTask(), delay);
-    		delay += 2000;
-    		T.schedule(new hideWordBordersTimerTask(), delay);
+    		handler.postDelayed(new showWordBordersTask(), delay);
+    		delay += 1500;
+    		handler.postDelayed(new hideWordBordersTask(), delay);
     		BorderedEditText Beds[] = {_txtMeaning1, _txtMeaning2, _txtMeaning3};
-    		for (int ii = 0; ii < vok.getAnzBed(); i++)
+    		for (int ii = 0; ii < vok.getAnzBed(); ii++)
     		{
-    			T.schedule(new showBedBordersTimerTask(Beds[ii]), delay);
-    			delay += 1000;
-    			T.schedule(new hideBedBordersTimerTask(Beds[ii]), delay);
-    		}
+    			handler.postDelayed(new showBedBordersTask(Beds[ii]), delay);
+        		delay += 2000;
+        		handler.postDelayed(new hideBedBordersTask(Beds[ii]), delay);
+        	}
     		
     	}
     	delay += 1000;
-    	T.schedule(new CancelTimerTask(T), delay);
+    	
     }
-    private class showWordBordersTimerTask extends TimerTask {
-    		
-    	@Override
-    	public void run() {
-    		// TODO Auto-generated method stub
-    		showWordBorders();
-    	}
+    private class showWordBordersTask implements Runnable {
+		public void run() {
+			showWordBorders();
+		}
+	}     
+    private class hideWordBordersTask implements Runnable {
 
-    }
-    
-    private class hideWordBordersTimerTask extends TimerTask {
-
-    	@Override
     	public void run() {
     		// TODO Auto-generated method stub
     		hideWordBorders();
@@ -356,24 +351,24 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private class showBedBordersTimerTask extends TimerTask {
+    private class showBedBordersTask implements Runnable {
 		public BorderedEditText Bed;
-    	public showBedBordersTimerTask(BorderedEditText Bed)
+    	public showBedBordersTask(BorderedEditText Bed)
 		{
 			// TODO Auto-generated constructor stub
     		this.Bed = Bed;
 		}
-    	@Override
     	public void run() {
     		// TODO Auto-generated method stub
+    		Bed.setPadding(5, 5, 5, 5);
     		Bed.setShowBorders(true);
     	}
 
     }
     
-    private class hideBedBordersTimerTask extends TimerTask {
+    private class hideBedBordersTask implements Runnable {
     	public BorderedEditText Bed;
-    	public hideBedBordersTimerTask(BorderedEditText Bed)
+    	public hideBedBordersTask(BorderedEditText Bed)
 		{
 			// TODO Auto-generated constructor stub
     		this.Bed = Bed;
@@ -381,6 +376,7 @@ public class MainActivity extends ActionBarActivity {
     	@Override
     	public void run() {
     		// TODO Auto-generated method stub
+    		Bed.setPadding(0, 0, 0, 0);
     		Bed.setShowBorders(false);
     	}
 
@@ -404,11 +400,13 @@ public class MainActivity extends ActionBarActivity {
     
     private void showWordBorders() {
 		// TODO Auto-generated method stub
+    	_txtWord.setPadding(5, 5, 5, 5);
     	_txtWord.setShowBorders(true);
 	}
     
     private void hideWordBorders() {
 		// TODO Auto-generated method stub
+    	_txtWord.setPadding(0, 0, 0, 0);
     	_txtWord.setShowBorders(false);
 	}
 
@@ -667,7 +665,7 @@ public class MainActivity extends ActionBarActivity {
     			_txtMeaning3.setVisibility(View.VISIBLE);
     		}
     			
-    		if (index >0 ) vok.setIndex(index);
+    		//if (index >0 ) vok.setIndex(index);
     		if (Lernvokabeln != null) vok.setLernvokabeln(Lernvokabeln);
     		if (Lernindex > 0) vok.setLernIndex((short) Lernindex);
     		if (vok.getGesamtzahl()>1) setBtnsEnabled(true); 
@@ -682,6 +680,7 @@ public class MainActivity extends ActionBarActivity {
     public void getVokabel(boolean showBeds, boolean LoadNext)
     {
     	try {
+    		setBtnsEnabled(true);
     		if (showBeds)
     		{
     			_btnRight.setEnabled(true);

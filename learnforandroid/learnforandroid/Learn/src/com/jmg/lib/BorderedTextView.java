@@ -41,14 +41,17 @@ public class BorderedTextView extends TextView {
     private void init(){
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(4);        
+        paint.setStrokeWidth(4);
+        //this.setPadding(5, 5, 5, 5);
     }
     @Override
     protected void onDraw(Canvas canvas) 
     {
-        super.onDraw(canvas);
+    	//this.setPadding(5, 5, 5, 5);
+    	super.onDraw(canvas);
+    	this.setPadding(0, 0, 0, 0);
         if(!showBorders) return;
-        canvas.drawRoundRect(new RectF(0, 0, getWidth(), getHeight()), 6, 6, paint);
+        canvas.drawRoundRect(new RectF(0, 0, getWidth()-0, getHeight()-0), 6, 6, paint);
     }
 
 }
