@@ -1,6 +1,10 @@
 package com.jmg.lib;
 
+import com.jmg.learn.MainActivity;
+
+import android.R;
 import android.content.Context;
+import android.content.ReceiverCallNotAllowedException;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,7 +18,7 @@ public class BorderedEditText extends EditText {
     public static final int BORDER_RIGHT = 0x00000002;
     public static final int BORDER_BOTTOM = 0x00000004;
     public static final int BORDER_LEFT = 0x00000008;
-
+    public RectF RoundedRect;
     public boolean showBorders;
 
     public BorderedEditText(Context context, AttributeSet attrs, int defStyle) {
@@ -35,6 +39,14 @@ public class BorderedEditText extends EditText {
     public void setShowBorders(boolean showBorders)
     {
     	this.showBorders = showBorders;
+    	if (showBorders) 
+    	{
+    		this.setBackgroundResource(com.jmg.learn.R.layout.roundedbox);
+    	}
+    	else
+    	{
+    		this.setBackgroundResource(0);
+    	}
     	this.invalidate();
     }
     
@@ -42,15 +54,21 @@ public class BorderedEditText extends EditText {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(4);
+        
+        
     }
+    /*
     @Override
     protected void onDraw(Canvas canvas) 
     {
     	//this.setPadding(5, 5, 5, 5);
+    	
     	super.onDraw(canvas);
-    	this.setPadding(0, 0, 0, 0);
+    	//this.setPadding(0, 0, 0, 0);
         if(!showBorders) return;
-        canvas.drawRoundRect(new RectF(0, 0, getWidth()-0, getHeight()-0), 6, 6, paint);
+        if (RoundedRect == null) RoundedRect = new RectF(0, 0, getWidth()-0, getHeight()-0);
+        canvas.drawRoundRect(RoundedRect, 6, 6, paint);
     }
+    */
 
 }

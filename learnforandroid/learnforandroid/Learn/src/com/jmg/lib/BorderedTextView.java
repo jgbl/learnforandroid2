@@ -16,6 +16,7 @@ public class BorderedTextView extends TextView {
     public static final int BORDER_LEFT = 0x00000008;
 
     public boolean showBorders;
+	private RectF RoundedRect;
 
     public BorderedTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -35,6 +36,14 @@ public class BorderedTextView extends TextView {
     public void setShowBorders(boolean showBorders)
     {
     	this.showBorders = showBorders;
+    	if (showBorders) 
+    	{
+    		this.setBackgroundResource(com.jmg.learn.R.layout.roundedbox);
+    	}
+    	else
+    	{
+    		this.setBackgroundResource(0);
+    	}
     	this.invalidate();
     }
     
@@ -43,15 +52,18 @@ public class BorderedTextView extends TextView {
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(4);
         //this.setPadding(5, 5, 5, 5);
+        
     }
+    /*
     @Override
     protected void onDraw(Canvas canvas) 
     {
     	//this.setPadding(5, 5, 5, 5);
     	super.onDraw(canvas);
-    	this.setPadding(0, 0, 0, 0);
+    	//this.setPadding(0, 0, 0, 0);
         if(!showBorders) return;
-        canvas.drawRoundRect(new RectF(0, 0, getWidth()-0, getHeight()-0), 6, 6, paint);
+        if (RoundedRect == null || RoundedRect.width() != getWidth()) RoundedRect = new RectF(0, 0, getWidth()-0, getHeight()-0);
+        canvas.drawRoundRect(RoundedRect, 6, 6, paint);
     }
-
+     */
 }

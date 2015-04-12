@@ -1881,7 +1881,7 @@ public class Vokabel {
 						//Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc & "", "Dateiname_ungültig", "", "")
 						return;
 					}
-					_UniCode = (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8") || isr.getEncoding().equals("UTF16"));
+					_UniCode = blnUnicode; // (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8") || isr.getEncoding().equals("UTF16"));
 					if (lib.getExtension(F).toLowerCase(Locale.getDefault()).indexOf(".k") != -1)
 						_cardmode = true;
 					else

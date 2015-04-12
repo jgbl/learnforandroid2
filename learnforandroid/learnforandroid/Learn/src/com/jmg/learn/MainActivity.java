@@ -272,12 +272,15 @@ public class MainActivity extends ActionBarActivity {
 		});
     	
     	_txtMeaning1 = (BorderedEditText)findViewById(R.id.txtMeaning1);
+    	_txtMeaning1.setBackgroundResource(0);
     	_txtMeaning2 = (BorderedEditText)findViewById(R.id.txtMeaning2);
+    	_txtMeaning2.setBackgroundResource(0);
     	_txtMeaning3 = (BorderedEditText)findViewById(R.id.txtMeaning3);
+    	_txtMeaning3.setBackgroundResource(0);
     	_txtWord = (BorderedTextView)findViewById(R.id.word);
     	_txtKom = (BorderedTextView)findViewById(R.id.Comment);
     	_txtStatus = (BorderedTextView)findViewById(R.id.txtStatus);
-    	setBtnsEnabled(false);    	
+    	setBtnsEnabled(false);
     	
     }
     
@@ -360,7 +363,7 @@ public class MainActivity extends ActionBarActivity {
 		}
     	public void run() {
     		// TODO Auto-generated method stub
-    		Bed.setPadding(5, 5, 5, 5);
+    		//Bed.setPadding(5, 5, 5, 5);
     		Bed.setShowBorders(true);
     	}
 
@@ -376,7 +379,7 @@ public class MainActivity extends ActionBarActivity {
     	@Override
     	public void run() {
     		// TODO Auto-generated method stub
-    		Bed.setPadding(0, 0, 0, 0);
+    		//Bed.setPadding(0, 0, 0, 0);
     		Bed.setShowBorders(false);
     	}
 
@@ -400,13 +403,13 @@ public class MainActivity extends ActionBarActivity {
     
     private void showWordBorders() {
 		// TODO Auto-generated method stub
-    	_txtWord.setPadding(5, 5, 5, 5);
+    	//_txtWord.setPadding(5, 5, 5, 5);
     	_txtWord.setShowBorders(true);
 	}
     
     private void hideWordBorders() {
 		// TODO Auto-generated method stub
-    	_txtWord.setPadding(0, 0, 0, 0);
+    	//_txtWord.setPadding(0, 0, 0, 0);
     	_txtWord.setShowBorders(false);
 	}
 
