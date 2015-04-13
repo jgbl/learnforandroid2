@@ -26,11 +26,11 @@ public final class R {
 		public static final int zip = 0x7f020043;
 	}
 	public static final class id {
-		public static final int TextView01 = 0x7f060056;
-		public static final int TextView02 = 0x7f060057;
-		public static final int adMob = 0x7f060058;
-		public static final int img1 = 0x7f060055;
-		public static final int lvFiles = 0x7f060059;
+		public static final int TextView01 = 0x7f06005a;
+		public static final int TextView02 = 0x7f06005b;
+		public static final int adMob = 0x7f06005c;
+		public static final int img1 = 0x7f060059;
+		public static final int lvFiles = 0x7f06005d;
 	}
 	public static final class layout {
 		public static final int file_view = 0x7f030019;

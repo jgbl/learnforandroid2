@@ -51,6 +51,8 @@ public class MainActivity extends ActionBarActivity {
 	private BorderedTextView _txtStatus;
 	private BorderedEditText _txtMeaning1;
 	private BorderedEditText _txtMeaning2;
+	private float DisplayDurationWord;
+	private float DisplayDurationBed;
 	private BorderedEditText _txtMeaning3;
 	private double scale = 1;
 	public Vokabel vok;
@@ -71,8 +73,10 @@ public class MainActivity extends ActionBarActivity {
     			CharsetASCII = prefs.getString("CharsetASCII", "Windows-1252");
     			vok.CharsetASCII = CharsetASCII;
     			vok.setAbfragebereich((short) prefs.getInt("Abfragebereich",-1));
+    			DisplayDurationWord = prefs.getFloat("DisplayDuratinWord", 1.5f);
+    			DisplayDurationBed = prefs.getFloat("DisplayDuratinBed", 2.5f);
     			
-    		} catch (Exception e) {
+            } catch (Exception e) {
     			// TODO Auto-generated catch block
     			lib.ShowException(this, e);
     		}
@@ -326,13 +330,13 @@ public class MainActivity extends ActionBarActivity {
     	{
     		//_txtWord.setBackgroundResource(R.layout.roundedbox);
     		handler.postDelayed(new showWordBordersTask(), delay);
-    		delay += 1500;
+    		delay += DisplayDurationWord*1000;
     		handler.postDelayed(new hideWordBordersTask(), delay);
     		BorderedEditText Beds[] = {_txtMeaning1, _txtMeaning2, _txtMeaning3};
     		for (int ii = 0; ii < vok.getAnzBed(); ii++)
     		{
     			handler.postDelayed(new showBedBordersTask(Beds[ii]), delay);
-        		delay += 2000;
+        		delay += DisplayDurationBed * 1000;
         		handler.postDelayed(new hideBedBordersTask(Beds[ii]), delay);
         	}
     		
@@ -616,6 +620,9 @@ public class MainActivity extends ActionBarActivity {
     	intent.putExtra("Abfragebereich",vok.getAbfragebereich());
         intent.putExtra("CharsetASCII", vok.CharsetASCII);
     	intent.putExtra("Step", vok.getSchrittweite());
+    	intent.putExtra("DisplayDurationWord", DisplayDurationWord);
+    	intent.putExtra("DisplayDurationBed", DisplayDurationBed);
+    	
     	this.startActivityForResult(intent, Settings_Activity);
     }
     
@@ -633,10 +640,16 @@ public class MainActivity extends ActionBarActivity {
 	            vok.setAbfragebereich(data.getExtras().getShort("Abfragebereich"));
 	            vok.setSchrittweite(data.getExtras().getShort("Step"));
 				vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
-	            Editor editor = prefs.edit();
+				DisplayDurationWord = data.getExtras().getFloat("DisplayDurationWord");
+				DisplayDurationBed = data.getExtras().getFloat("DisplayDurationBed");
+		    	
+				Editor editor = prefs.edit();
 	            editor.putInt("Schrittweite",vok.getSchrittweite());
     			editor.putString("CharsetASCII", vok.CharsetASCII);
     			editor.putInt("Abfragebereich", vok.getAbfragebereich());
+    			editor.putFloat("DisplayDurationWord", DisplayDurationWord);
+    			editor.putFloat("DisplayDurationBed", DisplayDurationBed);
+    			
     			editor.commit();
     			
 	        }

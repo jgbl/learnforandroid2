@@ -18,6 +18,7 @@ public final class R {
     }
     public static final class array {
         public static final int spnAbfragebereichEntries=0x7f0c0000;
+        public static final int spnDurations=0x7f0c0002;
         public static final int spnStepEntries=0x7f0c0001;
     }
     public static final class attr {
@@ -1656,8 +1657,8 @@ containing a value of this type.
     }
     public static final class id {
         public static final int Comment=0x7f060040;
-        public static final int TextView01=0x7f060056;
-        public static final int TextView02=0x7f060057;
+        public static final int TextView01=0x7f06005a;
+        public static final int TextView02=0x7f06005b;
         public static final int action_bar=0x7f060031;
         public static final int action_bar_activity_content=0x7f060018;
         public static final int action_bar_container=0x7f060030;
@@ -1671,14 +1672,14 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f06002e;
         public static final int action_mode_bar_stub=0x7f06002d;
         public static final int action_mode_close_button=0x7f060020;
-        public static final int action_settings=0x7f06005a;
+        public static final int action_settings=0x7f06005e;
         public static final int activity_chooser_view_content=0x7f060021;
-        public static final int adMob=0x7f060058;
+        public static final int adMob=0x7f06005c;
         public static final int always=0x7f06000d;
         public static final int beginning=0x7f060012;
-        public static final int btnCancel=0x7f060053;
+        public static final int btnCancel=0x7f060057;
         public static final int btnEdit=0x7f06004a;
-        public static final int btnOK=0x7f060054;
+        public static final int btnOK=0x7f060058;
         public static final int btnRight=0x7f060046;
         public static final int btnSkip=0x7f060047;
         public static final int btnView=0x7f060048;
@@ -1699,17 +1700,17 @@ containing a value of this type.
         public static final int icon=0x7f060026;
         public static final int ifRoom=0x7f06000c;
         public static final int image=0x7f060023;
-        public static final int img1=0x7f060055;
+        public static final int img1=0x7f060059;
         public static final int layoutButtons=0x7f060045;
         public static final int layoutSettings=0x7f06004b;
         public static final int listMode=0x7f060002;
         public static final int list_item=0x7f060025;
-        public static final int lvFiles=0x7f060059;
+        public static final int lvFiles=0x7f06005d;
         public static final int middle=0x7f060013;
-        public static final int mnuDelete=0x7f06005e;
-        public static final int mnuFileOpen=0x7f06005b;
-        public static final int mnuFileOpenASCII=0x7f06005c;
-        public static final int mnuFileSave=0x7f06005d;
+        public static final int mnuDelete=0x7f060062;
+        public static final int mnuFileOpen=0x7f06005f;
+        public static final int mnuFileOpenASCII=0x7f060060;
+        public static final int mnuFileSave=0x7f060061;
         public static final int never=0x7f06000b;
         public static final int none=0x7f060004;
         public static final int normal=0x7f060001;
@@ -1733,11 +1734,15 @@ containing a value of this type.
         public static final int split_action_bar=0x7f060019;
         public static final int spnASCII=0x7f06004e;
         public static final int spnAbfragebereich=0x7f060050;
+        public static final int spnAnzeigedauerBed=0x7f060056;
+        public static final int spnAnzeigedauerWord=0x7f060054;
         public static final int spnStep=0x7f060052;
         public static final int submit_area=0x7f06003c;
         public static final int tabMode=0x7f060003;
         public static final int title=0x7f060027;
         public static final int txtAbfragebereich=0x7f06004f;
+        public static final int txtAnzeigedauerBed=0x7f060055;
+        public static final int txtAnzeigedauerWord=0x7f060053;
         public static final int txtCharsetASCII=0x7f06004d;
         public static final int txtMeaning1=0x7f060041;
         public static final int txtMeaning2=0x7f060042;
@@ -1903,10 +1908,16 @@ containing a value of this type.
         public static final int spnASCIIFontDescription=0x7f050032;
         public static final int spnAbfragebereich=0x7f050030;
         public static final int spnAbfragebereichDescription=0x7f05002f;
+        public static final int spnAnzeigedauerBed=0x7f050041;
+        public static final int spnAnzeigedauerBedDescription=0x7f050042;
+        public static final int spnAnzeigedauerWord=0x7f05003e;
+        public static final int spnAnzeigedauerWordDescription=0x7f05003f;
         public static final int spnSelect=0x7f050034;
         public static final int spnStep=0x7f05003b;
         public static final int spnStepDescriptions=0x7f05003c;
         public static final int txtAbfragebereich=0x7f050036;
+        public static final int txtAnzeigedauerBed=0x7f050040;
+        public static final int txtAnzeigedauerWord=0x7f05003d;
         public static final int txtCharsetASCII=0x7f050037;
         public static final int txtSettings=0x7f050035;
         public static final int txtStep=0x7f05003a;

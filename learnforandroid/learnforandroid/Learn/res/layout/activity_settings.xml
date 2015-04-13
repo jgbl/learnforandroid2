@@ -91,6 +91,50 @@
 	            android:contentDescription="@string/spnStepDescriptions"
 	            android:gravity="right"
 	            android:prompt="@string/spnStep" />
+	        
+	        <TextView
+	            android:id="@+id/txtAnzeigedauerWord"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtStep"
+	            android:text="@string/txtAnzeigedauerWord"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <Spinner
+	            android:id="@+id/spnAnzeigedauerWord"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtAnzeigedauerWord"
+	            android:layout_alignLeft="@id/spnASCII"
+	            android:layout_gravity="right"
+	            android:contentDescription="@string/spnAnzeigedauerWordDescription"
+	            android:gravity="right"
+	            android:prompt="@string/spnAnzeigedauerWord" />
+	        
+	        <TextView
+	            android:id="@+id/txtAnzeigedauerBed"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtAnzeigedauerWord"
+	            android:text="@string/txtAnzeigedauerBed"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <Spinner
+	            android:id="@+id/spnAnzeigedauerBed"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtAnzeigedauerBed"
+	            android:layout_alignLeft="@id/spnASCII"
+	            android:layout_gravity="right"
+	            android:contentDescription="@string/spnAnzeigedauerBedDescription"
+	            android:gravity="right"
+	            android:prompt="@string/spnAnzeigedauerBed" />
 		    
 	    </RelativeLayout>
 

@@ -58,4 +58,26 @@
             <item >15</item>
             <item >20</item>
         </string-array>
+            <string name="txtAnzeigedauerWord">display duration word</string>
+            <string name="spnAnzeigedauerWord">display duration</string>
+            <string name="spnAnzeigedauerWordDescription">display duration of word if wrong</string>
+            <string name="txtAnzeigedauerBed">display duration of meaning</string>
+            <string name="spnAnzeigedauerBed">display duration</string>
+            <string name="spnAnzeigedauerBedDescription">display duration of meaning if wrong</string>
+        <string-array name="spnDurations">
+                <item >1</item>
+                <item >1.5</item>
+                <item >2</item>
+                <item >2.5</item>
+                <item >3</item>
+                <item >4</item>
+                <item >5</item>
+	            <item >6</item>
+	            <item >7</item>
+	            <item >8</item>
+	            <item >9</item>
+	            <item >10</item>
+	            <item >15</item>
+	            <item >20</item>
+         </string-array>
 </resources>

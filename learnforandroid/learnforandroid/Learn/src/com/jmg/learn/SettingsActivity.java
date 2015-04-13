@@ -23,6 +23,8 @@ public class SettingsActivity extends Activity
 	public Spinner spnAbfragebereich;
 	public Spinner spnASCII;
 	public Spinner spnStep;
+	public Spinner spnDisplayDurationWord;
+	public Spinner spnDisplayDurationBed;
 	private Intent intent = new Intent();
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class SettingsActivity extends Activity
 			spnAbfragebereich = (Spinner) findViewById(R.id.spnAbfragebereich);
 			spnASCII = (Spinner) findViewById(R.id.spnASCII);
 			spnStep = (Spinner) findViewById(R.id.spnStep);
+			spnDisplayDurationWord = (Spinner) findViewById(R.id.spnAnzeigedauerWord);
+			spnDisplayDurationBed = (Spinner) findViewById(R.id.spnAnzeigedauerBed);
+			
 			// Create an ArrayAdapter using the string array and a default spinner layout
 			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 			        R.array.spnAbfragebereichEntries, android.R.layout.simple_spinner_item);
@@ -134,6 +139,58 @@ public class SettingsActivity extends Activity
 					setResult(Activity.RESULT_CANCELED, null);
 				}
 			});
+			
+			ArrayAdapter<CharSequence> adapterDDWord = ArrayAdapter.createFromResource(this,
+			        R.array.spnDurations, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapterDDWord.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			// Apply the adapter to the spinner
+			spnDisplayDurationWord.setAdapter(adapterDDWord);
+			String strDD = "" + getIntent().getFloatExtra("DisplayDurationWord", 1.5f); 
+			spnDisplayDurationWord.setSelection(adapterStep.getPosition	(strDD));
+			spnDisplayDurationWord.setOnItemSelectedListener(new OnItemSelectedListener() {
+	
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					intent.putExtra("DisplayDurationWord", (Float.parseFloat((String) parent.getItemAtPosition(position))));
+					
+				}
+	
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					setResult(Activity.RESULT_CANCELED, null);
+				}
+			});
+			
+			ArrayAdapter<CharSequence> adapterDDBed = ArrayAdapter.createFromResource(this,
+			        R.array.spnDurations, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapterDDBed.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			// Apply the adapter to the spinner
+			spnDisplayDurationBed.setAdapter(adapterDDBed);
+			
+			strDD = "" + getIntent().getFloatExtra("DisplayDurationBed", 2.5f);
+			spnDisplayDurationBed.setSelection(adapterStep.getPosition(strDD));
+			spnDisplayDurationBed.setOnItemSelectedListener(new OnItemSelectedListener() {
+	
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					intent.putExtra("DisplayDurationBed", (Float.parseFloat((String) parent.getItemAtPosition(position))));
+					
+				}
+	
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					setResult(Activity.RESULT_CANCELED, null);
+				}
+			});
+			
 		}
 		catch (Exception ex)
 		{
