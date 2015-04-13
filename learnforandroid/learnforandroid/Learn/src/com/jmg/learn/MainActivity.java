@@ -50,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
 	private BorderedEditText _txtMeaning2;
 	private float DisplayDurationWord;
 	private float DisplayDurationBed;
+	private int PaukRepetitions = 3;
 	private BorderedEditText _txtMeaning3;
 	private double scale = 1;
 	public Vokabel vok;
@@ -72,6 +73,7 @@ public class MainActivity extends ActionBarActivity {
     			vok.setAbfragebereich((short) prefs.getInt("Abfragebereich",-1));
     			DisplayDurationWord = prefs.getFloat("DisplayDurationWord", 1.5f);
     			DisplayDurationBed = prefs.getFloat("DisplayDurationBed", 2.5f);
+    			PaukRepetitions = prefs.getInt("PaukRepetitions", 3);
     			
             } catch (Exception e) {
     			// TODO Auto-generated catch block
@@ -211,7 +213,7 @@ public class MainActivity extends ActionBarActivity {
 					//getVokabel(false,true);
 					//runFlashWords();
 					Handler handler = new Handler();
-					handler.postDelayed(runnableGetVok, (long) ((DisplayDurationWord*1000+vok.getAnzBed()*1000*DisplayDurationBed)*3));
+					handler.postDelayed(runnableGetVok, (long) ((DisplayDurationWord*1000+vok.getAnzBed()*1000*DisplayDurationBed)*PaukRepetitions));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
@@ -323,7 +325,7 @@ public class MainActivity extends ActionBarActivity {
     {
     	Handler handler = new Handler();
 		long delay = 0;
-    	for (int i = 0; i < 3; i++)
+    	for (int i = 0; i < PaukRepetitions; i++)
     	{
     		//_txtWord.setBackgroundResource(R.layout.roundedbox);
     		handler.postDelayed(new showWordBordersTask(), delay);
@@ -619,6 +621,7 @@ public class MainActivity extends ActionBarActivity {
     	intent.putExtra("Step", vok.getSchrittweite());
     	intent.putExtra("DisplayDurationWord", DisplayDurationWord);
     	intent.putExtra("DisplayDurationBed", DisplayDurationBed);
+    	intent.putExtra("PaukRepetitions", PaukRepetitions);
     	
     	this.startActivityForResult(intent, Settings_Activity);
     }
@@ -639,13 +642,14 @@ public class MainActivity extends ActionBarActivity {
 				vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
 				DisplayDurationWord = data.getExtras().getFloat("DisplayDurationWord");
 				DisplayDurationBed = data.getExtras().getFloat("DisplayDurationBed");
-		    	
+		    	PaukRepetitions = data.getExtras().getInt("PaukRepetitions");
 				Editor editor = prefs.edit();
 	            editor.putInt("Schrittweite",vok.getSchrittweite());
     			editor.putString("CharsetASCII", vok.CharsetASCII);
     			editor.putInt("Abfragebereich", vok.getAbfragebereich());
     			editor.putFloat("DisplayDurationWord", DisplayDurationWord);
     			editor.putFloat("DisplayDurationBed", DisplayDurationBed);
+    			editor.putInt("PaukRepetitions", PaukRepetitions);
     			
     			editor.commit();
     			

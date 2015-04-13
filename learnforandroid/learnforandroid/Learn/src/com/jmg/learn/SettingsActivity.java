@@ -27,6 +27,7 @@ public class SettingsActivity extends Activity
 	public Spinner spnStep;
 	public Spinner spnDisplayDurationWord;
 	public Spinner spnDisplayDurationBed;
+	public Spinner spnPaukRepetitions;
 	private Intent intent = new Intent();
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,13 @@ public class SettingsActivity extends Activity
 			spnStep = (Spinner) findViewById(R.id.spnStep);
 			spnDisplayDurationWord = (Spinner) findViewById(R.id.spnAnzeigedauerWord);
 			spnDisplayDurationBed = (Spinner) findViewById(R.id.spnAnzeigedauerBed);
+			spnPaukRepetitions = (Spinner) findViewById(R.id.spnRepetitions);
 			spnASCII.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnStep.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnDisplayDurationBed.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnDisplayDurationWord.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnAbfragebereich.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			spnPaukRepetitions.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			
 			// Create an ArrayAdapter using the string array and a default spinner layout
 			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -200,6 +203,26 @@ public class SettingsActivity extends Activity
 					setResult(Activity.RESULT_CANCELED, null);
 				}
 			});
+			
+			Pos = getIntent().getIntExtra("PaukRepetitions", 3)-1;
+			spnPaukRepetitions.setSelection(Pos);
+			spnPaukRepetitions.setOnItemSelectedListener(new OnItemSelectedListener() {
+	
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					intent.putExtra("PaukRepetitions", (Integer.parseInt((String) parent.getItemAtPosition(position))));
+					
+				}
+	
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					setResult(Activity.RESULT_CANCELED, null);
+				}
+			});
+	
 			
 		}
 		catch (Exception ex)

@@ -135,6 +135,29 @@
 	            android:contentDescription="@string/spnAnzeigedauerBedDescription"
 	            android:gravity="right"
 	            android:prompt="@string/spnAnzeigedauerBed" />
+	        
+	        <TextView
+	            android:id="@+id/txtRepetitions"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtAnzeigedauerBed"
+	            android:text="@string/txtRepetitions"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <Spinner
+	            android:id="@+id/spnRepetitions"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtRepetitions"
+	            android:layout_alignLeft="@id/spnASCII"
+	            android:layout_gravity="right"
+	            android:contentDescription="@string/spnRepetitionsDescription"
+	            android:entries="@array/spnRepetitions"
+	            android:gravity="right"
+	            android:prompt="@string/spnRepetions" />
 		    
 	    </RelativeLayout>
 
