@@ -1,11 +1,6 @@
 package com.jmg.lib;
 
-import com.jmg.learn.MainActivity;
-
-import android.R;
 import android.content.Context;
-import android.content.ReceiverCallNotAllowedException;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;

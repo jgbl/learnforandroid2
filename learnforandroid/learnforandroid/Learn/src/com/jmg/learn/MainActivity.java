@@ -7,9 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import br.com.thinkti.android.filechooser.*;
 
 import com.jmg.learn.vok.*;
@@ -73,8 +70,8 @@ public class MainActivity extends ActionBarActivity {
     			CharsetASCII = prefs.getString("CharsetASCII", "Windows-1252");
     			vok.CharsetASCII = CharsetASCII;
     			vok.setAbfragebereich((short) prefs.getInt("Abfragebereich",-1));
-    			DisplayDurationWord = prefs.getFloat("DisplayDuratinWord", 1.5f);
-    			DisplayDurationBed = prefs.getFloat("DisplayDuratinBed", 2.5f);
+    			DisplayDurationWord = prefs.getFloat("DisplayDurationWord", 1.5f);
+    			DisplayDurationBed = prefs.getFloat("DisplayDurationBed", 2.5f);
     			
             } catch (Exception e) {
     			// TODO Auto-generated catch block
@@ -214,7 +211,7 @@ public class MainActivity extends ActionBarActivity {
 					//getVokabel(false,true);
 					//runFlashWords();
 					Handler handler = new Handler();
-					handler.postDelayed(runnableGetVok, (1500+vok.getAnzBed()*2000)*3);
+					handler.postDelayed(runnableGetVok, (long) ((DisplayDurationWord*1000+vok.getAnzBed()*1000*DisplayDurationBed)*3));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
@@ -304,7 +301,7 @@ public class MainActivity extends ActionBarActivity {
     		   getVokabel(false,true);
     	   }
     	};
-    
+    /*
     private void runFlashWords()
     {
     	new Thread(new Runnable() {
@@ -321,7 +318,7 @@ public class MainActivity extends ActionBarActivity {
 			}
 		}).start();
     }
-    
+    */
     private void flashwords() throws Exception
     {
     	Handler handler = new Handler();
@@ -388,7 +385,7 @@ public class MainActivity extends ActionBarActivity {
     	}
 
     }
-
+/*
     private class CancelTimerTask extends TimerTask {
     	public Timer T;
     	public CancelTimerTask(Timer T)
@@ -404,7 +401,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    
+  */  
     private void showWordBorders() {
 		// TODO Auto-generated method stub
     	//_txtWord.setPadding(5, 5, 5, 5);

@@ -8,6 +8,8 @@ import com.jmg.lib.lib.libString;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +46,11 @@ public class SettingsActivity extends Activity
 			spnStep = (Spinner) findViewById(R.id.spnStep);
 			spnDisplayDurationWord = (Spinner) findViewById(R.id.spnAnzeigedauerWord);
 			spnDisplayDurationBed = (Spinner) findViewById(R.id.spnAnzeigedauerBed);
+			spnASCII.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			spnStep.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			spnDisplayDurationBed.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			spnDisplayDurationWord.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			spnAbfragebereich.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			
 			// Create an ArrayAdapter using the string array and a default spinner layout
 			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -147,7 +154,9 @@ public class SettingsActivity extends Activity
 			// Apply the adapter to the spinner
 			spnDisplayDurationWord.setAdapter(adapterDDWord);
 			String strDD = "" + getIntent().getFloatExtra("DisplayDurationWord", 1.5f); 
-			spnDisplayDurationWord.setSelection(adapterStep.getPosition	(strDD));
+			strDD = strDD.replace(".0", "");
+			int Pos = adapterDDWord.getPosition(strDD);
+			spnDisplayDurationWord.setSelection(Pos);
 			spnDisplayDurationWord.setOnItemSelectedListener(new OnItemSelectedListener() {
 	
 				@Override
@@ -171,9 +180,10 @@ public class SettingsActivity extends Activity
 			adapterDDBed.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
 			spnDisplayDurationBed.setAdapter(adapterDDBed);
-			
 			strDD = "" + getIntent().getFloatExtra("DisplayDurationBed", 2.5f);
-			spnDisplayDurationBed.setSelection(adapterStep.getPosition(strDD));
+			strDD = strDD.replace(".0", "");
+			Pos = adapterDDBed.getPosition(strDD);
+			spnDisplayDurationBed.setSelection(Pos);
 			spnDisplayDurationBed.setOnItemSelectedListener(new OnItemSelectedListener() {
 	
 				@Override

@@ -27,7 +27,7 @@ public class lib
 	{
 	}
 	private static String _status = "";
-	private static final String ONEDRIVE_APP_ID = "48122D4E";
+	//private static final String ONEDRIVE_APP_ID = "48122D4E";
 	private static final String ClassName = "lib.lib";
 	public static final String TAG = "com.jmg.lib.lib";
 	public static String getgstatus()

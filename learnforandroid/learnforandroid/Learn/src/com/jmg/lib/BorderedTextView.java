@@ -1,7 +1,6 @@
 package com.jmg.lib;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -16,7 +15,7 @@ public class BorderedTextView extends TextView {
     public static final int BORDER_LEFT = 0x00000008;
 
     public boolean showBorders;
-	private RectF RoundedRect;
+	//private RectF RoundedRect;
 
     public BorderedTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
