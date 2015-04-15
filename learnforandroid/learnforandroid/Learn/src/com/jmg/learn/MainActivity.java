@@ -585,9 +585,14 @@ public class MainActivity extends ActionBarActivity {
         {
         	saveVok(false);
         }
-        if (id== R.id.mnuDelete)
+        else if (id== R.id.mnuDelete)
         {
         	vok.DeleteVokabel();
+        	getVokabel(false, false);
+        }
+        else if (id == R.id.mnuReverse)
+        {
+        	vok.revert();
         	getVokabel(false, false);
         }
         return super.onOptionsItemSelected(item);

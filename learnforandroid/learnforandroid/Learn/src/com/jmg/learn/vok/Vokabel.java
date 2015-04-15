@@ -1528,6 +1528,8 @@ public class Vokabel {
 				mVok.get(h).Bed1 = vok;
 				mVok.get(h).z = 0;
 			}
+			File F = new File(mFileName);
+			mFileName = lib.getFileNameWithoutExtension(F) + "rev.vok";
 		}
 
 		public void reset()

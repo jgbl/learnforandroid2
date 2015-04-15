@@ -95,5 +95,6 @@
 	            <string name="txtRepetitions">repetitions if wrong</string>
 	            <string name="spnRepetions">repetitions if wrong</string>
 	            <string name="spnRepetitionsDescription">if a word is wrong the right meaning is shown so many times</string>
+	            <string name="mnuReverse">reverse vocabulary</string>
         
 </resources>
