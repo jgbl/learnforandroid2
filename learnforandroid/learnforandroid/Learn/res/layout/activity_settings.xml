@@ -158,6 +158,29 @@
 	            android:entries="@array/spnRepetitions"
 	            android:gravity="right"
 	            android:prompt="@string/spnRepetions" />
+	        
+	        <TextView
+	            android:id="@+id/txtProbabilityFactor"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtRepetitions"
+	            android:text="@string/txtProbabilityFactor"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <Spinner
+	            android:id="@+id/spnProbabilityFactor"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtProbabilityFactor"
+	            android:layout_alignLeft="@id/spnASCII"
+	            android:layout_gravity="right"
+	            android:entries="@array/spnProbabilityFactors"
+	            android:gravity="right"
+	            android:prompt="@string/spnProbabilityFactor" />
+	        
 		    
 	    </RelativeLayout>
 

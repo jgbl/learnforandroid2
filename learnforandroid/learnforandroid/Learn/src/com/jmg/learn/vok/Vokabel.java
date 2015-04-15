@@ -75,6 +75,7 @@ public class Vokabel {
 		public boolean aend;
 		public boolean varHebr;
 		public int AnzRichtig;
+		public float ProbabilityFactor = -1;
 		public Typeface TypefaceCardo; 
 
 		public int AnzFalsch;
@@ -1320,8 +1321,16 @@ public class Vokabel {
 	                // TODO: might not be correct. Was : Exit Do
 	                double r = Math.random();
 	                double z = (double)mVok.get(intVokNr).z;
-	            	double p = 1 / (z * (mGesamtzahl > 50 ? (float) mGesamtzahl / (float) 50 : 1));
-	                if (r < p)
+	            	double p;
+	            	if (ProbabilityFactor <= 0)
+	            	{
+	            		p = 1 / (z * (mGesamtzahl > 50 ? (float) mGesamtzahl / (float) 50 : 1));               
+	            	}
+	            	else
+	            	{
+	            		p = 1 / (z * ProbabilityFactor);
+	            	}
+	            	if (r < p)
 	                {
 	                    mLernVokabeln[i] = intVokNr;
 	                    break;
@@ -1529,7 +1538,20 @@ public class Vokabel {
 				mVok.get(h).z = 0;
 			}
 			File F = new File(mFileName);
-			mFileName = lib.getFileNameWithoutExtension(F) + "rev.vok";
+			mFileName = lib.getFilenameWithoutExtension(F) + "rev.vok";
+			F = new File(mFileName);
+			if (F.exists())
+			{
+				for (int i = 0; i < 1000; i++)
+				{
+					mFileName = lib.getFilenameWithoutExtension(F) + "rev" + i + ".vok";
+					F = new File(mFileName);
+					if (!F.exists()) break;
+				}
+			}
+			
+			
+			
 		}
 
 		public void reset()

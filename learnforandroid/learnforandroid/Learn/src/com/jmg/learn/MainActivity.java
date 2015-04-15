@@ -74,6 +74,7 @@ public class MainActivity extends ActionBarActivity {
     			DisplayDurationWord = prefs.getFloat("DisplayDurationWord", 1.5f);
     			DisplayDurationBed = prefs.getFloat("DisplayDurationBed", 2.5f);
     			PaukRepetitions = prefs.getInt("PaukRepetitions", 3);
+    			vok.ProbabilityFactor = prefs.getFloat("ProbabilityFactor", -1f);
     			
             } catch (Exception e) {
     			// TODO Auto-generated catch block
@@ -627,6 +628,8 @@ public class MainActivity extends ActionBarActivity {
     	intent.putExtra("DisplayDurationWord", DisplayDurationWord);
     	intent.putExtra("DisplayDurationBed", DisplayDurationBed);
     	intent.putExtra("PaukRepetitions", PaukRepetitions);
+    	float ProbFact = vok.ProbabilityFactor; 
+    	intent.putExtra("ProbabilityFactor", ProbFact);
     	
     	this.startActivityForResult(intent, Settings_Activity);
     }
@@ -648,6 +651,8 @@ public class MainActivity extends ActionBarActivity {
 				DisplayDurationWord = data.getExtras().getFloat("DisplayDurationWord");
 				DisplayDurationBed = data.getExtras().getFloat("DisplayDurationBed");
 		    	PaukRepetitions = data.getExtras().getInt("PaukRepetitions");
+		    	vok.ProbabilityFactor = data.getExtras().getFloat("ProbabilityFactor");
+		    	
 				Editor editor = prefs.edit();
 	            editor.putInt("Schrittweite",vok.getSchrittweite());
     			editor.putString("CharsetASCII", vok.CharsetASCII);
@@ -655,6 +660,7 @@ public class MainActivity extends ActionBarActivity {
     			editor.putFloat("DisplayDurationWord", DisplayDurationWord);
     			editor.putFloat("DisplayDurationBed", DisplayDurationBed);
     			editor.putInt("PaukRepetitions", PaukRepetitions);
+    			editor.putFloat("ProbabilityFactor", vok.ProbabilityFactor);
     			
     			editor.commit();
     			

@@ -92,9 +92,32 @@
 	            <item >9</item>
 	            <item >10</item>
 	      </string-array>
+	      
+         <string-array name="spnProbabilityFactors">
+                <item >-1</item>
+                <item >0.5</item>
+                <item >1</item>
+                <item >1.5</item>
+                <item >2</item>
+                <item >2.5</item>
+                <item >3</item>
+                <item >3.5</item>
+                <item >4</item>
+	            <item >4.5</item>
+	            <item >5</item>
+	            <item >6</item>
+	            <item >7</item>
+	            <item >8</item>
+	            <item >9</item>
+	            <item >10</item>
+         </string-array>
+         
 	            <string name="txtRepetitions">repetitions if wrong</string>
 	            <string name="spnRepetions">repetitions if wrong</string>
 	            <string name="spnRepetitionsDescription">if a word is wrong the right meaning is shown so many times</string>
 	            <string name="mnuReverse">reverse vocabulary</string>
+	            <string name="txtProbabilityFactor">probability factor</string>
+	            <string name="spnProbabilityFactor">probability factor</string>
+	            <string name="spnProbabilityFactorDescription">This is the factor by which the probability for showing a word is divided</string>
         
 </resources>

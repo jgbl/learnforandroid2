@@ -333,6 +333,12 @@ public class lib
 	        }
 		}
 	};
+	
+	public static String getExtension(String Filename)
+	{
+		return getExtension(new File(Filename));
+	}
+	
 	public static String getExtension(java.io.File F)
 	{
 		String extension = "";
@@ -348,6 +354,29 @@ public class lib
 			return null;
 		}
 	}
+	
+	public static String getFilenameWithoutExtension(String Filename)
+	{
+		return getFilenameWithoutExtension(new File(Filename));
+	}
+	
+	
+	public static String getFilenameWithoutExtension(java.io.File F)
+	{
+		String Filename = F.getPath();
+
+		int i = Filename.lastIndexOf('.');
+		if (i > 0) 
+		{
+			Filename = Filename.substring(0,i-1);
+			return Filename;
+		}
+		else
+		{
+			return Filename;
+		}
+	}
+
 	/*
 	public static String rtfToHtml(Reader rtf) throws IOException {
 		JEditorPane p = new JEditorPane();

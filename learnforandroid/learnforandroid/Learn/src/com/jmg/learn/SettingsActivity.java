@@ -28,6 +28,7 @@ public class SettingsActivity extends Activity
 	public Spinner spnDisplayDurationWord;
 	public Spinner spnDisplayDurationBed;
 	public Spinner spnPaukRepetitions;
+	public Spinner spnProbabilityFactor;
 	private Intent intent = new Intent();
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,15 @@ public class SettingsActivity extends Activity
 			spnDisplayDurationWord = (Spinner) findViewById(R.id.spnAnzeigedauerWord);
 			spnDisplayDurationBed = (Spinner) findViewById(R.id.spnAnzeigedauerBed);
 			spnPaukRepetitions = (Spinner) findViewById(R.id.spnRepetitions);
+			spnProbabilityFactor = (Spinner) findViewById(R.id.spnProbabilityFactor);
+			
 			spnASCII.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnStep.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnDisplayDurationBed.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnDisplayDurationWord.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnAbfragebereich.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnPaukRepetitions.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			spnProbabilityFactor.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			
 			// Create an ArrayAdapter using the string array and a default spinner layout
 			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -213,6 +217,27 @@ public class SettingsActivity extends Activity
 						int position, long id) {
 					// TODO Auto-generated method stub
 					intent.putExtra("PaukRepetitions", (Integer.parseInt((String) parent.getItemAtPosition(position))));
+					
+				}
+	
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					setResult(Activity.RESULT_CANCELED, null);
+				}
+			});
+	
+			strDD = "" + getIntent().getFloatExtra("ProbabilityFactor", -1f);
+			strDD = strDD.replace(".0", "");
+			Pos = ((ArrayAdapter<CharSequence>) spnProbabilityFactor.getAdapter()).getPosition(strDD);
+			spnProbabilityFactor.setSelection(Pos);
+			spnProbabilityFactor.setOnItemSelectedListener(new OnItemSelectedListener() {
+	
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					intent.putExtra("ProbabilityFactor", (Float.parseFloat((String) parent.getItemAtPosition(position))));
 					
 				}
 	
