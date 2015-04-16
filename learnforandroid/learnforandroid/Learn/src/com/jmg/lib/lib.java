@@ -366,9 +366,10 @@ public class lib
 		String Filename = F.getPath();
 
 		int i = Filename.lastIndexOf('.');
-		if (i > 0) 
+		int ii = Filename.lastIndexOf(java.io.File.pathSeparatorChar);
+		if (i > 0 && i>ii) 
 		{
-			Filename = Filename.substring(0,i-1);
+			Filename = Filename.substring(0,i);
 			return Filename;
 		}
 		else

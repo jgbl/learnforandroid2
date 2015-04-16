@@ -18,6 +18,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 
 public class SettingsActivity extends Activity 
@@ -227,9 +228,24 @@ public class SettingsActivity extends Activity
 				}
 			});
 	
-			strDD = "" + getIntent().getFloatExtra("ProbabilityFactor", -1f);
-			strDD = strDD.replace(".0", "");
-			Pos = ((ArrayAdapter<CharSequence>) spnProbabilityFactor.getAdapter()).getPosition(strDD);
+			float ProbabilityFactor = getIntent().getFloatExtra("ProbabilityFactor", -1f); 
+			if (ProbabilityFactor == -1)
+			{
+				strDD = "auto";
+			}
+			else
+			{
+				strDD = "" + ProbabilityFactor;
+				strDD = strDD.replace(".0", "");
+			}
+			
+			SpinnerAdapter a = spnProbabilityFactor.getAdapter();
+			ArrayAdapter<CharSequence> a1 = null;
+			if (a != null )
+			{
+				a1 = (ArrayAdapter<CharSequence>) a;
+				Pos = (a1.getPosition(strDD));
+			}
 			spnProbabilityFactor.setSelection(Pos);
 			spnProbabilityFactor.setOnItemSelectedListener(new OnItemSelectedListener() {
 	
@@ -237,7 +253,9 @@ public class SettingsActivity extends Activity
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					intent.putExtra("ProbabilityFactor", (Float.parseFloat((String) parent.getItemAtPosition(position))));
+					String strDD = (String) parent.getItemAtPosition(position);
+					if (strDD.equalsIgnoreCase("auto")) strDD = "-1";
+					intent.putExtra("ProbabilityFactor", (Float.parseFloat(strDD)));
 					
 				}
 	
