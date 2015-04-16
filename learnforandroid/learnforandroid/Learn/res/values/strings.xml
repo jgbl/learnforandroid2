@@ -119,5 +119,9 @@
 	            <string name="txtProbabilityFactor">probability factor</string>
 	            <string name="spnProbabilityFactor">probability factor</string>
 	            <string name="spnProbabilityFactorDescription">This is the factor by which the probability for showing a word is divided</string>
+	            <string name="chkRandom">random</string>
+	            <string name="chkRandomHint">ask vocabulary randomly not subsequently</string>
+	            <string name="chkAskAll">ask all</string>
+	            <string name="chkAskAllHint">ask all vocabulary subsequently independent of  how often they were right</string>
         
 </resources>

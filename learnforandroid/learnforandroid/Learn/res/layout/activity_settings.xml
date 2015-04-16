@@ -181,6 +181,31 @@
 	            android:gravity="right"
 	            android:prompt="@string/spnProbabilityFactor" />
 	        
+	        <CheckBox
+	            android:id="@+id/chkRandom"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_below="@+id/txtProbabilityFactor"
+	            android:checked="false"
+	            android:hint="@string/chkRandomHint"
+	            android:text="@string/chkRandom"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <CheckBox
+	            android:id="@+id/chkAskAlll"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/chkRandom"
+	            android:layout_alignParentRight="true"
+	            android:checked="false"
+	            android:hint="@string/chkAskAllHint"
+	            android:text="@string/chkAskAll"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
 		    
 	    </RelativeLayout>
 

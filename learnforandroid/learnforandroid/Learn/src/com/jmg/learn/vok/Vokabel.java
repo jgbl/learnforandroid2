@@ -166,8 +166,20 @@ public class Vokabel {
 		private structFonts mFonts;
 		private boolean _cardmode;
 		private boolean _UniCode;
+		private boolean _AskAll;
 		
-				public boolean getUniCode() {
+		
+		public boolean getAskAll()
+		{
+			return _AskAll;
+		}
+		
+		public void setAskAll(boolean value)
+		{
+			_AskAll = value;
+		}
+		
+		public boolean getUniCode() {
 			return _UniCode;
 		}
 
@@ -1152,28 +1164,47 @@ public class Vokabel {
 			            if (mLernVokabeln[i] == 0)
 			            {
 			                // falls Lernvokabel gelÃ¶scht ist neue holen
-			                if (mAbfragebereich == -1 | blnDurch2 == true)
+			                if (!_AskAll)
 			                {
-			                    RefSupport<Object> refVar___0 = new RefSupport<Object>(voknr);
-			                    RefSupport<Object> refVar___1 = new RefSupport<Object>(i);
-			                    vokabelVonAllenHolen(refVar___0, refVar___1);
-			                    voknr = (Short) refVar___0.getValue();
-			                    i = (Short) refVar___1.getValue();
+				            	if (mAbfragebereich == -1 | blnDurch2 == true)
+				                {
+				                    RefSupport<Object> refVar___0 = new RefSupport<Object>(voknr);
+				                    RefSupport<Object> refVar___1 = new RefSupport<Object>(i);
+				                    vokabelVonAllenHolen(refVar___0, refVar___1);
+				                    voknr = (Short) refVar___0.getValue();
+				                    i = (Short) refVar___1.getValue();
+				                }
+				                else
+				                {
+				                    libLearn.gStatus = "Vokabel.InitAbfrage Line 509";
+				                    // Inserted by CodeCompleter
+				                    RefSupport<Object> refVar___2 = new RefSupport<Object>(voknr);
+				                    RefSupport<Object> refVar___3 = new RefSupport<Object>(i);
+				                    RefSupport<Object> refVar___4 = new RefSupport<Object>(blnDurch);
+				                    RefSupport<Object> refVar___5 = new RefSupport<Object>(blnDurch2);
+				                    Get_Vok(refVar___2, refVar___3, refVar___4, refVar___5);
+				                    voknr = (Short) refVar___2.getValue();
+				                    i = (Short) refVar___3.getValue();
+				                    blnDurch = (Boolean) refVar___4.getValue();
+				                    blnDurch2 = (Boolean) refVar___5.getValue();
+				                }
 			                }
 			                else
 			                {
-			                    libLearn.gStatus = "Vokabel.InitAbfrage Line 509";
-			                    // Inserted by CodeCompleter
-			                    RefSupport<Object> refVar___2 = new RefSupport<Object>(voknr);
-			                    RefSupport<Object> refVar___3 = new RefSupport<Object>(i);
-			                    RefSupport<Object> refVar___4 = new RefSupport<Object>(blnDurch);
-			                    RefSupport<Object> refVar___5 = new RefSupport<Object>(blnDurch2);
-			                    Get_Vok(refVar___2, refVar___3, refVar___4, refVar___5);
-			                    voknr = (Short) refVar___2.getValue();
-			                    i = (Short) refVar___3.getValue();
-			                    blnDurch = (Boolean) refVar___4.getValue();
-			                    blnDurch2 = (Boolean) refVar___5.getValue();
-			                } 
+			                	if (voknr < mGesamtzahl)
+			    	            {
+			    	                voknr += 1;
+			    	        		
+			    	            }
+			    	            else
+			    	            {
+			    	            	voknr = 1;
+			    	            } 
+			    	            if (mAbfrageZufällig){
+			    	            	voknr = (short) lib.rndInt(0,mGesamtzahl);
+			    	            }
+			    	            mLernVokabeln[i] = voknr;
+			                }
 			            }
 			             
 			        }

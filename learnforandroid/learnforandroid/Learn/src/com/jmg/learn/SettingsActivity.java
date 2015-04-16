@@ -17,6 +17,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -30,6 +33,8 @@ public class SettingsActivity extends Activity
 	public Spinner spnDisplayDurationBed;
 	public Spinner spnPaukRepetitions;
 	public Spinner spnProbabilityFactor;
+	public CheckBox chkRandom;
+	public CheckBox chkAskAll;
 	private Intent intent = new Intent();
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +42,42 @@ public class SettingsActivity extends Activity
         setContentView(R.layout.activity_settings);
 		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 		initSpinners();
+		initCheckBoxes();
 		initButtons();
+	}
+	
+	private void initCheckBoxes()
+	{
+		chkRandom = (CheckBox) findViewById(R.id.chkRandom);
+		chkAskAll = (CheckBox) findViewById(R.id.chkAskAlll);
+		
+		chkRandom.setChecked(getIntent().getBooleanExtra("Random", false));
+		
+		chkRandom.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				intent.putExtra("Random", isChecked);
+			}
+			
+		});
+		
+		chkAskAll.setChecked(getIntent().getBooleanExtra("AskAll", false));
+		
+		chkAskAll.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				intent.putExtra("AskAll", isChecked);
+			}
+			
+		});
+
+		
 	}
 	
 	private void initSpinners()
