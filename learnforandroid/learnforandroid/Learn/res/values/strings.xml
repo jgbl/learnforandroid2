@@ -123,5 +123,7 @@
 	            <string name="chkRandomHint">ask vocabulary randomly not subsequently</string>
 	            <string name="chkAskAll">ask all</string>
 	            <string name="chkAskAllHint">ask all vocabulary subsequently independent of  how often they were right</string>
+	            <string name="mnuReset">reset vocabulary</string>
+	            <string name="ResetVocabulary">Do you really want to reset the vocabulary?</string>
         
 </resources>

@@ -1715,6 +1715,7 @@ containing a value of this type.
         public static final int mnuFileOpen=0x7f050065;
         public static final int mnuFileOpenASCII=0x7f050066;
         public static final int mnuFileSave=0x7f050067;
+        public static final int mnuReset=0x7f05006a;
         public static final int mnuReverse=0x7f050069;
         public static final int never=0x7f05000b;
         public static final int none=0x7f050004;
@@ -1827,6 +1828,7 @@ containing a value of this type.
     public static final class string {
         public static final int FileDoesNotExist=0x7f0a0021;
         public static final int FileFormatNotRecognized=0x7f0a002c;
+        public static final int ResetVocabulary=0x7f0a004f;
         public static final int Save=0x7f0a0029;
         public static final int SaveAsUniCode=0x7f0a0020;
         public static final int TotalNumber=0x7f0a001c;
@@ -1911,6 +1913,7 @@ containing a value of this type.
         public static final int mnuFileOpen=0x7f0a0028;
         public static final int mnuFileOpenASCII=0x7f0a002b;
         public static final int mnuFileSave=0x7f0a002a;
+        public static final int mnuReset=0x7f0a004e;
         public static final int mnuReverse=0x7f0a0046;
         public static final int no=0x7f0a001e;
         public static final int ok=0x7f0a001f;

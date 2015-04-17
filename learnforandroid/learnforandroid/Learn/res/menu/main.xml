@@ -14,6 +14,7 @@
     </item>
     <item android:id="@+id/mnuDelete" android:title="@string/mnuDelete"></item>
     <item android:id="@+id/mnuReverse" android:title="@string/mnuReverse"></item>
+    <item android:id="@+id/mnuReset" android:title="@string/mnuReset"></item>
     
 
 </menu>

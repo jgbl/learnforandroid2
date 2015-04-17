@@ -599,6 +599,14 @@ public class MainActivity extends ActionBarActivity {
         	vok.revert();
         	getVokabel(false, false);
         }
+        else if (id == R.id.mnuReset)
+        {
+        	if (lib.ShowMessageYesNo(this, this.getString(R.string.ResetVocabulary)))
+        	{
+        		vok.reset();
+        	}
+        	
+        }
         return super.onOptionsItemSelected(item);
     }
     public void LoadFile(boolean blnUniCode)
