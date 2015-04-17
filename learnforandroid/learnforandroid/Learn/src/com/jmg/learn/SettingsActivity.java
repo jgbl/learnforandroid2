@@ -50,8 +50,9 @@ public class SettingsActivity extends Activity
 	{
 		chkRandom = (CheckBox) findViewById(R.id.chkRandom);
 		chkAskAll = (CheckBox) findViewById(R.id.chkAskAlll);
-		
-		chkRandom.setChecked(getIntent().getBooleanExtra("Random", false));
+		boolean checked = getIntent().getBooleanExtra("Random", false);
+		chkRandom.setChecked(checked);
+		intent.putExtra("Random", checked);
 		
 		chkRandom.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
@@ -64,7 +65,9 @@ public class SettingsActivity extends Activity
 			
 		});
 		
-		chkAskAll.setChecked(getIntent().getBooleanExtra("AskAll", false));
+		checked = getIntent().getBooleanExtra("AskAll", false);
+		chkAskAll.setChecked(checked);
+		intent.putExtra("AskAll", checked);
 		
 		chkAskAll.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
