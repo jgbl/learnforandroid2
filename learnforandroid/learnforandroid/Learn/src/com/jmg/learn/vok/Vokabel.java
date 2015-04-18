@@ -1341,7 +1341,7 @@ public class Vokabel {
 	            } 
 	            if (mAbfrageZufällig){
 	            	intVokNr = (short) lib.rndInt(0,mGesamtzahl);
-	            	while (mGesamtzahl > 10 && Arrays.asList(mLernVokabeln).contains(intVokNr))
+	            	while (mGesamtzahl > mSchrittweite*2 && Arrays.asList(mLernVokabeln).contains(intVokNr))
 	            	{
 	            		intVokNr = (short) lib.rndInt(0,mGesamtzahl);
 	            	}
