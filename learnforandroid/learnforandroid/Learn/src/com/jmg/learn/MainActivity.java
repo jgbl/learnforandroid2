@@ -26,7 +26,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -342,7 +341,7 @@ public class MainActivity extends ActionBarActivity {
     private void flashwords() throws Exception
     {
     	RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMain);
-    	layout.setBackgroundColor(Color.GRAY);
+    	layout.setBackgroundColor(0xCCCCCC);
     	Handler handler = new Handler();
 		long delay = 0;
     	for (int i = 0; i < PaukRepetitions; i++)
@@ -373,7 +372,7 @@ public class MainActivity extends ActionBarActivity {
     		this.layout = layout;
 		}
     	public void run() {
-			layout.setBackgroundColor(android.R.color.white);
+			layout.setBackgroundColor(0xFFFFFF);
 		}
 	}  
     
