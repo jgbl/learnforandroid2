@@ -111,6 +111,16 @@
 	            <item >9</item>
 	            <item >10</item>
          </string-array>
+        
+         <string-array name="spnColors">
+                <item >word</item>
+                <item >meaning</item>
+                <item >comment</item>
+                <item >background</item>
+                <item >box word</item>
+                <item >box meaning</item>
+          </string-array>
+         
          
 	            <string name="txtRepetitions">repetitions if wrong</string>
 	            <string name="spnRepetions">repetitions if wrong</string>
@@ -125,5 +135,11 @@
 	            <string name="chkAskAllHint">ask all vocabulary subsequently independent of  how often they were right</string>
 	            <string name="mnuReset">reset vocabulary</string>
 	            <string name="ResetVocabulary">Do you really want to reset the vocabulary?</string>
+	            <string name="PressBackAgain">press back again to exit</string>
+	            <string name="txtColors">Colors</string>
+	            <string name="spnColors">Colors</string>
+	            <string name="spnColorDescription">Select Colors for each element</string>
+	            <string name="SelColor">Select color</string>
+	            <string name="btnSelectColorHint">select the color of each element</string>
         
 </resources>

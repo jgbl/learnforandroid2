@@ -170,11 +170,29 @@ public class MainActivity extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     };
     
+    private boolean _backPressed;
     private boolean saveVok(boolean dontPrompt)
     {
     	if (vok.aend)
     	{
-    		if (dontPrompt || lib.ShowMessageYesNo(this,getString(R.string.Save)))
+    		if (!dontPrompt)
+    		{
+    			dontPrompt = lib.ShowMessageYesNo(this,getString(R.string.Save));
+    			if (!dontPrompt)
+    			{
+    				if (_backPressed)
+    				{
+    					return true;
+    				}
+    				else
+    				{
+    					lib.ShowToast(this, this.getString(R.string.PressBackAgain));
+    					_backPressed = true;
+    				}
+    				
+    			}
+    		}
+    		if (dontPrompt)
     				{
     					try {
 							vok.SaveFile();
@@ -341,7 +359,7 @@ public class MainActivity extends ActionBarActivity {
     private void flashwords() throws Exception
     {
     	RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMain);
-    	layout.setBackgroundColor(0xA0A0A0);
+    	layout.setBackgroundColor(0xffc0c0c0);
     	Handler handler = new Handler();
 		long delay = 0;
     	for (int i = 0; i < PaukRepetitions; i++)
@@ -372,7 +390,7 @@ public class MainActivity extends ActionBarActivity {
     		this.layout = layout;
 		}
     	public void run() {
-			layout.setBackgroundColor(0xFFFFFF);
+			layout.setBackgroundColor(0xffffffff);
 		}
 	}  
     
@@ -463,7 +481,7 @@ public class MainActivity extends ActionBarActivity {
     			+ "\nDisplayHeight: " + height);*/
     	if (scale != 1)
     	{
-    		lib.ShowMessage(this, "Scaling font by " + scale + " Screenheight = " + height);
+    		lib.ShowToast(this, "Scaling font by " + scale + " Screenheight = " + height);
     		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning1.getTextSize() * scale));
     		_txtMeaning2.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning2.getTextSize() * scale));
     		_txtMeaning3.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtMeaning3.getTextSize() * scale));

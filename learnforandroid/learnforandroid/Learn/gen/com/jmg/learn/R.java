@@ -18,6 +18,7 @@ public final class R {
     }
     public static final class array {
         public static final int spnAbfragebereichEntries=0x7f0c0000;
+        public static final int spnColors=0x7f0c0005;
         public static final int spnDurations=0x7f0c0002;
         public static final int spnProbabilityFactors=0x7f0c0004;
         public static final int spnRepetitions=0x7f0c0003;
@@ -1064,6 +1065,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int suggestionRowLayout=0x7f010081;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int supportsAlpha=0x7f0100a9;
         /**  Minimum width for the switch component 
          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
@@ -1550,8 +1559,12 @@ containing a value of this type.
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
     
          */
-        public static final int activity_horizontal_margin=0x7f08002b;
-        public static final int activity_vertical_margin=0x7f08002c;
+        public static final int activity_horizontal_margin=0x7f08002f;
+        public static final int activity_vertical_margin=0x7f080030;
+        public static final int ambilwarna_hsvHeight=0x7f08002b;
+        public static final int ambilwarna_hsvWidth=0x7f08002c;
+        public static final int ambilwarna_hueWidth=0x7f08002d;
+        public static final int ambilwarna_spacer=0x7f08002e;
         /**  The platform's desired fixed height for a dialog along the major axis
          (the screen is in portrait). This may be either a fraction or a dimension.
  The platform's desired fixed height for a dialog along the major axis
@@ -1639,28 +1652,35 @@ containing a value of this type.
         public static final int abc_textfield_search_activated_mtrl_alpha=0x7f020030;
         public static final int abc_textfield_search_default_mtrl_alpha=0x7f020031;
         public static final int abc_textfield_search_material=0x7f020032;
-        public static final int and=0x7f020033;
-        public static final int back=0x7f020034;
-        public static final int doc=0x7f020035;
-        public static final int folder=0x7f020036;
-        public static final int folder_icon=0x7f020037;
-        public static final int gif=0x7f020038;
-        public static final int ic_launcher=0x7f020039;
-        public static final int jpg=0x7f02003a;
-        public static final int pdf=0x7f02003b;
-        public static final int pdf_list=0x7f02003c;
-        public static final int png=0x7f02003d;
-        public static final int ppt=0x7f02003e;
-        public static final int rtf=0x7f02003f;
-        public static final int txt=0x7f020040;
-        public static final int whitepage=0x7f020041;
-        public static final int xls=0x7f020042;
-        public static final int zip=0x7f020043;
+        public static final int ambilwarna_alphacheckered=0x7f020033;
+        public static final int ambilwarna_alphacheckered_tiled=0x7f020034;
+        public static final int ambilwarna_arrow_down=0x7f020035;
+        public static final int ambilwarna_arrow_right=0x7f020036;
+        public static final int ambilwarna_cursor=0x7f020037;
+        public static final int ambilwarna_hue=0x7f020038;
+        public static final int ambilwarna_target=0x7f020039;
+        public static final int and=0x7f02003a;
+        public static final int back=0x7f02003b;
+        public static final int doc=0x7f02003c;
+        public static final int folder=0x7f02003d;
+        public static final int folder_icon=0x7f02003e;
+        public static final int gif=0x7f02003f;
+        public static final int ic_launcher=0x7f020040;
+        public static final int jpg=0x7f020041;
+        public static final int pdf=0x7f020042;
+        public static final int pdf_list=0x7f020043;
+        public static final int png=0x7f020044;
+        public static final int ppt=0x7f020045;
+        public static final int rtf=0x7f020046;
+        public static final int txt=0x7f020047;
+        public static final int whitepage=0x7f020048;
+        public static final int xls=0x7f020049;
+        public static final int zip=0x7f02004a;
     }
     public static final class id {
         public static final int Comment=0x7f050041;
-        public static final int TextView01=0x7f050061;
-        public static final int TextView02=0x7f050062;
+        public static final int TextView01=0x7f050071;
+        public static final int TextView02=0x7f050072;
         public static final int action_bar=0x7f050031;
         public static final int action_bar_activity_content=0x7f050018;
         public static final int action_bar_container=0x7f050030;
@@ -1674,21 +1694,37 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f05002e;
         public static final int action_mode_bar_stub=0x7f05002d;
         public static final int action_mode_close_button=0x7f050020;
-        public static final int action_settings=0x7f050065;
+        public static final int action_settings=0x7f050079;
         public static final int activity_chooser_view_content=0x7f050021;
-        public static final int adMob=0x7f050063;
+        public static final int adMob=0x7f050073;
         public static final int always=0x7f05000d;
+        public static final int ambilwarna_alphaCheckered=0x7f050067;
+        public static final int ambilwarna_alphaCursor=0x7f05006a;
+        public static final int ambilwarna_cursor=0x7f050069;
+        public static final int ambilwarna_dialogView=0x7f050063;
+        public static final int ambilwarna_newColor=0x7f05006e;
+        public static final int ambilwarna_oldColor=0x7f05006d;
+        public static final int ambilwarna_overlay=0x7f050068;
+        public static final int ambilwarna_pref_widget_box=0x7f05006f;
+        public static final int ambilwarna_state=0x7f05006c;
+        public static final int ambilwarna_target=0x7f05006b;
+        public static final int ambilwarna_viewContainer=0x7f050064;
+        public static final int ambilwarna_viewHue=0x7f050066;
+        public static final int ambilwarna_viewSatBri=0x7f050065;
         public static final int beginning=0x7f050012;
-        public static final int btnCancel=0x7f05005e;
+        public static final int btnCancel=0x7f050061;
         public static final int btnEdit=0x7f05004b;
-        public static final int btnOK=0x7f05005f;
+        public static final int btnOK=0x7f050062;
         public static final int btnRight=0x7f050048;
+        public static final int btnSelectColor=0x7f05005e;
         public static final int btnSkip=0x7f050047;
         public static final int btnView=0x7f050049;
         public static final int btnWrong=0x7f05004a;
+        public static final int button1=0x7f050075;
+        public static final int button2=0x7f050076;
         public static final int checkbox=0x7f050029;
-        public static final int chkAskAlll=0x7f05005d;
-        public static final int chkRandom=0x7f05005c;
+        public static final int chkAskAlll=0x7f050060;
+        public static final int chkRandom=0x7f05005f;
         public static final int collapseActionView=0x7f05000f;
         public static final int decor_content_parent=0x7f05002f;
         public static final int default_activity_button=0x7f050024;
@@ -1704,20 +1740,22 @@ containing a value of this type.
         public static final int icon=0x7f050026;
         public static final int ifRoom=0x7f05000c;
         public static final int image=0x7f050023;
-        public static final int img1=0x7f050060;
+        public static final int imageColors=0x7f050078;
+        public static final int imageView1=0x7f050077;
+        public static final int img1=0x7f050070;
         public static final int layoutButtons=0x7f050046;
         public static final int layoutMain=0x7f05003f;
         public static final int layoutSettings=0x7f05004c;
         public static final int listMode=0x7f050002;
         public static final int list_item=0x7f050025;
-        public static final int lvFiles=0x7f050064;
+        public static final int lvFiles=0x7f050074;
         public static final int middle=0x7f050013;
-        public static final int mnuDelete=0x7f050069;
-        public static final int mnuFileOpen=0x7f050066;
-        public static final int mnuFileOpenASCII=0x7f050067;
-        public static final int mnuFileSave=0x7f050068;
-        public static final int mnuReset=0x7f05006b;
-        public static final int mnuReverse=0x7f05006a;
+        public static final int mnuDelete=0x7f05007d;
+        public static final int mnuFileOpen=0x7f05007a;
+        public static final int mnuFileOpenASCII=0x7f05007b;
+        public static final int mnuFileSave=0x7f05007c;
+        public static final int mnuReset=0x7f05007f;
+        public static final int mnuReverse=0x7f05007e;
         public static final int never=0x7f05000b;
         public static final int none=0x7f050004;
         public static final int normal=0x7f050001;
@@ -1743,6 +1781,7 @@ containing a value of this type.
         public static final int spnAbfragebereich=0x7f050051;
         public static final int spnAnzeigedauerBed=0x7f050057;
         public static final int spnAnzeigedauerWord=0x7f050055;
+        public static final int spnColors=0x7f05005d;
         public static final int spnProbabilityFactor=0x7f05005b;
         public static final int spnRepetitions=0x7f050059;
         public static final int spnStep=0x7f050053;
@@ -1753,6 +1792,7 @@ containing a value of this type.
         public static final int txtAnzeigedauerBed=0x7f050056;
         public static final int txtAnzeigedauerWord=0x7f050054;
         public static final int txtCharsetASCII=0x7f05004e;
+        public static final int txtColors=0x7f05005c;
         public static final int txtMeaning1=0x7f050042;
         public static final int txtMeaning2=0x7f050043;
         public static final int txtMeaning3=0x7f050044;
@@ -1818,10 +1858,14 @@ containing a value of this type.
         public static final int abc_simple_dropdown_hint=0x7f030016;
         public static final int activity_main=0x7f030017;
         public static final int activity_settings=0x7f030018;
-        public static final int file_view=0x7f030019;
-        public static final int list_view=0x7f03001a;
-        public static final int roundedbox=0x7f03001b;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
+        public static final int ambilwarna_dialog=0x7f030019;
+        public static final int ambilwarna_pref_widget=0x7f03001a;
+        public static final int file_view=0x7f03001b;
+        public static final int list_view=0x7f03001c;
+        public static final int roundedbox=0x7f03001d;
+        public static final int sandbox=0x7f03001e;
+        public static final int spinnerrow=0x7f03001f;
+        public static final int support_simple_spinner_dropdown_item=0x7f030020;
     }
     public static final class menu {
         public static final int main=0x7f0d0000;
@@ -1829,9 +1873,11 @@ containing a value of this type.
     public static final class string {
         public static final int FileDoesNotExist=0x7f0a0021;
         public static final int FileFormatNotRecognized=0x7f0a002c;
+        public static final int PressBackAgain=0x7f0a0050;
         public static final int ResetVocabulary=0x7f0a004f;
         public static final int Save=0x7f0a0029;
         public static final int SaveAsUniCode=0x7f0a0020;
+        public static final int SelColor=0x7f0a0054;
         public static final int TotalNumber=0x7f0a001c;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
@@ -1898,6 +1944,7 @@ containing a value of this type.
         public static final int btnNext=0x7f0a001a;
         public static final int btnOK=0x7f0a0038;
         public static final int btnRight=0x7f0a0022;
+        public static final int btnSelectColorHint=0x7f0a0055;
         public static final int btnSkip=0x7f0a001b;
         public static final int btnView=0x7f0a0024;
         public static final int btnWrong=0x7f0a0025;
@@ -1930,6 +1977,8 @@ containing a value of this type.
         public static final int spnAnzeigedauerBedDescription=0x7f0a0042;
         public static final int spnAnzeigedauerWord=0x7f0a003e;
         public static final int spnAnzeigedauerWordDescription=0x7f0a003f;
+        public static final int spnColorDescription=0x7f0a0053;
+        public static final int spnColors=0x7f0a0052;
         public static final int spnProbabilityFactor=0x7f0a0048;
         public static final int spnProbabilityFactorDescription=0x7f0a0049;
         public static final int spnRepetions=0x7f0a0044;
@@ -1941,6 +1990,7 @@ containing a value of this type.
         public static final int txtAnzeigedauerBed=0x7f0a0040;
         public static final int txtAnzeigedauerWord=0x7f0a003d;
         public static final int txtCharsetASCII=0x7f0a0037;
+        public static final int txtColors=0x7f0a0051;
         public static final int txtProbabilityFactor=0x7f0a0047;
         public static final int txtRepetitions=0x7f0a0043;
         public static final int txtSettings=0x7f0a0035;
@@ -2981,6 +3031,33 @@ containing a value of this type.
           @attr name com.jmg.learn:initialActivityCount
         */
         public static final int ActivityChooserView_initialActivityCount = 0;
+        /** Attributes that can be used with a AmbilWarnaPreference.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #AmbilWarnaPreference_supportsAlpha com.jmg.learn:supportsAlpha}</code></td><td></td></tr>
+           </table>
+           @see #AmbilWarnaPreference_supportsAlpha
+         */
+        public static final int[] AmbilWarnaPreference = {
+            0x7f0100a9
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.jmg.learn.R.attr#supportsAlpha}
+          attribute's value can be found in the {@link #AmbilWarnaPreference} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.jmg.learn:supportsAlpha
+        */
+        public static final int AmbilWarnaPreference_supportsAlpha = 0;
         /** Attributes that can be used with a CompatTextView.
            <p>Includes the following attributes:</p>
            <table>

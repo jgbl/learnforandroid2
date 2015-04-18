@@ -14,6 +14,7 @@ import com.jmg.learn.libLearn;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.Color;
 //import android.runtime.*;
 import android.provider.*;
 import android.util.Log;
@@ -423,6 +424,16 @@ public class lib
             //do something you want to do
            //And your code will be executed after 2 second
         }
+	}
+	public static int[] getColors()
+	{
+		int [] Colors = new int [4096];
+		for (int i = 0; i<16; i++)
+			for (int ii = 0; ii < 16; ii++)
+				for (int iii = 0; iii < 16; iii++)
+					Colors[i+ii*16+iii*16*16] = Color.rgb(i*16, ii*16, iii*16);
+		;;
+		return Colors;
 	}
 
 }

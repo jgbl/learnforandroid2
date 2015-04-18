@@ -3,13 +3,11 @@ package com.jmg.learn;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.charset.Charset;
 
-import com.jmg.lib.lib;
-import com.jmg.lib.lib.libString;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.YuvImage;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,8 +21,13 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import com.jmg.lib.lib;
+import com.jmg.lib.lib.libString;
+import yuku.ambilwarna.*;
+import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 
-public class SettingsActivity extends Activity 
+
+public class SettingsActivity extends android.support.v4.app.FragmentActivity 
 {
 	public Spinner spnAbfragebereich;
 	public Spinner spnASCII;
@@ -33,6 +36,8 @@ public class SettingsActivity extends Activity
 	public Spinner spnDisplayDurationBed;
 	public Spinner spnPaukRepetitions;
 	public Spinner spnProbabilityFactor;
+	public Spinner spnColors;
+	public Button btnColors;
 	public CheckBox chkRandom;
 	public CheckBox chkAskAll;
 	private Intent intent = new Intent();
@@ -94,6 +99,8 @@ public class SettingsActivity extends Activity
 			spnDisplayDurationBed = (Spinner) findViewById(R.id.spnAnzeigedauerBed);
 			spnPaukRepetitions = (Spinner) findViewById(R.id.spnRepetitions);
 			spnProbabilityFactor = (Spinner) findViewById(R.id.spnProbabilityFactor);
+			spnColors = (Spinner) findViewById(R.id.spnColors);
+			
 			
 			spnASCII.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnStep.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
@@ -102,6 +109,7 @@ public class SettingsActivity extends Activity
 			spnAbfragebereich.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnPaukRepetitions.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnProbabilityFactor.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			spnColors.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			
 			// Create an ArrayAdapter using the string array and a default spinner layout
 			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -339,10 +347,41 @@ public class SettingsActivity extends Activity
 				finish();
 			}
 		});
+		
+		b = (Button)findViewById(R.id.btnSelectColor);
+		b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ShowColorDialog();
+				
+			}
+		});
 				
 	}
 	
-public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
+	private void ShowColorDialog()
+	{
+		AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, Color.BLACK, new OnAmbilWarnaListener() {
+			
+			@Override
+			public void onOk(AmbilWarnaDialog dialog, int color) {
+				// TODO Auto-generated method stub
+				spnColors.setBackgroundColor(color);
+			}
+			
+			@Override
+			public void onCancel(AmbilWarnaDialog dialog) {
+				// TODO Auto-generated method stub
+				
+			}
+		});				    
+		dialog.show();				
+	
+	
+	}
+	public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
 		
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {

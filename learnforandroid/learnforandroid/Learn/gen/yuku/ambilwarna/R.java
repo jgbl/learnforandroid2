@@ -4,7 +4,7 @@
  * aapt tool from the resource data it found.  It
  * should not be modified by hand.
  */
-package br.com.thinkti.android.filechooser;
+package yuku.ambilwarna;
 
 public final class R {
 	public static final class anim {
@@ -150,6 +150,7 @@ public final class R {
 		public static final int subtitleTextAppearance = 0x7f01008b;
 		public static final int subtitleTextStyle = 0x7f010059;
 		public static final int suggestionRowLayout = 0x7f010081;
+		public static final int supportsAlpha = 0x7f0100a9;
 		public static final int switchMinWidth = 0x7f0100a5;
 		public static final int switchPadding = 0x7f0100a6;
 		public static final int switchStyle = 0x7f01003b;
@@ -292,6 +293,10 @@ public final class R {
 		public static final int abc_text_size_subtitle_material_toolbar = 0x7f080013;
 		public static final int abc_text_size_title_material = 0x7f080021;
 		public static final int abc_text_size_title_material_toolbar = 0x7f080012;
+		public static final int ambilwarna_hsvHeight = 0x7f08002b;
+		public static final int ambilwarna_hsvWidth = 0x7f08002c;
+		public static final int ambilwarna_hueWidth = 0x7f08002d;
+		public static final int ambilwarna_spacer = 0x7f08002e;
 		public static final int dialog_fixed_height_major = 0x7f08000e;
 		public static final int dialog_fixed_height_minor = 0x7f08000f;
 		public static final int dialog_fixed_width_major = 0x7f08000c;
@@ -351,26 +356,15 @@ public final class R {
 		public static final int abc_textfield_search_activated_mtrl_alpha = 0x7f020030;
 		public static final int abc_textfield_search_default_mtrl_alpha = 0x7f020031;
 		public static final int abc_textfield_search_material = 0x7f020032;
-		public static final int and = 0x7f02003a;
-		public static final int back = 0x7f02003b;
-		public static final int doc = 0x7f02003c;
-		public static final int folder = 0x7f02003d;
-		public static final int folder_icon = 0x7f02003e;
-		public static final int gif = 0x7f02003f;
-		public static final int jpg = 0x7f020041;
-		public static final int pdf = 0x7f020042;
-		public static final int pdf_list = 0x7f020043;
-		public static final int png = 0x7f020044;
-		public static final int ppt = 0x7f020045;
-		public static final int rtf = 0x7f020046;
-		public static final int txt = 0x7f020047;
-		public static final int whitepage = 0x7f020048;
-		public static final int xls = 0x7f020049;
-		public static final int zip = 0x7f02004a;
+		public static final int ambilwarna_alphacheckered = 0x7f020033;
+		public static final int ambilwarna_alphacheckered_tiled = 0x7f020034;
+		public static final int ambilwarna_arrow_down = 0x7f020035;
+		public static final int ambilwarna_arrow_right = 0x7f020036;
+		public static final int ambilwarna_cursor = 0x7f020037;
+		public static final int ambilwarna_hue = 0x7f020038;
+		public static final int ambilwarna_target = 0x7f020039;
 	}
 	public static final class id {
-		public static final int TextView01 = 0x7f050071;
-		public static final int TextView02 = 0x7f050072;
 		public static final int action_bar = 0x7f050031;
 		public static final int action_bar_activity_content = 0x7f050018;
 		public static final int action_bar_container = 0x7f050030;
@@ -385,8 +379,20 @@ public final class R {
 		public static final int action_mode_bar_stub = 0x7f05002d;
 		public static final int action_mode_close_button = 0x7f050020;
 		public static final int activity_chooser_view_content = 0x7f050021;
-		public static final int adMob = 0x7f050073;
 		public static final int always = 0x7f05000d;
+		public static final int ambilwarna_alphaCheckered = 0x7f050067;
+		public static final int ambilwarna_alphaCursor = 0x7f05006a;
+		public static final int ambilwarna_cursor = 0x7f050069;
+		public static final int ambilwarna_dialogView = 0x7f050063;
+		public static final int ambilwarna_newColor = 0x7f05006e;
+		public static final int ambilwarna_oldColor = 0x7f05006d;
+		public static final int ambilwarna_overlay = 0x7f050068;
+		public static final int ambilwarna_pref_widget_box = 0x7f05006f;
+		public static final int ambilwarna_state = 0x7f05006c;
+		public static final int ambilwarna_target = 0x7f05006b;
+		public static final int ambilwarna_viewContainer = 0x7f050064;
+		public static final int ambilwarna_viewHue = 0x7f050066;
+		public static final int ambilwarna_viewSatBri = 0x7f050065;
 		public static final int beginning = 0x7f050012;
 		public static final int checkbox = 0x7f050029;
 		public static final int collapseActionView = 0x7f05000f;
@@ -404,10 +410,8 @@ public final class R {
 		public static final int icon = 0x7f050026;
 		public static final int ifRoom = 0x7f05000c;
 		public static final int image = 0x7f050023;
-		public static final int img1 = 0x7f050070;
 		public static final int listMode = 0x7f050002;
 		public static final int list_item = 0x7f050025;
-		public static final int lvFiles = 0x7f050074;
 		public static final int middle = 0x7f050013;
 		public static final int never = 0x7f05000b;
 		public static final int none = 0x7f050004;
@@ -465,8 +469,8 @@ public final class R {
 		public static final int abc_search_dropdown_item_icons_2line = 0x7f030014;
 		public static final int abc_search_view = 0x7f030015;
 		public static final int abc_simple_dropdown_hint = 0x7f030016;
-		public static final int file_view = 0x7f03001b;
-		public static final int list_view = 0x7f03001c;
+		public static final int ambilwarna_dialog = 0x7f030019;
+		public static final int ambilwarna_pref_widget = 0x7f03001a;
 		public static final int support_simple_spinner_dropdown_item = 0x7f030020;
 	}
 	public static final class string {
@@ -486,14 +490,6 @@ public final class R {
 		public static final int abc_shareactionprovider_share_with = 0x7f0a000f;
 		public static final int abc_shareactionprovider_share_with_application = 0x7f0a000e;
 		public static final int abc_toolbar_collapse_description = 0x7f0a0004;
-		public static final int app_name = 0x7f0a0010;
-		public static final int currentDir = 0x7f0a0011;
-		public static final int fileSize = 0x7f0a0012;
-		public static final int folder = 0x7f0a0013;
-		public static final int openFolder = 0x7f0a0015;
-		public static final int optionSelection = 0x7f0a0017;
-		public static final int parentDirectory = 0x7f0a0014;
-		public static final int selectThis = 0x7f0a0016;
 	}
 	public static final class style {
 		public static final int Base_TextAppearance_AppCompat = 0x7f0b0098;
@@ -776,6 +772,8 @@ public final class R {
 		public static final int[] ActivityChooserView = { 0x7f010084, 0x7f010085 };
 		public static final int ActivityChooserView_expandActivityOverflowButtonDrawable = 1;
 		public static final int ActivityChooserView_initialActivityCount = 0;
+		public static final int[] AmbilWarnaPreference = { 0x7f0100a9 };
+		public static final int AmbilWarnaPreference_supportsAlpha = 0;
 		public static final int[] CompatTextView = { 0x7f010086 };
 		public static final int CompatTextView_textAllCaps = 0;
 		public static final int[] DrawerArrowToggle = { 0x7f010099, 0x7f01009a, 0x7f01009b, 0x7f01009c, 0x7f01009d, 0x7f01009e, 0x7f01009f, 0x7f0100a0 };
