@@ -2,7 +2,6 @@ package com.jmg.lib;
 
 import com.jmg.learn.R;
 
-import R.id;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,9 +35,9 @@ public class CustomArrayAdapter extends ArrayAdapter<String>{
        LayoutInflater inflater = getLayoutInflater();
        View row=inflater.inflate(R.layout.spinnerrow, parent, false);
        TextView label=(TextView) findViewById(R.id.txtColors);
-       label.setText(getItem(position);
+       label.setText(getItem(position));
 
-       ImageView icon=(ImageView)row.findViewById(R.id.icon);
+       ImageView icon=(ImageView)row.findViewById(R.id.imageColors);
 
        String uri = "@drawable/a" + mIcons[position];
        //int imageResource = ((Object) getResources()).getIdentifier(uri, null, getPackageName());
