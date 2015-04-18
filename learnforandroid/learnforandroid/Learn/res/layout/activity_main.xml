@@ -43,6 +43,7 @@
         android:minLines="2"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000"
         android:textSize="40px" >
 
         <requestFocus />
@@ -62,8 +63,8 @@
         android:minLines="2"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000"
         android:textSize="40px" />
-    
 
     <com.jmg.lib.BorderedEditText
         android:id="@+id/txtMeaning3"
@@ -79,6 +80,7 @@
         android:minLines="2"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000"
         android:textSize="40px" />
    
     <com.jmg.lib.BorderedTextView
