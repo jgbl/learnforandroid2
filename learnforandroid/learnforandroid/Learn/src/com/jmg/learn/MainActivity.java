@@ -341,7 +341,7 @@ public class MainActivity extends ActionBarActivity {
     private void flashwords() throws Exception
     {
     	RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMain);
-    	layout.setBackgroundColor(0xCCCCCC);
+    	layout.setBackgroundColor(0xb2b2b2);
     	Handler handler = new Handler();
 		long delay = 0;
     	for (int i = 0; i < PaukRepetitions; i++)
