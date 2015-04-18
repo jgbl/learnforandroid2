@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
@@ -1338,6 +1341,10 @@ public class Vokabel {
 	            } 
 	            if (mAbfrageZufällig){
 	            	intVokNr = (short) lib.rndInt(0,mGesamtzahl);
+	            	while (mGesamtzahl > 10 && Arrays.asList(mLernVokabeln).contains(intVokNr))
+	            	{
+	            		intVokNr = (short) lib.rndInt(0,mGesamtzahl);
+	            	}
 	            }
 	            	
 	                

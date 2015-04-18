@@ -61,8 +61,18 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _blnEink = getWindowManager().getDefaultDisplay().getRefreshRate() < 5.0; 
-        if (_blnEink) lib.ShowToast(this, "This is an Eink diplay!");
+       try
+       {
+    	   _blnEink = getWindowManager().getDefaultDisplay().getRefreshRate() < 5.0; 
+           if (_blnEink) lib.ShowToast(this, "This is an Eink diplay!");
+       }
+       catch (Exception ex)
+       {
+    	   lib.ShowException(this, ex);
+       }
+       
+       
+        
         try
         {
         	setContentView(R.layout.activity_main);
