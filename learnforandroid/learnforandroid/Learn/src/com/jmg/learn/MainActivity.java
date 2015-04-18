@@ -53,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
 	private int PaukRepetitions = 3;
 	private BorderedEditText _txtMeaning3;
 	private double scale = 1;
+	private boolean _blnEink;
 	public Vokabel vok;
 	public String CharsetASCII = "Windows-1252";
 	public SharedPreferences prefs; // = this.getPreferences(Context.MODE_PRIVATE);
@@ -60,6 +61,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _blnEink = getWindowManager().getDefaultDisplay().getRefreshRate() < 5.0; 
+        if (_blnEink) lib.ShowToast(this, "This is an Eink diplay!");
         try
         {
         	setContentView(R.layout.activity_main);
