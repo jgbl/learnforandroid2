@@ -56,6 +56,7 @@
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	
+            
 	        <Spinner
 	            android:id="@+id/spnAbfragebereich"
 	            style="?android:attr/spinnerItemStyle"
@@ -193,40 +194,19 @@
 	        
 	        <Spinner
 	            android:id="@+id/spnColors"
-	            android:layout_width="wrap_content"
+	            android:layout_width="150dp"
 	            android:layout_height="wrap_content"
-	            android:layout_alignBaseline="@id/txtColors"
-	            android:layout_centerHorizontal="true"
-	            android:layout_gravity="right"
-	            android:contentDescription="@string/spnColorDescription"
-	            android:entries="@array/spnColors"
-	            android:gravity="right"
-	            android:prompt="@string/spnColors"
-	            android:shadowColor="#000000"
-	            android:shadowDx="1.5"
-	            android:shadowDy="1.3"
-	            android:shadowRadius="1.6"
-	            android:textColor="@android:color/white" />
-
-	        <Button
-	            android:id="@+id/btnSelectColor"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignBaseline="@id/txtColors"
+	            android:layout_below="@+id/txtProbabilityFactor"
 	            android:layout_alignParentRight="true"
-	            android:height="30dp"
-	            android:hint="@string/btnSelectColorHint"
-	            android:minHeight="20dp"
-	            android:text="@string/SelColor"
-	            android:textSize="15sp" />
-	         
+	            android:contentDescription="@string/spnColorDescription"
+	            android:prompt="@string/spnColors" />
 	        
 	        <CheckBox
 	            android:id="@+id/chkRandom"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentLeft="true"
-	            android:layout_below="@+id/txtColors"
+	            android:layout_below="@+id/spnColors"
 	            android:checked="false"
 	            android:hint="@string/chkRandomHint"
 	            android:text="@string/chkRandom"

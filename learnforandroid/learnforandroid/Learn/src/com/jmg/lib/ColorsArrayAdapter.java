@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ColorsArrayAdapter extends ArrayAdapter<ColorSetting>{
@@ -23,7 +22,7 @@ public class ColorsArrayAdapter extends ArrayAdapter<ColorSetting>{
     	super(context, textViewResourceId);
     	_Activity = (Activity) context;
     	SharedPreferences prefs = _Activity.getPreferences(Context.MODE_PRIVATE);
-    	for (int i = 0; i < ColorSetting.ColorItems.values().length-1; i++)
+    	for (int i = 0; i < ColorSetting.ColorItems.values().length; i++)
     	{
     		ColorItems ColorItem = ColorSetting.ColorItems.values()[i];
     		String Name = _Activity.getResources().getStringArray(R.array.spnColors)[i];
@@ -88,13 +87,9 @@ public class ColorsArrayAdapter extends ArrayAdapter<ColorSetting>{
        TextView label=(TextView) row.findViewById(R.id.txtColors);
        label.setText(ColorItem.ColorName);
 
-       ImageView icon=(ImageView)row.findViewById(R.id.imageColors);
+       TextView icon=(TextView)row.findViewById(R.id.txtColors2);
        icon.setBackgroundColor(ColorItem.ColorValue);
        
-       //String uri = "@drawable/a" + mIcons[position];
-       //int imageResource = ((Object) getResources()).getIdentifier(uri, null, getPackageName());
-       //icon.setImageResource(imageResource);
-
        return row;
     }
 

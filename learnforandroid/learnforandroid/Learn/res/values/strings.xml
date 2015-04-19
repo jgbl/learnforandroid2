@@ -140,7 +140,9 @@
 	            <string name="txtColors">Colors</string>
 	            <string name="spnColors">Colors</string>
 	            <string name="spnColorDescription">Select Colors for each element</string>
-	            <string name="SelColor">Select color</string>
+	            <string name="SelColor">sel</string>
 	            <string name="btnSelectColorHint">select the color of each element</string>
+	            <string name="imgColors">image containing the selected color</string>
+	            <string name="txtColors2">&quot;   &quot;</string>
         
 </resources>

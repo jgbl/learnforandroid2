@@ -1,9 +1,12 @@
 package com.jmg.lib;
 
+import com.jmg.learn.R;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
@@ -31,16 +34,19 @@ public class BorderedEditText extends EditText {
         init();
     }
     
-    public void setShowBorders(boolean showBorders)
+    public void setShowBorders(boolean showBorders, int BackColor)
     {
     	this.showBorders = showBorders;
     	if (showBorders) 
     	{
     		this.setBackgroundResource(com.jmg.learn.R.layout.roundedbox);
+    		GradientDrawable drawable = (GradientDrawable) this.getBackground();
+    		drawable.setColor(BackColor);
     	}
     	else
     	{
     		this.setBackgroundResource(0);
+    		//this.setBackgroundColor(BackColor);
     	}
     	this.invalidate();
     }

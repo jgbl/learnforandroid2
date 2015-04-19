@@ -1,8 +1,11 @@
 package com.jmg.lib;
 
+import com.jmg.learn.R;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -31,12 +34,15 @@ public class BorderedTextView extends TextView {
         init();
     }
     
-    public void setShowBorders(boolean showBorders)
+    public void setShowBorders(boolean showBorders, int backColor)
     {
     	this.showBorders = showBorders;
     	if (showBorders) 
     	{
     		this.setBackgroundResource(com.jmg.learn.R.layout.roundedbox);
+    		GradientDrawable drawable = (GradientDrawable) this.getBackground();
+    		drawable.setColor(backColor);
+    		
     	}
     	else
     	{

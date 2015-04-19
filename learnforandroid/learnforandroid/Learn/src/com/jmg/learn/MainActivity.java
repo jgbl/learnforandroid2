@@ -7,11 +7,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import br.com.thinkti.android.filechooser.*;
 
 import com.jmg.learn.vok.*;
 import com.jmg.learn.vok.Vokabel.EnumSprachen;
 import com.jmg.lib.*;
+import com.jmg.lib.ColorSetting.ColorItems;
 import com.jmg.lib.lib.libString;
 
 import android.support.v7.app.ActionBarActivity;
@@ -54,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
 	private BorderedEditText _txtMeaning3;
 	private double scale = 1;
 	private boolean _blnEink;
+	private HashMap<ColorItems,ColorSetting> Colors;
 	public Vokabel vok;
 	public String CharsetASCII = "Windows-1252";
 	public SharedPreferences prefs; // = this.getPreferences(Context.MODE_PRIVATE);
@@ -76,6 +80,7 @@ public class MainActivity extends ActionBarActivity {
         try
         {
         	setContentView(R.layout.activity_main);
+        	
     		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
             try {
             	prefs = this.getPreferences(Context.MODE_PRIVATE);
@@ -90,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
     			vok.ProbabilityFactor = prefs.getFloat("ProbabilityFactor", -1f);
     			vok.setAbfrageZufaellig(prefs.getBoolean("Random", vok.getAbfrageZufaellig()));
     			vok.setAskAll(prefs.getBoolean("AskAll", vok.getAskAll()));
-    			
+    			Colors = getColorsFromPrefs();
     			
             } catch (Exception e) {
     			// TODO Auto-generated catch block
@@ -197,6 +202,7 @@ public class MainActivity extends ActionBarActivity {
     					try {
 							vok.SaveFile();
 							vok.aend=false;
+							_backPressed = true;
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							lib.ShowException(this, e);
@@ -319,16 +325,34 @@ public class MainActivity extends ActionBarActivity {
     	_txtKom = (BorderedTextView)findViewById(R.id.Comment);
     	_txtStatus = (BorderedTextView)findViewById(R.id.txtStatus);
     	setBtnsEnabled(false);
-    	
+    	setTextColors();
+    }
+    
+    private void setTextColors()
+    {
+    	libLearn.gStatus = "setTextColors";
+    	_txtMeaning1.setTextColor(Colors.get(ColorItems.meaning).ColorValue);
+    	_txtMeaning2.setTextColor(Colors.get(ColorItems.meaning).ColorValue);
+    	_txtMeaning3.setTextColor(Colors.get(ColorItems.meaning).ColorValue);
+    	_txtWord.setTextColor(Colors.get(ColorItems.word).ColorValue);
+    	_txtKom.setTextColor(Colors.get(ColorItems.comment).ColorValue);
+    	/*_txtMeaning1.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+    	_txtMeaning2.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+    	_txtMeaning3.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+    	_txtWord.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+    	_txtKom.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);*/
+    	findViewById(R.id.layoutMain).setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
     }
     
     private void setBtnsEnabled(boolean enable)
     {
+    	libLearn.gStatus = "setBtnsEnabled";
     	_btnEdit.setEnabled(enable);
     	_btnRight.setEnabled(enable);
     	_btnSkip.setEnabled(enable);
     	_btnView.setEnabled(enable);
-    	_btnWrong.setEnabled(enable);   	
+    	_btnWrong.setEnabled(enable);
+    	
     }
     
     private Runnable runnableGetVok = new Runnable() {
@@ -359,7 +383,7 @@ public class MainActivity extends ActionBarActivity {
     private void flashwords() throws Exception
     {
     	RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMain);
-    	layout.setBackgroundColor(0xffc0c0c0);
+    	layout.setBackgroundColor(Colors.get(ColorItems.background_wrong).ColorValue);
     	Handler handler = new Handler();
 		long delay = 0;
     	for (int i = 0; i < PaukRepetitions; i++)
@@ -390,7 +414,7 @@ public class MainActivity extends ActionBarActivity {
     		this.layout = layout;
 		}
     	public void run() {
-			layout.setBackgroundColor(0xffffffff);
+			layout.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
 		}
 	}  
     
@@ -418,7 +442,7 @@ public class MainActivity extends ActionBarActivity {
     	public void run() {
     		// TODO Auto-generated method stub
     		//Bed.setPadding(5, 5, 5, 5);
-    		Bed.setShowBorders(true);
+    		Bed.setShowBorders(true, Colors.get(ColorItems.box_meaning).ColorValue);
     	}
 
     }
@@ -434,7 +458,7 @@ public class MainActivity extends ActionBarActivity {
     	public void run() {
     		// TODO Auto-generated method stub
     		//Bed.setPadding(0, 0, 0, 0);
-    		Bed.setShowBorders(false);
+    		Bed.setShowBorders(false, Colors.get(ColorItems.background).ColorValue);
     	}
 
     }
@@ -458,13 +482,13 @@ public class MainActivity extends ActionBarActivity {
     private void showWordBorders() {
 		// TODO Auto-generated method stub
     	//_txtWord.setPadding(5, 5, 5, 5);
-    	_txtWord.setShowBorders(true);
+    	_txtWord.setShowBorders(true,Colors.get(ColorItems.box_word).ColorValue);
 	}
     
     private void hideWordBorders() {
 		// TODO Auto-generated method stub
     	//_txtWord.setPadding(0, 0, 0, 0);
-    	_txtWord.setShowBorders(false);
+    	_txtWord.setShowBorders(false, Colors.get(ColorItems.background).ColorValue);
 	}
 
 
@@ -715,7 +739,7 @@ public class MainActivity extends ActionBarActivity {
 		    	vok.ProbabilityFactor = data.getExtras().getFloat("ProbabilityFactor");
 		    	vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
 		    	vok.setAskAll(data.getExtras().getBoolean("AskAll"));
-		    	
+		    	Colors = getColorsFromIntent(data);
 		    	
 				Editor editor = prefs.edit();
 	            editor.putInt("Schrittweite",vok.getSchrittweite());
@@ -727,9 +751,13 @@ public class MainActivity extends ActionBarActivity {
     			editor.putFloat("ProbabilityFactor", vok.ProbabilityFactor);
     			editor.putBoolean("Random", vok.getAbfrageZufaellig());
     			editor.putBoolean("AskAll", vok.getAskAll());
+    			for (ColorItems item: Colors.keySet())
+				{
+    				editor.putInt(item.name(), Colors.get(item).ColorValue);
+				}
     			
     			editor.commit();
-    			
+    			setTextColors();
 	        }
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -769,7 +797,88 @@ public class MainActivity extends ActionBarActivity {
     		lib.ShowException(this,e);
     	}
     }
+    private HashMap<ColorItems, ColorSetting> getColorsFromPrefs()
+    {
+    	HashMap<ColorItems, ColorSetting> res = new HashMap<ColorItems, ColorSetting>();
+    	for (int i = 0; i < ColorSetting.ColorItems.values().length; i++)
+    	{
+    		ColorItems ColorItem = ColorSetting.ColorItems.values()[i];
+    		String Name = getResources().getStringArray(R.array.spnColors)[i];
+    		int defValue = 0;
+    		switch (ColorItem) {
+			case word:
+				defValue = 0xff000000;
+				break;
+			case meaning:
+				defValue = 0xff000000;
+				break;
+			case comment:
+				defValue = 0xff000000;
+				break;
+			case background:
+				defValue = 0xffffffff;
+				break;
+			case background_wrong:
+				defValue = 0xffc0c0c0;
+				break;
+			case box_word:
+				defValue = 0xffffffff;
+				break;
+			case box_meaning:
+				defValue = 0xffffffff;
+				break;
+			default:
+				defValue = 0xff000000;
+				break;
+			}
+    		int Color = prefs.getInt(ColorItem.name(), defValue);
+    		res.put(ColorItem,new ColorSetting(ColorItem,Name,Color));
+    	}
+    	return res;
+
+    }
     
+    private HashMap<ColorItems,ColorSetting> getColorsFromIntent(Intent intent)
+    {
+    	HashMap<ColorItems, ColorSetting> res = new HashMap<ColorItems, ColorSetting>();
+    	for (int i = 0; i < ColorSetting.ColorItems.values().length; i++)
+    	{
+    		ColorItems ColorItem = ColorSetting.ColorItems.values()[i];
+    		String Name = getResources().getStringArray(R.array.spnColors)[i];
+    		int defValue = 0;
+    		switch (ColorItem) {
+			case word:
+				defValue = 0xff000000;
+				break;
+			case meaning:
+				defValue = 0xff000000;
+				break;
+			case comment:
+				defValue = 0xff000000;
+				break;
+			case background:
+				defValue = 0xffffffff;
+				break;
+			case background_wrong:
+				defValue = 0xffc0c0c0;
+				break;
+			case box_word:
+				defValue = 0xffffffff;
+				break;
+			case box_meaning:
+				defValue = 0xffffffff;
+				break;
+			default:
+				defValue = 0xff000000;
+				break;
+			}
+    		int Color = intent.getIntExtra(ColorItem.name(), defValue);
+    		res.put(ColorItem,new ColorSetting(ColorItem,Name,Color));
+    	}
+    	return res;
+
+    }
+
     
     public void getVokabel(boolean showBeds, boolean LoadNext)
     {

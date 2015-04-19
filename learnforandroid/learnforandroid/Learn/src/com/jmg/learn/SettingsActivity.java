@@ -4,7 +4,10 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.charset.Charset;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -41,15 +44,21 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	public Button btnColors;
 	public CheckBox chkRandom;
 	public CheckBox chkAskAll;
+	public ColorsArrayAdapter Colors;
+	public SharedPreferences prefs;
 	private Intent intent = new Intent();
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
+		prefs = this.getPreferences(Context.MODE_PRIVATE);
+		Colors = new ColorsArrayAdapter(this,0);
+		
 		initSpinners();
 		initCheckBoxes();
 		initButtons();
+		
 	}
 	
 	private void initCheckBoxes()
@@ -190,7 +199,6 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	
 			}
 			spnASCII.setOnItemSelectedListener(new OnItemSelectedListener() {
-	
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
@@ -317,9 +325,27 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 					setResult(Activity.RESULT_CANCELED, null);
 				}
 			});
-			ColorsArrayAdapter Colors = new ColorsArrayAdapter(this,0);
+			
 			spnColors.setAdapter(Colors);
-	
+			spnColors.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
+				
+				@Override
+				public boolean onLongClick(View v) {
+					// TODO Auto-generated method stub
+					ShowColorDialog();
+					return false;
+				}
+			});
+			spnColors.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+				
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent,
+						View view, int position, long id) {
+					// TODO Auto-generated method stub
+					ShowColorDialog();
+					return false;
+				}
+			});
 			
 		}
 		catch (Exception ex)
@@ -337,6 +363,11 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				setResult(Activity.RESULT_OK, intent);
+				for (int i = 0; i < Colors.getCount(); i++)
+				{
+					intent.putExtra(Colors.getItem(i).ColorItem.name(), Colors.getItem(i).ColorValue);
+				}
+					
 				finish();
 			}
 		});
@@ -351,16 +382,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			}
 		});
 		
-		b = (Button)findViewById(R.id.btnSelectColor);
-		b.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				ShowColorDialog();
-				
-			}
-		});
+		
 				
 	}
 	
@@ -371,9 +393,13 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			@Override
 			public void onOk(AmbilWarnaDialog dialog, int color) {
 				// TODO Auto-generated method stub
-				Object item = spnColors.getItemAtPosition(spnColors.getSelectedItemPosition());
-				//(ColorSetting)item.
-				spnColors.invalidate();
+				ColorSetting item = SettingsActivity.this.Colors.getItem(spnColors.getSelectedItemPosition());
+				item.ColorValue = color;
+				Editor editor = prefs.edit();
+	            editor.putInt(item.ColorItem.name(), item.ColorValue);
+	            intent.putExtra(item.ColorItem.name(), item.ColorValue);;
+	            editor.commit();
+				Colors.notifyDataSetChanged();
 			}
 			
 			@Override
