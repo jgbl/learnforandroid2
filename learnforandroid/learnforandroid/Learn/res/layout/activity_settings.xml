@@ -194,11 +194,12 @@
 	        
 	        <Spinner
 	            android:id="@+id/spnColors"
-	            android:layout_width="150dp"
+	            android:layout_width="200dp"
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtProbabilityFactor"
 	            android:layout_alignParentRight="true"
 	            android:contentDescription="@string/spnColorDescription"
+	            android:textSize="18sp"
 	            android:prompt="@string/spnColors" />
 	        
 	        <CheckBox
