@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.YuvImage;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,8 +20,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import com.jmg.lib.ColorsArrayAdapter;
 import com.jmg.lib.lib;
 import com.jmg.lib.lib.libString;
+import com.jmg.lib.ColorSetting;
 import yuku.ambilwarna.*;
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 
@@ -316,6 +317,8 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 					setResult(Activity.RESULT_CANCELED, null);
 				}
 			});
+			ColorsArrayAdapter Colors = new ColorsArrayAdapter(this,0);
+			spnColors.setAdapter(Colors);
 	
 			
 		}
@@ -368,7 +371,9 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			@Override
 			public void onOk(AmbilWarnaDialog dialog, int color) {
 				// TODO Auto-generated method stub
-				spnColors.setBackgroundColor(color);
+				Object item = spnColors.getItemAtPosition(spnColors.getSelectedItemPosition());
+				//(ColorSetting)item.
+				spnColors.invalidate();
 			}
 			
 			@Override
