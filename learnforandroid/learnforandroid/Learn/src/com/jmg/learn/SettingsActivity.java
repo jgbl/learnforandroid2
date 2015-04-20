@@ -388,7 +388,8 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	
 	private void ShowColorDialog()
 	{
-		AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, Color.BLACK, new OnAmbilWarnaListener() {
+		ColorSetting item = SettingsActivity.this.Colors.getItem(spnColors.getSelectedItemPosition());
+		AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, item.ColorValue, new OnAmbilWarnaListener() {
 			
 			@Override
 			public void onOk(AmbilWarnaDialog dialog, int color) {
