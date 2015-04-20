@@ -332,6 +332,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				@Override
 				public boolean onLongClick(View v) {
 					// TODO Auto-generated method stub
+					spnColors.blnDontCallOnClick = true;
 					ShowColorDialog();
 					return false;
 				}
@@ -342,6 +343,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				public boolean onItemLongClick(AdapterView<?> parent,
 						View view, int position, long id) {
 					// TODO Auto-generated method stub
+					spnColors.blnDontCallOnClick = true;
 					ShowColorDialog();
 					return false;
 				}
