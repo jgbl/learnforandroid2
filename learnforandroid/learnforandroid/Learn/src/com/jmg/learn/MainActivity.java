@@ -12,6 +12,7 @@ import java.util.HashMap;
 import br.com.thinkti.android.filechooser.*;
 
 import com.jmg.learn.vok.*;
+import com.jmg.learn.vok.Vokabel.Bewertung;
 import com.jmg.learn.vok.Vokabel.EnumSprachen;
 import com.jmg.lib.*;
 import com.jmg.lib.ColorSetting.ColorItems;
@@ -34,7 +35,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+import android.widget.TextView.OnEditorActionListener;
 
 public class MainActivity extends ActionBarActivity {
 	
@@ -51,10 +55,10 @@ public class MainActivity extends ActionBarActivity {
 	private BorderedTextView _txtStatus;
 	private BorderedEditText _txtMeaning1;
 	private BorderedEditText _txtMeaning2;
+	private BorderedEditText _txtMeaning3;
 	private float DisplayDurationWord;
 	private float DisplayDurationBed;
 	private int PaukRepetitions = 3;
-	private BorderedEditText _txtMeaning3;
 	private double scale = 1;
 	private boolean _blnEink;
 	private HashMap<ColorItems,ColorSetting> Colors;
@@ -104,6 +108,7 @@ public class MainActivity extends ActionBarActivity {
             CopyAssets();
             try {
     			InitButtons();
+    			InitMeanings();
     			if (savedInstanceState != null)
     			{
     				String filename = savedInstanceState.getString("vokpath");
@@ -255,7 +260,8 @@ public class MainActivity extends ActionBarActivity {
 					//runFlashWords();
 					Handler handler = new Handler();
 					handler.postDelayed(runnableGetVok, (long) ((DisplayDurationWord*1000+vok.getAnzBed()*1000*DisplayDurationBed)*PaukRepetitions));
-				} catch (Exception e) {
+				} catch (Exception e) 
+				{
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
 				}
@@ -328,6 +334,96 @@ public class MainActivity extends ActionBarActivity {
     	setTextColors();
     }
     
+    private void InitMeanings()
+    {
+    	_txtMeaning1.setOnEditorActionListener(EditorActionListener);
+    	_txtMeaning2.setOnEditorActionListener(EditorActionListener);
+    	_txtMeaning3.setOnEditorActionListener(EditorActionListener);
+    }
+    
+    private void hideKeyboard() {   
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+    
+    private OnEditorActionListener EditorActionListener = new OnEditorActionListener() 
+    {
+		
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			// TODO Auto-generated method stub
+			if (event==null) 
+			{
+			      if (actionId==EditorInfo.IME_ACTION_DONE)
+			      {
+			    	  hideKeyboard();
+			    	  String[] Antworten;
+			    	  com.jmg.learn.vok.Vokabel.Bewertung Bew;
+			    	  String meaning1 = _txtMeaning1.getText().toString();
+			    	  String meaning2 = _txtMeaning2.getVisibility() == View.VISIBLE ? _txtMeaning2.getText().toString() : "";
+			    	  String meaning3 = _txtMeaning3.getVisibility() == View.VISIBLE ? _txtMeaning3.getText().toString() : "";
+			    	  Antworten = new String[]{meaning1,meaning2,meaning3};
+			    	  try {
+						Bew = vok.CheckAntwort(Antworten);
+						if (Bew == Bewertung.AllesRichtig)
+						{
+							lib.ShowToast(MainActivity.this, getString(R.string.AnswerCorrect));
+							_btnRight.performClick();
+						}
+						else if (Bew == Bewertung.AllesFalsch)
+						{
+							try {
+								vok.AntwortFalsch();
+								setBtnsEnabled(false);
+								getVokabel(true, false);
+								flashwords();
+								Handler handler = new Handler();
+								handler.postDelayed(runnableFalse, (long) ((DisplayDurationWord*1000+vok.getAnzBed()*1000*DisplayDurationBed)*PaukRepetitions));
+							} catch (Exception e) 
+							{
+								// TODO Auto-generated catch block
+								lib.ShowException(MainActivity.this, e);
+							}
+						}
+						else if (Bew == Bewertung.aehnlich)
+						{
+							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningSimilar));
+						}
+						else if (Bew == Bewertung.TeilweiseRichtig)
+						{
+							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningPartiallyCorrect));
+						}
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						lib.ShowException(MainActivity.this, e);
+					}
+			    	  return true;
+			      }
+			      // Capture soft enters in a singleLine EditText that is the last EditText.
+			      else if (actionId==EditorInfo.IME_ACTION_NEXT) return false;
+			      // Capture soft enters in other singleLine EditTexts
+			      	
+			      else return false;  // Let system handle all other null KeyEvents
+			    
+			}
+		    else if (actionId==EditorInfo.IME_NULL) 
+		    { 
+		    // Capture most soft enters in multi-line EditTexts and all hard enters.
+		    // They supply a zero actionId and a valid KeyEvent rather than
+		    // a non-zero actionId and a null event like the previous cases.
+		      if (event.getAction()==KeyEvent.ACTION_DOWN) return false; 
+		      // We capture the event when key is first pressed.
+		      else  return false;   // We consume the event when the key is released.  
+		    }
+			else  return false; 
+		}
+	};
+    
     private void setTextColors()
     {
     	libLearn.gStatus = "setTextColors";
@@ -362,6 +458,14 @@ public class MainActivity extends ActionBarActivity {
     		   getVokabel(false,true);
     	   }
     	};
+    	
+    	private Runnable runnableFalse = new Runnable() {
+     	   @Override
+     	   public void run() {
+     	      /* do what you need to do */
+     		   getVokabel(false,false);
+     	   }
+     	};
     /*
     private void runFlashWords()
     {
@@ -772,19 +876,32 @@ public class MainActivity extends ActionBarActivity {
     		vok.LoadFile(fileSelected,false,false,_blnUniCode);
     		if (vok.getCardMode())
     		{
+    			_txtMeaning1.setSingleLine(false);
     			_txtMeaning1.setMaxLines(30);
     			_txtMeaning1.setLines(16);
     			_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (20*scale));
+    			//_txtMeaning1.setImeOptions(EditorInfo.IME_NULL);
+    			//_txtMeaning1.setImeActionLabel(null, KeyEvent.KEYCODE_ENTER);
+    			//_txtMeaning1.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);
     			_txtMeaning2.setVisibility(View.GONE);
     			_txtMeaning3.setVisibility(View.GONE);
     		}
     		else
     		{
-    			_txtMeaning1.setMaxLines(10);
-    			_txtMeaning1.setLines(2);
+    			_txtMeaning1.setMaxLines(1);
+    			_txtMeaning1.setLines(1);
+    			_txtMeaning1.setSingleLine();
     			_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (40*scale));
     			_txtMeaning2.setVisibility(View.VISIBLE);
+    			_txtMeaning2.setMaxLines(1);
+    			_txtMeaning2.setLines(1);
+    			_txtMeaning2.setSingleLine();
     			_txtMeaning3.setVisibility(View.VISIBLE);
+    			_txtMeaning3.setMaxLines(1);
+    			_txtMeaning3.setLines(1);
+    			_txtMeaning3.setSingleLine();
+    			
+    			
     		}
     			
     		//if (index >0 ) vok.setIndex(index);
@@ -950,10 +1067,12 @@ public class MainActivity extends ActionBarActivity {
         	if (libString.IsNullOrEmpty(vok.getBedeutung2()) || vok.getCardMode())
         	{
         		t.setVisibility(View.GONE);
+        		_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_DONE);
         	}
         	else
         	{
         		t.setVisibility(View.VISIBLE);
+        		_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         	}
         	
         	v = findViewById(R.id.txtMeaning3);
@@ -970,10 +1089,13 @@ public class MainActivity extends ActionBarActivity {
         	if (libString.IsNullOrEmpty(vok.getBedeutung3()) || vok.getCardMode())
         	{
         		t.setVisibility(View.GONE);
+        		_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_DONE);
         	}
         	else
         	{
         		t.setVisibility(View.VISIBLE);
+        		_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        		_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
         	}
         } catch (Exception e) {
 			// TODO Auto-generated catch block

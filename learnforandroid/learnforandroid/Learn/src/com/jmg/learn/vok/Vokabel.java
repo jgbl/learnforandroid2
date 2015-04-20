@@ -553,7 +553,7 @@ public class Vokabel {
 
 
 
-		public Bewertung CheckAnwort(String[] Antworten) throws Exception
+		public Bewertung CheckAntwort(String[] Antworten) throws Exception
 		{
 			Bewertung functionReturnValue;
 			final String CodeLoc = className + ".CheckAntwort";
@@ -624,7 +624,8 @@ public class Vokabel {
 
 									break; // TODO: might not be correct. Was : Exit For
 								// Falls eine Antwort mehrere Teilantworten enthält
-								} else {
+								} else 
+								{
 							        String[] s = EnthaeltTrennzeichen(RemoveKomment(Bedeutungen[ii]));
 							        RefSupport<String> refVar1 = new RefSupport<String>(Antwort);
 							        RefSupport<String[]> refVar2 = new RefSupport<String[]>(s);
@@ -742,14 +743,14 @@ public class Vokabel {
 	            int LastLastPos = LastPos;
 	            do
 	            {
-	                Pos = Bedeutung.indexOf(Antwort.substring(ii, 1), LastPos);
+	                Pos = Bedeutung.indexOf(Antwort.substring(ii, ii+1), LastPos);
 	                if (Pos == -1)
 	                    break;
 	                 
 	                // TODO: might not be correct. Was : Exit Do
 	                if (Pos > -1 && ii < Antwort.length() - 1)
 	                {
-	                    Pos2 = Bedeutung.indexOf(Antwort.substring(ii + 1, 1), Pos + 1);
+	                    Pos2 = Bedeutung.indexOf(Antwort.substring(ii + 1, ii+2), Pos + 1);
 	                }
 	                 
 	                if (Pos2 != Pos + 1)
@@ -878,7 +879,7 @@ public class Vokabel {
 						try {
 							intAsc = Bed.charAt(i-1);//libString.Asc(libString.Mid(Bed, i, 1));
 							if (intAsc < 65 | intAsc > 90) {
-								Bed = Bed.substring(0, i - 1) + "*" + Bed.substring(i, Bed.length() - i);
+								Bed = Bed.substring(0, i - 1) + "*" + Bed.substring(i, Bed.length());
 							}
 						} catch (Exception ex) {
 							throw new Exception("Fehler bei MakeVergl Ungültige Zeichen: \n" + ex.getMessage());
@@ -927,7 +928,7 @@ public class Vokabel {
 	        short Bedeutungen = 0;
 	        short aehnlich = 0;
 	        String Antworten[] = null;
-	        if ((teile.getValue() == null))
+	        if ((teile.getValue() == null || teile.getValue().length == 0))
 	        {
 	            functionReturnValue = Bewertung.AllesFalsch;
 	            return functionReturnValue;
@@ -1022,7 +1023,7 @@ public class Vokabel {
 	             
 	        }
 	        //OldWord.AnzTeilBed(BedNR) = Bedeutungen
-	        if (richtig == Bedeutungen)
+	        if (richtig > 0 && richtig == Bedeutungen)
 	        {
 	            functionReturnValue = Bewertung.AllesRichtig;
 	        }
@@ -1064,7 +1065,8 @@ public class Vokabel {
 
 			libLearn.gStatus = "Vokabel.EnthaeltTrennzeichen Start";
 			String Trenn = null;
-			String[] teile = new String[-1];
+			ArrayList<String> teile = new ArrayList<String>();
+			teile.add("");
 			short i = 0;
 			short lastTrenn = -1;
 			short Trennz = 0;
@@ -1078,15 +1080,15 @@ public class Vokabel {
 					// Inserted by CodeCompleter
 					//String[] newteile = new String[Trennz +1];
 					//System.arraycopy(teile, 0, newteile, 0, teile.length)
-					teile = lib.ResizeArray(teile, Trennz+1);
-					teile[Trennz] = Antwort.substring(lastTrenn+1,i );
+					teile.add (Antwort.substring(lastTrenn+1,i));
 					lastTrenn = i;
 					Trennz += 1;
 				}
 			}
 
 			if (Trennz > 0) {
-				functionReturnValue = teile;
+				functionReturnValue = new String[teile.size()-1];
+				functionReturnValue = teile.toArray(functionReturnValue);
 			} else {
 				return null;
 			}

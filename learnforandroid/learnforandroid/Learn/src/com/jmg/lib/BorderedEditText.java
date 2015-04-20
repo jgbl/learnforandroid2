@@ -1,7 +1,5 @@
 package com.jmg.lib;
 
-import com.jmg.learn.R;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;

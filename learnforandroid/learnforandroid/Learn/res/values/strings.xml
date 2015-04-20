@@ -144,5 +144,8 @@
 	            <string name="btnSelectColorHint">select the color of each element</string>
 	            <string name="imgColors">image containing the selected color</string>
 	            <string name="txtColors2">&quot;   &quot;</string>
+	            <string name="MeaningSimilar">the entered meaning is similar</string>
+	            <string name="MeaningPartiallyCorrect">the entered meaning is partially correct!</string>
+	            <string name="AnswerCorrect">the answer is correct!</string>
         
 </resources>
