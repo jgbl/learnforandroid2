@@ -191,7 +191,7 @@ public class lib
 	  for (int i = 0; i < len; i++)
 	  {
 	    char c = s.charAt(i);
-	    if ("[](){}.*+?$^|#\\".indexOf(c) != -1)
+	    if ("[](){}.+?$^|#\\".indexOf(c) != -1)
 	    {
 	      sb.append("\\");
 	    }

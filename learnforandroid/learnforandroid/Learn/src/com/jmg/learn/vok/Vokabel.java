@@ -863,7 +863,7 @@ public class Vokabel {
 				while (f1>-1) {
 					f2 = Bed.indexOf(")",f1+1); //libString.InStr(f1 + 1, Bed, ")");
 					if (f2>-1) {
-						Bed = Bed.substring(0,f1-1) + "*" + Bed.substring(f2+1, Bed.length()-f2-1); //libString.Left(Bed, f1 - 1) + "*" + libString.Mid(Bed, f2 + 1, libString.Len(Bed) - f2);
+						Bed = Bed.substring(0,f1-1) + "*" + Bed.substring(f2+1, Bed.length()); //libString.Left(Bed, f1 - 1) + "*" + libString.Mid(Bed, f2 + 1, libString.Len(Bed) - f2);
 						f1 = Bed.indexOf("(",f2+1); //libString.InStr(f2 + 1, Bed, "(");
 					} else {
 						f1 = f2;
@@ -1066,7 +1066,7 @@ public class Vokabel {
 			libLearn.gStatus = "Vokabel.EnthaeltTrennzeichen Start";
 			String Trenn = null;
 			ArrayList<String> teile = new ArrayList<String>();
-			teile.add("");
+			//teile.add("");
 			short i = 0;
 			short lastTrenn = -1;
 			short Trennz = 0;
