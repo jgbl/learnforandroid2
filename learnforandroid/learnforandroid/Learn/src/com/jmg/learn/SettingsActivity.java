@@ -40,7 +40,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	public Spinner spnDisplayDurationBed;
 	public Spinner spnPaukRepetitions;
 	public Spinner spnProbabilityFactor;
-	public Spinner spnColors;
+	public com.jmg.lib.NoClickSpinner spnColors;
 	public Button btnColors;
 	public CheckBox chkRandom;
 	public CheckBox chkAskAll;
@@ -109,7 +109,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			spnDisplayDurationBed = (Spinner) findViewById(R.id.spnAnzeigedauerBed);
 			spnPaukRepetitions = (Spinner) findViewById(R.id.spnRepetitions);
 			spnProbabilityFactor = (Spinner) findViewById(R.id.spnProbabilityFactor);
-			spnColors = (Spinner) findViewById(R.id.spnColors);
+			spnColors = (com.jmg.lib.NoClickSpinner) findViewById(R.id.spnColors);
 			
 			
 			spnASCII.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
@@ -388,6 +388,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	
 	private void ShowColorDialog()
 	{
+		spnColors.blnDontCallOnClick = true;
 		ColorSetting item = SettingsActivity.this.Colors.getItem(spnColors.getSelectedItemPosition());
 		AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, item.ColorValue, new OnAmbilWarnaListener() {
 			
@@ -401,12 +402,13 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	            intent.putExtra(item.ColorItem.name(), item.ColorValue);;
 	            editor.commit();
 				Colors.notifyDataSetChanged();
+				spnColors.blnDontCallOnClick = false;
 			}
 			
 			@Override
 			public void onCancel(AmbilWarnaDialog dialog) {
 				// TODO Auto-generated method stub
-				
+				spnColors.blnDontCallOnClick = false;
 			}
 		});				    
 		dialog.show();				
