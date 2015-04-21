@@ -397,6 +397,10 @@ public class MainActivity extends ActionBarActivity {
 						{
 							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningPartiallyCorrect));
 						}
+						else if (Bew == Bewertung.enthalten)
+						{
+							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningIsSubstring));
+						}
 						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block

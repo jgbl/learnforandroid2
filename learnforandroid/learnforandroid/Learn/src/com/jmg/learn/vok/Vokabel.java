@@ -85,6 +85,7 @@ public class Vokabel {
 			TeilweiseRichtig,
 			aehnlich,
 			AllesFalsch,
+			enthalten,
 			undefiniert
 		}
 		public enum EnumSprachen
@@ -650,17 +651,24 @@ public class Vokabel {
 										//Antwort = ""
 										//Exit For
 										libLearn.gStatus = "Vokabel.CheckAnwort Line 298";
+									}
 										// Inserted by CodeCompleter
-									} else {
+									else if (TeilErgebnis == Bewertung.enthalten) 
+									{
+											Enthalten  += 1;
+									} 
+									else 
+									{
 										CheckVergl = false;
-										if (((float)Antwort.length() / Bedeutungen[ii].length()) > 0.5)
+										float SizeRelation = ((float)Antwort.length() / Bedeutungen[ii].length());
+										if (SizeRelation > 0.5)
 										{
-											CheckVergl =  lib.like(Antwort, "*" + MakeVergl(Bedeutungen[ii])+ "*");
+											CheckVergl =  lib.like(Bedeutungen[ii], "*" + MakeVergl(Antwort)+ "*");
 											
 										}
 										if (CheckVergl)
 										{
-											TeilweiseRichtig += 1;
+											Enthalten += 1;
 										}
 										else
 										{
@@ -687,11 +695,14 @@ public class Vokabel {
 				while (true)
 				{
 		
-					if (Loesungen < anzBedeutungen) {
+					if (Loesungen < anzBedeutungen) 
+					{
 						if (Loesungen > 0)
 							functionReturnValue = Bewertung.TeilweiseRichtig;
 	
-					} else {
+					} 
+					else 
+					{
 						//MsgBox "Alles richtig!"
 						functionReturnValue = Bewertung.AllesRichtig;
 						//AntwortRichtig()
@@ -700,23 +711,35 @@ public class Vokabel {
 					}
 	
 	
-					if (Loesungen + TeilweiseRichtig < anzBedeutungen) {
+					if (Loesungen + TeilweiseRichtig < anzBedeutungen) 
+					{
 	
 	
-					} else {
+					} 
+					else 
+					{
 						//MsgBox Loesungen & " richtig " & Enthalten & " teilweise richtig."
 						functionReturnValue = Bewertung.TeilweiseRichtig;
 						break ;
 					}
 	
-					if (Loesungen + Enthalten + TeilweiseRichtig + aehnlich == 0) {
+					if (Loesungen + Enthalten + TeilweiseRichtig + aehnlich == 0) 
+					{
 						//MsgBox "AllesFalsch"
 						functionReturnValue = Bewertung.AllesFalsch;
-						AntwortFalsch();
-					} else if (functionReturnValue != Bewertung.TeilweiseRichtig) {
+						//AntwortFalsch();
+					} 
+					else if (functionReturnValue != Bewertung.TeilweiseRichtig) {
 						//MsgBox Loesungen & " richtig, " & Enthalten & " teilweise richtig, " _
 						//& aehnlich & " aehnlich."
+						if (Enthalten>0)
+						{
+							functionReturnValue = Bewertung.enthalten;
+						}
+						else
+						{
 						functionReturnValue = Bewertung.aehnlich;
+						}
 					}
 					break;
 				}
@@ -936,6 +959,7 @@ public class Vokabel {
 	        short richtig = 0;
 	        short Bedeutungen = 0;
 	        short aehnlich = 0;
+	        short enthalten = 0;
 	        String Antworten[] = null;
 	        if ((teile.getValue() == null || teile.getValue().length == 0))
 	        {
@@ -976,7 +1000,7 @@ public class Vokabel {
 	                            teile.getValue()[i] = "";
 	                            break;
 	                        }
-	                         
+	                        	                         
 	                    }
 	                     
 	                }
@@ -999,18 +1023,31 @@ public class Vokabel {
 	                    Antworten[ii] = (Antworten[ii]).trim();
 	                    if (!libString.IsNullOrEmpty(Antworten[ii]))
 	                    {
-	                        RefSupport<short[]> refVar___0 = new RefSupport<short[]>(BedNR.getValue());
-	                        lAehnlichkeit = Aehnlichkeit(teile.getValue()[i], Antworten[ii], refVar___0);
-	                        BedNR.setValue(refVar___0.getValue());
-	                        if (lAehnlichkeit > 0.2)
-	                            Aehn = true;
-	                         
-	                        if (lAehnlichkeit > 0.5)
+                    		boolean CheckVergl = false;
+                        	float SizeRelation = ((float)Antworten[ii].length() / teile.getValue()[i].length());
+							if (SizeRelation > 0.5)
+							{
+								CheckVergl =  lib.like(teile.getValue()[i], "*" + MakeVergl(Antworten[ii])+ "*");
+								
+							}
+	                        if (!CheckVergl)
+	                    	{
+	                    		RefSupport<short[]> refVar___0 = new RefSupport<short[]>(BedNR.getValue());
+		                        lAehnlichkeit = Aehnlichkeit(teile.getValue()[i], Antworten[ii], refVar___0);
+		                        BedNR.setValue(refVar___0.getValue());
+		                        if (lAehnlichkeit > 0.2)
+		                            Aehn = true;
+		                         
+		                        if (lAehnlichkeit > 0.5)
+		                        {
+		                            aehnlich  += 1;
+		                            break;
+		                        }
+	                    	}
+	                        else
 	                        {
-	                            aehnlich  += 1;
-	                            break;
+	                        	enthalten += 1;
 	                        }
-	                         
 	                    }
 	                     
 	                }
@@ -1043,6 +1080,10 @@ public class Vokabel {
 	            if (richtig == 0)
 	            {
 	                functionReturnValue = Bewertung.AllesFalsch;
+	                if (enthalten > 0)
+	                {
+	                	functionReturnValue = Bewertung.enthalten;
+	                }
 	                if (aehnlich > 0) functionReturnValue = Bewertung.aehnlich;
 	                		
 	                	/*

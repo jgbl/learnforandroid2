@@ -1873,6 +1873,7 @@ containing a value of this type.
         public static final int AnswerCorrect=0x7f0a005a;
         public static final int FileDoesNotExist=0x7f0a0021;
         public static final int FileFormatNotRecognized=0x7f0a002c;
+        public static final int MeaningIsSubstring=0x7f0a005b;
         public static final int MeaningPartiallyCorrect=0x7f0a0059;
         public static final int MeaningSimilar=0x7f0a0058;
         public static final int PressBackAgain=0x7f0a0050;
