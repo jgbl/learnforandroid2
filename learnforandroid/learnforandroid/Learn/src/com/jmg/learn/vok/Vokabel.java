@@ -86,6 +86,10 @@ public class Vokabel {
 			aehnlich,
 			AllesFalsch,
 			enthalten,
+			TeilweiseRichtigEnthalten,
+			TeilweiseRichtigAehnlich,
+			AehnlichEnthalten,
+			TeilweiseRichtigAehnlichEnthalten,
 			undefiniert
 		}
 		public enum EnumSprachen
@@ -573,6 +577,17 @@ public class Vokabel {
 				short aehnlich = 0;
 				// Anzahl der aehnlichen Antworten
 				short TeilweiseRichtig = 0;
+				
+				/*
+				short TeilweiseRichtigAehnlich = 0;
+				
+				short TeilweiseRichtigAehnlichEnthalten = 0;
+				
+				short TeilweiseRichtigEnhalten = 0;
+				
+				short aehnlichenthalten = 0;
+				*/
+				
 				libLearn.gStatus = "Vokabel.CheckAnwort Line 248";
 				// Inserted by CodeCompleter
 				Bewertung TeilErgebnis = (Bewertung.undefiniert);
@@ -599,19 +614,26 @@ public class Vokabel {
 				}
 				libLearn.gStatus = "Vokabel.CheckAnwort Line 268";
 				// Inserted by CodeCompleter
-				for (i = 0; i <= (Antworten.length-1); i++) {
+				for (i = 0; i <= (Antworten.length-1); i++) 
+				{
 					Antworten[i] = (Antworten[i]).trim();
 					String Antwort = RemoveKomment(Antworten[i]);
-					if (!libString.IsNullOrEmpty(Antworten[i])) {
-						for (ii = 0; ii <= (Bedeutungen.length-1); ii++) {
+					if (!libString.IsNullOrEmpty(Antworten[i])) 
+					{
+						for (ii = 0; ii <= (Bedeutungen.length-1); ii++) 
+						{
 							Bedeutungen[ii] = (Bedeutungen[ii]).trim();
 
-							if (!libString.IsNullOrEmpty(Bedeutungen[ii])) {
+							if (!libString.IsNullOrEmpty(Bedeutungen[ii])) 
+							{
 								libLearn.gStatus = CodeLoc + " call MakeVergl";
 								boolean CheckVergl = false;
-								try {
+								try 
+								{
 									CheckVergl =  lib.like(Antwort, MakeVergl(Bedeutungen[ii]));
-								} catch (Exception ex) {
+								} 
+								catch (Exception ex) 
+								{
 									throw new Exception(ex.getMessage() + "\n" + CodeLoc + " CheckVergl");
 								}
 								if (CheckVergl) {
@@ -625,7 +647,8 @@ public class Vokabel {
 
 									break; // TODO: might not be correct. Was : Exit For
 								// Falls eine Antwort mehrere Teilantworten enthält
-								} else 
+								} 
+								else 
 								{
 							        String[] s = EnthaeltTrennzeichen(RemoveKomment(Bedeutungen[ii]));
 							        RefSupport<String> refVar1 = new RefSupport<String>(Antwort);
@@ -657,6 +680,34 @@ public class Vokabel {
 									{
 											Enthalten  += 1;
 									} 
+									else if (TeilErgebnis == Bewertung.aehnlich)
+									{
+										aehnlich += 1;
+									}
+									else if (TeilErgebnis == Bewertung.AehnlichEnthalten)
+									{
+										aehnlich += 1;
+										Enthalten += 1;
+									}
+									else if (TeilErgebnis == Bewertung.TeilweiseRichtigAehnlich)
+									{
+										TeilweiseRichtig+=1;
+										aehnlich += 1;
+										//TeilweiseRichtigAehnlich += 1;
+									}
+									else if (TeilErgebnis == Bewertung.TeilweiseRichtigAehnlichEnthalten)
+									{
+										TeilweiseRichtig += 1;
+										aehnlich+=1;
+										Enthalten+=1;
+										//TeilweiseRichtigAehnlichEnthalten += 1;
+									}
+									else if (TeilErgebnis == Bewertung.TeilweiseRichtigEnthalten)
+									{
+										TeilweiseRichtig +=1;
+										Enthalten+=1;
+										//TeilweiseRichtigEnhalten += 1;
+									}
 									else 
 									{
 										CheckVergl = false;
@@ -692,58 +743,49 @@ public class Vokabel {
 					}
 				}
 				libLearn.gStatus = CodeLoc + " Auswertung";
-				while (true)
-				{
-		
-					if (Loesungen < anzBedeutungen) 
-					{
-						if (Loesungen > 0)
-							functionReturnValue = Bewertung.TeilweiseRichtig;
-	
-					} 
-					else 
-					{
-						//MsgBox "Alles richtig!"
-						functionReturnValue = Bewertung.AllesRichtig;
-						//AntwortRichtig()
-						break ;
-	
-					}
-	
-	
-					if (Loesungen + TeilweiseRichtig < anzBedeutungen) 
-					{
-	
-	
-					} 
-					else 
-					{
-						//MsgBox Loesungen & " richtig " & Enthalten & " teilweise richtig."
-						functionReturnValue = Bewertung.TeilweiseRichtig;
-						break ;
-					}
-	
-					if (Loesungen + Enthalten + TeilweiseRichtig + aehnlich == 0) 
-					{
-						//MsgBox "AllesFalsch"
-						functionReturnValue = Bewertung.AllesFalsch;
-						//AntwortFalsch();
-					} 
-					else if (functionReturnValue != Bewertung.TeilweiseRichtig) {
-						//MsgBox Loesungen & " richtig, " & Enthalten & " teilweise richtig, " _
-						//& aehnlich & " aehnlich."
-						if (Enthalten>0)
-						{
-							functionReturnValue = Bewertung.enthalten;
-						}
-						else
-						{
-						functionReturnValue = Bewertung.aehnlich;
-						}
-					}
-					break;
-				}
+				if (Loesungen > 0 && Loesungen == anzBedeutungen)
+		        {
+		            functionReturnValue = Bewertung.AllesRichtig;
+		        }
+		        else if (Loesungen < anzBedeutungen)
+		        {
+		            if (Loesungen > 0 || TeilweiseRichtig > 0 )
+		            {
+		            	functionReturnValue = Bewertung.TeilweiseRichtig;
+		            	libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 450";
+		            	// Inserted by CodeCompleter
+		            	if (aehnlich > 0)
+		            	{
+		            		functionReturnValue = Bewertung.TeilweiseRichtigAehnlich;
+		            		if (Enthalten > 0)
+		            		{
+		            			functionReturnValue = Bewertung.TeilweiseRichtigAehnlichEnthalten;
+		            		}
+		            	}
+		            	else if (Enthalten > 0)
+		            	{
+		            		functionReturnValue = Bewertung.TeilweiseRichtigEnthalten;
+		            	}
+		            }
+		            else
+		            {
+		                functionReturnValue = Bewertung.AllesFalsch;
+		                if (Enthalten > 0)
+		                {
+		                	functionReturnValue = Bewertung.enthalten;
+		                	if (aehnlich > 0)
+		                	{
+		                		functionReturnValue = Bewertung.AehnlichEnthalten;
+		                	}
+		                }
+		                else if (aehnlich > 0) 
+		                {
+		                	functionReturnValue = Bewertung.aehnlich;
 
+		                }
+		                		                		                	
+		            }
+		        }
 			} catch (Exception ex) {
 				throw new Exception(CodeLoc, ex);
 			}
@@ -1074,29 +1116,41 @@ public class Vokabel {
 	        }
 	        else if (richtig < Bedeutungen)
 	        {
-	            functionReturnValue = Bewertung.TeilweiseRichtig;
-	            libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 450";
-	            // Inserted by CodeCompleter
-	            if (richtig == 0)
+	            if (richtig > 0)
+	            {
+	            	functionReturnValue = Bewertung.TeilweiseRichtig;
+	            	libLearn.gStatus = "Vokabel.TeileUeberpruefen Line 450";
+	            	// Inserted by CodeCompleter
+	            	if (aehnlich > 0)
+	            	{
+	            		functionReturnValue = Bewertung.TeilweiseRichtigAehnlich;
+	            		if (enthalten > 0)
+	            		{
+	            			functionReturnValue = Bewertung.TeilweiseRichtigAehnlichEnthalten;
+	            		}
+	            	}
+	            	else if (enthalten > 0)
+	            	{
+	            		functionReturnValue = Bewertung.TeilweiseRichtigEnthalten;
+	            	}
+	            }
+	            else
 	            {
 	                functionReturnValue = Bewertung.AllesFalsch;
 	                if (enthalten > 0)
 	                {
 	                	functionReturnValue = Bewertung.enthalten;
-	                }
-	                if (aehnlich > 0) functionReturnValue = Bewertung.aehnlich;
-	                		
-	                	/*
-	                	for (Bewertung b: Bewertung.values())
+	                	if (aehnlich > 0)
 	                	{
-	                		if (b.ordinal()==aehnlich)
-	                		{
-	                			functionReturnValue = b;
-	                			break;
-	                		}
+	                		functionReturnValue = Bewertung.AehnlichEnthalten;
 	                	}
-	                	*/
-	                    //lib.setEnumOrdinal(functionReturnValue, aehnlich);	                	
+	                }
+	                else if (aehnlich > 0) 
+	                {
+	                	functionReturnValue = Bewertung.aehnlich;
+
+	                }
+	                		                		                	
 	            }
 	             
 	        }

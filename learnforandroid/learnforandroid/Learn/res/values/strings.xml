@@ -148,5 +148,9 @@
 	            <string name="MeaningPartiallyCorrect">the entered meaning is partially correct!</string>
 	            <string name="AnswerCorrect">the answer is correct!</string>
 	            <string name="MeaningIsSubstring">The answer is a subset of the meaning!</string>
+	            <string name="MeaningIsSubstringSimilar">The entered meaning is partially a substring and partially similar</string>
+	            <string name="MeaningIsPartiallyCorrectSimilar">The meaning is partially correct and partially similar!</string>
+	            <string name="MeaningIsPartiallyCorrectSimilarSubstring">The meaning is partially correct, partially similar and partially a substring!</string>
+	            <string name="MeaningIsPartiallyCorrectSubstring">The meaning is partially correct and partially a substring!</string>
         
 </resources>

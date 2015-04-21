@@ -126,6 +126,7 @@ public class MainActivity extends ActionBarActivity {
     			e.printStackTrace();
     			lib.ShowException(this, e);
     		}
+            hideKeyboard();
         }
         catch (Exception ex)
         {
@@ -259,7 +260,7 @@ public class MainActivity extends ActionBarActivity {
 					//getVokabel(false,true);
 					//runFlashWords();
 					Handler handler = new Handler();
-					handler.postDelayed(runnableGetVok, (long) ((DisplayDurationWord*1000+vok.getAnzBed()*1000*DisplayDurationBed)*PaukRepetitions));
+					handler.postDelayed(runnableFalse, (long) ((DisplayDurationWord*1000+vok.getAnzBed()*1000*DisplayDurationBed)*PaukRepetitions));
 				} catch (Exception e) 
 				{
 					// TODO Auto-generated catch block
@@ -401,6 +402,22 @@ public class MainActivity extends ActionBarActivity {
 						{
 							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningIsSubstring));
 						}
+						else if (Bew == Bewertung.AehnlichEnthalten)
+						{
+							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningIsSubstringSimilar));
+						}
+						else if (Bew == Bewertung.TeilweiseRichtigAehnlich)
+						{
+							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningIsPartiallyCorrectSimilar));
+						}
+						else if (Bew == Bewertung.TeilweiseRichtigAehnlichEnthalten)
+						{
+							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningIsPartiallyCorrectSimilarSubstring));
+						}
+						else if (Bew == Bewertung.TeilweiseRichtigEnthalten)
+						{
+							lib.ShowMessage(MainActivity.this,getString(R.string.MeaningIsPartiallyCorrectSubstring));
+						}
 						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -454,15 +471,15 @@ public class MainActivity extends ActionBarActivity {
     	_btnWrong.setEnabled(enable);
     	
     }
-    
+  /*  
     private Runnable runnableGetVok = new Runnable() {
     	   @Override
     	   public void run() {
-    	      /* do what you need to do */
+    	      // do what you need to do 
     		   getVokabel(false,true);
     	   }
     	};
-    	
+*/
     	private Runnable runnableFalse = new Runnable() {
      	   @Override
      	   public void run() {
