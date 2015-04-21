@@ -743,14 +743,16 @@ public class Vokabel {
 	            int LastLastPos = LastPos;
 	            do
 	            {
-	                Pos = Bedeutung.indexOf(Antwort.substring(ii, ii+1), LastPos);
+	                String sub = Antwort.substring(ii, ii+1);
+	            	Pos = Bedeutung.indexOf(sub, LastPos);
 	                if (Pos == -1)
 	                    break;
 	                 
 	                // TODO: might not be correct. Was : Exit Do
 	                if (Pos > -1 && ii < Antwort.length() - 1)
 	                {
-	                    Pos2 = Bedeutung.indexOf(Antwort.substring(ii + 1, ii+2), Pos + 1);
+	                    sub = Antwort.substring(ii + 1, ii+2);
+	                	Pos2 = Bedeutung.indexOf(sub, Pos + 1);
 	                }
 	                 
 	                if (Pos2 != Pos + 1)
@@ -795,8 +797,8 @@ public class Vokabel {
 	            mOldBed[BedNR.getValue()[0]] = mOldBed[BedNR.getValue()[0]] + "," + Test;
 	        } 
 	        int AnzFalsch = lib.countMatches(Test, "*");//ClsGlobal.CountChar(Test, "*");
-	        float Aehn1 = (Size1 - AnzFalsch) / Size1;
-	        float Aehn2 = (Size1 - levenshtein) / Size1;
+	        float Aehn1 = (float)(Size1 - AnzFalsch) / Size1;
+	        float Aehn2 = (float)(Size1 - levenshtein) / Size1;
 	        if (Aehn1 < Aehn2)
 	        {
 	            return Aehn1;
@@ -806,6 +808,29 @@ public class Vokabel {
 	            return Aehn2;
 	        } 
 	    }
+        
+	    private static int minimum(int a, int b, int c) {                            
+            return Math.min(Math.min(a, b), c);                                      
+        }                                                                            
+     
+        public static int computeLevenshteinDistance(String str1,String str2) {      
+            int[][] distance = new int[str1.length() + 1][str2.length() + 1];        
+     
+            for (int i = 0; i <= str1.length(); i++)                                 
+                distance[i][0] = i;                                                  
+            for (int j = 1; j <= str2.length(); j++)                                 
+                distance[0][j] = j;                                                  
+     
+            for (int i = 1; i <= str1.length(); i++)                                 
+                for (int j = 1; j <= str2.length(); j++)                             
+                    distance[i][j] = minimum(                                        
+                            distance[i - 1][j] + 1,                                  
+                            distance[i][j - 1] + 1,                                  
+                            distance[i - 1][j - 1] + ((str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1));
+     
+            return distance[str1.length()][str2.length()];                           
+        }                                                                            
+    
 
 	
 
@@ -815,37 +840,7 @@ public class Vokabel {
 
 			Bedeutung = RemoveKomment(Bedeutung);
 			Antwort = RemoveKomment(Antwort);
-
-			char[] s = Bedeutung.toCharArray();
-			char[] t = Antwort.toCharArray();
-
-			// for all i and j, d[i,j] will hold the Levenshtein distance between
-			// the first i characters of s and the first j characters of t;
-			// note that d has (m+1)x(n+1) values
-			int[][] d = new int[s.length -1 + 2][t.length-1 + 2];
-			int m = s.length;
-			int n = t.length;
-			for (int i = 0; i <= m; i++) {
-				d[i][0] = i;
-				//the distance of any first String to an empty second String
-			}
-			for (int j = 0; j <= n; j++) {
-				d[0][j] = j;
-				// the distance of any second String to an empty first String
-			}
-			for (int j = 1; j <= n; j++) {
-				for (int i = 1; i <= m; i++) {
-					if (s[i - 1] == t[j - 1]) {
-						d[i][j] = d[i - 1][j - 1];
-						//// no operation required(()
-					} else {
-						d[i][j] = Math.min(Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1), d[i - 1][j - 1] + 1);
-					}
-				}
-			}
-
-
-			return d[m][n];
+			return computeLevenshteinDistance(Bedeutung, Antwort);
 		}
 		private String MakeVergl(String Bed) throws Exception
 		{
@@ -1000,7 +995,6 @@ public class Vokabel {
 	                        {
 	                            aehnlich  += 1;
 	                            break;
-	                            
 	                        }
 	                         
 	                    }
@@ -1035,7 +1029,9 @@ public class Vokabel {
 	            if (richtig == 0)
 	            {
 	                functionReturnValue = Bewertung.AllesFalsch;
-	                if (aehnlich > 0)
+	                if (aehnlich > 0) functionReturnValue = Bewertung.aehnlich;
+	                		
+	                	/*
 	                	for (Bewertung b: Bewertung.values())
 	                	{
 	                		if (b.ordinal()==aehnlich)
@@ -1044,6 +1040,7 @@ public class Vokabel {
 	                			break;
 	                		}
 	                	}
+	                	*/
 	                    //lib.setEnumOrdinal(functionReturnValue, aehnlich);	                	
 	            }
 	             
