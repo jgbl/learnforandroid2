@@ -652,14 +652,28 @@ public class Vokabel {
 										libLearn.gStatus = "Vokabel.CheckAnwort Line 298";
 										// Inserted by CodeCompleter
 									} else {
-								        short refII[] = new short[]{ii};
-										RefSupport<short[]> refVar___ii = new RefSupport<short[]>(refII);
-								        boolean boolVar___0 = Aehnlichkeit(Bedeutungen[ii], Antwort, refVar___ii) > 0.5;
-								        ii = (Short) refVar___ii.getValue()[0];
-								        if (boolVar___0)
-								        {
-								            aehnlich += 1;
-								        }
+										CheckVergl = false;
+										if (((float)Antwort.length() / Bedeutungen[ii].length()) > 0.5)
+										{
+											CheckVergl =  lib.like(Antwort, "*" + MakeVergl(Bedeutungen[ii])+ "*");
+											
+										}
+										if (CheckVergl)
+										{
+											TeilweiseRichtig += 1;
+										}
+										else
+										{
+											short refII[] = new short[]{ii};
+											RefSupport<short[]> refVar___ii = new RefSupport<short[]>(refII);
+									        boolean boolVar___0 = Aehnlichkeit(Bedeutungen[ii], Antwort, refVar___ii) > 0.5;
+									        ii = (Short) refVar___ii.getValue()[0];
+									        if (boolVar___0)
+									        {
+									            aehnlich += 1;
+									        }
+										}
+								        
 									}
 
 								}
