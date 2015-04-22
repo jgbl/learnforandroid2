@@ -223,6 +223,23 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume()
     {
     	super.onResume();
+    	if (_firstFocus)
+    	{
+    		_firstFocus = false;
+    		hideKeyboard();
+    	}
+    	//resize();
+    }
+    
+    @Override
+    protected void onStart()
+    {
+    	super.onStart();
+    	if (_firstFocus)
+    	{
+    		_firstFocus = false;
+    		hideKeyboard();
+    	}
     	//resize();
     }
     
@@ -639,6 +656,7 @@ public class MainActivity extends ActionBarActivity {
     		_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtKom.getTextSize() * scale));
     		_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtStatus.getTextSize() * scale));
     		
+    		/*
     		_txtMeaning1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 				
 				@Override
@@ -651,6 +669,7 @@ public class MainActivity extends ActionBarActivity {
 					}
 				}
 			});
+			*/
     		
     		_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnRight.getTextSize() * scale));
     		_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnSkip.getTextSize() * scale));
