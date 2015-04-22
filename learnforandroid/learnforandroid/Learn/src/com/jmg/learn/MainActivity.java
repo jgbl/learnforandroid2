@@ -223,11 +223,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume()
     {
     	super.onResume();
+    	/*
     	if (_firstFocus)
     	{
     		_firstFocus = false;
     		hideKeyboard();
     	}
+    	*/
     	//resize();
     }
     
@@ -235,11 +237,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onStart()
     {
     	super.onStart();
+    	/*
     	if (_firstFocus)
     	{
     		_firstFocus = false;
     		hideKeyboard();
     	}
+    	*/
     	//resize();
     }
     
