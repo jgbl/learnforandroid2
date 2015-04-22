@@ -227,7 +227,7 @@ public class MainActivity extends ActionBarActivity {
 		 */
 		// resize();
 	}
-
+	private int _lastIsWrongVokID;
 	private void InitButtons() throws Exception {
 		View v = findViewById(R.id.btnRight);
 		Button b = (Button) v;
@@ -237,8 +237,17 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				try {
-					vok.AntwortRichtig();
-					getVokabel(false, false);
+					if (_lastIsWrongVokID == vok.getIndex())
+					{
+						getVokabel(false,true);
+					}
+					else
+					{
+						vok.AntwortRichtig();
+						getVokabel(false, false);
+					}
+					_lastIsWrongVokID = -1;
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
@@ -256,6 +265,7 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				try {
 					vok.AntwortFalsch();
+					_lastIsWrongVokID = vok.getIndex();
 					setBtnsEnabled(false);
 					flashwords();
 					// getVokabel(false,true);
@@ -380,6 +390,7 @@ public class MainActivity extends ActionBarActivity {
 						} else if (Bew == Bewertung.AllesFalsch) {
 							try {
 								vok.AntwortFalsch();
+								_lastIsWrongVokID = vok.getIndex();
 								setBtnsEnabled(false);
 								getVokabel(true, false);
 								flashwords();

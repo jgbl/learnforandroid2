@@ -1213,7 +1213,10 @@ public class Vokabel {
 				if (mLernVokabeln == null) {
 					this.InitAbfrage();
 				}
-				mLernVokabeln[mLernindex] = 0;
+				else
+				{
+					mLernVokabeln[mLernindex] = 0;
+				}
 			}
 			AnzRichtig += 1;
 			InitAbfrage();
