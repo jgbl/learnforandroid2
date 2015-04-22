@@ -674,6 +674,7 @@ public class MainActivity extends ActionBarActivity {
     		params.height = (int) (params.height * scale);
     		params.width = (int)(params.width * scale);
     		_btnEdit.setLayoutParams(params);
+    		hideKeyboard();
     	}
     }
     
