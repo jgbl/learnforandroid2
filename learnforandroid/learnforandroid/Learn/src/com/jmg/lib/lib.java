@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Pattern;
 
+import com.jmg.learn.R;
 import com.jmg.learn.libLearn;
 
 
@@ -15,6 +16,9 @@ import com.jmg.learn.libLearn;
 import android.app.*;
 import android.content.*;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 //import android.runtime.*;
 import android.provider.*;
 import android.util.Log;
@@ -291,17 +295,35 @@ public class lib
 	   A.setTitle("Message");
 	   A.show();
 	}
+	private static Handler YesNoHandler;
 	public static synchronized boolean ShowMessageYesNo(Context context, String msg)
 	{
 		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
 	   try
 	   {
-			AlertDialog.Builder A = new AlertDialog.Builder(context);
-		   A.setPositiveButton("Yes",listener);
-		   A.setNegativeButton("No",listener);
+			if (YesNoHandler==null) YesNoHandler = new Handler()
+			{
+				@Override
+		        public void handleMessage(Message mesg) {
+		            throw new RuntimeException();
+		        } 
+			};
+			
+		   DialogResultYes = false;
+		   AlertDialog.Builder A = new AlertDialog.Builder(context);
+		   A.setPositiveButton(context.getString(R.string.yes),listener);
+		   A.setNegativeButton(context.getString(R.string.yes),listener);
 		   A.setMessage(msg);
 		   A.setTitle("Question");
 		   A.show();
+		   try 
+		   { 
+			   Looper.loop(); 
+		   }
+		    catch(RuntimeException e2) 
+		    {
+		    	
+		    }
 	   }
 	   catch (Exception ex)
 	   {
@@ -332,6 +354,7 @@ public class lib
 	        	DialogResultYes = false;
 	            break;
 	        }
+	        YesNoHandler.sendMessage(YesNoHandler.obtainMessage());
 		}
 	};
 	

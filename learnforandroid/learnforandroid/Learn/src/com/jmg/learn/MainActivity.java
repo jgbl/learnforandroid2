@@ -24,7 +24,9 @@ import android.text.SpannedString;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -120,6 +122,14 @@ public class MainActivity extends ActionBarActivity {
 						LoadVokabel(filename, index, Lernvokabeln, Lernindex);
 					}
 				}
+				else
+				{
+					if (prefs.getString("LastFile", null) != null)
+					{
+						String filename = prefs.getString("LastFile","");
+						LoadVokabel(filename, 1, null, 0);
+					}
+				}
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -156,7 +166,7 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (saveVok(false))
+		if (_backPressed>0 || saveVok(false))
 			super.onBackPressed();
 		return;
 	}
@@ -177,35 +187,79 @@ public class MainActivity extends ActionBarActivity {
 		return super.onKeyDown(keyCode, event);
 	};
 
-	private boolean _backPressed;
+	private int _backPressed;
 
 	private boolean saveVok(boolean dontPrompt) {
 		Handler handler; 
 		if (vok.aend) {
 			if (!dontPrompt) {
-				dontPrompt = lib.ShowMessageYesNo(this,
-						getString(R.string.Save));
-				if (!dontPrompt) {
-					if (_backPressed) {
+				AlertDialog.Builder A = new AlertDialog.Builder(context);
+				A.setPositiveButton(getString(R.string.yes), new AlertDialog.OnClickListener() 
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which) 
+					{
+						try 
+						{
+							vok.SaveFile();
+							vok.aend = false;
+							_backPressed +=1;
+							Handler handler = new Handler();
+							handler.postDelayed(rSetBackPressedFalse, 10000);
+							prefs.edit().putString("LastFile", vok.getFileName()).commit();
+						} 
+						catch (Exception e) 
+						{
+							// TODO Auto-generated catch block
+							lib.ShowException(MainActivity.this, e);
+						}
+					}
+				});
+				A.setNegativeButton(getString(R.string.no),new AlertDialog.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which) 
+					{
+						lib.ShowToast(MainActivity.this,
+								MainActivity.this.getString(R.string.PressBackAgain));
+						_backPressed += 1;
+						Handler handler = new Handler();
+						handler.postDelayed(rSetBackPressedFalse, 10000);
+					}
+					   
+				});
+			    A.setMessage(getString(R.string.Save));
+			    A.setTitle("Question");
+			    A.show();
+				if (!dontPrompt) 
+				{
+					if (_backPressed > 0) 
+					{
 						return true;
-					} else {
-						lib.ShowToast(this,
-								this.getString(R.string.PressBackAgain));
-						_backPressed = true;
+					} 
+					else 
+					{
+						lib.ShowToast(this,	this.getString(R.string.PressBackAgain));
+						_backPressed += 1;
 						handler = new Handler();
 						handler.postDelayed(rSetBackPressedFalse, 10000);
 					}
 
 				}
 			}
-			if (dontPrompt) {
-				try {
+			if (dontPrompt) 
+			{
+				try 
+				{
 					vok.SaveFile();
 					vok.aend = false;
-					_backPressed = true;
+					_backPressed += 1;
 					handler = new Handler();
 					handler.postDelayed(rSetBackPressedFalse, 10000);
-				} catch (Exception e) {
+					prefs.edit().putString("LastFile", vok.getFileName()).commit();
+				} 
+				catch (Exception e) 
+				{
 					// TODO Auto-generated catch block
 					lib.ShowException(this, e);
 				}
@@ -219,7 +273,7 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public void run() {
 			/* do what you need to do */
-			_backPressed = false;
+			_backPressed = 0;
 		}
 	};
 
