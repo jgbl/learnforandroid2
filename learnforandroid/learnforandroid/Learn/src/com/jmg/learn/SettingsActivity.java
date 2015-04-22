@@ -100,6 +100,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	
 	private void initSpinners()
 	{
+		libLearn.gStatus = "initSpinners";
 		try
 		{
 			spnAbfragebereich = (Spinner) findViewById(R.id.spnAbfragebereich);
@@ -301,12 +302,22 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			
 			SpinnerAdapter a = spnProbabilityFactor.getAdapter();
 			ArrayAdapter<CharSequence> a1 = null;
-			if (a != null )
+			if (a != null)
 			{
-				a1 = (ArrayAdapter<CharSequence>) a;
-				Pos = (a1.getPosition(strDD));
+				try
+				{
+					libLearn.gStatus = "get Spinneradapter ProbabilityFactor";
+					a1 = (ArrayAdapter<CharSequence>) a;
+					Pos = (a1.getPosition(strDD));
+					spnProbabilityFactor.setSelection(Pos);
+				}
+				catch (Exception ex)
+				{
+					lib.ShowException(this, ex);
+				}
+				
 			}
-			spnProbabilityFactor.setSelection(Pos);
+			
 			spnProbabilityFactor.setOnItemSelectedListener(new OnItemSelectedListener() {
 	
 				@Override
