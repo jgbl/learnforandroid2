@@ -180,6 +180,7 @@ public class MainActivity extends ActionBarActivity {
 	private boolean _backPressed;
 
 	private boolean saveVok(boolean dontPrompt) {
+		Handler handler; 
 		if (vok.aend) {
 			if (!dontPrompt) {
 				dontPrompt = lib.ShowMessageYesNo(this,
@@ -191,6 +192,8 @@ public class MainActivity extends ActionBarActivity {
 						lib.ShowToast(this,
 								this.getString(R.string.PressBackAgain));
 						_backPressed = true;
+						handler = new Handler();
+						handler.postDelayed(rSetBackPressedFalse, 10000);
 					}
 
 				}
@@ -200,6 +203,8 @@ public class MainActivity extends ActionBarActivity {
 					vok.SaveFile();
 					vok.aend = false;
 					_backPressed = true;
+					handler = new Handler();
+					handler.postDelayed(rSetBackPressedFalse, 10000);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(this, e);
@@ -209,6 +214,14 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return true;
 	}
+	
+	private Runnable rSetBackPressedFalse = new Runnable() {
+		@Override
+		public void run() {
+			/* do what you need to do */
+			_backPressed = false;
+		}
+	};
 
 	@Override
 	protected void onResume() {
