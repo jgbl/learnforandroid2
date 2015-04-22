@@ -126,7 +126,7 @@ public class MainActivity extends ActionBarActivity {
     			e.printStackTrace();
     			lib.ShowException(this, e);
     		}
-            hideKeyboard();
+            
         }
         catch (Exception ex)
         {
@@ -616,10 +616,11 @@ public class MainActivity extends ActionBarActivity {
     	_txtWord.setShowBorders(false, Colors.get(ColorItems.background).ColorValue);
 	}
 
-
+    private boolean _firstFocus;
 	private void resize()
     {
-    	Resources resources = context.getResources();
+    	_firstFocus = true;
+		Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         int height = metrics.heightPixels;
         int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
@@ -637,6 +638,19 @@ public class MainActivity extends ActionBarActivity {
     		_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtWord.getTextSize() * scale));
     		_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtKom.getTextSize() * scale));
     		_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_txtStatus.getTextSize() * scale));
+    		
+    		_txtMeaning1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+				
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) {
+					// TODO Auto-generated method stub
+					if (_firstFocus && hasFocus)
+					{
+						hideKeyboard();
+						_firstFocus = false;
+					}
+				}
+			});
     		
     		_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnRight.getTextSize() * scale));
     		_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (_btnSkip.getTextSize() * scale));
@@ -674,7 +688,7 @@ public class MainActivity extends ActionBarActivity {
     		params.height = (int) (params.height * scale);
     		params.width = (int)(params.width * scale);
     		_btnEdit.setLayoutParams(params);
-    		hideKeyboard();
+    		
     	}
     }
     
