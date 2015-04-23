@@ -15,6 +15,7 @@ import com.jmg.learn.libLearn;
 
 import android.app.*;
 import android.content.*;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -457,6 +458,39 @@ public class lib
 					Colors[i+ii*16+iii*16*16] = Color.rgb(i*16, ii*16, iii*16);
 		;;
 		return Colors;
+	}
+	public static int[] getIntArrayFromPrefs(SharedPreferences prefs, String name)
+	{
+		int count = prefs.getInt(name, -1);
+		if (count > -1)
+		{
+			int[] res = new int[count+1];
+			for (int i = 0; i <= count; i++)
+			{
+				res[i] = prefs.getInt(name + i, 0);
+			}
+			
+			return res;
+		}
+		else
+		{
+			return null;
+		}
+		
+	}
+	
+	public static void putIntArrayToPrefs(SharedPreferences prefs, int array[], String name)
+	{
+		int count = array.length - 1;
+		Editor edit = prefs.edit();
+		edit.putInt(name, count);
+		for (int i = 0; i <= count; i++)
+		{
+			edit.putInt(name + i, array[i]);
+		}
+		
+		edit.commit();
+		
 	}
 
 }

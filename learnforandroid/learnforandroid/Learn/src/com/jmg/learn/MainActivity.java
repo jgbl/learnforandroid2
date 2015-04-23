@@ -127,7 +127,17 @@ public class MainActivity extends ActionBarActivity {
 					if (prefs.getString("LastFile", null) != null)
 					{
 						String filename = prefs.getString("LastFile","");
-						LoadVokabel(filename, 1, null, 0);
+						int index = prefs.getInt("vokindex",1);
+						int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs, "Lernvokabeln");
+						int Lernindex = prefs.getInt("Lernindex",0);
+						if (Lernvokabeln != null )
+						{
+							LoadVokabel(filename, index, Lernvokabeln, Lernindex);
+						}
+						else
+						{
+							LoadVokabel(filename, 1, null, 0);
+						}
 					}
 				}
 
@@ -206,7 +216,7 @@ public class MainActivity extends ActionBarActivity {
 							_backPressed +=1;
 							Handler handler = new Handler();
 							handler.postDelayed(rSetBackPressedFalse, 10000);
-							prefs.edit().putString("LastFile", vok.getFileName()).commit();
+							saveFilePrefs();
 						} 
 						catch (Exception e) 
 						{
@@ -256,7 +266,7 @@ public class MainActivity extends ActionBarActivity {
 					_backPressed += 1;
 					handler = new Handler();
 					handler.postDelayed(rSetBackPressedFalse, 10000);
-					prefs.edit().putString("LastFile", vok.getFileName()).commit();
+					saveFilePrefs();
 				} 
 				catch (Exception e) 
 				{
@@ -267,6 +277,16 @@ public class MainActivity extends ActionBarActivity {
 			return false;
 		}
 		return true;
+	}
+	
+	private void saveFilePrefs()
+	{
+		Editor edit = prefs.edit();
+		edit.putString("LastFile", vok.getFileName()).commit();
+		edit.putInt("vokindex", vok.getIndex());
+		lib.putIntArrayToPrefs(prefs, vok.getLernvokabeln(), "Lernvokabeln");
+		edit.putInt("Lernindex", vok.getLernIndex());
+		edit.commit();
 	}
 	
 	private Runnable rSetBackPressedFalse = new Runnable() {
