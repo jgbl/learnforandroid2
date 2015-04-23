@@ -1384,7 +1384,13 @@ public class Vokabel {
 		public int getLearned (int Zaehler)
 		{
 			int res = 0;
+			boolean first = true;
 			for (typVok vok: mVok) {
+				if (first)
+				{
+					first = false;
+					continue;
+				}
 				if (Zaehler > -6) 
 				{
 					if (Zaehler < 6) 
@@ -1414,7 +1420,7 @@ public class Vokabel {
 	        short i = (Short)refi.getValue();
 	    	do
 	        {
-	            if (vokNr < mGesamtzahl -1)
+	            if (vokNr < mVok.size() -1)
 	            {
 	                vokNr+= 1;
 	            }
@@ -1461,7 +1467,7 @@ public class Vokabel {
         	
 	        do
 	        {
-	            if (intVokNr < mGesamtzahl)
+	            if (intVokNr < mVok.size()-1)
 	            {
 	                intVokNr += 1;
 	        		
@@ -1474,7 +1480,7 @@ public class Vokabel {
 	            	intVokNr = (short) lib.rndInt(0,mGesamtzahl);
 	            	while (mGesamtzahl > mSchrittweite*2 && Arrays.asList(mLernVokabeln).contains(intVokNr))
 	            	{
-	            		intVokNr = (short) lib.rndInt(0,mGesamtzahl);
+	            		intVokNr = (short) lib.rndInt(0,mVok.size() -1);
 	            	}
 	            }
 	            	
