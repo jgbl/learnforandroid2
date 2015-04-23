@@ -911,9 +911,17 @@ public class MainActivity extends ActionBarActivity {
 		} else if (id == R.id.mnuStatistics) {
 			if (vok.getGesamtzahl()>5)
 			{
-				IDemoChart chart = new com.jmg.learn.chart.LearnBarChart();
-				Intent intent = chart.execute(this);
-				this.startActivity(intent);
+				try
+				{
+					IDemoChart chart = new com.jmg.learn.chart.LearnBarChart();
+					Intent intent = chart.execute(this);
+					this.startActivity(intent);
+				}
+				catch(Exception ex)
+				{
+					lib.ShowException(this, ex);
+				}
+				
 			}
 		}
 		return super.onOptionsItemSelected(item);

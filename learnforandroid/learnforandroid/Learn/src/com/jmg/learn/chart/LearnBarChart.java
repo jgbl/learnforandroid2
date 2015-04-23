@@ -24,6 +24,7 @@ import org.achartengine.chart.BarChart.Type;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import com.jmg.learn.MainActivity;
 import com.jmg.learn.vok.Vokabel;
@@ -70,33 +71,41 @@ public class LearnBarChart extends AbstractDemoChart {
 	  double v[] = new double[13];
 	  for (int i = -6; i <=6; i++)
 	  {
-		  v[i+6]= vok.getLearned(i);
+		  v[i+6] = vok.getLearned(i);
 	  }
+	  
 	  values.add(v);
-	  int[] colors = new int[] { Color.CYAN};
+	  
+	  int[] colors = new int[] {Color.CYAN}; //Color.CYAN,Color.GREEN,Color.BLUE,Color.MAGENTA,Color.RED,Color.YELLOW};
 	  XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-	  renderer.setOrientation(Orientation.VERTICAL);
+	  renderer.setOrientation(Orientation.HORIZONTAL);
+	  
 	  setChartSettings(renderer, 
 			  "Learned vocabulary for " + F.getName(), 
-			  "Words", "Learnindex", 
-			  -6, 6, 
-			  0, vok.getGesamtzahl(), 
-			  Color.GRAY, Color.LTGRAY);
-	  
-	  renderer.setXLabels(1);
+			   "Learnindex", "Words", 
+			  0, 12, 0, vok.getGesamtzahl(), 
+			  Color.GREEN, Color.MAGENTA);
+	  renderer.setBackgroundColor(Color.BLACK);
+	  renderer.setApplyBackgroundColor(true);
+	  renderer.setXLabels(0);
 	  renderer.setYLabels(10);
+	  
 	  for (int i = -6; i <=6; i++)
 	  {
-		  renderer.addXTextLabel(i+7, "" + i);
+		  renderer.addXTextLabel(i+6, "" + i);
+		  
 	  }
-	
+	  
 	  int length = renderer.getSeriesRendererCount();
 	  for (int i = 0; i < length; i++) {
 		  SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
 		  seriesRenderer.setDisplayChartValues(true);
+		  seriesRenderer.setGradientEnabled(true);
+		  seriesRenderer.setGradientStart(0, Color.CYAN);
+		  seriesRenderer.setGradientStop(vok.getGesamtzahl(), Color.RED);
 	  }
 	  return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer,
-	    Type.DEFAULT);
+	    Type.STACKED);
   }
 
 }

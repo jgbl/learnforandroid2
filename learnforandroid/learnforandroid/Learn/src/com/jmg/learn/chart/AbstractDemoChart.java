@@ -235,6 +235,7 @@ public abstract class AbstractDemoChart implements IDemoChart {
     renderer.setChartTitleTextSize(20);
     renderer.setLabelsTextSize(15);
     renderer.setLegendTextSize(15);
+    
     int length = colors.length;
     for (int i = 0; i < length; i++) {
       SimpleSeriesRenderer r = new SimpleSeriesRenderer();
@@ -243,5 +244,8 @@ public abstract class AbstractDemoChart implements IDemoChart {
     }
     return renderer;
   }
+  
+  
+
 
 }
