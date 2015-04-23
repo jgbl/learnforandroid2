@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import br.com.thinkti.android.filechooser.*;
 
+import com.jmg.learn.chart.IDemoChart;
 import com.jmg.learn.vok.*;
 import com.jmg.learn.vok.Vokabel.Bewertung;
 import com.jmg.learn.vok.Vokabel.EnumSprachen;
@@ -907,6 +908,13 @@ public class MainActivity extends ActionBarActivity {
 				vok.reset();
 			}
 
+		} else if (id == R.id.mnuStatistics) {
+			if (vok.getGesamtzahl()>5)
+			{
+				IDemoChart chart = new com.jmg.learn.chart.LearnBarChart();
+				Intent intent = chart.execute(this);
+				this.startActivity(intent);
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}

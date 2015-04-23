@@ -1381,6 +1381,29 @@ public class Vokabel {
 			}
 			return Sel;
 		}
+		public int getLearned (int Zaehler)
+		{
+			int res = 0;
+			for (typVok vok: mVok) {
+				if (Zaehler > -6) 
+				{
+					if (Zaehler < 6) 
+					{
+						if (vok.z == Zaehler) 
+						{
+							res += 1;
+						}
+					} 
+					else if (vok.z >= 6) 
+					{
+						res +=1;
+					}
+				} else if (vok.z <= -6) {
+					res +=1;
+				}
+			}
+			return res;
+		}
 
 
 	    public void Get_Vok(RefSupport<Object> refvokNr, RefSupport<Object> refi, RefSupport<Object> refblnDurch, RefSupport<Object> refblnDurch2) throws Exception 

@@ -152,5 +152,6 @@
 	            <string name="MeaningIsPartiallyCorrectSimilar">The meaning is partially correct and partially similar!</string>
 	            <string name="MeaningIsPartiallyCorrectSimilarSubstring">The meaning is partially correct, partially similar and partially a substring!</string>
 	            <string name="MeaningIsPartiallyCorrectSubstring">The meaning is partially correct and partially a substring!</string>
+	            <string name="mnuStatistics">statistics</string>
         
 </resources>
