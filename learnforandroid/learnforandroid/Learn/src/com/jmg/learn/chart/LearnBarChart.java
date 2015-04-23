@@ -98,7 +98,7 @@ public class LearnBarChart extends AbstractDemoChart {
 	  setChartSettings(renderer, 
 			  "Learned vocabulary for " + F.getName(), 
 			   "Learnindex", "Words", 
-			  0, 12, 0, vok.getGesamtzahl(), 
+			  1, 13, 0, vok.getGesamtzahl(), 
 			  Color.GREEN, Color.YELLOW);
 	  renderer.setBackgroundColor(Color.BLACK);
 	  renderer.setApplyBackgroundColor(true);
@@ -107,7 +107,7 @@ public class LearnBarChart extends AbstractDemoChart {
 	  
 	  for (int i = -6; i <=6; i++)
 	  {
-		  renderer.addXTextLabel(i+6, "" + i);
+		  renderer.addXTextLabel(i+7, "" + i);
 		  
 	  }
 	  
