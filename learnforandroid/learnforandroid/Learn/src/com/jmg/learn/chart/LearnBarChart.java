@@ -13,6 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Changed by J.M.Goebel Copyright (C) 2015
+ * GPL 3
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.jmg.learn.chart;
 
 import java.io.File;
@@ -24,8 +41,6 @@ import org.achartengine.chart.BarChart.Type;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
-import org.achartengine.renderer.XYSeriesRenderer;
-
 import com.jmg.learn.MainActivity;
 import com.jmg.learn.vok.Vokabel;
 
@@ -84,7 +99,7 @@ public class LearnBarChart extends AbstractDemoChart {
 			  "Learned vocabulary for " + F.getName(), 
 			   "Learnindex", "Words", 
 			  0, 12, 0, vok.getGesamtzahl(), 
-			  Color.GREEN, Color.MAGENTA);
+			  Color.GREEN, Color.YELLOW);
 	  renderer.setBackgroundColor(Color.BLACK);
 	  renderer.setApplyBackgroundColor(true);
 	  renderer.setXLabels(0);
@@ -105,7 +120,7 @@ public class LearnBarChart extends AbstractDemoChart {
 		  seriesRenderer.setGradientStop(vok.getGesamtzahl(), Color.RED);
 	  }
 	  return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer,
-	    Type.STACKED);
+	    Type.DEFAULT);
   }
 
 }
