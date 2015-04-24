@@ -155,5 +155,7 @@
 	            <string name="mnuStatistics">statistics</string>
 	            <string name="number">Number</string>
 	            <string name="counter">Counter</string>
+	            <string name="chkSound">sound on</string>
+	            <string name="chkSoundHint">switch sound on or off</string>
         
 </resources>

@@ -216,7 +216,7 @@
 	            android:typeface="normal" />
 	        
 	        <CheckBox
-	            android:id="@+id/chkAskAlll"
+	            android:id="@+id/chkAskAll"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentLeft="true"
@@ -224,6 +224,19 @@
 	            android:checked="false"
 	            android:hint="@string/chkAskAllHint"
 	            android:text="@string/chkAskAll"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <CheckBox
+	            android:id="@+id/chkSound"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_below="@+id/chkAskAll"
+	            android:checked="false"
+	            android:hint="@string/chkSoundHint"
+	            android:text="@string/chkSound"
 	            android:textSize="18sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />

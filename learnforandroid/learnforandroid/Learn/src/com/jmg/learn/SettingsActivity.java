@@ -44,6 +44,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	public Button btnColors;
 	public CheckBox chkRandom;
 	public CheckBox chkAskAll;
+	public CheckBox chkSound;
 	public ColorsArrayAdapter Colors;
 	public SharedPreferences prefs;
 	private Intent intent = new Intent();
@@ -64,7 +65,8 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	private void initCheckBoxes()
 	{
 		chkRandom = (CheckBox) findViewById(R.id.chkRandom);
-		chkAskAll = (CheckBox) findViewById(R.id.chkAskAlll);
+		chkAskAll = (CheckBox) findViewById(R.id.chkAskAll);
+		chkSound = (CheckBox) findViewById(R.id.chkSound);
 		boolean checked = getIntent().getBooleanExtra("Random", false);
 		chkRandom.setChecked(checked);
 		intent.putExtra("Random", checked);
@@ -94,6 +96,22 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			}
 			
 		});
+		
+		checked = getIntent().getBooleanExtra("Sound", true);
+		chkSound.setChecked(checked);
+		intent.putExtra("Sound", checked);
+		
+		chkSound.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				intent.putExtra("Sound", isChecked);
+			}
+			
+		});
+
 
 		
 	}

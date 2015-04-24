@@ -17,6 +17,7 @@ import com.jmg.learn.vok.Vokabel.Bewertung;
 import com.jmg.learn.vok.Vokabel.EnumSprachen;
 import com.jmg.lib.*;
 import com.jmg.lib.ColorSetting.ColorItems;
+import com.jmg.lib.lib.Sounds;
 import com.jmg.lib.lib.libString;
 
 import android.support.v7.app.ActionBarActivity;
@@ -104,6 +105,7 @@ public class MainActivity extends ActionBarActivity {
 				vok.setAbfrageZufaellig(prefs.getBoolean("Random",
 						vok.getAbfrageZufaellig()));
 				vok.setAskAll(prefs.getBoolean("AskAll", vok.getAskAll()));
+				lib.sndEnabled = prefs.getBoolean("Sound", lib.sndEnabled);
 				Colors = getColorsFromPrefs();
 
 			} catch (Exception e) {
@@ -328,6 +330,7 @@ public class MainActivity extends ActionBarActivity {
 				try {
 					if (_lastIsWrongVokID == vok.getIndex())
 					{
+						lib.playSound(getAssets(), Sounds.Beep);
 						getVokabel(false,true);
 					}
 					else
@@ -979,7 +982,7 @@ public class MainActivity extends ActionBarActivity {
 		intent.putExtra("ProbabilityFactor", ProbFact);
 		intent.putExtra("Random", vok.getAbfrageZufaellig());
 		intent.putExtra("AskAll", vok.getAskAll());
-
+		intent.putExtra("Sound", lib.sndEnabled);
 		this.startActivityForResult(intent, Settings_Activity);
 	}
 
@@ -1010,6 +1013,7 @@ public class MainActivity extends ActionBarActivity {
 						"ProbabilityFactor");
 				vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
 				vok.setAskAll(data.getExtras().getBoolean("AskAll"));
+				lib.sndEnabled = data.getExtras().getBoolean("Sound");
 				Colors = getColorsFromIntent(data);
 
 				Editor editor = prefs.edit();
@@ -1022,6 +1026,8 @@ public class MainActivity extends ActionBarActivity {
 				editor.putFloat("ProbabilityFactor", vok.ProbabilityFactor);
 				editor.putBoolean("Random", vok.getAbfrageZufaellig());
 				editor.putBoolean("AskAll", vok.getAskAll());
+				editor.putBoolean("Sound", lib.sndEnabled);
+				
 				for (ColorItems item : Colors.keySet()) {
 					editor.putInt(item.name(), Colors.get(item).ColorValue);
 				}
