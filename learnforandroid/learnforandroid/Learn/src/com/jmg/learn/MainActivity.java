@@ -1010,6 +1010,7 @@ public class MainActivity extends ActionBarActivity {
 
 				editor.commit();
 				setTextColors();
+				getVokabel(false, false);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
