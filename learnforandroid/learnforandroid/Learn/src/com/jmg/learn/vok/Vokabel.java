@@ -1200,15 +1200,16 @@ public class Vokabel {
 			}
 			return functionReturnValue;
 					}
-		public void AntwortRichtig() throws Exception
+		public int AntwortRichtig() throws Exception
 		{
 			 // ERROR: Not supported in C#: OnErrorStatement
-
+			int res = 0;
 			libLearn.gStatus = "Vokabel.AntwortRichtig Start";
 			if (mVok.get(mIndex).z < 0)
 				mVok.get(mIndex).z = 0;
 			mVok.get(mIndex).z = (short) (mVok.get(mIndex).z + 1);
 			aend = true;
+			res = mVok.get(mIndex).z;
 			if (mVok.get(mIndex).z > 0) {
 				if (mLernVokabeln == null) {
 					this.InitAbfrage();
@@ -1221,7 +1222,7 @@ public class Vokabel {
 			AnzRichtig += 1;
 			InitAbfrage();
 
-			return;
+			return res;
 					}
 		public void AntwortFalsch()
 		{

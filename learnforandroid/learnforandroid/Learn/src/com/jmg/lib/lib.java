@@ -16,7 +16,10 @@ import com.jmg.learn.libLearn;
 import android.app.*;
 import android.content.*;
 import android.content.SharedPreferences.Editor;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -36,6 +39,8 @@ public class lib
 	//private static final String ONEDRIVE_APP_ID = "48122D4E";
 	private static final String ClassName = "lib.lib";
 	public static final String TAG = "com.jmg.lib.lib";
+	public static boolean sndEnabled = true;
+	
 	public static String getgstatus()
 	{
 		return _status;
@@ -321,13 +326,14 @@ public class lib
 		   A.setTitle("Question");
 		   A.show();
 		   try 
+					
 		   { 
 			   Looper.loop(); 
 		   }
-		    catch(RuntimeException e2) 
-		    {
+		   catch(RuntimeException e2) 
+		   {
 		    	
-		    }
+		   }
 	   }
 	   catch (Exception ex)
 	   {
@@ -372,7 +378,7 @@ public class lib
 		String extension = "";
 
 		int i = F.getName().lastIndexOf('.');
-		if (i > 0) 
+		if (i >	 0) 
 		{
 			extension = F.getName().substring(i);
 			return extension;
@@ -494,6 +500,73 @@ public class lib
 		
 		edit.commit();
 		
+	}
+	
+	public enum Sounds
+	{
+		Richtig1,
+	    Richtig2,
+	    Richtig3,
+	    Richtig4,
+	    Richtig5,
+	    Falsch1,
+	    Falsch2,
+	    Falsch3,
+	    Falsch4,
+	    Falsch5,
+	    Beep
+	}
+    
+	public static String[] AssetSounds = new String[11];
+	
+	public static void initSounds()
+	{
+		AssetSounds[0] ="snd/clapping_hurray.ogg";
+		AssetSounds[1] ="snd/Fireworks Finale-SoundBible.com-370363529.ogg";
+		AssetSounds[2] ="snd/Red_stag_roar-Juan_Carlos_-2004708707.ogg";
+		AssetSounds[3] ="snd/Fireworks Finale-SoundBible.com-370363529.ogg";
+		AssetSounds[4] ="snd/clapping_hurray.ogg";
+		AssetSounds[5] ="snd/chickens_demanding_food.ogg";
+		AssetSounds[6] ="snd/Cow And Bell-SoundBible.com-1243222141.ogg";
+		AssetSounds[7] ="snd/gobbler_bod.ogg";
+		AssetSounds[8] ="snd/Toilet_Flush.ogg";
+		AssetSounds[9] ="snd/ziegengatter.ogg";
+		AssetSounds[10] ="snd/Pew_Pew-DKnight556-1379997159.ogg";
+				 
+	}
+	
+	public static void playSound(AssetManager assets, Sounds s) throws IOException
+	{
+		if (AssetSounds[0] == null) initSounds();
+		playSound(assets,AssetSounds[s.ordinal()]);
+	}
+  
+	public static void playSound(AssetManager assets, String name) throws IOException
+	{
+		if (!sndEnabled) return;
+		AssetFileDescriptor afd = assets.openFd(name);
+	    MediaPlayer player = new MediaPlayer();
+	    player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+	    player.prepare();
+	    player.start();
+	}
+	
+	public static void playSound (AssetManager assets,int Zaehler) throws IOException
+	{
+		if (AssetSounds[0] == null) initSounds();
+		if (Zaehler < -4) Zaehler = -4; else if (Zaehler > 5) Zaehler = 5;
+		if (Zaehler > 0) playSound (assets, AssetSounds[Zaehler-1]);
+		else if (Zaehler <= 0) playSound(assets,AssetSounds[Math.abs(Zaehler-5)]);
+	}
+	
+	
+	public static void playSound(File F) throws IOException
+	{   
+		if (!sndEnabled) return;
+		MediaPlayer player = new MediaPlayer();
+	    player.setDataSource(F.getPath());
+		player.prepare();
+	    player.start();
 	}
 
 }

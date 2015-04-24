@@ -73,6 +73,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		try {
 			_blnEink = getWindowManager().getDefaultDisplay().getRefreshRate() < 5.0;
 			if (_blnEink)
@@ -331,7 +332,10 @@ public class MainActivity extends ActionBarActivity {
 					}
 					else
 					{
-						vok.AntwortRichtig();
+						
+						int Zaehler = vok.AntwortRichtig();
+						lib.playSound(getAssets(), Zaehler);  
+						
 						getVokabel(false, false);
 					}
 					_lastIsWrongVokID = -1;
@@ -353,6 +357,7 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				try {
 					vok.AntwortFalsch();
+					lib.playSound(getAssets(), vok.getZaehler());  
 					_lastIsWrongVokID = vok.getIndex();
 					setBtnsEnabled(false);
 					flashwords();
@@ -478,6 +483,7 @@ public class MainActivity extends ActionBarActivity {
 						} else if (Bew == Bewertung.AllesFalsch) {
 							try {
 								vok.AntwortFalsch();
+								lib.playSound(getAssets(), vok.getZaehler());  
 								_lastIsWrongVokID = vok.getIndex();
 								setBtnsEnabled(false);
 								getVokabel(true, false);
@@ -644,6 +650,12 @@ public class MainActivity extends ActionBarActivity {
 
 	private class showWordBordersTask implements Runnable {
 		public void run() {
+			try {
+				lib.playSound(getAssets(), com.jmg.lib.lib.Sounds.Beep);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			showWordBorders();
 		}
 	}
@@ -670,6 +682,12 @@ public class MainActivity extends ActionBarActivity {
 			// Bed.setPadding(5, 5, 5, 5);
 			Bed.setShowBorders(true,
 					Colors.get(ColorItems.box_meaning).ColorValue);
+			try {
+				lib.playSound(getAssets(), com.jmg.lib.lib.Sounds.Beep);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
