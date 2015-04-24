@@ -811,7 +811,7 @@ public class MainActivity extends ActionBarActivity {
 	public String JMGDataDirectory;
 
 	private void CopyAssets() {
-
+		libLearn.gStatus = "Copy Assets";
 		File F = android.os.Environment.getExternalStorageDirectory();
 		String extPath = F.getPath();
 		JMGDataDirectory = Path.combine(extPath, "learnforandroid", "vok");
@@ -860,9 +860,9 @@ public class MainActivity extends ActionBarActivity {
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 				lib.ShowException(this, e);
-				lib.ShowMessage(this, "CopyAssets");
+				//lib.ShowMessage(this, "CopyAssets");
 			}
 
 		}

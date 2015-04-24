@@ -102,18 +102,7 @@ public class lib
 	}
 	*/
 		
-	public static synchronized void ShowException(Context context, Throwable ex)
-	{
-		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
-	   AlertDialog.Builder A = new AlertDialog.Builder(context);
-	   A.setPositiveButton("OK",listener());
-	   A.setMessage(ex.getMessage() + "\n" + (ex.getCause() == null ? "" : ex.getCause().getMessage())+ "\nStatus: " + libLearn.gStatus);
-	   A.setTitle("Error");
-	   A.show();
-	}
-	private static DialogInterface.OnClickListener listener() {
-		return null;
-	}
+		
 	public static void copyFile(String Source, String Dest) throws IOException {
 	     File source = new File(Source);
 	     File dest = new File(Dest);
@@ -291,11 +280,25 @@ public class lib
 	{
 		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
 	   AlertDialog.Builder A = new AlertDialog.Builder(context);
-	   A.setPositiveButton("OK",listener);
+	   A.setPositiveButton("OK",listener());
 	   A.setMessage(msg);
 	   A.setTitle("Message");
 	   A.show();
 	}
+	
+	public static synchronized void ShowException(Context context, Throwable ex)
+	{
+		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
+	   AlertDialog.Builder A = new AlertDialog.Builder(context);
+	   A.setPositiveButton("OK",listener());
+	   A.setMessage(ex.getMessage() + "\n" + (ex.getCause() == null ? "" : ex.getCause().getMessage())+ "\nStatus: " + libLearn.gStatus);
+	   A.setTitle("Error");
+	   A.show();
+	}
+	private static DialogInterface.OnClickListener listener() {
+		return null;
+	}
+	
 	private static Handler YesNoHandler;
 	public static synchronized boolean ShowMessageYesNo(Context context, String msg)
 	{
@@ -312,8 +315,8 @@ public class lib
 			
 		   DialogResultYes = false;
 		   AlertDialog.Builder A = new AlertDialog.Builder(context);
-		   A.setPositiveButton(context.getString(R.string.yes),listener);
-		   A.setNegativeButton(context.getString(R.string.yes),listener);
+		   A.setPositiveButton(context.getString(R.string.yes),listenerYesNo);
+		   A.setNegativeButton(context.getString(R.string.yes),listenerYesNo);
 		   A.setMessage(msg);
 		   A.setTitle("Question");
 		   A.show();
@@ -339,7 +342,7 @@ public class lib
 		T.show();
 	}
 	private static boolean DialogResultYes = false;
-	private static DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+	private static DialogInterface.OnClickListener listenerYesNo = new DialogInterface.OnClickListener() {
 		
 		@Override
 	    public void onClick(DialogInterface dialog, int which) 

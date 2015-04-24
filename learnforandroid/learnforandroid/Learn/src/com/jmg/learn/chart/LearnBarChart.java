@@ -83,7 +83,7 @@ public class LearnBarChart extends AbstractDemoChart {
 	  File F = new File(vok.getFileName());
 	  String[] titles = new String[] {F.getName()};
 	  List<double[]> values = new ArrayList<double[]>();
-	  double v[] = new double[13];
+	  double v[] = new double[14];
 	  for (int i = -6; i <=6; i++)
 	  {
 		  v[i+6] = vok.getLearned(i);
@@ -98,7 +98,7 @@ public class LearnBarChart extends AbstractDemoChart {
 	  setChartSettings(renderer, 
 			  "Learned vocabulary for " + F.getName(), 
 			   "Learnindex", "Words", 
-			  1, 13, 0, vok.getGesamtzahl(), 
+			  1, 14, 0, vok.getGesamtzahl(), 
 			  Color.GREEN, Color.YELLOW);
 	  renderer.setBackgroundColor(Color.BLACK);
 	  renderer.setApplyBackgroundColor(true);
