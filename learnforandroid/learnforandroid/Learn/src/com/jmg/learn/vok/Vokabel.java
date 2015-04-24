@@ -2262,6 +2262,12 @@ public class Vokabel {
 				throw new RuntimeException("Error in Loadfile", ex);
 			}	
 		}
+		
+		public void ResetAbfrage() throws Exception
+		{
+			mLernVokabeln = new int[mSchrittweite + 1];
+			InitAbfrage();
+		}
 		/*
 		public void LoadFileAndConvert(String strFileName)
 		{

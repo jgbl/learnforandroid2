@@ -977,8 +977,10 @@ public class MainActivity extends ActionBarActivity {
 
 			} else if ((requestCode == Settings_Activity)
 					&& (resultCode == Activity.RESULT_OK)) {
+				int oldAbfrage = vok.getAbfragebereich();
 				vok.setAbfragebereich(data.getExtras().getShort(
 						"Abfragebereich"));
+				if (oldAbfrage!= vok.getAbfragebereich()) vok.ResetAbfrage();
 				vok.setSchrittweite(data.getExtras().getShort("Step"));
 				vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
 				DisplayDurationWord = data.getExtras().getFloat(
