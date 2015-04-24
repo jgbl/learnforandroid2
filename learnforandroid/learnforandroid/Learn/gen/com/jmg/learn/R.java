@@ -1960,6 +1960,7 @@ containing a value of this type.
         public static final int chkAskAllHint=0x7f0a004d;
         public static final int chkRandom=0x7f0a004a;
         public static final int chkRandomHint=0x7f0a004b;
+        public static final int counter=0x7f0a0062;
         public static final int currentDir=0x7f0a0011;
         public static final int fileSize=0x7f0a0012;
         public static final int folder=0x7f0a0013;
@@ -1974,6 +1975,7 @@ containing a value of this type.
         public static final int mnuReverse=0x7f0a0046;
         public static final int mnuStatistics=0x7f0a0060;
         public static final int no=0x7f0a001e;
+        public static final int number=0x7f0a0061;
         public static final int ok=0x7f0a001f;
         public static final int openFolder=0x7f0a0015;
         public static final int optionSelection=0x7f0a0017;

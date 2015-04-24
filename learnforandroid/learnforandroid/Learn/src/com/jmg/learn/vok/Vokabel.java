@@ -1442,9 +1442,9 @@ public class Vokabel {
 	                // TODO: might not be correct. Was : Exit Do
 	                refblnDurch.setValue(true);
 	            } 
-	            if (mVok.get(vokNr).z == mAbfragebereich 
-	            		|| mAbfragebereich >= 6 && mVok.get(vokNr).z >= 6 
-	            		|| mAbfragebereich == 0 && mVok.get(vokNr).z <= 0)
+	            if ((mVok.get(vokNr).z == mAbfragebereich) 
+	            		|| (mAbfragebereich >= 6 && mVok.get(vokNr).z >= 6) 
+	            		|| (mAbfragebereich == 0 && mVok.get(vokNr).z <= 0))
 	            {
 	                mLernVokabeln[i] = vokNr;
 	                break;
@@ -1453,11 +1453,14 @@ public class Vokabel {
 	        }
 	        while (true);
 	        // TODO: might not be correct. Was : Exit Do
-	        RefSupport<Object> refVar___2 = new RefSupport<Object>(vokNr);
+	        /*
+	    	RefSupport<Object> refVar___2 = new RefSupport<Object>(vokNr);
 	        RefSupport<Object> refVar___3 = new RefSupport<Object>(i);
 	        vokabelVonAllenHolen(refVar___2,refVar___3);
-	        refvokNr.setValue(refVar___2.getValue());
-	        refi.setValue(refVar___3.getValue());
+	        */
+	        refvokNr.setValue(vokNr);
+	        refi.setValue(i);
+	        
 	    }
 
 	    public void vokabelVonAllenHolen(RefSupport<Object> refvokNr, RefSupport<Object> refi) throws Exception 

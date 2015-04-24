@@ -1224,6 +1224,9 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			}
+			
+			getSupportActionBar().setTitle("Learn " + getString(R.string.number) +": " + vok.getIndex() + " " + getString(R.string.counter) + ": " + vok.getZaehler());
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
