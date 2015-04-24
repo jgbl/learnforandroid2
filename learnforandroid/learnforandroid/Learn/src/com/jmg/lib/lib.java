@@ -321,7 +321,7 @@ public class lib
 		   DialogResultYes = false;
 		   AlertDialog.Builder A = new AlertDialog.Builder(context);
 		   A.setPositiveButton(context.getString(R.string.yes),listenerYesNo);
-		   A.setNegativeButton(context.getString(R.string.yes),listenerYesNo);
+		   A.setNegativeButton(context.getString(R.string.no),listenerYesNo);
 		   A.setMessage(msg);
 		   A.setTitle("Question");
 		   A.show();
