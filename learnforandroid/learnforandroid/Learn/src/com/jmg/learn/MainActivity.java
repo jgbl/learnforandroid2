@@ -1208,6 +1208,7 @@ public class MainActivity extends ActionBarActivity {
 	
 	private HashMap<Sounds ,SoundSetting> getSoundsFromPrefs() {
 		HashMap<Sounds,SoundSetting> res = new HashMap<Sounds,SoundSetting>();
+		if (lib.AssetSounds[0] == null) lib.initSounds();
 		for (int i = 0; i < lib.Sounds.values().length; i++) {
 			Sounds SoundItem = Sounds.values()[i];
 			String Name = getResources().getStringArray(R.array.spnSounds)[i];
