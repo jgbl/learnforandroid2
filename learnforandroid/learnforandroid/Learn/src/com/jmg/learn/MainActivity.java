@@ -951,10 +951,10 @@ public class MainActivity extends ActionBarActivity {
 	public void LoadFile(boolean blnUniCode) {
 		Intent intent = new Intent(this, FileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
-		extensions.add(".k");
-		extensions.add(".v");
-		extensions.add(".K");
-		extensions.add(".V");
+		extensions.add(".k??");
+		extensions.add(".v??");
+		extensions.add(".K??");
+		extensions.add(".V??");
 		extensions.add(".KAR");
 		extensions.add(".VOK");
 		extensions.add(".kar");
