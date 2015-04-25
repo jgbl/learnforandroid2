@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Pattern;
 
+import com.jmg.learn.MainActivity;
 import com.jmg.learn.R;
 import com.jmg.learn.libLearn;
 
@@ -535,10 +536,20 @@ public class lib
 				 
 	}
 	
-	public static void playSound(AssetManager assets, Sounds s) throws IOException
+	public static void playSound(Context context, Sounds s) throws IOException
 	{
-		if (AssetSounds[0] == null) initSounds();
-		playSound(assets,AssetSounds[s.ordinal()]);
+		MainActivity main = (MainActivity) context;
+		AssetManager assets = context.getAssets();
+		if (main.colSounds.size()>0)
+		{
+			File F = new File(main.colSounds.get(s).SoundPath);
+			if (F.exists()) playSound(F); else if (F.getPath().startsWith("snd/")) playSound(assets, F.getPath());
+		}
+		else
+		{
+			if (AssetSounds[0] == null) initSounds();
+			playSound(assets,AssetSounds[s.ordinal()]);
+		}
 	}
   
 	public static void playSound(AssetManager assets, String name) throws IOException
@@ -551,12 +562,39 @@ public class lib
 	    player.start();
 	}
 	
-	public static void playSound (AssetManager assets,int Zaehler) throws IOException
+	public static Sounds getSoundByNumber( int Zaehler)
 	{
-		if (AssetSounds[0] == null) initSounds();
-		if (Zaehler < -4) Zaehler = -4; else if (Zaehler > 5) Zaehler = 5;
-		if (Zaehler > 0) playSound (assets, AssetSounds[Zaehler-1]);
-		else if (Zaehler <= 0) playSound(assets,AssetSounds[Math.abs(Zaehler-5)]);
+		for (int i = 0; i < Sounds.values().length; i++)
+		{
+			if (Sounds.values()[i].ordinal() == Zaehler) return Sounds.values()[i];
+		}
+		return null;
+	}
+	
+	public static void playSound (Context context,int Zaehler) throws IOException
+	{
+		MainActivity main = (MainActivity) context;
+		if (main.colSounds.size()>0)
+		{
+			if (Zaehler < -4) Zaehler = -4; else if (Zaehler > 5) Zaehler = 5;
+			lib.Sounds Sound = null;
+			if (Zaehler > 0) Zaehler = Zaehler-1;
+			else if (Zaehler <= 0) Zaehler = Math.abs(Zaehler-5);
+			
+			Sound = getSoundByNumber(Zaehler);
+			
+			File F = new File(main.colSounds.get(Sound).SoundPath);
+			if (F.exists()) playSound(F); else if (F.getPath().startsWith("snd/")) playSound(context.getAssets(), F.getPath());
+		}
+		else
+		{
+			AssetManager assets = context.getAssets();
+			if (AssetSounds[0] == null) initSounds();
+			if (Zaehler < -4) Zaehler = -4; else if (Zaehler > 5) Zaehler = 5;
+			if (Zaehler > 0) playSound (assets, AssetSounds[Zaehler-1]);
+			else if (Zaehler <= 0) playSound(assets,AssetSounds[Math.abs(Zaehler-5)]);
+		}
+		
 	}
 	
 	

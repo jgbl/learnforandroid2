@@ -201,13 +201,33 @@
 	            android:contentDescription="@string/spnColorDescription"
 	            android:textSize="18sp"
 	            android:prompt="@string/spnColors" />
+	       
+	        <TextView
+	            android:id="@+id/txtSounds"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtColors"
+	            android:text="@string/txtSounds"
+	            android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <com.jmg.lib.NoClickSpinner
+	            android:id="@+id/spnSounds"
+	            android:layout_width="250dp"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentRight="true"
+	            android:layout_below="@+id/txtColors"
+	            android:contentDescription="@string/spnSoundsDescription"
+	            android:prompt="@string/spnSounds"
+	            android:textSize="18sp" />
 	        
 	        <CheckBox
 	            android:id="@+id/chkRandom"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentLeft="true"
-	            android:layout_below="@+id/spnColors"
+	            android:layout_below="@+id/spnSounds"
 	            android:checked="false"
 	            android:hint="@string/chkRandomHint"
 	            android:text="@string/chkRandom"

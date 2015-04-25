@@ -121,6 +121,20 @@
                 <item >box meaning</item>
                 <item >background wrong</item>
           </string-array>
+          
+         <string-array name="spnSounds">
+		        <item>right1</item>
+				<item>right2</item>
+				<item>right3</item>
+				<item>right4</item>
+				<item>right5</item>
+				<item>wrong1</item>
+				<item>wrong2</item>
+				<item>wrong3</item>
+				<item>wrong4</item>
+				<item>wrong5</item>
+				<item>Beep</item>       
+          </string-array>
          
          
 	            <string name="txtRepetitions">repetitions if wrong</string>
@@ -157,5 +171,8 @@
 	            <string name="counter">Counter</string>
 	            <string name="chkSound">sound on</string>
 	            <string name="chkSoundHint">switch sound on or off</string>
+	            <string name="txtSounds">sounds</string>
+	            <string name="spnSoundsDescription">select a soundfile</string>
+	            <string name="spnSounds">select as soundfile</string>
         
 </resources>

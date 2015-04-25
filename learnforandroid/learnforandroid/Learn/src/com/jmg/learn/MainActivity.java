@@ -65,7 +65,8 @@ public class MainActivity extends ActionBarActivity {
 	private int PaukRepetitions = 3;
 	private double scale = 1;
 	private boolean _blnEink;
-	private HashMap<ColorItems, ColorSetting> Colors;
+	public HashMap<ColorItems, ColorSetting> Colors;
+	public HashMap<Sounds,SoundSetting> colSounds;
 	public Vokabel vok;
 	public String CharsetASCII = "Windows-1252";
 	public SharedPreferences prefs; // =
@@ -107,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
 				vok.setAskAll(prefs.getBoolean("AskAll", vok.getAskAll()));
 				lib.sndEnabled = prefs.getBoolean("Sound", lib.sndEnabled);
 				Colors = getColorsFromPrefs();
-
+				colSounds = getSoundsFromPrefs();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				lib.ShowException(this, e);
@@ -330,14 +331,14 @@ public class MainActivity extends ActionBarActivity {
 				try {
 					if (_lastIsWrongVokID == vok.getIndex())
 					{
-						lib.playSound(getAssets(), Sounds.Beep);
+						lib.playSound(MainActivity.this, Sounds.Beep);
 						getVokabel(false,true);
 					}
 					else
 					{
 						
 						int Zaehler = vok.AntwortRichtig();
-						lib.playSound(getAssets(), Zaehler);  
+						lib.playSound(MainActivity.this, Zaehler);  
 						
 						getVokabel(false, false);
 					}
@@ -360,7 +361,7 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				try {
 					vok.AntwortFalsch();
-					lib.playSound(getAssets(), vok.getZaehler());  
+					lib.playSound(MainActivity.this, vok.getZaehler());  
 					_lastIsWrongVokID = vok.getIndex();
 					setBtnsEnabled(false);
 					flashwords();
@@ -486,7 +487,7 @@ public class MainActivity extends ActionBarActivity {
 						} else if (Bew == Bewertung.AllesFalsch) {
 							try {
 								vok.AntwortFalsch();
-								lib.playSound(getAssets(), vok.getZaehler());  
+								lib.playSound(MainActivity.this, vok.getZaehler());  
 								_lastIsWrongVokID = vok.getIndex();
 								setBtnsEnabled(false);
 								getVokabel(true, false);
@@ -654,7 +655,7 @@ public class MainActivity extends ActionBarActivity {
 	private class showWordBordersTask implements Runnable {
 		public void run() {
 			try {
-				lib.playSound(getAssets(), com.jmg.lib.lib.Sounds.Beep);
+				lib.playSound(MainActivity.this, com.jmg.lib.lib.Sounds.Beep);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -686,7 +687,7 @@ public class MainActivity extends ActionBarActivity {
 			Bed.setShowBorders(true,
 					Colors.get(ColorItems.box_meaning).ColorValue);
 			try {
-				lib.playSound(getAssets(), com.jmg.lib.lib.Sounds.Beep);
+				lib.playSound(MainActivity.this, com.jmg.lib.lib.Sounds.Beep);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -992,12 +993,16 @@ public class MainActivity extends ActionBarActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		try {
 			if ((requestCode == FILE_CHOOSER)
-					&& (resultCode == Activity.RESULT_OK)) {
+					&& (resultCode == Activity.RESULT_OK)) 
+			{
 				String fileSelected = data.getStringExtra("fileSelected");
 				LoadVokabel(fileSelected, 1, null, 0);
 
-			} else if ((requestCode == Settings_Activity)
-					&& (resultCode == Activity.RESULT_OK)) {
+			} 
+			else if ((requestCode == Settings_Activity)
+					&& (resultCode == Activity.RESULT_OK)) 
+			{
+				libLearn.gStatus = "getting values from intent";
 				int oldAbfrage = vok.getAbfragebereich();
 				vok.setAbfragebereich(data.getExtras().getShort(
 						"Abfragebereich"));
@@ -1015,7 +1020,9 @@ public class MainActivity extends ActionBarActivity {
 				vok.setAskAll(data.getExtras().getBoolean("AskAll"));
 				lib.sndEnabled = data.getExtras().getBoolean("Sound");
 				Colors = getColorsFromIntent(data);
-
+				colSounds = getSoundsFromIntent(data);
+				
+				libLearn.gStatus = "writing values to prefs";
 				Editor editor = prefs.edit();
 				editor.putInt("Schrittweite", vok.getSchrittweite());
 				editor.putString("CharsetASCII", vok.CharsetASCII);
@@ -1031,9 +1038,16 @@ public class MainActivity extends ActionBarActivity {
 				for (ColorItems item : Colors.keySet()) {
 					editor.putInt(item.name(), Colors.get(item).ColorValue);
 				}
+				
+				for (Sounds item : colSounds.keySet()) {
+					editor.putString(item.name(), colSounds.get(item).SoundPath);
+				}
+
 
 				editor.commit();
+				libLearn.gStatus = "setTextColors";
 				setTextColors();
+				libLearn.gStatus = "getVokabel";
 				getVokabel(false, false);
 			}
 		} catch (Exception e) {
@@ -1171,7 +1185,42 @@ public class MainActivity extends ActionBarActivity {
 		return res;
 
 	}
+	
+	private HashMap<Sounds ,SoundSetting> getSoundsFromIntent(Intent intent) {
+		HashMap<Sounds,SoundSetting> res = new HashMap<Sounds,SoundSetting>();
+		if (lib.AssetSounds[0] == null) lib.initSounds();
+		for (int i = 0; i < lib.Sounds.values().length; i++) {
+			Sounds SoundItem = Sounds.values()[i];
+			String Name = getResources().getStringArray(R.array.spnSounds)[i];
+			String defValue = "";
+			defValue = lib.AssetSounds[SoundItem.ordinal()];
+			String SoundPath = intent.getStringExtra(SoundItem.name());
+			if (libString.IsNullOrEmpty(SoundPath))
+			{
+				SoundPath = defValue;
+			}
+			res.put(SoundItem, new SoundSetting(SoundItem, Name, SoundPath));
+		}
+		return res;
 
+	}
+
+	
+	private HashMap<Sounds ,SoundSetting> getSoundsFromPrefs() {
+		HashMap<Sounds,SoundSetting> res = new HashMap<Sounds,SoundSetting>();
+		for (int i = 0; i < lib.Sounds.values().length; i++) {
+			Sounds SoundItem = Sounds.values()[i];
+			String Name = getResources().getStringArray(R.array.spnSounds)[i];
+			String defValue = "";
+			defValue = lib.AssetSounds[SoundItem.ordinal()];
+			String SoundPath = prefs.getString(SoundItem.name(), defValue);
+			res.put(SoundItem, new SoundSetting(SoundItem, Name, SoundPath));
+		}
+		return res;
+
+	}
+
+	
 	public void getVokabel(boolean showBeds, boolean LoadNext) {
 		try {
 			setBtnsEnabled(true);
@@ -1252,7 +1301,10 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			}
 			
-			getSupportActionBar().setTitle("Learn " + getString(R.string.number) +": " + vok.getIndex() + " " + getString(R.string.counter) + ": " + vok.getZaehler());
+			if (vok.getGesamtzahl()> 5)
+			{
+				getSupportActionBar().setTitle("Learn " + (new File(vok.getFileName())).getName() + " " + getString(R.string.number) +": " + vok.getIndex() + " " + getString(R.string.counter) + ": " + vok.getZaehler());
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

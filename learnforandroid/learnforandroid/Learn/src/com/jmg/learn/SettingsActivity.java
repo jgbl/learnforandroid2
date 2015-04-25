@@ -1,7 +1,10 @@
 package com.jmg.learn;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +14,7 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -22,8 +26,11 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import br.com.thinkti.android.filechooser.FileChooser;
 
 import com.jmg.lib.ColorsArrayAdapter;
+import com.jmg.lib.SoundSetting;
+import com.jmg.lib.SoundsArrayAdapter;
 import com.jmg.lib.lib;
 import com.jmg.lib.lib.libString;
 import com.jmg.lib.ColorSetting;
@@ -33,6 +40,7 @@ import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 
 public class SettingsActivity extends android.support.v4.app.FragmentActivity 
 {
+	private static final int FILE_CHOOSER = 0x42FA;
 	public Spinner spnAbfragebereich;
 	public Spinner spnASCII;
 	public Spinner spnStep;
@@ -41,11 +49,13 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	public Spinner spnPaukRepetitions;
 	public Spinner spnProbabilityFactor;
 	public com.jmg.lib.NoClickSpinner spnColors;
+	public com.jmg.lib.NoClickSpinner spnSounds;
 	public Button btnColors;
 	public CheckBox chkRandom;
 	public CheckBox chkAskAll;
 	public CheckBox chkSound;
 	public ColorsArrayAdapter Colors;
+	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
 	private Intent intent = new Intent();
 	@Override
@@ -55,6 +65,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 		prefs = this.getPreferences(Context.MODE_PRIVATE);
 		Colors = new ColorsArrayAdapter(this,0);
+		Sounds = new SoundsArrayAdapter(this,0);
 		
 		initSpinners();
 		initCheckBoxes();
@@ -129,7 +140,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			spnPaukRepetitions = (Spinner) findViewById(R.id.spnRepetitions);
 			spnProbabilityFactor = (Spinner) findViewById(R.id.spnProbabilityFactor);
 			spnColors = (com.jmg.lib.NoClickSpinner) findViewById(R.id.spnColors);
-			
+			spnSounds = (com.jmg.lib.NoClickSpinner) findViewById(R.id.spnSounds);
 			
 			spnASCII.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnStep.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
@@ -139,6 +150,8 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			spnPaukRepetitions.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnProbabilityFactor.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 			spnColors.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			spnSounds.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+			
 			
 			// Create an ArrayAdapter using the string array and a default spinner layout
 			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -378,6 +391,56 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				}
 			});
 			
+			spnSounds.setAdapter(Sounds);
+			spnSounds.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
+				
+				@Override
+				public boolean onLongClick(View v) {
+					// TODO Auto-generated method stub
+					spnSounds.blnDontCallOnClick = true;
+					ShowSoundsDialog();
+					return false;
+				}
+			});
+			spnSounds.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+				
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent,
+						View view, int position, long id) {
+					// TODO Auto-generated method stub
+					spnSounds.blnDontCallOnClick = true;
+					ShowSoundsDialog();
+					return false;
+				}
+			});
+			
+			spnSounds.setOnItemSelectedListener(new OnItemSelectedListener() {
+				
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					SoundSetting item = (SoundSetting)parent.getItemAtPosition(position);
+					File F = new File(item.SoundPath);
+					try 
+					{
+						if (F.exists())	lib.playSound(F);
+						else lib.playSound(getAssets(),item.SoundPath);
+					} 
+					catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+	
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					setResult(Activity.RESULT_CANCELED, null);
+				}
+			});
+	
+			
 		}
 		catch (Exception ex)
 		{
@@ -397,6 +460,11 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				for (int i = 0; i < Colors.getCount(); i++)
 				{
 					intent.putExtra(Colors.getItem(i).ColorItem.name(), Colors.getItem(i).ColorValue);
+				}
+				
+				for (int i = 0; i < Sounds.getCount(); i++)
+				{
+					intent.putExtra(Sounds.getItem(i).Sound.name(), Sounds.getItem(i).SoundPath);
 				}
 					
 				finish();
@@ -445,6 +513,61 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 		dialog.show();				
 	
 	
+	}
+	
+	
+	private void ShowSoundsDialog()
+	{
+		spnSounds.blnDontCallOnClick = true;
+		SoundSetting item = SettingsActivity.this.Sounds.getItem(spnSounds.getSelectedItemPosition());
+		File F = new File(item.SoundPath);
+		String dir = Environment.getExternalStorageDirectory().getPath();
+		if (F.exists()) dir = F.getParent();
+		Intent intent = new Intent(this, FileChooser.class);
+		ArrayList<String> extensions = new ArrayList<String>();
+		extensions.add(".wav");
+		extensions.add(".mp3");
+		extensions.add(".ogg");
+		extensions.add(".flv");
+		
+		intent.putStringArrayListExtra("filterFileExtension", extensions);
+		intent.putExtra("DefaultDir", dir);
+		
+		this.startActivityForResult(intent, FILE_CHOOSER);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
+		try 
+		{
+			if (requestCode == FILE_CHOOSER && (resultCode == Activity.RESULT_OK)) 
+			{
+				String fileSelected = data.getStringExtra("fileSelected");
+				SoundSetting item = SettingsActivity.this.Sounds.getItem(spnSounds.getSelectedItemPosition());
+				item.SoundPath = fileSelected;
+				File F = new File(item.SoundPath);
+				try 
+				{
+					if (F.exists())	lib.playSound(F);
+					else lib.playSound(getAssets(),item.SoundPath);
+				} 
+				catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Editor editor = prefs.edit();
+	            editor.putString(item.Sound.name(), item.SoundPath);
+	            intent.putExtra(item.Sound.name(), item.SoundName);;
+	            editor.commit();
+				Sounds.notifyDataSetChanged();
+				spnSounds.blnDontCallOnClick = false;
+			}
+		}
+		catch(Exception ex)
+		{
+			lib.ShowException(this, ex);
+		}	
 	}
 	public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
 		
