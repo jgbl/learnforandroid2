@@ -2251,6 +2251,16 @@ public class Vokabel {
 						CurVok.Bed1 = CurVok.Bed1.replace("ùú", "\r\n");
 						CurVok.Bed2 = CurVok.Bed2.replace("ùú", "\r\n");
 						CurVok.Bed3 = CurVok.Bed3.replace("ùú", "\r\n");
+						if (blnSingleLine)
+						{
+							CurVok.Wort = ConvMulti(CurVok.Wort);
+							CurVok.Kom = ConvMulti(CurVok.Kom); //.Kom.replace("ù", "\r\n");
+							CurVok.Bed1 = ConvMulti(CurVok.Bed1); //.replace("ù", "\r\n");
+							CurVok.Bed2 = ConvMulti(CurVok.Bed2); //.replace("ù", "\r\n");
+							CurVok.Bed3 = ConvMulti(CurVok.Bed3); //.replace("ù", "\r\n");
+							CurVok.Wort = ConvMulti(CurVok.Wort); //.replace("", "ä");
+							
+						}
 					}
 					libLearn.gStatus = CodeLoc + " End While";
 				}
@@ -2295,6 +2305,21 @@ public class Vokabel {
 			{
 				throw new RuntimeException("Error in Loadfile", ex);
 			}	
+		}
+		
+		private String ConvMulti (String s)
+		{
+			s = s.replace((char)0xf9, "\n".charAt(0));
+			s = s.replace((char)0x84, "ä".charAt(0));
+			s = s.replace((char)0x9e, "ß".charAt(0));
+			s = s.replace((char)0x81, "ü".charAt(0));
+			s = s.replace((char)0x9a, "Ü".charAt(0));
+			s = s.replace((char)0x94, "ö".charAt(0));
+			s = s.replace((char)0x8e, "Ä".charAt(0));
+			//s = s.replace("�", "ü");
+			
+			return s;
+			
 		}
 		
 		public void ResetAbfrage() throws Exception
@@ -2400,7 +2425,7 @@ public class Vokabel {
 					String cConv = c;
 					if (this.Sprache == EnumSprachen.Hebrew) {
 						this.aend = true;
-						cConv = ConvHebrew(c);
+						cConv = ConvHebrew(c);
 						WordConvert = cConv + WordConvert;
 					} else if (this.Sprache == EnumSprachen.Griechisch) {
 						this.aend = true;
@@ -2425,7 +2450,7 @@ public class Vokabel {
 					}
 				} else {
 					mVok.get(n).Bed2 = "";
-					mVok.get(n).Bed3 = "";
+					mVok.get(n).Bed3 = "";
 				}
 				if (!sr.EndOfStream) {
 					strTmp = sr.readLine();
@@ -2435,7 +2460,7 @@ public class Vokabel {
 					n = n - 1;
 					libLearn.gStatus = "Vokabel.LoadFile Line 859";
 					// Inserted by CodeCompleter
-					Array.Resize(ref mVok, n + 1);
+					Array.Resize(ref mVok, n + 1);
 				} else {
 					mVok.get(n).Wort = mVok.get(n).Wort.replace("ùú", "\r\n");
 					mVok.get(n).Kom = mVok.get(n).Kom.replace("ùú", "\r\n");
@@ -2502,7 +2527,7 @@ public class Vokabel {
 			return;
 					}
 		public String ConvHebrew(char c)
-		{
+		{
 			char cTest = '\0';
 			String cConv = c;
 			if (c != 'I') {
@@ -2527,7 +2552,7 @@ public class Vokabel {
 				case 0x66:
 					cConv = libString.ChrW(0x5b8);
 					break;
-				case 0x67:
+				case 0x67:
 					cConv = libString.ChrW(0x5d2);
 					break;
 				case 0x68:
@@ -2548,7 +2573,7 @@ public class Vokabel {
 				case 0x6d:
 					cConv = libString.ChrW(0x5de);
 					break;
-				case 0x6e:
+				case 0x6e:
 					cConv = libString.ChrW(0x5e0);
 					break;
 				case 0x6f:
@@ -2607,7 +2632,7 @@ public class Vokabel {
 					cConv = libString.ChrW(0x5c5);
 					break;
 				case libString.Asc('2'):
-					cConv = libString.ChrW(0x5b0);
+					cConv = libString.ChrW(0x5b0);
 					break;
 				case libString.Asc('3'):
 					cConv = libString.ChrW(0x5a6);
@@ -2764,7 +2789,7 @@ public class Vokabel {
 					break;
 				case libString.Asc('ƒ'):
 					cConv = "ἱ";
-					break;
+					break;
 				case libString.Asc('†'):
 					cConv = "ἵ";
 					break;
