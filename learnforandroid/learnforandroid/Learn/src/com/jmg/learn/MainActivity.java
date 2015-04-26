@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 	private double scale = 1;
 	private boolean _blnEink;
 	public HashMap<ColorItems, ColorSetting> Colors;
-	public HashMap<Sounds,SoundSetting> colSounds;
+	public HashMap<Sounds, SoundSetting> colSounds;
 	public Vokabel vok;
 	public String CharsetASCII = "Windows-1252";
 	public SharedPreferences prefs; // =
@@ -132,22 +132,20 @@ public class MainActivity extends ActionBarActivity {
 					if (!libString.IsNullOrEmpty(filename) && index > 0) {
 						LoadVokabel(filename, index, Lernvokabeln, Lernindex);
 					}
-				}
-				else
-				{
-					if (prefs.getString("LastFile", null) != null)
-					{
+				} else {
+					if (prefs.getString("LastFile", null) != null) {
 						libLearn.gStatus = "onCreate Load Lastfile";
-						String filename = prefs.getString("LastFile","");
-						int index = prefs.getInt("vokindex",1);
-						int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs, "Lernvokabeln");
-						int Lernindex = prefs.getInt("Lernindex",0);
-						if (Lernvokabeln != null )
-						{
-							LoadVokabel(filename, index, Lernvokabeln, Lernindex);
-						}
-						else
-						{
+						String filename = prefs.getString("LastFile", "");
+						int index = prefs.getInt("vokindex", 1);
+						int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
+								"Lernvokabeln");
+						int Lernindex = prefs.getInt("Lernindex", 0);
+						boolean Unicode = prefs.getBoolean("Unicode", true);
+						_blnUniCode = Unicode;
+						if (Lernvokabeln != null) {
+							LoadVokabel(filename, index, Lernvokabeln,
+									Lernindex);
+						} else {
 							LoadVokabel(filename, 1, null, 0);
 						}
 					}
@@ -188,7 +186,7 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (_backPressed>0 || saveVok(false))
+		if (_backPressed > 0 || saveVok(false))
 			super.onBackPressed();
 		return;
 	}
@@ -212,56 +210,54 @@ public class MainActivity extends ActionBarActivity {
 	private int _backPressed;
 
 	private boolean saveVok(boolean dontPrompt) {
-		Handler handler; 
+		Handler handler;
 		if (vok.aend) {
 			if (!dontPrompt) {
 				AlertDialog.Builder A = new AlertDialog.Builder(context);
-				A.setPositiveButton(getString(R.string.yes), new AlertDialog.OnClickListener() 
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int which) 
-					{
-						try 
-						{
-							vok.SaveFile(vok.getFileName(), vok.getUniCode());
-							vok.aend = false;
-							_backPressed +=1;
-							Handler handler = new Handler();
-							handler.postDelayed(rSetBackPressedFalse, 10000);
-							saveFilePrefs();
-						} 
-						catch (Exception e) 
-						{
-							// TODO Auto-generated catch block
-							lib.ShowException(MainActivity.this, e);
-						}
-					}
-				});
-				A.setNegativeButton(getString(R.string.no),new AlertDialog.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int which) 
-					{
-						lib.ShowToast(MainActivity.this,
-								MainActivity.this.getString(R.string.PressBackAgain));
-						_backPressed += 1;
-						Handler handler = new Handler();
-						handler.postDelayed(rSetBackPressedFalse, 10000);
-					}
-					   
-				});
-			    A.setMessage(getString(R.string.Save));
-			    A.setTitle("Question");
-			    A.show();
-				if (!dontPrompt) 
-				{
-					if (_backPressed > 0) 
-					{
+				A.setPositiveButton(getString(R.string.yes),
+						new AlertDialog.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								try {
+									vok.SaveFile(vok.getFileName(),
+											vok.getUniCode());
+									vok.aend = false;
+									_backPressed += 1;
+									Handler handler = new Handler();
+									handler.postDelayed(rSetBackPressedFalse,
+											10000);
+									saveFilePrefs();
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									lib.ShowException(MainActivity.this, e);
+								}
+							}
+						});
+				A.setNegativeButton(getString(R.string.no),
+						new AlertDialog.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								lib.ShowToast(
+										MainActivity.this,
+										MainActivity.this
+												.getString(R.string.PressBackAgain));
+								_backPressed += 1;
+								Handler handler = new Handler();
+								handler.postDelayed(rSetBackPressedFalse, 10000);
+							}
+
+						});
+				A.setMessage(getString(R.string.Save));
+				A.setTitle("Question");
+				A.show();
+				if (!dontPrompt) {
+					if (_backPressed > 0) {
 						return true;
-					} 
-					else 
-					{
-						lib.ShowToast(this,	this.getString(R.string.PressBackAgain));
+					} else {
+						lib.ShowToast(this,
+								this.getString(R.string.PressBackAgain));
 						_backPressed += 1;
 						handler = new Handler();
 						handler.postDelayed(rSetBackPressedFalse, 10000);
@@ -269,19 +265,15 @@ public class MainActivity extends ActionBarActivity {
 
 				}
 			}
-			if (dontPrompt) 
-			{
-				try 
-				{
+			if (dontPrompt) {
+				try {
 					vok.SaveFile();
 					vok.aend = false;
 					_backPressed += 1;
 					handler = new Handler();
 					handler.postDelayed(rSetBackPressedFalse, 10000);
 					saveFilePrefs();
-				} 
-				catch (Exception e) 
-				{
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(this, e);
 				}
@@ -290,17 +282,17 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return true;
 	}
-	
-	private void saveFilePrefs()
-	{
+
+	private void saveFilePrefs() {
 		Editor edit = prefs.edit();
 		edit.putString("LastFile", vok.getFileName()).commit();
 		edit.putInt("vokindex", vok.getIndex());
 		lib.putIntArrayToPrefs(prefs, vok.getLernvokabeln(), "Lernvokabeln");
 		edit.putInt("Lernindex", vok.getLernIndex());
+		edit.putBoolean("Unicode", vok.getUniCode());
 		edit.commit();
 	}
-	
+
 	private Runnable rSetBackPressedFalse = new Runnable() {
 		@Override
 		public void run() {
@@ -326,7 +318,9 @@ public class MainActivity extends ActionBarActivity {
 		 */
 		// resize();
 	}
+
 	private int _lastIsWrongVokID;
+
 	private void InitButtons() throws Exception {
 		View v = findViewById(R.id.btnRight);
 		Button b = (Button) v;
@@ -336,21 +330,18 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				try {
-					if (_lastIsWrongVokID == vok.getIndex())
-					{
+					if (_lastIsWrongVokID == vok.getIndex()) {
 						lib.playSound(MainActivity.this, Sounds.Beep);
-						getVokabel(false,true);
-					}
-					else
-					{
-						
+						getVokabel(false, true);
+					} else {
+
 						int Zaehler = vok.AntwortRichtig();
-						lib.playSound(MainActivity.this, Zaehler);  
-						
+						lib.playSound(MainActivity.this, Zaehler);
+
 						getVokabel(false, false);
 					}
 					_lastIsWrongVokID = -1;
-					
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
@@ -368,7 +359,7 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				try {
 					vok.AntwortFalsch();
-					lib.playSound(MainActivity.this, vok.getZaehler());  
+					lib.playSound(MainActivity.this, vok.getZaehler());
 					_lastIsWrongVokID = vok.getIndex();
 					setBtnsEnabled(false);
 					flashwords();
@@ -494,7 +485,8 @@ public class MainActivity extends ActionBarActivity {
 						} else if (Bew == Bewertung.AllesFalsch) {
 							try {
 								vok.AntwortFalsch();
-								lib.playSound(MainActivity.this, vok.getZaehler());  
+								lib.playSound(MainActivity.this,
+										vok.getZaehler());
 								_lastIsWrongVokID = vok.getIndex();
 								setBtnsEnabled(false);
 								getVokabel(true, false);
@@ -889,9 +881,9 @@ public class MainActivity extends ActionBarActivity {
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 				lib.ShowException(this, e);
-				//lib.ShowMessage(this, "CopyAssets");
+				// lib.ShowMessage(this, "CopyAssets");
 			}
 
 		}
@@ -938,19 +930,15 @@ public class MainActivity extends ActionBarActivity {
 			}
 
 		} else if (id == R.id.mnuStatistics) {
-			if (vok.getGesamtzahl()>5)
-			{
-				try
-				{
+			if (vok.getGesamtzahl() > 5) {
+				try {
 					IDemoChart chart = new com.jmg.learn.chart.LearnBarChart();
 					Intent intent = chart.execute(this);
 					this.startActivity(intent);
-				}
-				catch(Exception ex)
-				{
+				} catch (Exception ex) {
 					lib.ShowException(this, ex);
 				}
-				
+
 			}
 		}
 		return super.onOptionsItemSelected(item);
@@ -1000,20 +988,18 @@ public class MainActivity extends ActionBarActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		try {
 			if ((requestCode == FILE_CHOOSER)
-					&& (resultCode == Activity.RESULT_OK)) 
-			{
+					&& (resultCode == Activity.RESULT_OK)) {
 				String fileSelected = data.getStringExtra("fileSelected");
 				LoadVokabel(fileSelected, 1, null, 0);
 
-			} 
-			else if ((requestCode == Settings_Activity)
-					&& (resultCode == Activity.RESULT_OK)) 
-			{
+			} else if ((requestCode == Settings_Activity)
+					&& (resultCode == Activity.RESULT_OK)) {
 				libLearn.gStatus = "getting values from intent";
 				int oldAbfrage = vok.getAbfragebereich();
 				vok.setAbfragebereich(data.getExtras().getShort(
 						"Abfragebereich"));
-				if (oldAbfrage!= vok.getAbfragebereich()) vok.ResetAbfrage();
+				if (oldAbfrage != vok.getAbfragebereich())
+					vok.ResetAbfrage();
 				vok.setSchrittweite(data.getExtras().getShort("Step"));
 				vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
 				DisplayDurationWord = data.getExtras().getFloat(
@@ -1028,7 +1014,7 @@ public class MainActivity extends ActionBarActivity {
 				lib.sndEnabled = data.getExtras().getBoolean("Sound");
 				Colors = getColorsFromIntent(data);
 				colSounds = getSoundsFromIntent(data);
-				
+
 				libLearn.gStatus = "writing values to prefs";
 				Editor editor = prefs.edit();
 				editor.putInt("Schrittweite", vok.getSchrittweite());
@@ -1041,15 +1027,14 @@ public class MainActivity extends ActionBarActivity {
 				editor.putBoolean("Random", vok.getAbfrageZufaellig());
 				editor.putBoolean("AskAll", vok.getAskAll());
 				editor.putBoolean("Sound", lib.sndEnabled);
-				
+
 				for (ColorItems item : Colors.keySet()) {
 					editor.putInt(item.name(), Colors.get(item).ColorValue);
 				}
-				
+
 				for (Sounds item : colSounds.keySet()) {
 					editor.putString(item.name(), colSounds.get(item).SoundPath);
 				}
-
 
 				editor.commit();
 				libLearn.gStatus = "setTextColors";
@@ -1192,18 +1177,18 @@ public class MainActivity extends ActionBarActivity {
 		return res;
 
 	}
-	
-	private HashMap<Sounds ,SoundSetting> getSoundsFromIntent(Intent intent) {
-		HashMap<Sounds,SoundSetting> res = new HashMap<Sounds,SoundSetting>();
-		if (lib.AssetSounds[0] == null) lib.initSounds();
+
+	private HashMap<Sounds, SoundSetting> getSoundsFromIntent(Intent intent) {
+		HashMap<Sounds, SoundSetting> res = new HashMap<Sounds, SoundSetting>();
+		if (lib.AssetSounds[0] == null)
+			lib.initSounds();
 		for (int i = 0; i < lib.Sounds.values().length; i++) {
 			Sounds SoundItem = Sounds.values()[i];
 			String Name = getResources().getStringArray(R.array.spnSounds)[i];
 			String defValue = "";
 			defValue = lib.AssetSounds[SoundItem.ordinal()];
 			String SoundPath = intent.getStringExtra(SoundItem.name());
-			if (libString.IsNullOrEmpty(SoundPath))
-			{
+			if (libString.IsNullOrEmpty(SoundPath)) {
 				SoundPath = defValue;
 			}
 			res.put(SoundItem, new SoundSetting(SoundItem, Name, SoundPath));
@@ -1212,10 +1197,10 @@ public class MainActivity extends ActionBarActivity {
 
 	}
 
-	
-	private HashMap<Sounds ,SoundSetting> getSoundsFromPrefs() {
-		HashMap<Sounds,SoundSetting> res = new HashMap<Sounds,SoundSetting>();
-		if (lib.AssetSounds[0] == null) lib.initSounds();
+	private HashMap<Sounds, SoundSetting> getSoundsFromPrefs() {
+		HashMap<Sounds, SoundSetting> res = new HashMap<Sounds, SoundSetting>();
+		if (lib.AssetSounds[0] == null)
+			lib.initSounds();
 		for (int i = 0; i < lib.Sounds.values().length; i++) {
 			Sounds SoundItem = Sounds.values()[i];
 			String Name = getResources().getStringArray(R.array.spnSounds)[i];
@@ -1228,7 +1213,6 @@ public class MainActivity extends ActionBarActivity {
 
 	}
 
-	
 	public void getVokabel(boolean showBeds, boolean LoadNext) {
 		try {
 			setBtnsEnabled(true);
@@ -1308,12 +1292,16 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			}
-			
-			if (vok.getGesamtzahl()> 5)
-			{
-				getSupportActionBar().setTitle("Learn " + (new File(vok.getFileName())).getName() + " " + getString(R.string.number) +": " + vok.getIndex() + " " + getString(R.string.counter) + ": " + vok.getZaehler());
+
+			if (vok.getGesamtzahl() > 5) {
+				getSupportActionBar().setTitle(
+						"Learn " + (new File(vok.getFileName())).getName()
+								+ " " + getString(R.string.number) + ": "
+								+ vok.getIndex() + " "
+								+ getString(R.string.counter) + ": "
+								+ vok.getZaehler());
 			}
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
