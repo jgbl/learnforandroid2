@@ -326,6 +326,7 @@ public class lib
 		   A.setMessage(msg);
 		   A.setTitle("Question");
 		   A.show();
+		   
 		   try 
 					
 		   { 
@@ -333,7 +334,7 @@ public class lib
 		   }
 		   catch(RuntimeException e2) 
 		   {
-		    	
+		     //Looper.myLooper().quit();	
 		   }
 	   }
 	   catch (Exception ex)

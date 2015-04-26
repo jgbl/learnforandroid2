@@ -1571,7 +1571,7 @@ public class Vokabel {
 		
 		public void SaveFile() throws Exception
 		{
-			SaveFile(mFileName, _UniCode);
+			SaveFile(mFileName, true);
 		}
 		
 		public void SaveFile(String strFileName, boolean blnUniCode) throws Exception

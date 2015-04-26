@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		libLearn.gStatus = "onCreate getEink";
 		try {
 			_blnEink = getWindowManager().getDefaultDisplay().getRefreshRate() < 5.0;
 			if (_blnEink)
@@ -85,10 +85,12 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		try {
+			libLearn.gStatus = "onCreate setContentView";
 			setContentView(R.layout.activity_main);
 
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 			try {
+				libLearn.gStatus = "onCreate getPrefs";
 				prefs = this.getPreferences(Context.MODE_PRIVATE);
 				vok = new Vokabel(this,
 						(TextView) this.findViewById(R.id.txtStatus));
@@ -113,11 +115,15 @@ public class MainActivity extends ActionBarActivity {
 				// TODO Auto-generated catch block
 				lib.ShowException(this, e);
 			}
+			libLearn.gStatus = "onCreate Copy Assets";
 			CopyAssets();
 			try {
+				libLearn.gStatus = "onCreate InitButtons";
 				InitButtons();
+				libLearn.gStatus = "onCreate InitMeanings";
 				InitMeanings();
 				if (savedInstanceState != null) {
+					libLearn.gStatus = "onCreate Load SavedInstanceState";
 					String filename = savedInstanceState.getString("vokpath");
 					int index = savedInstanceState.getInt("vokindex");
 					int[] Lernvokabeln = savedInstanceState
@@ -131,6 +137,7 @@ public class MainActivity extends ActionBarActivity {
 				{
 					if (prefs.getString("LastFile", null) != null)
 					{
+						libLearn.gStatus = "onCreate Load Lastfile";
 						String filename = prefs.getString("LastFile","");
 						int index = prefs.getInt("vokindex",1);
 						int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs, "Lernvokabeln");
