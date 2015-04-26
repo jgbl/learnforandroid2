@@ -2046,6 +2046,7 @@ public class Vokabel {
 				short n = 0;
 				short lad = 0;
 				short indexlang = 0;
+				boolean canBeSingleLine = false;
 				String fontfil = null;
 				String strTmp = null;
 				java.io.InputStreamReader isr = null;
@@ -2163,6 +2164,7 @@ public class Vokabel {
 					mVok.clear();
 					mVok.add(new typVok("empty", "empty", "empty", "empty", "empty", (short) 0));
 				}
+				
 				for (String x = sr.readLine(); x != null; x = sr.readLine()) 
 				{
 					int Len = x.length();
@@ -2188,10 +2190,23 @@ public class Vokabel {
 					if (!((x=sr.readLine()) == null)) {
 						CurVok.Bed1 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 					}
+					
 					if (!blnSingleLine) {
 						if (!((x=sr.readLine()) == null)) {
 							libLearn.gStatus = CodeLoc + " ReadLine4";
 							CurVok.Bed2 = x.replace("{CR}", "\r").replace("{LF}", "\n");
+							strTmp = x;
+							short tmpZ = -100;
+							try
+							{
+								tmpZ = (short) Integer.parseInt(strTmp.trim()); 
+							}
+							catch (Exception ex)
+							{
+								tmpZ = -100;
+							}
+							if (tmpZ > -100) canBeSingleLine = true;
+									
 						}
 						libLearn.gStatus = CodeLoc + " Line 849";
 						// Inserted by CodeCompleter
@@ -2206,7 +2221,23 @@ public class Vokabel {
 					if (!((x=sr.readLine()) == null)) {
 						libLearn.gStatus = CodeLoc + " ReadLine6";
 						strTmp = x;
-						CurVok.z = (short) Integer.parseInt(strTmp.trim());
+						try
+						{
+							CurVok.z = (short) Integer.parseInt(strTmp.trim());
+						}
+						catch (Exception ex)
+						{
+							if (canBeSingleLine)
+							{
+								blnSingleLine = true;
+								throw new RuntimeException("IsSingleline", ex);
+							}
+							else
+							{
+								throw ex;
+							}
+							
+						}
 					}
 					if (libString.IsNullOrEmpty(CurVok.Wort)) {
 						mVok.remove(n);

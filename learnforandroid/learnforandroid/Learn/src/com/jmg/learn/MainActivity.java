@@ -1054,8 +1054,29 @@ public class MainActivity extends ActionBarActivity {
 			int Lernindex) {
 		try {
 			saveVok(false);
-
-			vok.LoadFile(fileSelected, false, false, _blnUniCode);
+			try
+			{
+				vok.LoadFile(fileSelected, false, false, _blnUniCode);
+			}
+			catch (RuntimeException ex)
+			{
+				if (ex.getCause() != null)
+				{
+					if (ex.getCause().getMessage()!= null && ex.getCause().getMessage().contains("IsSingleline"))
+					{
+						vok.LoadFile(fileSelected, true, false, _blnUniCode);
+					}
+					else 
+					{
+						throw ex;
+					}
+				}				
+				else 
+				{
+					throw ex;
+				}
+			}
+			
 			if (vok.getCardMode()) {
 				_txtMeaning1.setSingleLine(false);
 				_txtMeaning1.setMaxLines(30);
