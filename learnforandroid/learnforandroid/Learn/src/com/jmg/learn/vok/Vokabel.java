@@ -2190,6 +2190,10 @@ public class Vokabel {
 					if (!((x=sr.readLine()) == null)) {
 						CurVok.Bed1 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 					}
+					else
+					{
+						break;
+					}
 					
 					if (!blnSingleLine) {
 						if (!((x=sr.readLine()) == null)) {
@@ -2208,17 +2212,26 @@ public class Vokabel {
 							if (tmpZ > -100) canBeSingleLine = true;
 									
 						}
+						else
+						{
+							break;
+						}
 						libLearn.gStatus = CodeLoc + " Line 849";
 						// Inserted by CodeCompleter
 						if (!((x=sr.readLine()) == null)) {
 							libLearn.gStatus = CodeLoc + " ReadLine5";
 							CurVok.Bed3 = x.replace("{CR}", "\r").replace("{LF}", "\n");
 						}
+						else
+						{
+							break;
+						}
 					} else {
 						CurVok.Bed2 = "";
 						CurVok.Bed3 = "";
 					}
-					if (!((x=sr.readLine()) == null)) {
+					if (!((x=sr.readLine()) == null)) 
+					{
 						libLearn.gStatus = CodeLoc + " ReadLine6";
 						strTmp = x;
 						try
@@ -2238,6 +2251,10 @@ public class Vokabel {
 							}
 							
 						}
+					}
+					else
+					{
+						break;
 					}
 					if (libString.IsNullOrEmpty(CurVok.Wort)) {
 						mVok.remove(n);
