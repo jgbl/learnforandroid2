@@ -1630,6 +1630,7 @@ public class Vokabel {
 					} 
 					else 
 					{
+						blnUniCode = true;
 						enc = Charset.forName("UTF-8");
 					}
 				}
@@ -1697,6 +1698,7 @@ public class Vokabel {
 			aend = false;
 
 			spr = (short) (spr & 7);
+			_UniCode = blnUniCode;
 			//System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
 		}
 		public void revert()

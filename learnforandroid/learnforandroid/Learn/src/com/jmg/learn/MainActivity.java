@@ -955,6 +955,8 @@ public class MainActivity extends ActionBarActivity {
 		extensions.add(".VOK");
 		extensions.add(".kar");
 		extensions.add(".vok");
+		extensions.add(".dic");
+		extensions.add(".DIC");
 
 		intent.putStringArrayListExtra("filterFileExtension", extensions);
 		intent.putExtra("blnUniCode", blnUniCode);
