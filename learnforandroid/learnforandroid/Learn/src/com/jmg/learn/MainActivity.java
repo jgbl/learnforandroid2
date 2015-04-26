@@ -223,7 +223,7 @@ public class MainActivity extends ActionBarActivity {
 					{
 						try 
 						{
-							vok.SaveFile();
+							vok.SaveFile(vok.getFileName(), vok.getUniCode());
 							vok.aend = false;
 							_backPressed +=1;
 							Handler handler = new Handler();
