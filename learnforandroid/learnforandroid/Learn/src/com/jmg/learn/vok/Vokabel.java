@@ -550,7 +550,7 @@ public class Vokabel {
 			 // ERROR: Not supported in C#: OnErrorStatement
 
 			libLearn.gStatus = "Vokabel.SkipVokabel Start";
-			mLernVokabeln[mLernindex] = 0;
+			ReorderLernVokabeln();
 			mLernindex += 1;
 			InitAbfrage();
 			//
@@ -1217,14 +1217,31 @@ public class Vokabel {
 				}
 				else
 				{
-					mLernVokabeln[mLernindex] = 0;
+					ReorderLernVokabeln();					
 				}
 			}
 			AnzRichtig += 1;
 			InitAbfrage();
 
 			return res;
-					}
+			
+		}
+		
+		private void ReorderLernVokabeln()
+		{
+			mLernVokabeln[mLernindex] = 0;
+			/* funkioniert nicht
+			if (mLernindex < mSchrittweite)
+			{
+				for (int i = mLernindex;i < mSchrittweite;i++)
+				{
+					mLernVokabeln[i] = mLernVokabeln[i+1];
+				}
+				mLernVokabeln[mSchrittweite] = 0;
+				mLernindex -= 1;
+			}
+			*/
+		}
 		public void AntwortFalsch()
 		{
 			 // ERROR: Not supported in C#: OnErrorStatement
@@ -1741,6 +1758,7 @@ public class Vokabel {
 			for (int h = 0; h <= mVok.size()-1; h++) {
 				mVok.get(h).z = 0;
 			}
+			aend = true;
 		}
 
 		int static_GetNextLineFromString_startLine;
@@ -2089,6 +2107,7 @@ public class Vokabel {
 						return;
 					}
 					_UniCode = blnUnicode; // (isr.getEncoding().equals("Unicode") || isr.getEncoding().equals("UTF8") || isr.getEncoding().equals("UTF16"));
+					
 					if (lib.getExtension(F).toLowerCase(Locale.getDefault()).indexOf(".k") != -1)
 						_cardmode = true;
 					else
@@ -2316,7 +2335,7 @@ public class Vokabel {
 					// Inserted by CodeCompleter
 					mblnLernInit = false;
 				}
-				aend = false;
+				if (blnUnicode) aend = false; else aend = true;
 				return;
 			}
 			catch (Exception ex)
@@ -2335,6 +2354,7 @@ public class Vokabel {
 				CurVok.Bed2 = ConvMulti(CurVok.Bed2); //.replace("ù", "\r\n");
 				CurVok.Bed3 = ConvMulti(CurVok.Bed3); //.replace("ù", "\r\n");
 				CurVok.Wort = ConvMulti(CurVok.Wort); //.replace("", "ä");
+				aend = true;
 			}
 		}
 		
@@ -2358,6 +2378,12 @@ public class Vokabel {
 			s = s.replace("€a", "");
 			s = s.replace("€0", "");
 			s = s.replace("€2", "");
+			s = s.replace("€3", "");
+			s = s.replace("€4", "");
+			s = s.replace("€8", "");
+			s = s.replace("€R", "");
+			s = s.replace("€h", "");
+			s = s.replaceAll("€\\d", "");
 			
 			return s;
 			
