@@ -26,9 +26,7 @@ import android.text.SpannedString;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -130,7 +128,11 @@ public class MainActivity extends ActionBarActivity {
 							.getIntArray("Lernvokabeln");
 					int Lernindex = savedInstanceState.getInt("Lernindex");
 					if (!libString.IsNullOrEmpty(filename) && index > 0) {
-						LoadVokabel(filename, index, Lernvokabeln, Lernindex);
+						String path = Path.combine(getApplicationInfo().dataDir,"vok.tmp");
+						boolean Unicode = savedInstanceState.getBoolean("Unicode", true);
+						_blnUniCode = Unicode;
+						LoadVokabel(path, index, Lernvokabeln, Lernindex);
+						vok.setFileName(path);
 					}
 				} else {
 					if (prefs.getString("LastFile", null) != null) {
@@ -174,12 +176,29 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		saveVok(true);
+		//saveVok(true);
+		try {
+			boolean aend = vok.aend;
+			String filename = vok.getFileName();
+			if (vok.getGesamtzahl()>0 && !libString.IsNullOrEmpty(filename))
+			{
+				vok.SaveFile(Path.combine(getApplicationInfo().dataDir,"vok.tmp"),
+						vok.getUniCode());
+				outState.putString("vokpath", filename);
+				outState.putInt("vokindex", vok.getIndex());
+				outState.putIntArray("Lernvokabeln", vok.getLernvokabeln());
+				outState.putInt("Lernindex", vok.getLernIndex());
+				outState.putBoolean("Unicode", vok.getUniCode());
+				vok.aend = aend;
+				vok.setFileName(filename);
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// outState.putParcelable("vok", vok);
-		outState.putString("vokpath", vok.getFileName());
-		outState.putInt("vokindex", vok.getIndex());
-		outState.putIntArray("Lernvokabeln", vok.getLernvokabeln());
-		outState.putInt("Lernindex", vok.getLernIndex());
+		
 
 		super.onSaveInstanceState(outState);
 	}
@@ -210,9 +229,22 @@ public class MainActivity extends ActionBarActivity {
 	private int _backPressed;
 
 	private boolean saveVok(boolean dontPrompt) {
-		Handler handler;
+		Handler handler = new Handler();
+		
 		if (vok.aend) {
-			if (!dontPrompt) {
+			if (!dontPrompt)
+			{
+				dontPrompt = lib.ShowMessageYesNo(this, getString(R.string.Save));
+				if (!dontPrompt)
+				{
+					_backPressed += 1;
+					lib.ShowToast(
+							MainActivity.this,
+							MainActivity.this
+									.getString(R.string.PressBackAgain));
+					handler.postDelayed(rSetBackPressedFalse, 10000);
+				}
+				/*
 				AlertDialog.Builder A = new AlertDialog.Builder(context);
 				A.setPositiveButton(getString(R.string.yes),
 						new AlertDialog.OnClickListener() {
@@ -264,16 +296,21 @@ public class MainActivity extends ActionBarActivity {
 					}
 
 				}
+				*/
 			}
-			if (dontPrompt) {
-				try {
+			
+			if (dontPrompt) 
+			{
+				try 
+				{
 					vok.SaveFile();
 					vok.aend = false;
 					_backPressed += 1;
-					handler = new Handler();
 					handler.postDelayed(rSetBackPressedFalse, 10000);
 					saveFilePrefs();
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					// TODO Auto-generated catch block
 					lib.ShowException(this, e);
 				}

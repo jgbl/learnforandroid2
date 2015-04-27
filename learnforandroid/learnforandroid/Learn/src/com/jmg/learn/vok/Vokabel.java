@@ -13,7 +13,6 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 
 import com.jmg.learn.*;
@@ -216,6 +215,12 @@ public class Vokabel {
 		public	void setCardModoe(boolean value) { _cardmode = value; }
 		
 		public String getFileName()	{ return mFileName; }
+		public void setFileName(String value)
+		{
+			mFileName = value;
+			File fname = new File(value);
+			this.mVokPath = fname.getParent();
+		}
 		
 		public String[] getOldBed() { return (mOldBed); }
 		
