@@ -2388,6 +2388,7 @@ public class Vokabel {
 			s = s.replace("€8", "");
 			s = s.replace("€R", "");
 			s = s.replace("€h", "");
+			s = s.replace("€t", "");
 			s = s.replaceAll("€\\d", "");
 			
 			return s;
