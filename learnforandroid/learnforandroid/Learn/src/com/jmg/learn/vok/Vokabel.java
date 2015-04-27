@@ -2347,6 +2347,7 @@ public class Vokabel {
 			s = s.replace((char)0x9a, "Ü".charAt(0));
 			s = s.replace((char)0x94, "ö".charAt(0));
 			s = s.replace((char)0x8e, "Ä".charAt(0));
+			s = s.replace((char)0x80, "€".charAt(0));
 			s = s.replace("€1", "");
 			s = s.replace("€U", "");
 			s = s.replace("€u", "");
