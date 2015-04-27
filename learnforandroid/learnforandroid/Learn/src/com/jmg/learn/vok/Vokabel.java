@@ -13,6 +13,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 
 import com.jmg.learn.*;
@@ -2324,6 +2325,19 @@ public class Vokabel {
 			}	
 		}
 		
+		public void ConvertMulti()
+		{
+			for (typVok CurVok: mVok)
+			{
+				CurVok.Wort = ConvMulti(CurVok.Wort);
+				CurVok.Kom = ConvMulti(CurVok.Kom); //.Kom.replace("ù", "\r\n");
+				CurVok.Bed1 = ConvMulti(CurVok.Bed1); //.replace("ù", "\r\n");
+				CurVok.Bed2 = ConvMulti(CurVok.Bed2); //.replace("ù", "\r\n");
+				CurVok.Bed3 = ConvMulti(CurVok.Bed3); //.replace("ù", "\r\n");
+				CurVok.Wort = ConvMulti(CurVok.Wort); //.replace("", "ä");
+			}
+		}
+		
 		private String ConvMulti (String s)
 		{
 			s = s.replace((char)0xf9, "\n".charAt(0));
@@ -2333,7 +2347,16 @@ public class Vokabel {
 			s = s.replace((char)0x9a, "Ü".charAt(0));
 			s = s.replace((char)0x94, "ö".charAt(0));
 			s = s.replace((char)0x8e, "Ä".charAt(0));
-			//s = s.replace("�", "ü");
+			s = s.replace("€1", "");
+			s = s.replace("€U", "");
+			s = s.replace("€u", "");
+			s = s.replace("€B", "");
+			s = s.replace("€b", "");
+			s = s.replace("€q", "");
+			s = s.replace("€C", "");
+			s = s.replace("€a", "");
+			s = s.replace("€0", "");
+			s = s.replace("€2", "");
 			
 			return s;
 			

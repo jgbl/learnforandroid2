@@ -915,6 +915,9 @@ public class MainActivity extends ActionBarActivity {
 			LoadFile(true);
 		} else if (id == R.id.mnuFileOpenASCII) {
 			LoadFile(false);
+		} else if (id == R.id.mnuConvMulti) {
+			vok.ConvertMulti();
+			getVokabel(false, false);
 		} else if (id == R.id.mnuFileSave) {
 			saveVok(false);
 		} else if (id == R.id.mnuDelete) {
