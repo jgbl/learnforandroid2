@@ -120,6 +120,7 @@ public class MainActivity extends ActionBarActivity {
 				InitButtons();
 				libLearn.gStatus = "onCreate InitMeanings";
 				InitMeanings();
+				String tmppath = Path.combine(getApplicationInfo().dataDir,"vok.tmp");
 				if (savedInstanceState != null) {
 					libLearn.gStatus = "onCreate Load SavedInstanceState";
 					String filename = savedInstanceState.getString("vokpath");
@@ -128,11 +129,11 @@ public class MainActivity extends ActionBarActivity {
 							.getIntArray("Lernvokabeln");
 					int Lernindex = savedInstanceState.getInt("Lernindex");
 					if (!libString.IsNullOrEmpty(filename) && index > 0) {
-						String path = Path.combine(getApplicationInfo().dataDir,"vok.tmp");
 						boolean Unicode = savedInstanceState.getBoolean("Unicode", true);
 						_blnUniCode = Unicode;
-						LoadVokabel(path, index, Lernvokabeln, Lernindex);
-						vok.setFileName(path);
+						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex);
+						vok.setFileName(filename);
+						SetActionBarTitle();
 					}
 				} else {
 					if (prefs.getString("LastFile", null) != null) {
@@ -144,12 +145,36 @@ public class MainActivity extends ActionBarActivity {
 						int Lernindex = prefs.getInt("Lernindex", 0);
 						boolean Unicode = prefs.getBoolean("Unicode", true);
 						_blnUniCode = Unicode;
-						if (Lernvokabeln != null) {
-							LoadVokabel(filename, index, Lernvokabeln,
-									Lernindex);
-						} else {
-							LoadVokabel(filename, 1, null, 0);
+						boolean isTmpFile = prefs.getBoolean("isTmpFile", false); 
+						if (Lernvokabeln != null) 
+						{
+							if (isTmpFile)
+							{
+								LoadVokabel(tmppath, index, Lernvokabeln,
+										Lernindex);
+								vok.setFileName(filename);
+								SetActionBarTitle();
+							}
+							else
+							{
+								LoadVokabel(filename, index, Lernvokabeln,
+										Lernindex);
+							}
+						} 
+						else 
+						{
+							if (isTmpFile)
+							{
+								LoadVokabel(tmppath, 1, null, 0);
+								vok.setFileName(filename);
+								SetActionBarTitle();
+							}
+							else
+							{
+								LoadVokabel(filename, 1, null, 0);
+							}
 						}
+						
 					}
 				}
 
@@ -182,6 +207,7 @@ public class MainActivity extends ActionBarActivity {
 			String filename = vok.getFileName();
 			if (vok.getGesamtzahl()>0 && !libString.IsNullOrEmpty(filename))
 			{
+				saveFilePrefs(true);
 				vok.SaveFile(Path.combine(getApplicationInfo().dataDir,"vok.tmp"),
 						vok.getUniCode());
 				outState.putString("vokpath", filename);
@@ -307,7 +333,7 @@ public class MainActivity extends ActionBarActivity {
 					vok.aend = false;
 					_backPressed += 1;
 					handler.postDelayed(rSetBackPressedFalse, 10000);
-					saveFilePrefs();
+					saveFilePrefs(false);
 				} 
 				catch (Exception e) 
 				{
@@ -320,13 +346,14 @@ public class MainActivity extends ActionBarActivity {
 		return true;
 	}
 
-	private void saveFilePrefs() {
+	private void saveFilePrefs(boolean isTmpFile) {
 		Editor edit = prefs.edit();
 		edit.putString("LastFile", vok.getFileName()).commit();
 		edit.putInt("vokindex", vok.getIndex());
 		lib.putIntArrayToPrefs(prefs, vok.getLernvokabeln(), "Lernvokabeln");
 		edit.putInt("Lernindex", vok.getLernIndex());
 		edit.putBoolean("Unicode", vok.getUniCode());
+		edit.putBoolean("isTmpFile", isTmpFile);
 		edit.commit();
 	}
 
@@ -346,7 +373,18 @@ public class MainActivity extends ActionBarActivity {
 		 */
 		// resize();
 	}
-
+	
+	
+	@Override
+	protected void onPause() {
+		//saveVok(false);
+		super.onPause();
+		/*
+		 * if (_firstFocus) { _firstFocus = false; hideKeyboard(); }
+		 */
+		// resize();
+	}
+	
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -1356,14 +1394,7 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			}
 
-			if (vok.getGesamtzahl() > 5) {
-				getSupportActionBar().setTitle(
-						"Learn " + (new File(vok.getFileName())).getName()
-								+ " " + getString(R.string.number) + ": "
-								+ vok.getIndex() + " "
-								+ getString(R.string.counter) + ": "
-								+ vok.getZaehler());
-			}
+			SetActionBarTitle();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1371,7 +1402,19 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 	}
-
+	
+	private void SetActionBarTitle() throws Exception
+	{
+		if (vok.getGesamtzahl() > 5) {
+			getSupportActionBar().setTitle(
+					"Learn " + (new File(vok.getFileName())).getName()
+							+ " " + getString(R.string.number) + ": "
+							+ vok.getIndex() + " "
+							+ getString(R.string.counter) + ": "
+							+ vok.getZaehler());
+		}
+	}
+	
 	public Spanned getSpanned(String txt) throws IOException {
 		if (txt.startsWith("{\\rtf1\\")) {
 			// txt = Java2Html.convertToHtml(txt,
