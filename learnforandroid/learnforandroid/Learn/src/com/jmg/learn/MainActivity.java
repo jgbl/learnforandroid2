@@ -451,14 +451,17 @@ public class MainActivity extends ActionBarActivity {
 					lib.playSound(MainActivity.this, vok.getZaehler());
 					_lastIsWrongVokID = vok.getIndex();
 					setBtnsEnabled(false);
-					flashwords();
-					// getVokabel(false,true);
-					// runFlashWords();
-					Handler handler = new Handler();
-					handler.postDelayed(
-							runnableFalse,
-							(long) ((DisplayDurationWord * 1000 + vok
-									.getAnzBed() * 1000 * DisplayDurationBed) * PaukRepetitions));
+					if (!vok.getCardMode())
+					{
+						flashwords();
+						// getVokabel(false,true);
+						// runFlashWords();
+						Handler handler = new Handler();
+						handler.postDelayed(
+								runnableFalse,
+								(long) ((DisplayDurationWord * 1000 + vok
+										.getAnzBed() * 1000 * DisplayDurationBed) * PaukRepetitions));
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
@@ -579,14 +582,17 @@ public class MainActivity extends ActionBarActivity {
 								_lastIsWrongVokID = vok.getIndex();
 								setBtnsEnabled(false);
 								getVokabel(true, false);
-								flashwords();
-								Handler handler = new Handler();
-								handler.postDelayed(
-										runnableFalse,
-										(long) ((DisplayDurationWord * 1000 + vok
-												.getAnzBed()
-												* 1000
-												* DisplayDurationBed) * PaukRepetitions));
+								if (!vok.getCardMode())
+								{
+									flashwords();
+									Handler handler = new Handler();
+									handler.postDelayed(
+											runnableFalse,
+											(long) ((DisplayDurationWord * 1000 + vok
+													.getAnzBed()
+													* 1000
+													* DisplayDurationBed) * PaukRepetitions));
+								}
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								lib.ShowException(MainActivity.this, e);

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -1495,23 +1497,11 @@ public class Vokabel {
 	    {
 	    	short intVokNr = (Short) refvokNr.getValue();
             short i = (Short)refi.getValue();
-        	
+        	Random rnd = new Random();
 	        do
 	        {
 	           
-                do
-                {
-                	if (intVokNr < mVok.size()-1)
-     	            {
-                		 intVokNr += 1;
-     	            }
-                	else
-                	{
-                		intVokNr = 1;
-                	}
-                }
-                while (CheckIfNotContained(intVokNr)== false);
-	        		
+                	
 	             
 	            if (mAbfrageZufällig){
 	            	do
@@ -1519,6 +1509,22 @@ public class Vokabel {
 	            		intVokNr = (short) lib.rndInt(0,mGesamtzahl);
 	            	} 
 	            	while (CheckIfNotContained(intVokNr)== false);
+	            }
+	            else
+	            {
+	            	do
+	                {
+	                	if (intVokNr < mVok.size()-1)
+	     	            {
+	                		 intVokNr += 1;
+	     	            }
+	                	else
+	                	{
+	                		intVokNr = 1;
+	                	}
+	                }
+	                while (CheckIfNotContained(intVokNr)== false);
+		        	
 	            }
 	            	
 	                
@@ -1534,7 +1540,7 @@ public class Vokabel {
 	            else
 	            {
 	                // TODO: might not be correct. Was : Exit Do
-	                double r = Math.random();
+	                double r = rnd.nextDouble();
 	                double z = (double)mVok.get(intVokNr).z;
 	            	double p;
 	            	if (ProbabilityFactor <= 0)
@@ -1563,13 +1569,17 @@ public class Vokabel {
 	    {
 			if (mGesamtzahl > mSchrittweite*2)
 			{
-				if (Arrays.asList(mLernVokabeln).contains(vokNr))
+				for (int i = 1; i <= mSchrittweite; i++)
 				{
-					return false;
+					if (mLernVokabeln[i] == vokNr) 
+					{
+						return false;
+					}
 				}
 			}
 	    	return true;
 	    }
+	    
 		public void DeleteVokabel()
 		{
 			DeleteVokabel(-1);
