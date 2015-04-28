@@ -1119,7 +1119,12 @@ public class MainActivity extends ActionBarActivity {
 						"Abfragebereich"));
 				if (oldAbfrage != vok.getAbfragebereich())
 					vok.ResetAbfrage();
-				vok.setSchrittweite(data.getExtras().getShort("Step"));
+				short Schrittweite = data.getExtras().getShort("Step");
+				if (Schrittweite != vok.getSchrittweite())
+				{
+					vok.setSchrittweite(Schrittweite);
+					vok.InitAbfrage();
+				}
 				vok.CharsetASCII = (data.getExtras().getString("CharsetASCII"));
 				DisplayDurationWord = data.getExtras().getFloat(
 						"DisplayDurationWord");
