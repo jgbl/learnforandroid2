@@ -121,6 +121,7 @@ public class MainActivity extends ActionBarActivity {
 				libLearn.gStatus = "onCreate InitMeanings";
 				InitMeanings();
 				String tmppath = Path.combine(getApplicationInfo().dataDir,"vok.tmp");
+				boolean CardMode = false;
 				if (savedInstanceState != null) {
 					libLearn.gStatus = "onCreate Load SavedInstanceState";
 					String filename = savedInstanceState.getString("vokpath");
@@ -128,11 +129,13 @@ public class MainActivity extends ActionBarActivity {
 					int[] Lernvokabeln = savedInstanceState
 							.getIntArray("Lernvokabeln");
 					int Lernindex = savedInstanceState.getInt("Lernindex");
+					CardMode = savedInstanceState.getBoolean("Cardmode", false);
 					if (!libString.IsNullOrEmpty(filename) && index > 0) {
 						boolean Unicode = savedInstanceState.getBoolean("Unicode", true);
 						_blnUniCode = Unicode;
-						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex);
+						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex, CardMode);
 						vok.setFileName(filename);
+						vok.setCardMode(CardMode);
 						SetActionBarTitle();
 					}
 				} else {
@@ -146,32 +149,35 @@ public class MainActivity extends ActionBarActivity {
 						boolean Unicode = prefs.getBoolean("Unicode", true);
 						_blnUniCode = Unicode;
 						boolean isTmpFile = prefs.getBoolean("isTmpFile", false); 
+						CardMode = prefs.getBoolean("Cardmode", false);
 						if (Lernvokabeln != null) 
 						{
 							if (isTmpFile)
 							{
 								LoadVokabel(tmppath, index, Lernvokabeln,
-										Lernindex);
+										Lernindex, CardMode);
 								vok.setFileName(filename);
+								vok.setCardMode(CardMode);
 								SetActionBarTitle();
 							}
 							else
 							{
 								LoadVokabel(filename, index, Lernvokabeln,
-										Lernindex);
+										Lernindex, CardMode);
 							}
 						} 
 						else 
 						{
 							if (isTmpFile)
 							{
-								LoadVokabel(tmppath, 1, null, 0);
+								LoadVokabel(tmppath, 1, null, 0, CardMode);
 								vok.setFileName(filename);
+								vok.setCardMode(CardMode);
 								SetActionBarTitle();
 							}
 							else
 							{
-								LoadVokabel(filename, 1, null, 0);
+								LoadVokabel(filename, 1, null, 0, CardMode);
 							}
 						}
 						
@@ -209,12 +215,13 @@ public class MainActivity extends ActionBarActivity {
 			{
 				saveFilePrefs(true);
 				vok.SaveFile(Path.combine(getApplicationInfo().dataDir,"vok.tmp"),
-						vok.getUniCode());
+						vok.getUniCode(),true);
 				outState.putString("vokpath", filename);
 				outState.putInt("vokindex", vok.getIndex());
 				outState.putIntArray("Lernvokabeln", vok.getLernvokabeln());
 				outState.putInt("Lernindex", vok.getLernIndex());
 				outState.putBoolean("Unicode", vok.getUniCode());
+				outState.putBoolean("Cardmode", vok.getCardMode());
 				vok.aend = aend;
 				vok.setFileName(filename);
 			}
@@ -354,6 +361,7 @@ public class MainActivity extends ActionBarActivity {
 		edit.putInt("Lernindex", vok.getLernIndex());
 		edit.putBoolean("Unicode", vok.getUniCode());
 		edit.putBoolean("isTmpFile", isTmpFile);
+		edit.putBoolean("Cardmode", vok.getCardMode());
 		edit.commit();
 	}
 
@@ -1070,7 +1078,7 @@ public class MainActivity extends ActionBarActivity {
 			if ((requestCode == FILE_CHOOSER)
 					&& (resultCode == Activity.RESULT_OK)) {
 				String fileSelected = data.getStringExtra("fileSelected");
-				LoadVokabel(fileSelected, 1, null, 0);
+				LoadVokabel(fileSelected, 1, null, 0, false);
 
 			} else if ((requestCode == Settings_Activity)
 					&& (resultCode == Activity.RESULT_OK)) {
@@ -1129,7 +1137,8 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	public void LoadVokabel(String fileSelected, int index, int[] Lernvokabeln,
-			int Lernindex) {
+			int Lernindex, boolean CardMode) 
+	{
 		try {
 			saveVok(false);
 			try
@@ -1155,7 +1164,7 @@ public class MainActivity extends ActionBarActivity {
 				}
 			}
 			
-			if (vok.getCardMode()) {
+			if (vok.getCardMode()||CardMode) {
 				_txtMeaning1.setSingleLine(false);
 				_txtMeaning1.setMaxLines(30);
 				_txtMeaning1.setLines(16);

@@ -212,7 +212,7 @@ public class Vokabel {
 		public	void setvok_Path(String value) { mVokPath = value; }
 		
 		public boolean getCardMode() { return _cardmode; }
-		public	void setCardModoe(boolean value) { _cardmode = value; }
+		public	void setCardMode(boolean value) { _cardmode = value; }
 		
 		public String getFileName()	{ return mFileName; }
 		public void setFileName(String value)
@@ -1594,10 +1594,10 @@ public class Vokabel {
 		
 		public void SaveFile() throws Exception
 		{
-			SaveFile(mFileName, true);
+			SaveFile(mFileName,  true, false);
 		}
 		
-		public void SaveFile(String strFileName, boolean blnUniCode) throws Exception
+		public void SaveFile(String strFileName, boolean blnUniCode, boolean dontPrompt) throws Exception
 		{
 			if (libString.IsNullOrEmpty(strFileName))
 				return;
@@ -1647,7 +1647,7 @@ public class Vokabel {
 				} 
 				else 
 				{
-					if (lib.ShowMessageYesNo(getContext(), getContext().getString(R.string.SaveAsUniCode)) == false) 
+					if (dontPrompt || lib.ShowMessageYesNo(getContext(), getContext().getString(R.string.SaveAsUniCode)) == false) 
 					{
 						enc = CharsetWindows;
 					} 
