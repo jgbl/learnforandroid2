@@ -175,5 +175,6 @@
 	            <string name="spnSoundsDescription">select a soundfile</string>
 	            <string name="spnSounds">select as soundfile</string>
 	            <string name="mnuConvertMulti">Convert Multitext</string>
+	            <string name="mnuExtras">Extras</string>
         
 </resources>
