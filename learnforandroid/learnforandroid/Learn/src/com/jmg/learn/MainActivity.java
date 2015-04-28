@@ -243,8 +243,13 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (_backPressed > 0 || saveVok(false))
-			super.onBackPressed();
+		try {
+			if (_backPressed > 0 || saveVok(false))
+				super.onBackPressed();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			lib.ShowException(this, e);
+		}
 		return;
 	}
 
@@ -259,14 +264,20 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 		if (keyCode == KeyEvent.KEYCODE_HOME) {
-			saveVok(false);
+			try {
+				saveVok(false);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				lib.ShowException(this, e);
+			}
 		}
 		return super.onKeyDown(keyCode, event);
 	};
 
 	private int _backPressed;
 
-	private boolean saveVok(boolean dontPrompt) {
+	private boolean saveVok(boolean dontPrompt) throws Exception
+	{
 		Handler handler = new Handler();
 		
 		if (vok.aend) {
@@ -1004,40 +1015,48 @@ public class MainActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			ShowSettings();
-		} else if (id == R.id.mnuFileOpen) {
-			LoadFile(true);
-		} else if (id == R.id.mnuFileOpenASCII) {
-			LoadFile(false);
-		} else if (id == R.id.mnuConvMulti) {
-			vok.ConvertMulti();
-			getVokabel(false, false);
-		} else if (id == R.id.mnuFileSave) {
-			saveVok(false);
-		} else if (id == R.id.mnuDelete) {
-			vok.DeleteVokabel();
-			getVokabel(false, false);
-		} else if (id == R.id.mnuReverse) {
-			vok.revert();
-			getVokabel(false, false);
-		} else if (id == R.id.mnuReset) {
-			if (lib.ShowMessageYesNo(this,
-					this.getString(R.string.ResetVocabulary))) {
-				vok.reset();
-			}
-
-		} else if (id == R.id.mnuStatistics) {
-			if (vok.getGesamtzahl() > 5) {
-				try {
-					IDemoChart chart = new com.jmg.learn.chart.LearnBarChart();
-					Intent intent = chart.execute(this);
-					this.startActivity(intent);
-				} catch (Exception ex) {
-					lib.ShowException(this, ex);
+		try
+		{
+			if (id == R.id.action_settings) {
+				ShowSettings();
+			} else if (id == R.id.mnuFileOpen) {
+				LoadFile(true);
+			} else if (id == R.id.mnuFileOpenASCII) {
+				LoadFile(false);
+			} else if (id == R.id.mnuConvMulti) {
+				vok.ConvertMulti();
+				getVokabel(false, false);
+			} else if (id == R.id.mnuFileSave) {
+				saveVok(false);
+			} else if (id == R.id.mnuDelete) {
+				vok.DeleteVokabel();
+				getVokabel(false, false);
+			} else if (id == R.id.mnuReverse) {
+				vok.revert();
+				getVokabel(false, false);
+			} else if (id == R.id.mnuReset) {
+				if (lib.ShowMessageYesNo(this,
+						this.getString(R.string.ResetVocabulary))) {
+					vok.reset();
 				}
 
+			} else if (id == R.id.mnuStatistics) {
+				if (vok.getGesamtzahl() > 5) {
+					try {
+						IDemoChart chart = new com.jmg.learn.chart.LearnBarChart();
+						Intent intent = chart.execute(this);
+						this.startActivity(intent);
+					} catch (Exception ex) {
+						lib.ShowException(this, ex);
+					}
+
+				}
 			}
+
+		}
+		catch (Exception ex)
+		{
+			lib.ShowException(this, ex);
 		}
 		return super.onOptionsItemSelected(item);
 	}
