@@ -136,7 +136,7 @@ public class MainActivity extends ActionBarActivity {
 						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex, CardMode);
 						vok.setFileName(filename);
 						vok.setCardMode(CardMode);
-						vok.aend = true;
+						vok.aend = savedInstanceState.getBoolean("aend", true);
 						SetActionBarTitle();
 					}
 				} else {
@@ -150,6 +150,7 @@ public class MainActivity extends ActionBarActivity {
 						boolean Unicode = prefs.getBoolean("Unicode", true);
 						_blnUniCode = Unicode;
 						boolean isTmpFile = prefs.getBoolean("isTmpFile", false); 
+						boolean aend = prefs.getBoolean("aend", true);
 						CardMode = prefs.getBoolean("Cardmode", false);
 						if (Lernvokabeln != null) 
 						{
@@ -160,7 +161,7 @@ public class MainActivity extends ActionBarActivity {
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
 								SetActionBarTitle();
-								vok.aend=true;
+								vok.aend=aend;
 							}
 							else
 							{
@@ -176,7 +177,7 @@ public class MainActivity extends ActionBarActivity {
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
 								SetActionBarTitle();
-								vok.aend=true;
+								vok.aend=aend;
 							}
 							else
 							{
@@ -225,6 +226,7 @@ public class MainActivity extends ActionBarActivity {
 				outState.putInt("Lernindex", vok.getLernIndex());
 				outState.putBoolean("Unicode", vok.getUniCode());
 				outState.putBoolean("Cardmode", vok.getCardMode());
+				outState.putBoolean("aend", aend);
 				vok.aend = aend;
 				vok.setFileName(filename);
 			}
@@ -365,6 +367,7 @@ public class MainActivity extends ActionBarActivity {
 		edit.putBoolean("Unicode", vok.getUniCode());
 		edit.putBoolean("isTmpFile", isTmpFile);
 		edit.putBoolean("Cardmode", vok.getCardMode());
+		edit.putBoolean("aend", vok.aend);
 		edit.commit();
 	}
 
@@ -823,10 +826,10 @@ public class MainActivity extends ActionBarActivity {
 				Colors.get(ColorItems.background).ColorValue);
 	}
 
-	private boolean _firstFocus;
+	//private boolean _firstFocus;
 
 	private void resize() {
-		_firstFocus = true;
+		//_firstFocus = true;
 		Resources resources = context.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		int height = metrics.heightPixels;
