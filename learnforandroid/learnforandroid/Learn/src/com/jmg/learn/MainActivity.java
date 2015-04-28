@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.Character.UnicodeBlock;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,9 @@ import android.text.SpannedString;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -46,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private static final int FILE_CHOOSER = 34823;
 	private static final int Settings_Activity = 34824;
+	private static final int FILE_CHOOSERADV = 34825;
 	private Context context = this;
 	private Button _btnRight;
 	private Button _btnWrong;
@@ -461,9 +465,10 @@ public class MainActivity extends ActionBarActivity {
 					vok.AntwortFalsch();
 					lib.playSound(MainActivity.this, vok.getZaehler());
 					_lastIsWrongVokID = vok.getIndex();
-					setBtnsEnabled(false);
+					
 					if (!vok.getCardMode())
 					{
+						setBtnsEnabled(false);
 						flashwords();
 						// getVokabel(false,true);
 						// runFlashWords();
@@ -591,10 +596,10 @@ public class MainActivity extends ActionBarActivity {
 								lib.playSound(MainActivity.this,
 										vok.getZaehler());
 								_lastIsWrongVokID = vok.getIndex();
-								setBtnsEnabled(false);
 								getVokabel(true, false);
 								if (!vok.getCardMode())
 								{
+									setBtnsEnabled(false);
 									flashwords();
 									Handler handler = new Handler();
 									handler.postDelayed(
@@ -1028,6 +1033,8 @@ public class MainActivity extends ActionBarActivity {
 				getVokabel(false, false);
 			} else if (id == R.id.mnuFileSave) {
 				saveVok(false);
+			} else if (id == R.id.mnuSaveAs) {
+				SaveVokAs(true);
 			} else if (id == R.id.mnuDelete) {
 				vok.DeleteVokabel();
 				getVokabel(false, false);
@@ -1061,6 +1068,34 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	
+	public void SaveVokAs(boolean blnUniCode) {
+		Intent intent = new Intent(this, AdvFileChooser.class);
+		ArrayList<String> extensions = new ArrayList<String>();
+		extensions.add(".k??");
+		extensions.add(".v??");
+		extensions.add(".K??");
+		extensions.add(".V??");
+		extensions.add(".KAR");
+		extensions.add(".VOK");
+		extensions.add(".kar");
+		extensions.add(".vok");
+		extensions.add(".dic");
+		extensions.add(".DIC");
+
+		intent.putStringArrayListExtra("filterFileExtension", extensions);
+		intent.putExtra("blnUniCode", blnUniCode);
+		intent.putExtra("DefaultDir",
+				new File(JMGDataDirectory).exists() ? JMGDataDirectory
+						: "/sdcard/");
+		intent.putExtra("selectFolder",true);
+		if (_blnUniCode) _oldUnidCode = yesnoundefined.yes; else _oldUnidCode = yesnoundefined.no;
+		_blnUniCode = blnUniCode;
+		
+		this.startActivityForResult(intent, FILE_CHOOSERADV);
+	}
+
+	
 	public void LoadFile(boolean blnUniCode) {
 		Intent intent = new Intent(this, FileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
@@ -1080,8 +1115,9 @@ public class MainActivity extends ActionBarActivity {
 		intent.putExtra("DefaultDir",
 				new File(JMGDataDirectory).exists() ? JMGDataDirectory
 						: "/sdcard/");
+		if (_blnUniCode) _oldUnidCode = yesnoundefined.yes; else _oldUnidCode = yesnoundefined.no;
 		_blnUniCode = blnUniCode;
-
+		
 		this.startActivityForResult(intent, FILE_CHOOSER);
 	}
 
@@ -1102,6 +1138,12 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	boolean _blnUniCode = true;
+	yesnoundefined _oldUnidCode = yesnoundefined.undefined;
+	
+	enum yesnoundefined
+	{
+		yes,no,undefined
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1109,9 +1151,62 @@ public class MainActivity extends ActionBarActivity {
 			if ((requestCode == FILE_CHOOSER)
 					&& (resultCode == Activity.RESULT_OK)) {
 				String fileSelected = data.getStringExtra("fileSelected");
+				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
 				LoadVokabel(fileSelected, 1, null, 0, false);
+			
+			}
+			if ((requestCode == FILE_CHOOSERADV)
+					&& (resultCode == Activity.RESULT_OK)) 
+			{
+				final String fileSelected = data.getStringExtra("fileSelected");
+				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
+				if (!libString.IsNullOrEmpty(fileSelected))
+				{
+					AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-			} else if ((requestCode == Settings_Activity)
+					alert.setTitle(getString(R.string.SaveAs));
+					alert.setMessage(getString(R.string.EnterNewFilename));
+
+					// Set an EditText view to get user input 
+					final EditText input = new EditText(this);
+					alert.setView(input);
+					input.setText(new File(vok.getFileName()).getName());
+					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() 
+					{
+						public void onClick(DialogInterface dialog, int whichButton) 
+						{
+						  String value = input.getText().toString();
+						  try 
+						  {
+							  File F = new File(Path.combine(fileSelected,value));
+							  if (!F.exists())
+							  {
+								  vok.SaveFile(F.getPath(), _blnUniCode,false);  
+							  }
+							  
+						  } 
+						  catch (Exception e) 
+						  {
+							// TODO Auto-generated catch block
+							lib.ShowException(MainActivity.this, e);
+							e.printStackTrace();
+						  }
+					  }
+					});
+
+					alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					  public void onClick(DialogInterface dialog, int whichButton) {
+					    // Canceled.
+					  }
+					});
+
+					alert.show();
+
+				}
+								
+			}
+
+			else if ((requestCode == Settings_Activity)
 					&& (resultCode == Activity.RESULT_OK)) {
 				libLearn.gStatus = "getting values from intent";
 				int oldAbfrage = vok.getAbfragebereich();
@@ -1201,6 +1296,14 @@ public class MainActivity extends ActionBarActivity {
 			}
 			
 			if (vok.getCardMode()||CardMode) {
+				_txtWord.setMaxLines(3);
+				_txtWord.setLines(2);
+				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						(float) (40 * scale));
+				_txtKom.setMaxLines(3);
+				_txtKom.setLines(2);
+				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						(float) (30 * scale));
 				_txtMeaning1.setSingleLine(false);
 				_txtMeaning1.setMaxLines(30);
 				_txtMeaning1.setLines(16);
@@ -1213,6 +1316,14 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning2.setVisibility(View.GONE);
 				_txtMeaning3.setVisibility(View.GONE);
 			} else {
+				_txtWord.setMaxLines(3);
+				_txtWord.setLines(1);
+				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						(float) (60 * scale));
+				_txtKom.setMaxLines(3);
+				_txtKom.setLines(2);
+				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						(float) (35 * scale));
 				_txtMeaning1.setLines(1);
 				_txtMeaning1.setSingleLine();
 				_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,

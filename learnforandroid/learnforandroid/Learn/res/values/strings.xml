@@ -176,5 +176,8 @@
 	            <string name="spnSounds">select as soundfile</string>
 	            <string name="mnuConvertMulti">Convert Multitext</string>
 	            <string name="mnuExtras">Extras</string>
+	            <string name="mnuSaveAs">save as</string>
+	            <string name="SaveAs">save as</string>
+	            <string name="EnterNewFilename">enter new filename</string>
         
 </resources>

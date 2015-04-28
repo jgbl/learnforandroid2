@@ -11,7 +11,7 @@
     <item android:id="@+id/mnuFileOpen" android:title="@string/mnuFileOpen">
     </item>
     <item android:id="@+id/mnuFileSave" android:title="@string/mnuFileSave"></item>
-    <item android:id="@+id/mnuStatistics" android:title="@string/mnuStatistics"></item>
+    <item android:id="@+id/mnuSaveAs" android:title="@string/mnuSaveAs"></item><item android:id="@+id/mnuStatistics" android:title="@string/mnuStatistics"></item>
     <item android:id="@+id/mnuExtras" android:title="@string/mnuExtras">
         <menu>
             <item android:id="@+id/mnuFileOpenASCII" android:title="@string/mnuFileOpenASCII"></item>
@@ -21,6 +21,7 @@
     		<item android:id="@+id/mnuConvMulti" android:title="@string/mnuConvertMulti"></item>  
         </menu>
     </item>
+    
     
 
 </menu>

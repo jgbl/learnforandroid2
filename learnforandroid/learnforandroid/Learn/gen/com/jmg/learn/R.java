@@ -1750,15 +1750,16 @@ containing a value of this type.
         public static final int list_item=0x7f090025;
         public static final int lvFiles=0x7f090076;
         public static final int middle=0x7f09001d;
-        public static final int mnuConvMulti=0x7f090086;
-        public static final int mnuDelete=0x7f090083;
-        public static final int mnuExtras=0x7f090081;
+        public static final int mnuConvMulti=0x7f090087;
+        public static final int mnuDelete=0x7f090084;
+        public static final int mnuExtras=0x7f090082;
         public static final int mnuFileOpen=0x7f09007e;
-        public static final int mnuFileOpenASCII=0x7f090082;
+        public static final int mnuFileOpenASCII=0x7f090083;
         public static final int mnuFileSave=0x7f09007f;
-        public static final int mnuReset=0x7f090085;
-        public static final int mnuReverse=0x7f090084;
-        public static final int mnuStatistics=0x7f090080;
+        public static final int mnuReset=0x7f090086;
+        public static final int mnuReverse=0x7f090085;
+        public static final int mnuSaveAs=0x7f090080;
+        public static final int mnuStatistics=0x7f090081;
         public static final int never=0x7f090017;
         public static final int none=0x7f09000f;
         public static final int normal=0x7f09000b;
@@ -1881,6 +1882,7 @@ containing a value of this type.
     }
     public static final class string {
         public static final int AnswerCorrect=0x7f0a005a;
+        public static final int EnterNewFilename=0x7f0a006c;
         public static final int FileDoesNotExist=0x7f0a0021;
         public static final int FileFormatNotRecognized=0x7f0a002c;
         public static final int MeaningIsPartiallyCorrectSimilar=0x7f0a005d;
@@ -1893,6 +1895,7 @@ containing a value of this type.
         public static final int PressBackAgain=0x7f0a0050;
         public static final int ResetVocabulary=0x7f0a004f;
         public static final int Save=0x7f0a0029;
+        public static final int SaveAs=0x7f0a006b;
         public static final int SaveAsUniCode=0x7f0a0020;
         public static final int SelColor=0x7f0a0054;
         public static final int TotalNumber=0x7f0a001c;
@@ -1986,6 +1989,7 @@ containing a value of this type.
         public static final int mnuFileSave=0x7f0a002a;
         public static final int mnuReset=0x7f0a004e;
         public static final int mnuReverse=0x7f0a0046;
+        public static final int mnuSaveAs=0x7f0a006a;
         public static final int mnuStatistics=0x7f0a0060;
         public static final int no=0x7f0a001e;
         public static final int number=0x7f0a0061;

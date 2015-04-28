@@ -27,6 +27,7 @@
         <activity android:name="br.com.thinkti.android.filechooser.FileChooser"></activity>
         <activity android:name="SettingsActivity"></activity>
         <activity android:name="org.achartengine.GraphicalActivity"></activity>
+        <activity android:name="br.com.thinkti.android.filechooser.AdvFileChooser"></activity>
     </application>
 
 </manifest>
