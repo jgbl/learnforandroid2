@@ -1523,10 +1523,13 @@ public class Vokabel {
 	            	
 	                
 	             
-	            if (mVok.get(intVokNr).z <= 1 && CheckIfNotContained(intVokNr))
+	            if (mVok.get(intVokNr).z <= 1)
 	            {
-	                mLernVokabeln[i] = intVokNr;
-	                break;
+	                if (CheckIfNotContained(intVokNr))
+	                {
+	                	mLernVokabeln[i] = intVokNr;
+		                break;
+	                }
 	            }
 	            else
 	            {
