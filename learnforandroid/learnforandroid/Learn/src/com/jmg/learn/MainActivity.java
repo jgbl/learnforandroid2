@@ -136,6 +136,7 @@ public class MainActivity extends ActionBarActivity {
 						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex, CardMode);
 						vok.setFileName(filename);
 						vok.setCardMode(CardMode);
+						vok.aend = true;
 						SetActionBarTitle();
 					}
 				} else {
@@ -159,6 +160,7 @@ public class MainActivity extends ActionBarActivity {
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
 								SetActionBarTitle();
+								vok.aend=true;
 							}
 							else
 							{
@@ -174,6 +176,7 @@ public class MainActivity extends ActionBarActivity {
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
 								SetActionBarTitle();
+								vok.aend=true;
 							}
 							else
 							{
