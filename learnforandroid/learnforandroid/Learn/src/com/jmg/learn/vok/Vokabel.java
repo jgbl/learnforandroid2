@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -19,8 +18,8 @@ import android.widget.TextView;
 
 import com.jmg.learn.*;
 import com.jmg.lib.WindowsBufferedReader;
-import com.jmg.lib.lib;
 import com.jmg.lib.RefSupport;
+import com.jmg.lib.lib;
 import com.jmg.lib.lib.libString;
 
 

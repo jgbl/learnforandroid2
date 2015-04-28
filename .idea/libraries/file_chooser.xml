@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="file chooser">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/File Chooser/bin/file chooser.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
