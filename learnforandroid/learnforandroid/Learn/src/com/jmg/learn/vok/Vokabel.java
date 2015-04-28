@@ -1336,7 +1336,11 @@ public class Vokabel {
 			    	            	voknr = 1;
 			    	            } 
 			    	            if (mAbfrageZufällig){
-			    	            	voknr = (short) lib.rndInt(0,mGesamtzahl);
+			    	            	do
+			    	            	{
+			    	            		voknr = (short) lib.rndInt(0,mGesamtzahl);
+			    	            	}
+			    	            	while (CheckIfNotContained(voknr) == false);
 			    	            }
 			    	            mLernVokabeln[i] = voknr;
 			                }
@@ -1466,9 +1470,9 @@ public class Vokabel {
 	                // TODO: might not be correct. Was : Exit Do
 	                refblnDurch.setValue(true);
 	            } 
-	            if ((mVok.get(vokNr).z == mAbfragebereich) 
+	            if (CheckIfNotContained(vokNr) && ((mVok.get(vokNr).z == mAbfragebereich) 
 	            		|| (mAbfragebereich >= 6 && mVok.get(vokNr).z >= 6) 
-	            		|| (mAbfragebereich == 0 && mVok.get(vokNr).z <= 0))
+	            		|| (mAbfragebereich == 0 && mVok.get(vokNr).z <= 0)))
 	            {
 	                mLernVokabeln[i] = vokNr;
 	                break;
@@ -1494,26 +1498,32 @@ public class Vokabel {
         	
 	        do
 	        {
-	            if (intVokNr < mVok.size()-1)
-	            {
-	                intVokNr += 1;
+	           
+                do
+                {
+                	if (intVokNr < mVok.size()-1)
+     	            {
+                		 intVokNr += 1;
+     	            }
+                	else
+                	{
+                		intVokNr = 1;
+                	}
+                }
+                while (CheckIfNotContained(intVokNr)== false);
 	        		
-	            }
-	            else
-	            {
-	            	intVokNr = 1;
-	            } 
+	             
 	            if (mAbfrageZufällig){
-	            	intVokNr = (short) lib.rndInt(0,mGesamtzahl);
-	            	while (mGesamtzahl > mSchrittweite*2 && Arrays.asList(mLernVokabeln).contains(intVokNr))
+	            	do
 	            	{
-	            		intVokNr = (short) lib.rndInt(0,mVok.size() -1);
-	            	}
+	            		intVokNr = (short) lib.rndInt(0,mGesamtzahl);
+	            	} 
+	            	while (CheckIfNotContained(intVokNr)== false);
 	            }
 	            	
 	                
 	             
-	            if (mVok.get(intVokNr).z <= 1)
+	            if (mVok.get(intVokNr).z <= 1 && CheckIfNotContained(intVokNr))
 	            {
 	                mLernVokabeln[i] = intVokNr;
 	                break;
@@ -1532,7 +1542,7 @@ public class Vokabel {
 	            	{
 	            		p = 1 / (z * ProbabilityFactor);
 	            	}
-	            	if (r < p)
+	            	if (r < p && CheckIfNotContained(intVokNr))
 	                {
 	                    mLernVokabeln[i] = intVokNr;
 	                    break;
@@ -1546,7 +1556,17 @@ public class Vokabel {
 	        return ;
 	    }
 
-	
+	    private boolean CheckIfNotContained (int vokNr)
+	    {
+			if (mGesamtzahl > mSchrittweite*2)
+			{
+				if (Arrays.asList(mLernVokabeln).contains(vokNr))
+				{
+					return false;
+				}
+			}
+	    	return true;
+	    }
 		public void DeleteVokabel()
 		{
 			DeleteVokabel(-1);
