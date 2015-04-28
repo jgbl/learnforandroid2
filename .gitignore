@@ -23,6 +23,7 @@ hs_err_pid*
 # Generated files
 bin/
 gen/
+R.java
 
 # Gradle files
 .gradle/
