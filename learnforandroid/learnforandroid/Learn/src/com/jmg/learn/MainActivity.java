@@ -1179,8 +1179,10 @@ public class MainActivity extends ActionBarActivity {
 						  try 
 						  {
 							  File F = new File(Path.combine(fileSelected,value));
-							  if (!F.exists())
+							  if (!F.isDirectory() && (!F.exists() || lib.ShowMessageYesNo(MainActivity.this, getString(R.string.Overwrite))))
 							  {
+								  File ParentDir = F.getParentFile();
+								  if (!ParentDir.exists()) ParentDir.mkdirs();
 								  vok.SaveFile(F.getPath(), _blnUniCode,false);  
 							  }
 							  

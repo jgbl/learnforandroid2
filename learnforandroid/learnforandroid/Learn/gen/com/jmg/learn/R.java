@@ -1892,6 +1892,7 @@ containing a value of this type.
         public static final int MeaningIsSubstringSimilar=0x7f0a005c;
         public static final int MeaningPartiallyCorrect=0x7f0a0059;
         public static final int MeaningSimilar=0x7f0a0058;
+        public static final int Overwrite=0x7f0a006d;
         public static final int PressBackAgain=0x7f0a0050;
         public static final int ResetVocabulary=0x7f0a004f;
         public static final int Save=0x7f0a0029;
