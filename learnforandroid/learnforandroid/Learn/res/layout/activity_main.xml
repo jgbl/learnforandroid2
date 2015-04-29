@@ -10,32 +10,52 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.jmg.learn.MainActivity" >
 
-    <com.jmg.lib.BorderedTextView
-        android:id="@+id/word"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/hello_world"
-        android:textColor="#000000"
-        android:textSize="60px"
-        android:textStyle="bold"
-        android:typeface="normal" />
+	<LinearLayout
+	    android:id="@+id/Word"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/Com"
+	    android:layout_centerHorizontal="true" >
 
-    <com.jmg.lib.BorderedTextView
-        android:id="@+id/Comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/word"
-        android:layout_centerHorizontal="true"
-        android:text="@string/hello_world"
-        android:textColor="#000000"
-        android:textSize="35px" />
+	    <com.jmg.lib.BorderedTextView
+	        android:id="@+id/word"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:layout_centerHorizontal="true"
+	        android:scrollHorizontally="false"
+	        android:text="@string/hello_world"
+	        android:textColor="#000000"
+	        android:textSize="60px"
+	        android:textStyle="bold"
+	        android:typeface="normal" />
+	  </LinearLayout>
+
+	  <LinearLayout
+	      android:id="@+id/Com"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_below="@+id/Word"
+	      android:layout_centerHorizontal="true" >
+
+	    <com.jmg.lib.BorderedTextView
+	        android:id="@+id/Comment"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:layout_below="@+id/Word"
+	        android:layout_centerHorizontal="true"
+	        android:scrollHorizontally="false"
+	        android:text="@string/hello_world"
+	        android:textColor="#000000"
+	        android:textSize="35px" />
+    </LinearLayout>
     
     <com.jmg.lib.BorderedEditText
         android:id="@+id/txtMeaning1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Comment"
+        android:layout_below="@+id/Com"
         android:layout_marginTop="120px"
         android:ems="10"
         android:inputType="text|textMultiLine"
@@ -47,7 +67,8 @@
         android:textColor="#000000"
         android:textSize="40px" >
 
-        <requestFocus />
+        <requestFocus android:layout_width="wrap_content" />
+
     </com.jmg.lib.BorderedEditText>
 
     <com.jmg.lib.BorderedEditText

@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.Character.UnicodeBlock;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +39,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -1298,14 +1298,17 @@ public class MainActivity extends ActionBarActivity {
 			}
 			
 			if (vok.getCardMode()||CardMode) {
+				
 				_txtWord.setMaxLines(3);
 				_txtWord.setLines(2);
 				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (40 * scale));
+				
 				_txtKom.setMaxLines(3);
 				_txtKom.setLines(2);
 				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (30 * scale));
+				
 				_txtMeaning1.setSingleLine(false);
 				_txtMeaning1.setMaxLines(30);
 				_txtMeaning1.setLines(16);
@@ -1318,25 +1321,30 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning2.setVisibility(View.GONE);
 				_txtMeaning3.setVisibility(View.GONE);
 			} else {
+				
 				_txtWord.setMaxLines(3);
 				_txtWord.setLines(1);
 				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (60 * scale));
+				
 				_txtKom.setMaxLines(3);
 				_txtKom.setLines(2);
 				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (35 * scale));
+				
 				_txtMeaning1.setLines(1);
 				_txtMeaning1.setSingleLine();
 				_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (40 * scale));
 				_txtMeaning1.setMaxLines(3);
 				_txtMeaning1.setHorizontallyScrolling(false);
+				
 				_txtMeaning2.setVisibility(View.VISIBLE);
 				_txtMeaning2.setLines(1);
 				_txtMeaning2.setSingleLine();
 				_txtMeaning2.setMaxLines(3);
 				_txtMeaning2.setHorizontallyScrolling(false);
+				
 				_txtMeaning3.setVisibility(View.VISIBLE);
 				_txtMeaning3.setLines(1);
 				_txtMeaning3.setSingleLine();
