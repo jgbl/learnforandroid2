@@ -1302,7 +1302,7 @@ public class MainActivity extends ActionBarActivity {
 						(float) (40 * scale));
 				_txtKom.setMaxLines(3);
 				_txtKom.setLines(2);
-				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (30 * scale));
 				_txtMeaning1.setSingleLine(false);
 				_txtMeaning1.setMaxLines(30);
