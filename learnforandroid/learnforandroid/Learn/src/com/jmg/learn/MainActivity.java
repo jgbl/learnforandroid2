@@ -477,6 +477,10 @@ public class MainActivity extends ActionBarActivity {
 								(long) ((DisplayDurationWord * 1000 + vok
 										.getAnzBed() * 1000 * DisplayDurationBed) * PaukRepetitions));
 					}
+					else
+					{
+						getVokabel(false, false);
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
