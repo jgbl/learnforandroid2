@@ -1679,11 +1679,11 @@ containing a value of this type.
         public static final int zip=0x7f02004a;
     }
     public static final class id {
-        public static final int Com=0x7f090041;
         public static final int Comment=0x7f090043;
+        public static final int LayCom=0x7f090042;
+        public static final int LayWord=0x7f090040;
         public static final int TextView01=0x7f090075;
         public static final int TextView02=0x7f090076;
-        public static final int Word=0x7f090040;
         public static final int action_bar=0x7f090031;
         public static final int action_bar_activity_content=0x7f090003;
         public static final int action_bar_container=0x7f090030;
@@ -1815,7 +1815,7 @@ containing a value of this type.
         public static final int up=0x7f090001;
         public static final int useLogo=0x7f090013;
         public static final int withText=0x7f090018;
-        public static final int word=0x7f090042;
+        public static final int word=0x7f090041;
         public static final int wrap_content=0x7f090009;
     }
     public static final class integer {

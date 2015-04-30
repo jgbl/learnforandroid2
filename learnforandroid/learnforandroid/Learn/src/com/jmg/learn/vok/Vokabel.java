@@ -2104,6 +2104,7 @@ public class Vokabel {
 				short indexlang = 0;
 				boolean canBeSingleLine = false;
 				String fontfil = null;
+				String tastbel = null;
 				String strTmp = null;
 				java.io.InputStreamReader isr = null;
 				java.io.FileInputStream  is = null;
@@ -2188,7 +2189,9 @@ public class Vokabel {
 				}
 				if ((sp & 128) != 0) {
 					String x;
-					while ((x = sr.readLine()).length()==0 && x!=null);
+					tastbel = sr.readLine();
+					x = sr.readLine();
+					//while ((x = sr.readLine()).length()==0 && x!=null);
 					fontfil = x.replaceAll("\"$|^\"", "");;
 					if (!blnAppend)
 					{

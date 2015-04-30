@@ -34,6 +34,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1326,11 +1328,13 @@ public class MainActivity extends ActionBarActivity {
 				_txtWord.setLines(1);
 				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (60 * scale));
+				_txtWord.setHorizontallyScrolling(false);
 				
 				_txtKom.setMaxLines(3);
 				_txtKom.setLines(2);
 				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (35 * scale));
+				_txtKom.setHorizontallyScrolling(false);
 				
 				_txtMeaning1.setLines(1);
 				_txtMeaning1.setSingleLine();
@@ -1503,7 +1507,32 @@ public class MainActivity extends ActionBarActivity {
 			} else {
 				t.setTypeface(Typeface.DEFAULT);
 			}
-
+			if (!vok.getCardMode())
+			{
+				Rect bounds = new Rect();
+				Paint textPaint = t.getPaint();
+				textPaint.getTextBounds(vok.getWort(),0,vok.getWort().length(),bounds);
+				if (t.getWidth() < bounds.width()){
+					int lines = t.getLineCount();
+					t.setLines((2));
+					/*
+					if (((float)bounds.width() / (float)t.getWidth()) > 2)
+					{
+						t.setLines(3);
+					}
+					else
+					{
+						t.setLines((2));
+					}
+					*/
+				}
+				else
+				{
+					t.setLines(1);
+				}
+			}
+			
+			
 			v = findViewById(R.id.Comment);
 			t = (TextView) v;
 			t.setText(getSpanned(vok.getKommentar()),
