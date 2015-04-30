@@ -34,14 +34,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -1301,13 +1298,13 @@ public class MainActivity extends ActionBarActivity {
 			
 			if (vok.getCardMode()||CardMode) {
 				
-				_txtWord.setMaxLines(3);
-				_txtWord.setLines(2);
+				//_txtWord.setMaxLines(3);
+				//_txtWord.setLines(2);
 				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (40 * scale));
 				
-				_txtKom.setMaxLines(3);
-				_txtKom.setLines(2);
+				//_txtKom.setMaxLines(3);
+				//_txtKom.setLines(2);
 				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (30 * scale));
 				
@@ -1324,14 +1321,14 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning3.setVisibility(View.GONE);
 			} else {
 				
-				_txtWord.setMaxLines(3);
-				_txtWord.setLines(1);
+				//_txtWord.setMaxLines(3);
+				//_txtWord.setLines(1);
 				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (60 * scale));
 				_txtWord.setHorizontallyScrolling(false);
 				
-				_txtKom.setMaxLines(3);
-				_txtKom.setLines(2);
+				//_txtKom.setMaxLines(3);
+				//_txtKom.setLines(2);
 				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (35 * scale));
 				_txtKom.setHorizontallyScrolling(false);
@@ -1499,23 +1496,16 @@ public class MainActivity extends ActionBarActivity {
 
 			View v = findViewById(R.id.word);
 			TextView t = (TextView) v;
-			t.setText(getSpanned(vok.getWort()), TextView.BufferType.SPANNABLE);
-			if (vok.getSprache() == EnumSprachen.Hebrew
-					|| vok.getSprache() == EnumSprachen.Griechisch
-					|| (vok.getFontWort().getName() == "Cardo")) {
-				t.setTypeface(vok.TypefaceCardo);
-			} else {
-				t.setTypeface(Typeface.DEFAULT);
-			}
+			/*
 			if (!vok.getCardMode())
 			{
 				Rect bounds = new Rect();
 				Paint textPaint = t.getPaint();
 				textPaint.getTextBounds(vok.getWort(),0,vok.getWort().length(),bounds);
 				if (t.getWidth() < bounds.width()){
-					int lines = t.getLineCount();
+					//int lines = t.getLineCount();
 					t.setLines((2));
-					/*
+					
 					if (((float)bounds.width() / (float)t.getWidth()) > 2)
 					{
 						t.setLines(3);
@@ -1524,13 +1514,23 @@ public class MainActivity extends ActionBarActivity {
 					{
 						t.setLines((2));
 					}
-					*/
+					
 				}
 				else
 				{
 					t.setLines(1);
 				}
 			}
+			*/
+			t.setText(getSpanned(vok.getWort()), TextView.BufferType.SPANNABLE);
+			if (vok.getSprache() == EnumSprachen.Hebrew
+					|| vok.getSprache() == EnumSprachen.Griechisch
+					|| (vok.getFontWort().getName() == "Cardo")) {
+				t.setTypeface(vok.TypefaceCardo);
+			} else {
+				t.setTypeface(Typeface.DEFAULT);
+			}
+			
 			
 			
 			v = findViewById(R.id.Comment);
