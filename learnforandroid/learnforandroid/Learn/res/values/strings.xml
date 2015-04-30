@@ -180,5 +180,6 @@
 	            <string name="SaveAs">save as</string>
 	            <string name="EnterNewFilename">enter new filename</string>
 	            <string name="Overwrite">Do you want to overwrite the existing file?</string>
+	            <string name="mnuRestart">restart</string>
         
 </resources>

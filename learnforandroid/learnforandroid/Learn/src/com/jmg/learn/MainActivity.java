@@ -1038,6 +1038,8 @@ public class MainActivity extends ActionBarActivity {
 				saveVok(false);
 			} else if (id == R.id.mnuSaveAs) {
 				SaveVokAs(true);
+			} else if (id == R.id.mnuRestart) {
+				vok.restart();
 			} else if (id == R.id.mnuDelete) {
 				vok.DeleteVokabel();
 				getVokabel(false, false);

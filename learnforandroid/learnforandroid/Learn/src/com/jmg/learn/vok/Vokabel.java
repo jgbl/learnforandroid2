@@ -1797,6 +1797,10 @@ public class Vokabel {
 			}
 			aend = true;
 		}
+		
+		public void restart(){
+			mLastIndex = 0;
+		}
 
 		int static_GetNextLineFromString_startLine;
 		//Private Function GetNextLineFromString(ByRef strContent As String, Optional ByRef strRef As String = "nihxyz", Optional ByRef FirstLine As Single = 0) As Boolean
