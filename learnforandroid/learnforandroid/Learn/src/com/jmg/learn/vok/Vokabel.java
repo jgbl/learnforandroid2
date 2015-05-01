@@ -383,6 +383,20 @@ public class Vokabel {
 	        }
 	         
 	    }
+	    
+	    public int getLastIndex()  { return mLastIndex;}
+	    
+	    public void setLastIndex(int value) throws Exception {
+	        // ERROR: Not supported in C#: OnErrorStatement
+	        libLearn.gStatus = "Vokabel.Index Start";
+	        // ERROR: Not supported in C#: OnErrorStatement
+	        if (value >= 0 & value <= mGesamtzahl)
+	        {
+	            mLastIndex = value;
+	        }
+	         
+	    }
+	    
 	    public int[] getLernvokabeln()
 	    {
 	    	return mLernVokabeln;

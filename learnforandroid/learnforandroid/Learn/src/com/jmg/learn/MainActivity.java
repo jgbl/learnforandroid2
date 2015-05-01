@@ -137,6 +137,7 @@ public class MainActivity extends ActionBarActivity {
 						boolean Unicode = savedInstanceState.getBoolean("Unicode", true);
 						_blnUniCode = Unicode;
 						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex, CardMode);
+						vok.setLastIndex(savedInstanceState.getInt("vokLastIndex", vok.getLastIndex()));
 						vok.setFileName(filename);
 						vok.setCardMode(CardMode);
 						vok.aend = savedInstanceState.getBoolean("aend", true);
@@ -163,6 +164,7 @@ public class MainActivity extends ActionBarActivity {
 										Lernindex, CardMode);
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
+								vok.setLastIndex(prefs.getInt("vokLastIndex", vok.getLastIndex()));
 								SetActionBarTitle();
 								vok.aend=aend;
 							}
@@ -170,6 +172,7 @@ public class MainActivity extends ActionBarActivity {
 							{
 								LoadVokabel(filename, index, Lernvokabeln,
 										Lernindex, CardMode);
+								vok.setLastIndex(prefs.getInt("vokLastIndex", vok.getLastIndex()));
 							}
 						} 
 						else 
@@ -225,6 +228,7 @@ public class MainActivity extends ActionBarActivity {
 						vok.getUniCode(),true);
 				outState.putString("vokpath", filename);
 				outState.putInt("vokindex", vok.getIndex());
+				outState.putInt("vokLastIndex", vok.getLastIndex());
 				outState.putIntArray("Lernvokabeln", vok.getLernvokabeln());
 				outState.putInt("Lernindex", vok.getLernIndex());
 				outState.putBoolean("Unicode", vok.getUniCode());
@@ -376,6 +380,7 @@ public class MainActivity extends ActionBarActivity {
 		Editor edit = prefs.edit();
 		edit.putString("LastFile", vok.getFileName()).commit();
 		edit.putInt("vokindex", vok.getIndex());
+		edit.putInt("vokLastIndex", vok.getLastIndex());
 		lib.putIntArrayToPrefs(prefs, vok.getLernvokabeln(), "Lernvokabeln");
 		edit.putInt("Lernindex", vok.getLernIndex());
 		edit.putBoolean("Unicode", vok.getUniCode());
