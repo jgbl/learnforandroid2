@@ -252,7 +252,11 @@ public class MainActivity extends ActionBarActivity {
 	public void onBackPressed() {
 		try {
 			if (_backPressed > 0 || saveVok(false))
+			{
+				handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
 				super.onBackPressed();
+			}
+				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
@@ -282,10 +286,10 @@ public class MainActivity extends ActionBarActivity {
 	};
 
 	private int _backPressed;
-
+	private Handler handlerbackpressed = new Handler();
+	
 	private boolean saveVok(boolean dontPrompt) throws Exception
 	{
-		Handler handler = new Handler();
 		
 		if (vok.aend) {
 			if (!dontPrompt)
@@ -298,7 +302,8 @@ public class MainActivity extends ActionBarActivity {
 							MainActivity.this,
 							MainActivity.this
 									.getString(R.string.PressBackAgain));
-					handler.postDelayed(rSetBackPressedFalse, 10000);
+					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+					
 				}
 				/*
 				AlertDialog.Builder A = new AlertDialog.Builder(context);
@@ -362,7 +367,7 @@ public class MainActivity extends ActionBarActivity {
 					vok.SaveFile();
 					vok.aend = false;
 					_backPressed += 1;
-					handler.postDelayed(rSetBackPressedFalse, 10000);
+					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 					saveFilePrefs(false);
 				} 
 				catch (Exception e) 
@@ -373,7 +378,11 @@ public class MainActivity extends ActionBarActivity {
 			}
 			return false;
 		}
-		return true;
+		else
+		{
+			return true;	
+		}
+		
 	}
 
 	private void saveFilePrefs(boolean isTmpFile) {
@@ -1175,13 +1184,13 @@ public class MainActivity extends ActionBarActivity {
 					AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
 					alert.setTitle(getString(R.string.SaveAs));
-					alert.setMessage(getString(R.string.EnterNewFilename));
+					alert.setMessage(getString(R.string.EnterNewFilename)+ ": " + fileSelected);
 
 					// Set an EditText view to get user input 
 					final EditText input = new EditText(this);
 					alert.setView(input);
 					input.setText(new File(vok.getFileName()).getName());
-					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() 
+					alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() 
 					{
 						public void onClick(DialogInterface dialog, int whichButton) 
 						{
@@ -1206,7 +1215,7 @@ public class MainActivity extends ActionBarActivity {
 					  }
 					});
 
-					alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					alert.setNegativeButton(getString(R.string.btnCancel), new DialogInterface.OnClickListener() {
 					  public void onClick(DialogInterface dialog, int whichButton) {
 					    // Canceled.
 					  }

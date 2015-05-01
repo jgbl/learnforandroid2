@@ -490,10 +490,13 @@ public final class R {
 		public static final int currentDir = 0x7f0a0011;
 		public static final int fileSize = 0x7f0a0012;
 		public static final int folder = 0x7f0a0013;
+		public static final int no = 0x7f0a0019;
 		public static final int openFolder = 0x7f0a0015;
 		public static final int optionSelection = 0x7f0a0017;
 		public static final int parentDirectory = 0x7f0a0014;
+		public static final int quit = 0x7f0a001a;
 		public static final int selectThis = 0x7f0a0016;
+		public static final int yes = 0x7f0a0018;
 	}
 	public static final class style {
 		public static final int Base_TextAppearance_AppCompat = 0x7f0b0098;
