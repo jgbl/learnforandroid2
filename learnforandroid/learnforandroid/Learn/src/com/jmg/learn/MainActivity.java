@@ -241,6 +241,7 @@ public class MainActivity extends ActionBarActivity {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			Log.e("OnSaveInstanceState", e.getMessage(),e);
 			e.printStackTrace();
 		}
 		// outState.putParcelable("vok", vok);
@@ -263,7 +264,7 @@ public class MainActivity extends ActionBarActivity {
 			Log.e("onBackPressed", e.getMessage(),e);
 			lib.ShowException(this, e);
 		}
-		return;
+		
 	}
 
 	/*
