@@ -21,8 +21,11 @@ import com.jmg.lib.lib.Sounds;
 import com.jmg.lib.lib.libString;
 
 import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -35,6 +38,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1624,12 +1628,21 @@ public class MainActivity extends ActionBarActivity {
 	private void SetActionBarTitle() throws Exception
 	{
 		if (vok.getGesamtzahl() > 5) {
-			getSupportActionBar().setTitle(
-					"Learn " + (new File(vok.getFileName())).getName()
-							+ " " + getString(R.string.number) + ": "
-							+ vok.getIndex() + " "
-							+ getString(R.string.counter) + ": "
-							+ vok.getZaehler());
+			String title = "Learn " + (new File(vok.getFileName())).getName()
+					+ " " + getString(R.string.number) + ": "
+					+ vok.getIndex() + " "
+					+ getString(R.string.counter) + ": "
+					+ vok.getZaehler();
+					String Right = " " + vok.AnzRichtig;
+					String Wrong = " " + vok.AnzFalsch;
+					SpannableString spnTitle = new SpannableString(title);
+					SpannableString spnRight = new SpannableString(Right);
+					SpannableString spnWrong = new SpannableString(Wrong);
+					spnRight.setSpan(new ForegroundColorSpan(Color.GREEN), 0, spnRight.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+					spnWrong.setSpan(new ForegroundColorSpan(Color.RED), 0, spnWrong.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+					
+					getSupportActionBar().setTitle(TextUtils.concat(spnTitle,spnRight,spnWrong));
+					
 		}
 	}
 	
