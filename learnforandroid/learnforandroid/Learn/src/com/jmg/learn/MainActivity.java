@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -259,6 +260,7 @@ public class MainActivity extends ActionBarActivity {
 				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			Log.e("onBackPressed", e.getMessage(),e);
 			lib.ShowException(this, e);
 		}
 		return;
