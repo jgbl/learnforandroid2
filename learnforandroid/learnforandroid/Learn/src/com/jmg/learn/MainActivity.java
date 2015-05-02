@@ -218,7 +218,7 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		//saveVok(true);
+		super.onSaveInstanceState(outState);
 		try {
 			boolean aend = vok.aend;
 			String filename = vok.getFileName();
@@ -247,7 +247,7 @@ public class MainActivity extends ActionBarActivity {
 		// outState.putParcelable("vok", vok);
 		
 
-		super.onSaveInstanceState(outState);
+		
 	}
 
 	@Override
