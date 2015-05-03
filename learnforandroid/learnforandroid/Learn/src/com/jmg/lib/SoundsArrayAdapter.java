@@ -8,16 +8,17 @@ import com.jmg.lib.lib.Sounds;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SoundsArrayAdapter extends ArrayAdapter<SoundSetting>{
+public class SoundsArrayAdapter extends AbstractScaledArrayAdapter<SoundSetting>{
 
     private Activity _Activity;
-
+    
     public SoundsArrayAdapter(Context context, int textViewResourceId) 
     {
     	super(context, textViewResourceId);
@@ -47,7 +48,7 @@ public class SoundsArrayAdapter extends ArrayAdapter<SoundSetting>{
     }
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
-
+       boolean blnNew = false;
        LayoutInflater inflater = _Activity.getLayoutInflater();
        SoundSetting SoundItem = getItem(position);
        View row;
@@ -55,6 +56,7 @@ public class SoundsArrayAdapter extends ArrayAdapter<SoundSetting>{
        if (convertView == null)
        {
     	   row=inflater.inflate(R.layout.soundsspinnerrow, parent, false);
+    	   blnNew = true;
        }
        else
        {
@@ -62,10 +64,12 @@ public class SoundsArrayAdapter extends ArrayAdapter<SoundSetting>{
        }
        
        TextView label=(TextView) row.findViewById(R.id.txtSounds1);
+       if (blnNew) label.setTextSize(TypedValue.COMPLEX_UNIT_PX, label.getTextSize()*Scale);
        label.setText(SoundItem.SoundName);
 
        TextView label2=(TextView)row.findViewById(R.id.txtSounds2);
        File F = new File(SoundItem.SoundPath);
+       if (blnNew) label2.setTextSize(TypedValue.COMPLEX_UNIT_PX, label2.getTextSize()*Scale);
        label2.setText(F.getName().substring(0,(F.getName().length()> 25)?25:F.getName().length()));
        
        return row;

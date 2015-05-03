@@ -11,11 +11,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -23,12 +27,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import br.com.thinkti.android.filechooser.FileChooser;
 
 import com.jmg.lib.ColorsArrayAdapter;
+import com.jmg.lib.ScaledArrayAdapter;
 import com.jmg.lib.SoundSetting;
 import com.jmg.lib.SoundsArrayAdapter;
 import com.jmg.lib.lib;
@@ -154,13 +161,14 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			
 			
 			// Create an ArrayAdapter using the string array and a default spinner layout
-			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+			ScaledArrayAdapter<CharSequence> adapter = ScaledArrayAdapter.createFromResource(this,
 			        R.array.spnAbfragebereichEntries, android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
 			spnAbfragebereich.setAdapter(adapter);
 			spnAbfragebereich.setSelection(getIntent().getShortExtra("Abfragebereich", (short) -1)+1);
+			
 			spnAbfragebereich.setOnItemSelectedListener(new OnItemSelectedListener() {
 	
 				@Override
@@ -483,6 +491,50 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 		
 		
 				
+	}
+	
+	public float scale = 1;
+	private void resize()
+	{
+		Resources resources = this.getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		int height = metrics.heightPixels;
+		int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
+		height = height - viewTop;
+		float scale1 = height / (float)((findViewById(R.id.txtCharsetASCII)).getWidth()
+				+ spnASCII.getWidth() +10);
+		float scale2 = height / (float)((findViewById(R.id.txtSounds)).getWidth()
+				+ spnSounds.getWidth() +10);
+		float scale = (scale1<scale2)? scale1 : scale2;
+		ViewGroup Settings=(ViewGroup)findViewById(R.id.layoutSettings);
+		for (int i = 0; i < Settings.getChildCount(); i ++)
+		{
+			
+			View V = Settings.getChildAt(i);
+			
+			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) 
+					V.getLayoutParams();
+			params.topMargin = (int) (params.topMargin * scale);
+			params.height = (int) (params.height * scale);
+			params.width= (int) (params.width*scale);
+			V.setLayoutParams(params);
+			
+			if (V instanceof TextView)
+			{
+				TextView t = (TextView)V;
+				t.setTextSize(t.getTextSize()*scale);
+			}
+			else if (V instanceof Spinner)
+			{
+				Spinner spn = (Spinner) V;
+				SpinnerAdapter A = spn.getAdapter();
+				if (A instanceof ScaledArrayAdapter<?>)
+				{
+					ScaledArrayAdapter<?> AA = (ScaledArrayAdapter<?>)A;
+					AA.Scale=scale;
+				}
+			}
+		}
 	}
 	
 	private void ShowColorDialog()

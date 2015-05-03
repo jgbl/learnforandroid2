@@ -7,16 +7,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ColorsArrayAdapter extends ArrayAdapter<ColorSetting>{
+public class ColorsArrayAdapter extends AbstractScaledArrayAdapter<ColorSetting>{
 
     private Activity _Activity;
-
+    //public float scale = 1;
     public ColorsArrayAdapter(Context context, int textViewResourceId) 
     {
     	super(context, textViewResourceId);
@@ -70,7 +70,7 @@ public class ColorsArrayAdapter extends ArrayAdapter<ColorSetting>{
     }
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
-
+       boolean blnNew = false;
        LayoutInflater inflater = _Activity.getLayoutInflater();
        ColorSetting ColorItem = getItem(position);
        View row;
@@ -78,6 +78,7 @@ public class ColorsArrayAdapter extends ArrayAdapter<ColorSetting>{
        if (convertView == null)
        {
     	   row=inflater.inflate(R.layout.spinnerrow, parent, false);
+    	   blnNew = true;
        }
        else
        {
@@ -85,9 +86,11 @@ public class ColorsArrayAdapter extends ArrayAdapter<ColorSetting>{
        }
        
        TextView label=(TextView) row.findViewById(R.id.txtColors);
+       if (blnNew)label.setTextSize(TypedValue.COMPLEX_UNIT_PX,label.getTextSize()*super.Scale);
        label.setText(ColorItem.ColorName);
 
        TextView icon=(TextView)row.findViewById(R.id.txtColors2);
+       if(blnNew)icon.setTextSize(TypedValue.COMPLEX_UNIT_PX,icon.getTextSize()*super.Scale);
        icon.setBackgroundColor(ColorItem.ColorValue);
        
        return row;
