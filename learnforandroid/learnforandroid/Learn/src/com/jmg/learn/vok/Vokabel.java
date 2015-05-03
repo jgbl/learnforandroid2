@@ -1001,10 +1001,10 @@ public class Vokabel {
 				f2 = Bed.indexOf("]", f1+1);//libString.InStr(f1 + 1, Bed, "]");
 				libLearn.gStatus = "Vokabel.MakeVergl Line 392";
 				// Inserted by CodeCompleter
-				if (f2 > -1) {
-					Bed = Bed.substring(0, f1-1) + Bed.substring(f2+1, Bed.length() -1); 
+				if (f2 > f1) {
+					Bed = Bed.substring(0, f1) + Bed.substring(f2+1, Bed.length() ); 
 							//'libString.Left(Bed, f1 - 1) + "" + libString.Mid(Bed, f2 + 1, libString.Len(Bed) - f2);
-					f1 = Bed.indexOf("[", f2+1);//libString.InStr(f2 + 1, Bed, "[");
+					f1 = Bed.indexOf("[", f1+1);//libString.InStr(f2 + 1, Bed, "[");
 				} else {
 					f1 = f2;
 				}

@@ -1574,7 +1574,7 @@ public class MainActivity extends ActionBarActivity {
 
 			v = findViewById(R.id.txtMeaning1);
 			t = (TextView) v;
-			t.setText((showBeds ? vok.getBedeutung1() : ""));
+			t.setText((showBeds ? vok.getBedeutung1() : getComment(vok.getBedeutung1())));
 			if (vok.getFontBed().getName() == "Cardo") {
 				t.setTypeface(vok.TypefaceCardo);
 			} else {
@@ -1583,7 +1583,7 @@ public class MainActivity extends ActionBarActivity {
 
 			v = findViewById(R.id.txtMeaning2);
 			t = (TextView) v;
-			t.setText((showBeds ? vok.getBedeutung2() : ""));
+			t.setText((showBeds ? vok.getBedeutung2() : getComment(vok.getBedeutung2())));
 			if (vok.getFontBed().getName() == "Cardo") {
 				t.setTypeface(vok.TypefaceCardo);
 			} else {
@@ -1600,7 +1600,7 @@ public class MainActivity extends ActionBarActivity {
 
 			v = findViewById(R.id.txtMeaning3);
 			t = (TextView) v;
-			t.setText((showBeds ? vok.getBedeutung3() : ""));
+			t.setText((showBeds ? vok.getBedeutung3() : getComment(vok.getBedeutung3())));
 			if (vok.getFontBed().getName() == "Cardo") {
 				t.setTypeface(vok.TypefaceCardo);
 			} else {
@@ -1623,6 +1623,21 @@ public class MainActivity extends ActionBarActivity {
 			lib.ShowException(this, e);
 		}
 
+	}
+	
+	private String getComment(String vok)
+	{
+		int Start1 = vok.indexOf("[");
+		if (Start1>-1)
+		{
+			int Start2 = vok.indexOf("]", Start1+1);
+			if (Start2> Start1)
+			{
+				return vok.substring(Start1,Start2+1);
+			}
+				
+		}
+		return "";		
 	}
 	
 	private void SetActionBarTitle() throws Exception
