@@ -61,6 +61,7 @@ public class SoundsArrayAdapter extends AbstractScaledArrayAdapter<SoundSetting>
        else
        {
     	   row = convertView;
+    	   if (row.getTag()==null)blnNew = true;
        }
        
        TextView label=(TextView) row.findViewById(R.id.txtSounds1);
@@ -71,7 +72,7 @@ public class SoundsArrayAdapter extends AbstractScaledArrayAdapter<SoundSetting>
        File F = new File(SoundItem.SoundPath);
        if (blnNew) label2.setTextSize(TypedValue.COMPLEX_UNIT_PX, label2.getTextSize()*Scale);
        label2.setText(F.getName().substring(0,(F.getName().length()> 25)?25:F.getName().length()));
-       
+       if(Scale != 1.0f) row.setTag(true);
        return row;
     }
 

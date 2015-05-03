@@ -19,14 +19,20 @@ import android.content.*;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 //import android.runtime.*;
 import android.provider.*;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 public class lib
@@ -606,6 +612,44 @@ public class lib
 	    player.setDataSource(F.getPath());
 		player.prepare();
 	    player.start();
+	}
+	
+	public static Drawable scaleImage (Context context, Drawable image, float scaleFactor) {
+
+	    if ((image == null) || !(image instanceof BitmapDrawable)) {
+	        throw new RuntimeException("Not BitmapDrawable!");
+	    }
+
+	    Bitmap b = ((BitmapDrawable)image).getBitmap();
+
+	    int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
+	    int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
+
+	    Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
+
+	    image = new BitmapDrawable(context.getResources(), bitmapResized);
+
+	    return image;
+
+	}
+	public static Drawable getDefaultCheckBoxDrawable(Context context)
+	{
+	  int resID = 0;
+
+	  if (Build.VERSION.SDK_INT <= 10)
+	  {
+	    // pre-Honeycomb has a different way of setting the CheckBox button drawable
+	    resID = Resources.getSystem().getIdentifier("btn_check", "drawable", "android");
+	  }
+	  else
+	  {
+	    // starting with Honeycomb, retrieve the theme-based indicator as CheckBox button drawable
+	    TypedValue value = new TypedValue();
+	    context.getApplicationContext().getTheme().resolveAttribute(android.R.attr.listChoiceIndicatorMultiple, value, true);
+	    resID = value.resourceId;
+	  }
+
+	  return context.getResources().getDrawable(resID);
 	}
 
 }

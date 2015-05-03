@@ -14,11 +14,16 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ScaleDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -34,6 +39,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import br.com.thinkti.android.filechooser.FileChooser;
 
+import com.jmg.lib.AbstractScaledArrayAdapter;
 import com.jmg.lib.ColorsArrayAdapter;
 import com.jmg.lib.ScaledArrayAdapter;
 import com.jmg.lib.SoundSetting;
@@ -64,19 +70,34 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
+	public View mainView;
 	private Intent intent = new Intent();
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainView = findViewById(Window.ID_ANDROID_CONTENT);
+        mainView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                // Ensure you call it only once :
+                
+            	mainView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                // Here you can get the size :)
+            	resize();
+            }
+        });
         setContentView(R.layout.activity_settings);
 		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 		prefs = this.getPreferences(Context.MODE_PRIVATE);
-		Colors = new ColorsArrayAdapter(this,0);
-		Sounds = new SoundsArrayAdapter(this,0);
+		Colors = new ColorsArrayAdapter(this,android.R.layout.simple_spinner_item);
+		Sounds = new SoundsArrayAdapter(this,android.R.layout.simple_spinner_item);
 		
 		initSpinners();
 		initCheckBoxes();
 		initButtons();
+		//resize();
 		
 	}
 	
@@ -185,7 +206,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 					setResult(Activity.RESULT_CANCELED, null);
 				}
 			});
-			ArrayAdapter<CharSequence> adapterStep = ArrayAdapter.createFromResource(this,
+			ScaledArrayAdapter<CharSequence> adapterStep = ScaledArrayAdapter.createFromResource(this,
 			        R.array.spnStepEntries, android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterStep.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -209,7 +230,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				}
 			});
 	
-			ArrayAdapter<String> adapterASCII = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);   
+			ScaledArrayAdapter<String> adapterASCII = new ScaledArrayAdapter<String>(this, android.R.layout.simple_spinner_item);   
 			//adapterASCII.addAll(Charset.availableCharsets().values());
 			
 			for(Charset c:Charset.availableCharsets().values())
@@ -255,7 +276,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				}
 			});
 			
-			ArrayAdapter<CharSequence> adapterDDWord = ArrayAdapter.createFromResource(this,
+			ScaledArrayAdapter<CharSequence> adapterDDWord = ScaledArrayAdapter.createFromResource(this,
 			        R.array.spnDurations, android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterDDWord.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -282,7 +303,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				}
 			});
 			
-			ArrayAdapter<CharSequence> adapterDDBed = ArrayAdapter.createFromResource(this,
+			ScaledArrayAdapter<CharSequence> adapterDDBed = ScaledArrayAdapter.createFromResource(this,
 			        R.array.spnDurations, android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterDDBed.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -309,6 +330,11 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				}
 			});
 			
+			ScaledArrayAdapter<CharSequence> adapterPaukRepetitions = ScaledArrayAdapter.createFromResource(this,
+			        R.array.spnRepetitions, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapterPaukRepetitions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spnPaukRepetitions.setAdapter(adapterPaukRepetitions);
 			Pos = getIntent().getIntExtra("PaukRepetitions", 3)-1;
 			spnPaukRepetitions.setSelection(Pos);
 			spnPaukRepetitions.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -328,6 +354,11 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				}
 			});
 	
+			ScaledArrayAdapter<CharSequence> adapterProbabilityFactor = ScaledArrayAdapter.createFromResource(this,
+			        R.array.spnProbabilityFactors, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapterProbabilityFactor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spnProbabilityFactor.setAdapter(adapterProbabilityFactor);
 			float ProbabilityFactor = getIntent().getFloatExtra("ProbabilityFactor", -1f); 
 			if (ProbabilityFactor == -1)
 			{
@@ -339,14 +370,12 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				strDD = strDD.replace(".0", "");
 			}
 			
-			SpinnerAdapter a = spnProbabilityFactor.getAdapter();
-			ArrayAdapter<CharSequence> a1 = null;
-			if (a != null)
+			ArrayAdapter<CharSequence> a1 = adapterProbabilityFactor;
+			if (a1 != null)
 			{
 				try
 				{
 					libLearn.gStatus = "get Spinneradapter ProbabilityFactor";
-					a1 = (ArrayAdapter<CharSequence>) a;
 					Pos = (a1.getPosition(strDD));
 					spnProbabilityFactor.setSelection(Pos);
 				}
@@ -496,30 +525,33 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	public float scale = 1;
 	private void resize()
 	{
-		Resources resources = this.getResources();
-		DisplayMetrics metrics = resources.getDisplayMetrics();
-		int height = metrics.heightPixels;
-		int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
-		height = height - viewTop;
-		float scale1 = height / (float)((findViewById(R.id.txtCharsetASCII)).getWidth()
-				+ spnASCII.getWidth() +10);
-		float scale2 = height / (float)((findViewById(R.id.txtSounds)).getWidth()
-				+ spnSounds.getWidth() +10);
+		//Resources resources = this.getResources();
+		//DisplayMetrics metrics = resources.getDisplayMetrics();
+		int width = mainView.getWidth();
+		float scale1 = width / (float)((findViewById(R.id.txtCharsetASCII)).getWidth()
+				+ spnASCII.getWidth() + width/50);
+		float scale2 = width / (float)((findViewById(R.id.txtSounds)).getWidth()
+				+ spnSounds.getWidth() + width/50);
 		float scale = (scale1<scale2)? scale1 : scale2;
 		ViewGroup Settings=(ViewGroup)findViewById(R.id.layoutSettings);
 		for (int i = 0; i < Settings.getChildCount(); i ++)
 		{
 			
 			View V = Settings.getChildAt(i);
-			
-			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) 
-					V.getLayoutParams();
-			params.topMargin = (int) (params.topMargin * scale);
-			params.height = (int) (params.height * scale);
-			params.width= (int) (params.width*scale);
-			V.setLayoutParams(params);
-			
-			if (V instanceof TextView)
+			//if (!(V instanceof CheckBox))
+			//{
+				RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) 
+						V.getLayoutParams();
+				params.topMargin = (int) (params.topMargin * scale);
+				params.height = (int) (params.height * scale);
+				params.width= (int) (params.width*scale);
+				if (V==spnSounds)
+				{
+					params.topMargin= (int) ((spnSounds.getHeight()*scale)/5.25);
+				}
+				V.setLayoutParams(params);
+			//}
+			if (V instanceof TextView && !(V instanceof CheckBox))
 			{
 				TextView t = (TextView)V;
 				t.setTextSize(t.getTextSize()*scale);
@@ -528,13 +560,47 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			{
 				Spinner spn = (Spinner) V;
 				SpinnerAdapter A = spn.getAdapter();
-				if (A instanceof ScaledArrayAdapter<?>)
+				if (A instanceof AbstractScaledArrayAdapter<?>)
 				{
-					ScaledArrayAdapter<?> AA = (ScaledArrayAdapter<?>)A;
+					AbstractScaledArrayAdapter<?> AA = (AbstractScaledArrayAdapter<?>)A;
 					AA.Scale=scale;
+					AA.notifyDataSetChanged();
+					
 				}
 			}
+			else if (V instanceof CheckBox)
+			{
+				CheckBox c = (CheckBox) V;
+				//c.setScaleX(scale);
+				//c.setScaleY(scale);
+				//c.setle
+				c.setTextSize(c.getTextSize()*scale);
+				//Drawable d = lib.getDefaultCheckBoxDrawable(this);
+				//d = new ScaleDrawable(d, 0, c.getHeight()*scale, c.getHeight()*scale).getDrawable();
+				//float scaleC = (float)c.getHeight()/d.getBounds().height();
+				//d.setBounds(0, 0,(int) (c.getHeight()*scale),(int) (c.getHeight()*scale));
+				//LayerDrawable L = new LayerDrawable(new Drawable[]{d});
+				//d = lib.scaleImage(this, d, scaleC);
+				///c.setButtonDrawable(d);
+			}
 		}
+		Button b = (Button)findViewById(R.id.btnOK);
+		RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) 
+				b.getLayoutParams();
+		params.topMargin = (int) (params.topMargin * scale);
+		params.height = (int) (params.height * scale);
+		params.width= (int) (params.width*scale);
+		b.setLayoutParams(params);
+		b.setTextSize(b.getTextSize()*scale);
+		
+		b = (Button)findViewById(R.id.btnCancel);
+		params = (android.widget.RelativeLayout.LayoutParams) 
+				b.getLayoutParams();
+		params.topMargin = (int) (params.topMargin * scale);
+		params.height = (int) (params.height * scale);
+		params.width= (int) (params.width*scale);
+		b.setLayoutParams(params);
+		b.setTextSize(b.getTextSize()*scale);
 	}
 	
 	private void ShowColorDialog()

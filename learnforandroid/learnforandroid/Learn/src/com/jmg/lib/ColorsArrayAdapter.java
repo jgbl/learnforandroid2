@@ -83,6 +83,7 @@ public class ColorsArrayAdapter extends AbstractScaledArrayAdapter<ColorSetting>
        else
        {
     	   row = convertView;
+    	   if (row.getTag()==null)blnNew = true;
        }
        
        TextView label=(TextView) row.findViewById(R.id.txtColors);
@@ -92,7 +93,7 @@ public class ColorsArrayAdapter extends AbstractScaledArrayAdapter<ColorSetting>
        TextView icon=(TextView)row.findViewById(R.id.txtColors2);
        if(blnNew)icon.setTextSize(TypedValue.COMPLEX_UNIT_PX,icon.getTextSize()*super.Scale);
        icon.setBackgroundColor(ColorItem.ColorValue);
-       
+       if (Scale != 1.0f)row.setTag(true);
        return row;
     }
 

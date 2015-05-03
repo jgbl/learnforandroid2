@@ -11,6 +11,6 @@ public class AbstractScaledArrayAdapter<T> extends ArrayAdapter<T> {
 		// TODO Auto-generated constructor stub
 	}
 
-	public float Scale = 1;
+	public float Scale = 1.0f;
 
 }

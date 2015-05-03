@@ -17,6 +17,7 @@ public class ScaledArrayAdapter<T> extends AbstractScaledArrayAdapter<T> {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         boolean blnNew = (convertView==null);
 		View V = super.getDropDownView(position, convertView, parent);
+		if (V.getTag()==null)blnNew = true;
         if (blnNew)
         {
     		resizeviews(V);
@@ -28,7 +29,8 @@ public class ScaledArrayAdapter<T> extends AbstractScaledArrayAdapter<T> {
     public View getView(int position, View convertView, ViewGroup parent) {
     	boolean blnNew = (convertView==null);
 		View V = super.getView(position, convertView, parent);
-        if (blnNew)
+        if (V.getTag()==null)blnNew = true;
+		if (blnNew)
         {
     		resizeviews(V);
         }
@@ -37,16 +39,29 @@ public class ScaledArrayAdapter<T> extends AbstractScaledArrayAdapter<T> {
 
     private void resizeviews(View V)
     {
-    	ViewGroup views = (ViewGroup)V;
-		for (int i = 0; i < views.getChildCount(); i++)
-		{
-			View v = views.getChildAt(i);
-			if (v instanceof TextView)
-			{
-				TextView t = (TextView) v;
-				t.setTextSize(TypedValue.COMPLEX_UNIT_PX, t.getTextSize()*Scale);
-			}
-		}
+    	if (!(V instanceof TextView))
+    	{
+    		if(V instanceof ViewGroup)
+    		{
+    			ViewGroup views = (ViewGroup)V;
+        		for (int i = 0; i < views.getChildCount(); i++)
+        		{
+        			View v = views.getChildAt(i);
+        			if (v instanceof TextView)
+        			{
+        				TextView t = (TextView) v;
+        				t.setTextSize(TypedValue.COMPLEX_UNIT_PX, t.getTextSize()*Scale);
+        			}
+        		}
+
+    		}
+    	}
+    	else
+    	{
+    		TextView t = (TextView) V;
+			t.setTextSize(TypedValue.COMPLEX_UNIT_PX, t.getTextSize()*Scale);
+    	}
+    	if (Scale != 1) V.setTag(true);
     }
     public static ScaledArrayAdapter<CharSequence> createFromResource(Context context, int textArrayResId, int textViewResId)
 	        {
