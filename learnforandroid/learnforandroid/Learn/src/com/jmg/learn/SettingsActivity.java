@@ -635,7 +635,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 						libLearn.gStatus="Scaling Adapter";
 						AbstractScaledArrayAdapter<?> AA = (AbstractScaledArrayAdapter<?>) A;
 						AA.Scale = scale;
-						AA.notifyDataSetChanged();
+						//AA.notifyDataSetChanged();
 
 					}
 				} else if (V instanceof CheckBox) {
