@@ -1759,10 +1759,17 @@ public class Vokabel {
 			} catch (Exception ex) {
 				throw new Exception("SaveVokError", ex);
 			} finally {
-				sWriter.close();
-				sWriter = null;
-				os.close();
-				os = null;
+				if (sWriter != null)
+					{
+						sWriter.close();
+						sWriter = null;
+					}
+				if (os != null)
+				{
+					os.close();
+					os = null;
+				}
+				
 			}
 			aend = false;
 

@@ -6,24 +6,22 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -82,8 +80,11 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
             public void onGlobalLayout() {
                 // Ensure you call it only once :
                 
-            	mainView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
+            	if (Build.VERSION.SDK_INT<16) {
+                    removeLayoutListenerPre16(mainView.getViewTreeObserver(),this);
+                } else {
+                    removeLayoutListenerPost16(mainView.getViewTreeObserver(), this);
+                }
                 // Here you can get the size :)
             	resize();
             }
@@ -99,6 +100,16 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 		initButtons();
 		//resize();
 		
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void removeLayoutListenerPre16(ViewTreeObserver observer, OnGlobalLayoutListener listener){
+	    observer.removeGlobalOnLayoutListener(listener);
+	}
+
+	@TargetApi(16)
+	private void removeLayoutListenerPost16(ViewTreeObserver observer, OnGlobalLayoutListener listener){
+	    observer.removeOnGlobalLayoutListener(listener);
 	}
 	
 	private void initCheckBoxes()
@@ -525,6 +536,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	public float scale = 1;
 	private void resize()
 	{
+		
 		//Resources resources = this.getResources();
 		//DisplayMetrics metrics = resources.getDisplayMetrics();
 		int width = mainView.getWidth();
@@ -547,14 +559,16 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				params.width= (int) (params.width*scale);
 				if (V==spnSounds)
 				{
-					params.topMargin= (int) ((spnSounds.getHeight()*scale)/5.25);
+					int soundsHeight = spnSounds.getHeight();
+					float margin = (float) ((soundsHeight * scale)/5.25);
+					params.topMargin= (int) margin;
 				}
 				V.setLayoutParams(params);
 			//}
 			if (V instanceof TextView && !(V instanceof CheckBox))
 			{
 				TextView t = (TextView)V;
-				t.setTextSize(t.getTextSize()*scale);
+				t.setTextSize(TypedValue.COMPLEX_UNIT_PX,t.getTextSize()*scale);
 			}
 			else if (V instanceof Spinner)
 			{
@@ -574,7 +588,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				//c.setScaleX(scale);
 				//c.setScaleY(scale);
 				//c.setle
-				c.setTextSize(c.getTextSize()*scale);
+				c.setTextSize(TypedValue.COMPLEX_UNIT_PX,c.getTextSize()*scale);
 				//Drawable d = lib.getDefaultCheckBoxDrawable(this);
 				//d = new ScaleDrawable(d, 0, c.getHeight()*scale, c.getHeight()*scale).getDrawable();
 				//float scaleC = (float)c.getHeight()/d.getBounds().height();
@@ -591,7 +605,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 		params.height = (int) (params.height * scale);
 		params.width= (int) (params.width*scale);
 		b.setLayoutParams(params);
-		b.setTextSize(b.getTextSize()*scale);
+		b.setTextSize(TypedValue.COMPLEX_UNIT_PX,b.getTextSize()*scale);
 		
 		b = (Button)findViewById(R.id.btnCancel);
 		params = (android.widget.RelativeLayout.LayoutParams) 
@@ -600,7 +614,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 		params.height = (int) (params.height * scale);
 		params.width= (int) (params.width*scale);
 		b.setLayoutParams(params);
-		b.setTextSize(b.getTextSize()*scale);
+		b.setTextSize(TypedValue.COMPLEX_UNIT_PX,b.getTextSize()*scale);
 	}
 	
 	private void ShowColorDialog()

@@ -256,18 +256,7 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public void onBackPressed() {
-		try {
-			if (_backPressed > 0 || saveVok(false))
-			{
-				handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
-				super.onBackPressed();
-			}
-				
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Log.e("onBackPressed", e.getMessage(),e);
-			lib.ShowException(this, e);
-		}
+		super.onBackPressed();
 		
 	}
 
@@ -287,9 +276,32 @@ public class MainActivity extends ActionBarActivity {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				lib.ShowException(this, e);
+				return false;
 			}
 		}
+		else if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			try {
+				if (_backPressed > 0 || saveVok(false))
+				{
+					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
+				}
+				else
+				{
+					return false;
+				}
+					
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Log.e("onBackPressed", e.getMessage(),e);
+				lib.ShowException(this, e);
+				return false;
+			}
+		}
+		
 		return super.onKeyDown(keyCode, event);
+		
+		
 	};
 
 	private int _backPressed;
