@@ -11,7 +11,6 @@ import com.jmg.learn.MainActivity;
 import com.jmg.learn.R;
 import com.jmg.learn.libLearn;
 
-
 //import com.microsoft.live.*;
 
 import android.app.*;
@@ -35,248 +34,236 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 
-public class lib
-{
-	
+public class lib {
 
-	public lib()
-	{
+	public lib() {
 	}
+
 	private static String _status = "";
-	//private static final String ONEDRIVE_APP_ID = "48122D4E";
+	// private static final String ONEDRIVE_APP_ID = "48122D4E";
 	private static final String ClassName = "lib.lib";
 	public static final String TAG = "com.jmg.lib.lib";
 	public static boolean sndEnabled = true;
-	
-	public static String getgstatus()
-	{
+
+	public static String getgstatus() {
 		return _status;
 	}
-	
-	public static void setgstatus(String value)
-	{
+
+	public static void setgstatus(String value) {
 		_status = value;
 		System.out.println(value);
 	}
-	public static String getRealPathFromURI(Activity context, android.net.Uri contentURI)
-	{
+
+	public static String getRealPathFromURI(Activity context,
+			android.net.Uri contentURI) {
 		android.database.Cursor cursor = null;
-		try
-		{
-			String[] proj = {MediaStore.Images.Media.DATA};
-			cursor = context.getContentResolver().query(contentURI, proj, null, null, null);
-			int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		try {
+			String[] proj = { MediaStore.Images.Media.DATA };
+			cursor = context.getContentResolver().query(contentURI, proj, null,
+					null, null);
+			int column_index = cursor
+					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 			cursor.moveToFirst();
 			return cursor.getString(column_index);
-		}
-		finally
-		{
-			if (cursor != null)
-			{
+		} finally {
+			if (cursor != null) {
 				cursor.close();
 			}
 		}
 	}
-	public static String getSizeFromURI(Context context, android.net.Uri contentURI)
-	{
+
+	public static String getSizeFromURI(Context context,
+			android.net.Uri contentURI) {
 		android.database.Cursor cursor = null;
-		try
-		{
-			String[] proj = {MediaStore.Images.Media.SIZE};
-			cursor = context.getContentResolver().query(contentURI, proj, null, null, null);
-			int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
+		try {
+			String[] proj = { MediaStore.Images.Media.SIZE };
+			cursor = context.getContentResolver().query(contentURI, proj, null,
+					null, null);
+			int column_index = cursor
+					.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
 			cursor.moveToFirst();
 			return cursor.getString(column_index);
-		}
-		finally
-		{
-			if (cursor != null)
-			{
+		} finally {
+			if (cursor != null) {
 				cursor.close();
 			}
 		}
 	}
-		public static void StartViewer(Context context, android.net.Uri uri)
-	{
+
+	public static void StartViewer(Context context, android.net.Uri uri) {
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setDataAndType(uri, "image/*");
 		context.startActivity(i);
 	}
-	/*	private static class ExStateInfo
-	{
-		public Context context;
-		public RuntimeException ex;
-		public ExStateInfo(Context context, RuntimeException ex)
-		{
-			this.context = context;
-			this.ex = ex;
+
+	/*
+	 * private static class ExStateInfo { public Context context; public
+	 * RuntimeException ex; public ExStateInfo(Context context, RuntimeException
+	 * ex) { this.context = context; this.ex = ex; } }
+	 */
+
+	public static void copyFile(String Source, String Dest) throws IOException {
+		File source = new File(Source);
+		File dest = new File(Dest);
+		FileChannel sourceChannel = null;
+		FileChannel destChannel = null;
+		try {
+			sourceChannel = new FileInputStream(source).getChannel();
+			destChannel = new FileOutputStream(dest).getChannel();
+			destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+		} finally {
+			sourceChannel.close();
+			destChannel.close();
 		}
 	}
-	*/
-		
-		
-	public static void copyFile(String Source, String Dest) throws IOException {
-	     File source = new File(Source);
-	     File dest = new File(Dest);
-		 FileChannel sourceChannel = null;
-	        FileChannel destChannel = null;
-	        try {
-	            sourceChannel = new FileInputStream(source).getChannel();
-	            destChannel = new FileOutputStream(dest).getChannel();
-	            destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-	           }finally{
-	               sourceChannel.close();
-	               destChannel.close();
-	           }
-	    }
-	public static float convertFromDp(Context context,float input) {
+
+	public static float convertFromDp(Context context, float input) {
 		int minWidth = context.getResources().getDisplayMetrics().widthPixels;
 		int minHeight = context.getResources().getDisplayMetrics().heightPixels;
-		if (minHeight < minWidth) minWidth = minHeight;
-	    final float scale = 768.0f / (float)minWidth;
-	    return ((input - 0.5f) / scale);
-	}
-	public static class libString
-	{
-		public static boolean IsNullOrEmpty(String s)
-		{
-			if(s == null || s == "" || s.length() == 0){return true;}
-			else{return false;}
-		}
-		public static int InStr(String s, String Search)
-		{
-			int Start = 1;
-			return InStr(Start,s,Search);
-		}
-		public static int InStr(int Start, String s, String Search)
-		{
-			return s.indexOf(Search, Start-1) + 1;
-		}
-		public static String Chr(int Code)
-		{
-			char c[] = {(char)Code};
-			return new String(c);
-		}
-		public static String Left(String s, int length)
-		{
-			return s.substring(0, length);
-		}
-		public static int Len(String s)
-		{
-			return s.length();
-		}
-		public static String Right(String wort, int i) {
-			// TODO Auto-generated method stub
-			return wort.substring(wort.length()-i);
-		}
-		
-	}
-	public static boolean like(final String str, final String expr)
-	{
-	  String regex = quotemeta(expr);
-	  regex = regex.replace("_", ".").replace("*", ".*?");
-	  Pattern p = Pattern.compile(regex,
-	      Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-	  return p.matcher(str).matches();
+		if (minHeight < minWidth)
+			minWidth = minHeight;
+		final float scale = 768.0f / (float) minWidth;
+		return ((input - 0.5f) / scale);
 	}
 
-	public static String quotemeta(String s)
-	{
-	  if (s == null)
-	  {
-	    throw new IllegalArgumentException("String cannot be null");
-	  }
-
-	  int len = s.length();
-	  if (len == 0)
-	  {
-	    return "";
-	  }
-
-	  StringBuilder sb = new StringBuilder(len * 2);
-	  for (int i = 0; i < len; i++)
-	  {
-	    char c = s.charAt(i);
-	    if ("[](){}.+?$^|#\\".indexOf(c) != -1)
-	    {
-	      sb.append("\\");
-	    }
-	    sb.append(c);
-	  }
-	  return sb.toString();
-	}
-	
-	public static int countMatches(String str, String sub) {
-	    if (libString.IsNullOrEmpty(str) || libString.IsNullOrEmpty(sub)) {
-	        return 0;
-	    }
-	    int count = 0;
-	    int idx = 0;
-	    while ((idx = str.indexOf(sub, idx)) != -1) {
-	        count++;
-	        idx += sub.length();
-	    }
-	    return count;
-	    
-	}
-	public static String MakeMask(String strBed)
-	{
-		try
-		{
-			int i = 0;
-			int Len = strBed.length();
-			if (Len == 0) return "";
-			libLearn.gStatus = ClassName + ".MakeMask";
-			for (i = 0; i <= Len -1 ; i++) {
-				if ((".,;/[]()".indexOf(strBed.charAt(i)) > -1)) {
-					strBed = strBed.substring(0, i) + "*" + (i < Len-1 ? strBed.substring(i+1):"");
-				}
+	public static class libString {
+		public static boolean IsNullOrEmpty(String s) {
+			if (s == null || s == "" || s.length() == 0) {
+				return true;
+			} else {
+				return false;
 			}
 		}
-		catch (Exception ex)
-		{
+
+		public static int InStr(String s, String Search) {
+			int Start = 1;
+			return InStr(Start, s, Search);
+		}
+
+		public static int InStr(int Start, String s, String Search) {
+			return s.indexOf(Search, Start - 1) + 1;
+		}
+
+		public static String Chr(int Code) {
+			char c[] = { (char) Code };
+			return new String(c);
+		}
+
+		public static String Left(String s, int length) {
+			return s.substring(0, length);
+		}
+
+		public static int Len(String s) {
+			return s.length();
+		}
+
+		public static String Right(String wort, int i) {
+			// TODO Auto-generated method stub
+			return wort.substring(wort.length() - i);
+		}
+
+	}
+
+	public static boolean like(final String str, final String expr) {
+		String regex = quotemeta(expr);
+		regex = regex.replace("_", ".").replace("*", ".*?");
+		Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
+				| Pattern.DOTALL);
+		return p.matcher(str).matches();
+	}
+
+	public static String quotemeta(String s) {
+		if (s == null) {
+			throw new IllegalArgumentException("String cannot be null");
+		}
+
+		int len = s.length();
+		if (len == 0) {
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder(len * 2);
+		for (int i = 0; i < len; i++) {
+			char c = s.charAt(i);
+			if ("[](){}.+?$^|#\\".indexOf(c) != -1) {
+				sb.append("\\");
+			}
+			sb.append(c);
+		}
+		return sb.toString();
+	}
+
+	public static int countMatches(String str, String sub) {
+		if (libString.IsNullOrEmpty(str) || libString.IsNullOrEmpty(sub)) {
+			return 0;
+		}
+		int count = 0;
+		int idx = 0;
+		while ((idx = str.indexOf(sub, idx)) != -1) {
+			count++;
+			idx += sub.length();
+		}
+		return count;
+
+	}
+
+	public static String MakeMask(String strBed) {
+		try {
+			int i = 0;
+			int Len = strBed.length();
+			if (Len == 0)
+				return "";
+			libLearn.gStatus = ClassName + ".MakeMask";
+			for (i = 0; i <= Len - 1; i++) {
+				if ((".,;/[]()".indexOf(strBed.charAt(i)) > -1)) {
+					strBed = strBed.substring(0, i) + "*"
+							+ (i < Len - 1 ? strBed.substring(i + 1) : "");
+				}
+			}
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return strBed;
 
 	}
-	
+
 	/*
-	public static <E> getEnumByOrdinal(<E> object, int ordinal) throws RuntimeException
-	{
-	   E value;
-		return value;
-	}
-	*/
-	
+	 * public static <E> getEnumByOrdinal(<E> object, int ordinal) throws
+	 * RuntimeException { E value; return value; }
+	 */
+
 	/**
-	 * Returns a pseudo-random number between min and max, inclusive.
-	 * The difference between min and max can be at most
+	 * Returns a pseudo-random number between min and max, inclusive. The
+	 * difference between min and max can be at most
 	 * <code>Integer.MAX_VALUE - 1</code>.
-	 *
-	 * @param min Minimum value
-	 * @param max Maximum value.  Must be greater than min.
+	 * 
+	 * @param min
+	 *            Minimum value
+	 * @param max
+	 *            Maximum value. Must be greater than min.
 	 * @return Integer between min and max, inclusive.
 	 * @see java.util.Random#nextInt(int)
 	 */
 	public static int rndInt(int min, int max) {
 
-	    // NOTE: Usually this should be a field rather than a method
-	    // variable so that it is not re-seeded every call.
-	    Random rand = new Random();
+		// NOTE: Usually this should be a field rather than a method
+		// variable so that it is not re-seeded every call.
+		Random rand = new Random();
 
-	    // nextInt is normally exclusive of the top value,
-	    // so add 1 to make it inclusive
-	    int randomNum = rand.nextInt((max - min) + 1) + min;
+		// nextInt is normally exclusive of the top value,
+		// so add 1 to make it inclusive
+		int randomNum = rand.nextInt((max - min) + 1) + min;
 
-	    return randomNum;
+		return randomNum;
 	}
-	public static <T> T[] ResizeArray(T Array[], int newSize)
-	{
+
+	public static <T> T[] ResizeArray(T Array[], int newSize) {
 		@SuppressWarnings("unchecked")
-		T[] NewArr = (T[]) java.lang.reflect.Array.newInstance(Array.getClass(), newSize);
+		T[] NewArr = (T[]) java.lang.reflect.Array.newInstance(
+				Array.getClass(), newSize);
 		int length = Array.length;
-		if (length>newSize) length = newSize;
+		if (length > newSize)
+			length = newSize;
 		System.arraycopy(Array, 0, NewArr, 0, length);
 		return NewArr;
 	}
@@ -284,373 +271,361 @@ public class lib
 	public static int[] ResizeArray(int[] Array, int newSize) {
 		int[] NewArr = new int[newSize];
 		int length = Array.length;
-		if (length>newSize) length = newSize;
+		if (length > newSize)
+			length = newSize;
 		System.arraycopy(Array, 0, NewArr, 0, length);
 		return NewArr;
 	}
-	public static synchronized void ShowMessage(Context context, String msg)
-	{
-		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
-	   AlertDialog.Builder A = new AlertDialog.Builder(context);
-	   A.setPositiveButton("OK",listener());
-	   A.setMessage(msg);
-	   A.setTitle("Message");
-	   A.show();
+
+	public static synchronized void ShowMessage(Context context, String msg) {
+		// System.Threading.SynchronizationContext.Current.Post(new
+		// System.Threading.SendOrPostCallback(DelShowException),new
+		// ExStateInfo(context, ex));
+		AlertDialog.Builder A = new AlertDialog.Builder(context);
+		A.setPositiveButton("OK", listener());
+		A.setMessage(msg);
+		A.setTitle("Message");
+		A.show();
 	}
-	
-	public static synchronized void ShowException(Context context, Throwable ex)
-	{
-		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
-	   AlertDialog.Builder A = new AlertDialog.Builder(context);
-	   A.setPositiveButton("OK",listener());
-	   A.setMessage(ex.getMessage() + "\n" + (ex.getCause() == null ? "" : ex.getCause().getMessage())+ "\nStatus: " + libLearn.gStatus);
-	   A.setTitle("Error");
-	   A.show();
+
+	public static synchronized void ShowException(Context context, Throwable ex) {
+		// System.Threading.SynchronizationContext.Current.Post(new
+		// System.Threading.SendOrPostCallback(DelShowException),new
+		// ExStateInfo(context, ex));
+		AlertDialog.Builder A = new AlertDialog.Builder(context);
+		A.setPositiveButton("OK", listener());
+		A.setMessage(ex.getMessage() + "\n"
+				+ (ex.getCause() == null ? "" : ex.getCause().getMessage())
+				+ "\nStatus: " + libLearn.gStatus);
+		A.setTitle("Error");
+		A.show();
 	}
+
 	private static DialogInterface.OnClickListener listener() {
 		return null;
 	}
-	
+
 	private static Handler YesNoHandler;
-	public static synchronized boolean ShowMessageYesNo(Context context, String msg)
-	{
-		//System.Threading.SynchronizationContext.Current.Post(new System.Threading.SendOrPostCallback(DelShowException),new ExStateInfo(context, ex));
-	   try
-	   {
-			if (YesNoHandler==null) YesNoHandler = new Handler()
+
+	public static synchronized boolean ShowMessageYesNo(Context context,
+			String msg) {
+		// System.Threading.SynchronizationContext.Current.Post(new
+		// System.Threading.SendOrPostCallback(DelShowException),new
+		// ExStateInfo(context, ex));
+		try {
+			if (YesNoHandler == null)
+				YesNoHandler = new Handler() {
+					@Override
+					public void handleMessage(Message mesg) {
+						throw new RuntimeException();
+					}
+				};
+
+			DialogResultYes = false;
+			AlertDialog.Builder A = new AlertDialog.Builder(context);
+			A.setPositiveButton(context.getString(R.string.yes), listenerYesNo);
+			A.setNegativeButton(context.getString(R.string.no), listenerYesNo);
+			A.setMessage(msg);
+			A.setTitle("Question");
+			A.show();
+
+			try
+
 			{
-				@Override
-		        public void handleMessage(Message mesg) {
-		            throw new RuntimeException();
-		        } 
-			};
-			
-		   DialogResultYes = false;
-		   AlertDialog.Builder A = new AlertDialog.Builder(context);
-		   A.setPositiveButton(context.getString(R.string.yes),listenerYesNo);
-		   A.setNegativeButton(context.getString(R.string.no),listenerYesNo);
-		   A.setMessage(msg);
-		   A.setTitle("Question");
-		   A.show();
-		   
-		   try 
-					
-		   { 
-			   Looper.loop(); 
-		   }
-		   catch(RuntimeException e2) 
-		   {
-		     //Looper.myLooper().quit();	
-		   }
-	   }
-	   catch (Exception ex)
-	   {
-		   ShowException(context, ex);
-	   }
-	   return DialogResultYes;
+				Looper.loop();
+			} catch (RuntimeException e2) {
+				// Looper.myLooper().quit();
+			}
+		} catch (Exception ex) {
+			ShowException(context, ex);
+		}
+		return DialogResultYes;
 	}
-	public static synchronized void ShowToast(Context context, String msg)
-	{
-		/*Looper.prepare();*/
+
+	public static synchronized void ShowToast(Context context, String msg) {
+		/* Looper.prepare(); */
 		Toast T = Toast.makeText(context, msg, Toast.LENGTH_LONG);
 		T.show();
 	}
+
 	private static boolean DialogResultYes = false;
 	private static DialogInterface.OnClickListener listenerYesNo = new DialogInterface.OnClickListener() {
-		
-		@Override
-	    public void onClick(DialogInterface dialog, int which) 
-		{
-	        switch (which){
-	        case DialogInterface.BUTTON_POSITIVE:
-	            //Yes button clicked
-	        	DialogResultYes = true;
-	            break;
 
-	        case DialogInterface.BUTTON_NEGATIVE:
-	            //No button clicked
-	        	DialogResultYes = false;
-	            break;
-	        }
-	        YesNoHandler.sendMessage(YesNoHandler.obtainMessage());
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			switch (which) {
+			case DialogInterface.BUTTON_POSITIVE:
+				// Yes button clicked
+				DialogResultYes = true;
+				break;
+
+			case DialogInterface.BUTTON_NEGATIVE:
+				// No button clicked
+				DialogResultYes = false;
+				break;
+			}
+			YesNoHandler.sendMessage(YesNoHandler.obtainMessage());
 		}
 	};
-	
-	public static String getExtension(String Filename)
-	{
+
+	public static String getExtension(String Filename) {
 		return getExtension(new File(Filename));
 	}
-	
-	public static String getExtension(java.io.File F)
-	{
+
+	public static String getExtension(java.io.File F) {
 		String extension = "";
 
 		int i = F.getName().lastIndexOf('.');
-		if (i >	 0) 
-		{
+		if (i > 0) {
 			extension = F.getName().substring(i);
 			return extension;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}
-	
-	public static String getFilenameWithoutExtension(String Filename)
-	{
+
+	public static String getFilenameWithoutExtension(String Filename) {
 		return getFilenameWithoutExtension(new File(Filename));
 	}
-	
-	
-	public static String getFilenameWithoutExtension(java.io.File F)
-	{
+
+	public static String getFilenameWithoutExtension(java.io.File F) {
 		String Filename = F.getPath();
 
 		int i = Filename.lastIndexOf('.');
 		int ii = Filename.lastIndexOf(java.io.File.pathSeparatorChar);
-		if (i > 0 && i>ii) 
-		{
-			Filename = Filename.substring(0,i);
+		if (i > 0 && i > ii) {
+			Filename = Filename.substring(0, i);
 			return Filename;
-		}
-		else
-		{
+		} else {
 			return Filename;
 		}
 	}
 
 	/*
-	public static String rtfToHtml(Reader rtf) throws IOException {
-		JEditorPane p = new JEditorPane();
-		p.setContentType("text/rtf");
-		EditorKit kitRtf = p.getEditorKitForContentType("text/rtf");
-		try {
-			kitRtf.read(rtf, p.getDocument(), 0);
-			kitRtf = null;
-			EditorKit kitHtml = p.getEditorKitForContentType("text/html");
-			Writer writer = new StringWriter();
-			kitHtml.write(writer, p.getDocument(), 0, p.getDocument().getLength());
-			return writer.toString();
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	*/
+	 * public static String rtfToHtml(Reader rtf) throws IOException {
+	 * JEditorPane p = new JEditorPane(); p.setContentType("text/rtf");
+	 * EditorKit kitRtf = p.getEditorKitForContentType("text/rtf"); try {
+	 * kitRtf.read(rtf, p.getDocument(), 0); kitRtf = null; EditorKit kitHtml =
+	 * p.getEditorKitForContentType("text/html"); Writer writer = new
+	 * StringWriter(); kitHtml.write(writer, p.getDocument(), 0,
+	 * p.getDocument().getLength()); return writer.toString(); } catch
+	 * (BadLocationException e) { e.printStackTrace(); } return null; }
+	 */
 	private static long SLEEP_TIME = 2; // for 2 second
-	private static CountDownLatch latch;		
-	public static void Sleep(int Seconds) throws InterruptedException
-	{
+	private static CountDownLatch latch;
+
+	public static void Sleep(int Seconds) throws InterruptedException {
 		latch = new CountDownLatch(1);
 		SLEEP_TIME = Seconds;
 		MyLauncher launcher = new MyLauncher();
-		            launcher.start();
-		//latch.await();
+		launcher.start();
+		// latch.await();
 	}
-	private static class MyLauncher extends Thread 
-	{
-        @Override
-        /**
-         * Sleep for 2 seconds as you can also change SLEEP_TIME 2 to any. 
-         */
-        public void run() {
-            try {
-                // Sleeping
-                Thread.sleep(SLEEP_TIME * 1000);
-                latch.countDown();
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-            //do something you want to do
-           //And your code will be executed after 2 second
-        }
+
+	private static class MyLauncher extends Thread {
+		@Override
+		/**
+		 * Sleep for 2 seconds as you can also change SLEEP_TIME 2 to any. 
+		 */
+		public void run() {
+			try {
+				// Sleeping
+				Thread.sleep(SLEEP_TIME * 1000);
+				latch.countDown();
+			} catch (Exception e) {
+				Log.e(TAG, e.getMessage());
+			}
+			// do something you want to do
+			// And your code will be executed after 2 second
+		}
 	}
-	public static int[] getColors()
-	{
-		int [] Colors = new int [4096];
-		for (int i = 0; i<16; i++)
+
+	public static int[] getColors() {
+		int[] Colors = new int[4096];
+		for (int i = 0; i < 16; i++)
 			for (int ii = 0; ii < 16; ii++)
 				for (int iii = 0; iii < 16; iii++)
-					Colors[i+ii*16+iii*16*16] = Color.rgb(i*16, ii*16, iii*16);
-		;;
+					Colors[i + ii * 16 + iii * 16 * 16] = Color.rgb(i * 16,
+							ii * 16, iii * 16);
+		;
+		;
 		return Colors;
 	}
-	public static int[] getIntArrayFromPrefs(SharedPreferences prefs, String name)
-	{
+
+	public static int[] getIntArrayFromPrefs(SharedPreferences prefs,
+			String name) {
 		int count = prefs.getInt(name, -1);
-		if (count > -1)
-		{
-			int[] res = new int[count+1];
-			for (int i = 0; i <= count; i++)
-			{
+		if (count > -1) {
+			int[] res = new int[count + 1];
+			for (int i = 0; i <= count; i++) {
 				res[i] = prefs.getInt(name + i, 0);
 			}
-			
+
 			return res;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
-		
+
 	}
-	
-	public static void putIntArrayToPrefs(SharedPreferences prefs, int array[], String name)
-	{
+
+	public static void putIntArrayToPrefs(SharedPreferences prefs, int array[],
+			String name) {
 		int count = array.length - 1;
 		Editor edit = prefs.edit();
 		edit.putInt(name, count);
-		for (int i = 0; i <= count; i++)
-		{
+		for (int i = 0; i <= count; i++) {
 			edit.putInt(name + i, array[i]);
 		}
-		
+
 		edit.commit();
-		
+
 	}
-	
-	public enum Sounds
-	{
-		Richtig1,
-	    Richtig2,
-	    Richtig3,
-	    Richtig4,
-	    Richtig5,
-	    Falsch1,
-	    Falsch2,
-	    Falsch3,
-	    Falsch4,
-	    Falsch5,
-	    Beep
+
+	public enum Sounds {
+		Richtig1, Richtig2, Richtig3, Richtig4, Richtig5, Falsch1, Falsch2, Falsch3, Falsch4, Falsch5, Beep
 	}
-    
+
 	public static String[] AssetSounds = new String[11];
-	
-	public static void initSounds()
-	{
-		AssetSounds[0] ="snd/clapping_hurray.ogg";
-		AssetSounds[1] ="snd/Fireworks Finale-SoundBible.com-370363529.ogg";
-		AssetSounds[2] ="snd/Red_stag_roar-Juan_Carlos_-2004708707.ogg";
-		AssetSounds[3] ="snd/Fireworks Finale-SoundBible.com-370363529.ogg";
-		AssetSounds[4] ="snd/clapping_hurray.ogg";
-		AssetSounds[5] ="snd/chickens_demanding_food.ogg";
-		AssetSounds[6] ="snd/Cow And Bell-SoundBible.com-1243222141.ogg";
-		AssetSounds[7] ="snd/gobbler_bod.ogg";
-		AssetSounds[8] ="snd/Toilet_Flush.ogg";
-		AssetSounds[9] ="snd/ziegengatter.ogg";
-		AssetSounds[10] ="snd/Pew_Pew-DKnight556-1379997159.ogg";
-				 
+
+	public static void initSounds() {
+		AssetSounds[0] = "snd/clapping_hurray.ogg";
+		AssetSounds[1] = "snd/Fireworks Finale-SoundBible.com-370363529.ogg";
+		AssetSounds[2] = "snd/Red_stag_roar-Juan_Carlos_-2004708707.ogg";
+		AssetSounds[3] = "snd/Fireworks Finale-SoundBible.com-370363529.ogg";
+		AssetSounds[4] = "snd/clapping_hurray.ogg";
+		AssetSounds[5] = "snd/chickens_demanding_food.ogg";
+		AssetSounds[6] = "snd/Cow And Bell-SoundBible.com-1243222141.ogg";
+		AssetSounds[7] = "snd/gobbler_bod.ogg";
+		AssetSounds[8] = "snd/Toilet_Flush.ogg";
+		AssetSounds[9] = "snd/ziegengatter.ogg";
+		AssetSounds[10] = "snd/Pew_Pew-DKnight556-1379997159.ogg";
+
 	}
-	
-	public static void playSound(Context context, Sounds s) throws IOException
-	{
+
+	public static void playSound(Context context, Sounds s) throws IOException {
 		MainActivity main = (MainActivity) context;
 		AssetManager assets = context.getAssets();
-		if (main.colSounds.size()>0)
-		{
+		if (main.colSounds.size() > 0) {
 			File F = new File(main.colSounds.get(s).SoundPath);
-			if (F.exists()) playSound(F); else if (F.getPath().startsWith("snd/")) playSound(assets, F.getPath());
-		}
-		else
-		{
-			if (AssetSounds[0] == null) initSounds();
-			playSound(assets,AssetSounds[s.ordinal()]);
+			if (F.exists())
+				playSound(F);
+			else if (F.getPath().startsWith("snd/"))
+				playSound(assets, F.getPath());
+		} else {
+			if (AssetSounds[0] == null)
+				initSounds();
+			playSound(assets, AssetSounds[s.ordinal()]);
 		}
 	}
-  
-	public static void playSound(AssetManager assets, String name) throws IOException
-	{
-		if (!sndEnabled) return;
+
+	public static void playSound(AssetManager assets, String name)
+			throws IOException {
+		if (!sndEnabled)
+			return;
 		AssetFileDescriptor afd = assets.openFd(name);
-	    MediaPlayer player = new MediaPlayer();
-	    player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-	    player.prepare();
-	    player.start();
+		MediaPlayer player = new MediaPlayer();
+		player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(),
+				afd.getLength());
+		player.prepare();
+		player.start();
 	}
-	
-	public static Sounds getSoundByNumber( int Zaehler)
-	{
-		for (int i = 0; i < Sounds.values().length; i++)
-		{
-			if (Sounds.values()[i].ordinal() == Zaehler) return Sounds.values()[i];
+
+	public static Sounds getSoundByNumber(int Zaehler) {
+		for (int i = 0; i < Sounds.values().length; i++) {
+			if (Sounds.values()[i].ordinal() == Zaehler)
+				return Sounds.values()[i];
 		}
 		return null;
 	}
-	
-	public static void playSound (Context context,int Zaehler) throws IOException
-	{
+
+	public static void playSound(Context context, int Zaehler)
+			throws IOException {
 		MainActivity main = (MainActivity) context;
-		if (main.colSounds.size()>0)
-		{
-			if (Zaehler < -4) Zaehler = -4; else if (Zaehler > 5) Zaehler = 5;
+		if (main.colSounds.size() > 0) {
+			if (Zaehler < -4)
+				Zaehler = -4;
+			else if (Zaehler > 5)
+				Zaehler = 5;
 			lib.Sounds Sound = null;
-			if (Zaehler > 0) Zaehler = Zaehler-1;
-			else if (Zaehler <= 0) Zaehler = Math.abs(Zaehler-5);
-			
+			if (Zaehler > 0)
+				Zaehler = Zaehler - 1;
+			else if (Zaehler <= 0)
+				Zaehler = Math.abs(Zaehler - 5);
+
 			Sound = getSoundByNumber(Zaehler);
-			
+
 			File F = new File(main.colSounds.get(Sound).SoundPath);
-			if (F.exists()) playSound(F); else if (F.getPath().startsWith("snd/")) playSound(context.getAssets(), F.getPath());
-		}
-		else
-		{
+			if (F.exists())
+				playSound(F);
+			else if (F.getPath().startsWith("snd/"))
+				playSound(context.getAssets(), F.getPath());
+		} else {
 			AssetManager assets = context.getAssets();
-			if (AssetSounds[0] == null) initSounds();
-			if (Zaehler < -4) Zaehler = -4; else if (Zaehler > 5) Zaehler = 5;
-			if (Zaehler > 0) playSound (assets, AssetSounds[Zaehler-1]);
-			else if (Zaehler <= 0) playSound(assets,AssetSounds[Math.abs(Zaehler-5)]);
+			if (AssetSounds[0] == null)
+				initSounds();
+			if (Zaehler < -4)
+				Zaehler = -4;
+			else if (Zaehler > 5)
+				Zaehler = 5;
+			if (Zaehler > 0)
+				playSound(assets, AssetSounds[Zaehler - 1]);
+			else if (Zaehler <= 0)
+				playSound(assets, AssetSounds[Math.abs(Zaehler - 5)]);
 		}
-		
+
 	}
-	
-	
-	public static void playSound(File F) throws IOException
-	{   
-		if (!sndEnabled) return;
+
+	public static void playSound(File F) throws IOException {
+		if (!sndEnabled)
+			return;
 		MediaPlayer player = new MediaPlayer();
-	    player.setDataSource(F.getPath());
+		player.setDataSource(F.getPath());
 		player.prepare();
-	    player.start();
+		player.start();
 	}
-	
-	public static Drawable scaleImage (Context context, Drawable image, float scaleFactor) {
 
-	    if ((image == null) || !(image instanceof BitmapDrawable)) {
-	        throw new RuntimeException("Not BitmapDrawable!");
-	    }
+	public static Drawable scaleImage(Context context, Drawable image,
+			float scaleFactor) {
 
-	    Bitmap b = ((BitmapDrawable)image).getBitmap();
+		if ((image == null) || !(image instanceof BitmapDrawable)) {
+			throw new RuntimeException("Not BitmapDrawable!");
+		}
 
-	    int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
-	    int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
+		Bitmap b = ((BitmapDrawable) image).getBitmap();
 
-	    Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
+		int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
+		int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
 
-	    image = new BitmapDrawable(context.getResources(), bitmapResized);
+		Bitmap bitmapResized = Bitmap
+				.createScaledBitmap(b, sizeX, sizeY, false);
 
-	    return image;
+		image = new BitmapDrawable(context.getResources(), bitmapResized);
+
+		return image;
 
 	}
-	public static Drawable getDefaultCheckBoxDrawable(Context context)
-	{
-	  int resID = 0;
 
-	  if (Build.VERSION.SDK_INT <= 10)
-	  {
-	    // pre-Honeycomb has a different way of setting the CheckBox button drawable
-	    resID = Resources.getSystem().getIdentifier("btn_check", "drawable", "android");
-	  }
-	  else
-	  {
-	    // starting with Honeycomb, retrieve the theme-based indicator as CheckBox button drawable
-	    TypedValue value = new TypedValue();
-	    context.getApplicationContext().getTheme().resolveAttribute(android.R.attr.listChoiceIndicatorMultiple, value, true);
-	    resID = value.resourceId;
-	  }
+	public static Drawable getDefaultCheckBoxDrawable(Context context) {
+		int resID = 0;
 
-	  return context.getResources().getDrawable(resID);
+		if (Build.VERSION.SDK_INT <= 10) {
+			// pre-Honeycomb has a different way of setting the CheckBox button
+			// drawable
+			resID = Resources.getSystem().getIdentifier("btn_check",
+					"drawable", "android");
+		} else {
+			// starting with Honeycomb, retrieve the theme-based indicator as
+			// CheckBox button drawable
+			TypedValue value = new TypedValue();
+			context.getApplicationContext()
+					.getTheme()
+					.resolveAttribute(
+							android.R.attr.listChoiceIndicatorMultiple, value,
+							true);
+			resID = value.resourceId;
+		}
+
+		return context.getResources().getDrawable(resID);
 	}
 
 }
-

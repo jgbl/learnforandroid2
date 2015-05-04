@@ -18,17 +18,17 @@
  * Changed by J.M.Goebel Copyright (C) 2015
  * GPL 3
  *  This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.jmg.learn.chart;
 
@@ -53,74 +53,72 @@ import android.graphics.Color;
  */
 public class LearnBarChart extends AbstractDemoChart {
 
-  /**
-   * Returns the chart name.
-   * 
-   * @return the chart name
-   */
-  public String getName() {
-    return "Sales horizontal bar chart";
-  }
+	/**
+	 * Returns the chart name.
+	 * 
+	 * @return the chart name
+	 */
+	public String getName() {
+		return "Sales horizontal bar chart";
+	}
 
-  /**
-   * Returns the chart description.
-   * 
-   * @return the chart description
-   */
-  public String getDesc() {
-    return "The monthly sales for the last 2 years (horizontal bar chart)";
-  }
+	/**
+	 * Returns the chart description.
+	 * 
+	 * @return the chart description
+	 */
+	public String getDesc() {
+		return "The monthly sales for the last 2 years (horizontal bar chart)";
+	}
 
-  /**
-   * Executes the chart demo.
-   * 
-   * @param context the context
-   * @return the built intent
-   */
-  public Intent execute(Context context) {
-	  MainActivity Main = (MainActivity) context;
-	  Vokabel vok = Main.vok;
-	  File F = new File(vok.getFileName());
-	  String[] titles = new String[] {F.getName()};
-	  List<double[]> values = new ArrayList<double[]>();
-	  double v[] = new double[14];
-	  for (int i = -6; i <=6; i++)
-	  {
-		  v[i+6] = vok.getLearned(i);
-	  }
-	  
-	  values.add(v);
-	  
-	  int[] colors = new int[] {Color.CYAN}; //Color.CYAN,Color.GREEN,Color.BLUE,Color.MAGENTA,Color.RED,Color.YELLOW};
-	  XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-	  renderer.setOrientation(Orientation.HORIZONTAL);
-	  
-	  setChartSettings(renderer, 
-			  "Learned vocabulary for " + F.getName(), 
-			   "Learnindex", "Words", 
-			  1, 14, 0, vok.getGesamtzahl(), 
-			  Color.GREEN, Color.YELLOW);
-	  renderer.setBackgroundColor(Color.BLACK);
-	  renderer.setApplyBackgroundColor(true);
-	  renderer.setXLabels(0);
-	  renderer.setYLabels(10);
-	  
-	  for (int i = -6; i <=6; i++)
-	  {
-		  renderer.addXTextLabel(i+7, "" + i);
-		  
-	  }
-	  
-	  int length = renderer.getSeriesRendererCount();
-	  for (int i = 0; i < length; i++) {
-		  SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
-		  seriesRenderer.setDisplayChartValues(true);
-		  seriesRenderer.setGradientEnabled(true);
-		  seriesRenderer.setGradientStart(0, Color.CYAN);
-		  seriesRenderer.setGradientStop(vok.getGesamtzahl(), Color.RED);
-	  }
-	  return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer,
-	    Type.DEFAULT);
-  }
+	/**
+	 * Executes the chart demo.
+	 * 
+	 * @param context
+	 *            the context
+	 * @return the built intent
+	 */
+	public Intent execute(Context context) {
+		MainActivity Main = (MainActivity) context;
+		Vokabel vok = Main.vok;
+		File F = new File(vok.getFileName());
+		String[] titles = new String[] { F.getName() };
+		List<double[]> values = new ArrayList<double[]>();
+		double v[] = new double[14];
+		for (int i = -6; i <= 6; i++) {
+			v[i + 6] = vok.getLearned(i);
+		}
+
+		values.add(v);
+
+		int[] colors = new int[] { Color.CYAN }; // Color.CYAN,Color.GREEN,Color.BLUE,Color.MAGENTA,Color.RED,Color.YELLOW};
+		XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
+		renderer.setOrientation(Orientation.HORIZONTAL);
+
+		setChartSettings(renderer, "Learned vocabulary for " + F.getName(),
+				"Learnindex", "Words", 1, 14, 0, vok.getGesamtzahl(),
+				Color.GREEN, Color.YELLOW);
+		renderer.setBackgroundColor(Color.BLACK);
+		renderer.setApplyBackgroundColor(true);
+		renderer.setXLabels(0);
+		renderer.setYLabels(10);
+
+		for (int i = -6; i <= 6; i++) {
+			renderer.addXTextLabel(i + 7, "" + i);
+
+		}
+
+		int length = renderer.getSeriesRendererCount();
+		for (int i = 0; i < length; i++) {
+			SimpleSeriesRenderer seriesRenderer = renderer
+					.getSeriesRendererAt(i);
+			seriesRenderer.setDisplayChartValues(true);
+			seriesRenderer.setGradientEnabled(true);
+			seriesRenderer.setGradientStart(0, Color.CYAN);
+			seriesRenderer.setGradientStop(vok.getGesamtzahl(), Color.RED);
+		}
+		return ChartFactory.getBarChartIntent(context,
+				buildBarDataset(titles, values), renderer, Type.DEFAULT);
+	}
 
 }

@@ -128,7 +128,8 @@ public class MainActivity extends ActionBarActivity {
 				InitButtons();
 				libLearn.gStatus = "onCreate InitMeanings";
 				InitMeanings();
-				String tmppath = Path.combine(getApplicationInfo().dataDir,"vok.tmp");
+				String tmppath = Path.combine(getApplicationInfo().dataDir,
+						"vok.tmp");
 				boolean CardMode = false;
 				if (savedInstanceState != null) {
 					libLearn.gStatus = "onCreate Load SavedInstanceState";
@@ -139,10 +140,13 @@ public class MainActivity extends ActionBarActivity {
 					int Lernindex = savedInstanceState.getInt("Lernindex");
 					CardMode = savedInstanceState.getBoolean("Cardmode", false);
 					if (!libString.IsNullOrEmpty(filename) && index > 0) {
-						boolean Unicode = savedInstanceState.getBoolean("Unicode", true);
+						boolean Unicode = savedInstanceState.getBoolean(
+								"Unicode", true);
 						_blnUniCode = Unicode;
-						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex, CardMode);
-						vok.setLastIndex(savedInstanceState.getInt("vokLastIndex", vok.getLastIndex()));
+						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex,
+								CardMode);
+						vok.setLastIndex(savedInstanceState.getInt(
+								"vokLastIndex", vok.getLastIndex()));
 						vok.setFileName(filename);
 						vok.setCardMode(CardMode);
 						vok.aend = savedInstanceState.getBoolean("aend", true);
@@ -158,44 +162,38 @@ public class MainActivity extends ActionBarActivity {
 						int Lernindex = prefs.getInt("Lernindex", 0);
 						boolean Unicode = prefs.getBoolean("Unicode", true);
 						_blnUniCode = Unicode;
-						boolean isTmpFile = prefs.getBoolean("isTmpFile", false); 
+						boolean isTmpFile = prefs
+								.getBoolean("isTmpFile", false);
 						boolean aend = prefs.getBoolean("aend", true);
 						CardMode = prefs.getBoolean("Cardmode", false);
-						if (Lernvokabeln != null) 
-						{
-							if (isTmpFile)
-							{
+						if (Lernvokabeln != null) {
+							if (isTmpFile) {
 								LoadVokabel(tmppath, index, Lernvokabeln,
 										Lernindex, CardMode);
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
-								vok.setLastIndex(prefs.getInt("vokLastIndex", vok.getLastIndex()));
+								vok.setLastIndex(prefs.getInt("vokLastIndex",
+										vok.getLastIndex()));
 								SetActionBarTitle();
-								vok.aend=aend;
-							}
-							else
-							{
+								vok.aend = aend;
+							} else {
 								LoadVokabel(filename, index, Lernvokabeln,
 										Lernindex, CardMode);
-								vok.setLastIndex(prefs.getInt("vokLastIndex", vok.getLastIndex()));
+								vok.setLastIndex(prefs.getInt("vokLastIndex",
+										vok.getLastIndex()));
 							}
-						} 
-						else 
-						{
-							if (isTmpFile)
-							{
+						} else {
+							if (isTmpFile) {
 								LoadVokabel(tmppath, 1, null, 0, CardMode);
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
 								SetActionBarTitle();
-								vok.aend=aend;
-							}
-							else
-							{
+								vok.aend = aend;
+							} else {
 								LoadVokabel(filename, 1, null, 0, CardMode);
 							}
 						}
-						
+
 					}
 				}
 
@@ -226,11 +224,11 @@ public class MainActivity extends ActionBarActivity {
 		try {
 			boolean aend = vok.aend;
 			String filename = vok.getFileName();
-			if (vok.getGesamtzahl()>0 && !libString.IsNullOrEmpty(filename))
-			{
+			if (vok.getGesamtzahl() > 0 && !libString.IsNullOrEmpty(filename)) {
 				saveFilePrefs(true);
-				vok.SaveFile(Path.combine(getApplicationInfo().dataDir,"vok.tmp"),
-						vok.getUniCode(),true);
+				vok.SaveFile(
+						Path.combine(getApplicationInfo().dataDir, "vok.tmp"),
+						vok.getUniCode(), true);
 				outState.putString("vokpath", filename);
 				outState.putInt("vokindex", vok.getIndex());
 				outState.putInt("vokLastIndex", vok.getLastIndex());
@@ -242,22 +240,20 @@ public class MainActivity extends ActionBarActivity {
 				vok.aend = aend;
 				vok.setFileName(filename);
 			}
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			Log.e("OnSaveInstanceState", e.getMessage(),e);
+			Log.e("OnSaveInstanceState", e.getMessage(), e);
 			e.printStackTrace();
 		}
 		// outState.putParcelable("vok", vok);
-		
 
-		
 	}
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 	}
 
 	/*
@@ -278,130 +274,92 @@ public class MainActivity extends ActionBarActivity {
 				lib.ShowException(this, e);
 				return false;
 			}
-		}
-		else if (keyCode == KeyEvent.KEYCODE_BACK)
-		{
+		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 			try {
-				if (_backPressed > 0 || saveVok(false))
-				{
+				if (_backPressed > 0 || saveVok(false)) {
 					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
-				}
-				else
-				{
+				} else {
 					return false;
 				}
-					
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				Log.e("onBackPressed", e.getMessage(),e);
+				Log.e("onBackPressed", e.getMessage(), e);
 				lib.ShowException(this, e);
 				return false;
 			}
 		}
-		
+
 		return super.onKeyDown(keyCode, event);
-		
-		
+
 	};
 
 	private int _backPressed;
 	private Handler handlerbackpressed = new Handler();
-	
-	private boolean saveVok(boolean dontPrompt) throws Exception
-	{
-		
+
+	private boolean saveVok(boolean dontPrompt) throws Exception {
+
 		if (vok.aend) {
-			if (!dontPrompt)
-			{
-				dontPrompt = lib.ShowMessageYesNo(this, getString(R.string.Save));
-				if (!dontPrompt)
-				{
+			if (!dontPrompt) {
+				dontPrompt = lib.ShowMessageYesNo(this,
+						getString(R.string.Save));
+				if (!dontPrompt) {
 					_backPressed += 1;
-					lib.ShowToast(
-							MainActivity.this,
-							MainActivity.this
-									.getString(R.string.PressBackAgain));
+					lib.ShowToast(MainActivity.this, MainActivity.this
+							.getString(R.string.PressBackAgain));
 					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-					
+
 				}
 				/*
-				AlertDialog.Builder A = new AlertDialog.Builder(context);
-				A.setPositiveButton(getString(R.string.yes),
-						new AlertDialog.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								try {
-									vok.SaveFile(vok.getFileName(),
-											vok.getUniCode());
-									vok.aend = false;
-									_backPressed += 1;
-									Handler handler = new Handler();
-									handler.postDelayed(rSetBackPressedFalse,
-											10000);
-									saveFilePrefs();
-								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									lib.ShowException(MainActivity.this, e);
-								}
-							}
-						});
-				A.setNegativeButton(getString(R.string.no),
-						new AlertDialog.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								lib.ShowToast(
-										MainActivity.this,
-										MainActivity.this
-												.getString(R.string.PressBackAgain));
-								_backPressed += 1;
-								Handler handler = new Handler();
-								handler.postDelayed(rSetBackPressedFalse, 10000);
-							}
-
-						});
-				A.setMessage(getString(R.string.Save));
-				A.setTitle("Question");
-				A.show();
-				if (!dontPrompt) {
-					if (_backPressed > 0) {
-						return true;
-					} else {
-						lib.ShowToast(this,
-								this.getString(R.string.PressBackAgain));
-						_backPressed += 1;
-						handler = new Handler();
-						handler.postDelayed(rSetBackPressedFalse, 10000);
-					}
-
-				}
-				*/
+				 * AlertDialog.Builder A = new AlertDialog.Builder(context);
+				 * A.setPositiveButton(getString(R.string.yes), new
+				 * AlertDialog.OnClickListener() {
+				 * 
+				 * @Override public void onClick(DialogInterface dialog, int
+				 * which) { try { vok.SaveFile(vok.getFileName(),
+				 * vok.getUniCode()); vok.aend = false; _backPressed += 1;
+				 * Handler handler = new Handler();
+				 * handler.postDelayed(rSetBackPressedFalse, 10000);
+				 * saveFilePrefs(); } catch (Exception e) { // TODO
+				 * Auto-generated catch block
+				 * lib.ShowException(MainActivity.this, e); } } });
+				 * A.setNegativeButton(getString(R.string.no), new
+				 * AlertDialog.OnClickListener() {
+				 * 
+				 * @Override public void onClick(DialogInterface dialog, int
+				 * which) { lib.ShowToast( MainActivity.this, MainActivity.this
+				 * .getString(R.string.PressBackAgain)); _backPressed += 1;
+				 * Handler handler = new Handler();
+				 * handler.postDelayed(rSetBackPressedFalse, 10000); }
+				 * 
+				 * }); A.setMessage(getString(R.string.Save));
+				 * A.setTitle("Question"); A.show(); if (!dontPrompt) { if
+				 * (_backPressed > 0) { return true; } else {
+				 * lib.ShowToast(this, this.getString(R.string.PressBackAgain));
+				 * _backPressed += 1; handler = new Handler();
+				 * handler.postDelayed(rSetBackPressedFalse, 10000); }
+				 * 
+				 * }
+				 */
 			}
-			
-			if (dontPrompt) 
-			{
-				try 
-				{
+
+			if (dontPrompt) {
+				try {
 					vok.SaveFile();
 					vok.aend = false;
 					_backPressed += 1;
 					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 					saveFilePrefs(false);
-				} 
-				catch (Exception e) 
-				{
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(this, e);
 				}
 			}
 			return false;
+		} else {
+			return true;
 		}
-		else
-		{
-			return true;	
-		}
-		
+
 	}
 
 	private void saveFilePrefs(boolean isTmpFile) {
@@ -434,18 +392,17 @@ public class MainActivity extends ActionBarActivity {
 		 */
 		// resize();
 	}
-	
-	
+
 	@Override
 	protected void onPause() {
-		//saveVok(false);
+		// saveVok(false);
 		super.onPause();
 		/*
 		 * if (_firstFocus) { _firstFocus = false; hideKeyboard(); }
 		 */
 		// resize();
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -497,9 +454,8 @@ public class MainActivity extends ActionBarActivity {
 					vok.AntwortFalsch();
 					lib.playSound(MainActivity.this, vok.getZaehler());
 					_lastIsWrongVokID = vok.getIndex();
-					
-					if (!vok.getCardMode())
-					{
+
+					if (!vok.getCardMode()) {
 						setBtnsEnabled(false);
 						flashwords();
 						// getVokabel(false,true);
@@ -508,10 +464,10 @@ public class MainActivity extends ActionBarActivity {
 						handler.postDelayed(
 								runnableFalse,
 								(long) ((DisplayDurationWord * 1000 + vok
-										.getAnzBed() * 1000 * DisplayDurationBed) * PaukRepetitions));
-					}
-					else
-					{
+										.getAnzBed()
+										* 1000
+										* DisplayDurationBed) * PaukRepetitions));
+					} else {
 						getVokabel(false, false);
 					}
 				} catch (Exception e) {
@@ -633,8 +589,7 @@ public class MainActivity extends ActionBarActivity {
 										vok.getZaehler());
 								_lastIsWrongVokID = vok.getIndex();
 								getVokabel(true, false);
-								if (!vok.getCardMode())
-								{
+								if (!vok.getCardMode()) {
 									setBtnsEnabled(false);
 									flashwords();
 									Handler handler = new Handler();
@@ -884,10 +839,10 @@ public class MainActivity extends ActionBarActivity {
 				Colors.get(ColorItems.background).ColorValue);
 	}
 
-	//private boolean _firstFocus;
+	// private boolean _firstFocus;
 
 	private void resize() {
-		//_firstFocus = true;
+		// _firstFocus = true;
 		Resources resources = context.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		int height = metrics.heightPixels;
@@ -1056,8 +1011,7 @@ public class MainActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		try
-		{
+		try {
 			if (id == R.id.action_settings) {
 				ShowSettings();
 			} else if (id == R.id.mnuFileOpen) {
@@ -1098,15 +1052,12 @@ public class MainActivity extends ActionBarActivity {
 				}
 			}
 
-		}
-		catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			lib.ShowException(this, ex);
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	
 	public void SaveVokAs(boolean blnUniCode) {
 		Intent intent = new Intent(this, AdvFileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
@@ -1126,14 +1077,16 @@ public class MainActivity extends ActionBarActivity {
 		intent.putExtra("DefaultDir",
 				new File(JMGDataDirectory).exists() ? JMGDataDirectory
 						: "/sdcard/");
-		intent.putExtra("selectFolder",true);
-		if (_blnUniCode) _oldUnidCode = yesnoundefined.yes; else _oldUnidCode = yesnoundefined.no;
+		intent.putExtra("selectFolder", true);
+		if (_blnUniCode)
+			_oldUnidCode = yesnoundefined.yes;
+		else
+			_oldUnidCode = yesnoundefined.no;
 		_blnUniCode = blnUniCode;
-		
+
 		this.startActivityForResult(intent, FILE_CHOOSERADV);
 	}
 
-	
 	public void LoadFile(boolean blnUniCode) {
 		Intent intent = new Intent(this, FileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
@@ -1153,9 +1106,12 @@ public class MainActivity extends ActionBarActivity {
 		intent.putExtra("DefaultDir",
 				new File(JMGDataDirectory).exists() ? JMGDataDirectory
 						: "/sdcard/");
-		if (_blnUniCode) _oldUnidCode = yesnoundefined.yes; else _oldUnidCode = yesnoundefined.no;
+		if (_blnUniCode)
+			_oldUnidCode = yesnoundefined.yes;
+		else
+			_oldUnidCode = yesnoundefined.no;
 		_blnUniCode = blnUniCode;
-		
+
 		this.startActivityForResult(intent, FILE_CHOOSER);
 	}
 
@@ -1177,10 +1133,9 @@ public class MainActivity extends ActionBarActivity {
 
 	boolean _blnUniCode = true;
 	yesnoundefined _oldUnidCode = yesnoundefined.undefined;
-	
-	enum yesnoundefined
-	{
-		yes,no,undefined
+
+	enum yesnoundefined {
+		yes, no, undefined
 	}
 
 	@Override
@@ -1191,59 +1146,63 @@ public class MainActivity extends ActionBarActivity {
 				String fileSelected = data.getStringExtra("fileSelected");
 				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
 				LoadVokabel(fileSelected, 1, null, 0, false);
-			
+
 			}
 			if ((requestCode == FILE_CHOOSERADV)
-					&& (resultCode == Activity.RESULT_OK)) 
-			{
+					&& (resultCode == Activity.RESULT_OK)) {
 				final String fileSelected = data.getStringExtra("fileSelected");
 				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
-				if (!libString.IsNullOrEmpty(fileSelected))
-				{
+				if (!libString.IsNullOrEmpty(fileSelected)) {
 					AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
 					alert.setTitle(getString(R.string.SaveAs));
-					alert.setMessage(getString(R.string.EnterNewFilename)+ ": " + fileSelected);
+					alert.setMessage(getString(R.string.EnterNewFilename)
+							+ ": " + fileSelected);
 
-					// Set an EditText view to get user input 
+					// Set an EditText view to get user input
 					final EditText input = new EditText(this);
 					alert.setView(input);
 					input.setText(new File(vok.getFileName()).getName());
-					alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() 
-					{
-						public void onClick(DialogInterface dialog, int whichButton) 
-						{
-						  String value = input.getText().toString();
-						  try 
-						  {
-							  File F = new File(Path.combine(fileSelected,value));
-							  if (!F.isDirectory() && (!F.exists() || lib.ShowMessageYesNo(MainActivity.this, getString(R.string.Overwrite))))
-							  {
-								  File ParentDir = F.getParentFile();
-								  if (!ParentDir.exists()) ParentDir.mkdirs();
-								  vok.SaveFile(F.getPath(), _blnUniCode,false);  
-							  }
-							  
-						  } 
-						  catch (Exception e) 
-						  {
-							// TODO Auto-generated catch block
-							lib.ShowException(MainActivity.this, e);
-							e.printStackTrace();
-						  }
-					  }
-					});
+					alert.setPositiveButton(getString(R.string.ok),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									String value = input.getText().toString();
+									try {
+										File F = new File(Path.combine(
+												fileSelected, value));
+										if (!F.isDirectory()
+												&& (!F.exists() || lib
+														.ShowMessageYesNo(
+																MainActivity.this,
+																getString(R.string.Overwrite)))) {
+											File ParentDir = F.getParentFile();
+											if (!ParentDir.exists())
+												ParentDir.mkdirs();
+											vok.SaveFile(F.getPath(),
+													_blnUniCode, false);
+										}
 
-					alert.setNegativeButton(getString(R.string.btnCancel), new DialogInterface.OnClickListener() {
-					  public void onClick(DialogInterface dialog, int whichButton) {
-					    // Canceled.
-					  }
-					});
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										lib.ShowException(MainActivity.this, e);
+										e.printStackTrace();
+									}
+								}
+							});
+
+					alert.setNegativeButton(getString(R.string.btnCancel),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// Canceled.
+								}
+							});
 
 					alert.show();
 
 				}
-								
+
 			}
 
 			else if ((requestCode == Settings_Activity)
@@ -1255,8 +1214,7 @@ public class MainActivity extends ActionBarActivity {
 				if (oldAbfrage != vok.getAbfragebereich())
 					vok.ResetAbfrage();
 				short Schrittweite = data.getExtras().getShort("Step");
-				if (Schrittweite != vok.getSchrittweite())
-				{
+				if (Schrittweite != vok.getSchrittweite()) {
 					vok.setSchrittweite(Schrittweite);
 					vok.InitAbfrage();
 				}
@@ -1308,45 +1266,37 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	public void LoadVokabel(String fileSelected, int index, int[] Lernvokabeln,
-			int Lernindex, boolean CardMode) 
-	{
+			int Lernindex, boolean CardMode) {
 		try {
 			saveVok(false);
-			try
-			{
+			try {
 				vok.LoadFile(fileSelected, false, false, _blnUniCode);
-			}
-			catch (RuntimeException ex)
-			{
-				if (ex.getCause() != null)
-				{
-					if (ex.getCause().getMessage()!= null && ex.getCause().getMessage().contains("IsSingleline"))
-					{
+			} catch (RuntimeException ex) {
+				if (ex.getCause() != null) {
+					if (ex.getCause().getMessage() != null
+							&& ex.getCause().getMessage()
+									.contains("IsSingleline")) {
 						vok.LoadFile(fileSelected, true, false, _blnUniCode);
-					}
-					else 
-					{
+					} else {
 						throw ex;
 					}
-				}				
-				else 
-				{
+				} else {
 					throw ex;
 				}
 			}
-			
-			if (vok.getCardMode()||CardMode) {
-				
-				//_txtWord.setMaxLines(3);
-				//_txtWord.setLines(2);
+
+			if (vok.getCardMode() || CardMode) {
+
+				// _txtWord.setMaxLines(3);
+				// _txtWord.setLines(2);
 				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (40 * scale));
-				
-				//_txtKom.setMaxLines(3);
-				//_txtKom.setLines(2);
+
+				// _txtKom.setMaxLines(3);
+				// _txtKom.setLines(2);
 				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (30 * scale));
-				
+
 				_txtMeaning1.setSingleLine(false);
 				_txtMeaning1.setMaxLines(30);
 				_txtMeaning1.setLines(16);
@@ -1359,32 +1309,32 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning2.setVisibility(View.GONE);
 				_txtMeaning3.setVisibility(View.GONE);
 			} else {
-				
-				//_txtWord.setMaxLines(3);
-				//_txtWord.setLines(1);
+
+				// _txtWord.setMaxLines(3);
+				// _txtWord.setLines(1);
 				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (60 * scale));
 				_txtWord.setHorizontallyScrolling(false);
-				
-				//_txtKom.setMaxLines(3);
-				//_txtKom.setLines(2);
+
+				// _txtKom.setMaxLines(3);
+				// _txtKom.setLines(2);
 				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (35 * scale));
 				_txtKom.setHorizontallyScrolling(false);
-				
+
 				_txtMeaning1.setLines(1);
 				_txtMeaning1.setSingleLine();
 				_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						(float) (40 * scale));
 				_txtMeaning1.setMaxLines(3);
 				_txtMeaning1.setHorizontallyScrolling(false);
-				
+
 				_txtMeaning2.setVisibility(View.VISIBLE);
 				_txtMeaning2.setLines(1);
 				_txtMeaning2.setSingleLine();
 				_txtMeaning2.setMaxLines(3);
 				_txtMeaning2.setHorizontallyScrolling(false);
-				
+
 				_txtMeaning3.setVisibility(View.VISIBLE);
 				_txtMeaning3.setLines(1);
 				_txtMeaning3.setSingleLine();
@@ -1536,31 +1486,17 @@ public class MainActivity extends ActionBarActivity {
 			View v = findViewById(R.id.word);
 			TextView t = (TextView) v;
 			/*
-			if (!vok.getCardMode())
-			{
-				Rect bounds = new Rect();
-				Paint textPaint = t.getPaint();
-				textPaint.getTextBounds(vok.getWort(),0,vok.getWort().length(),bounds);
-				if (t.getWidth() < bounds.width()){
-					//int lines = t.getLineCount();
-					t.setLines((2));
-					
-					if (((float)bounds.width() / (float)t.getWidth()) > 2)
-					{
-						t.setLines(3);
-					}
-					else
-					{
-						t.setLines((2));
-					}
-					
-				}
-				else
-				{
-					t.setLines(1);
-				}
-			}
-			*/
+			 * if (!vok.getCardMode()) { Rect bounds = new Rect(); Paint
+			 * textPaint = t.getPaint();
+			 * textPaint.getTextBounds(vok.getWort(),0,
+			 * vok.getWort().length(),bounds); if (t.getWidth() <
+			 * bounds.width()){ //int lines = t.getLineCount(); t.setLines((2));
+			 * 
+			 * if (((float)bounds.width() / (float)t.getWidth()) > 2) {
+			 * t.setLines(3); } else { t.setLines((2)); }
+			 * 
+			 * } else { t.setLines(1); } }
+			 */
 			t.setText(getSpanned(vok.getWort()), TextView.BufferType.SPANNABLE);
 			if (vok.getSprache() == EnumSprachen.Hebrew
 					|| vok.getSprache() == EnumSprachen.Griechisch
@@ -1569,9 +1505,7 @@ public class MainActivity extends ActionBarActivity {
 			} else {
 				t.setTypeface(Typeface.DEFAULT);
 			}
-			
-			
-			
+
 			v = findViewById(R.id.Comment);
 			t = (TextView) v;
 			t.setText(getSpanned(vok.getKommentar()),
@@ -1586,7 +1520,9 @@ public class MainActivity extends ActionBarActivity {
 
 			v = findViewById(R.id.txtMeaning1);
 			t = (TextView) v;
-			t.setText((showBeds ? vok.getBedeutung1() : getComment(vok.getBedeutung1())));
+			t.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+			t.setText((showBeds ? vok.getBedeutung1() : getComment(vok
+					.getBedeutung1())));
 			if (vok.getFontBed().getName() == "Cardo") {
 				t.setTypeface(vok.TypefaceCardo);
 			} else {
@@ -1595,7 +1531,8 @@ public class MainActivity extends ActionBarActivity {
 
 			v = findViewById(R.id.txtMeaning2);
 			t = (TextView) v;
-			t.setText((showBeds ? vok.getBedeutung2() : getComment(vok.getBedeutung2())));
+			t.setText((showBeds ? vok.getBedeutung2() : getComment(vok
+					.getBedeutung2())));
 			if (vok.getFontBed().getName() == "Cardo") {
 				t.setTypeface(vok.TypefaceCardo);
 			} else {
@@ -1612,7 +1549,8 @@ public class MainActivity extends ActionBarActivity {
 
 			v = findViewById(R.id.txtMeaning3);
 			t = (TextView) v;
-			t.setText((showBeds ? vok.getBedeutung3() : getComment(vok.getBedeutung3())));
+			t.setText((showBeds ? vok.getBedeutung3() : getComment(vok
+					.getBedeutung3())));
 			if (vok.getFontBed().getName() == "Cardo") {
 				t.setTypeface(vok.TypefaceCardo);
 			} else {
@@ -1636,43 +1574,41 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 	}
-	
-	private String getComment(String vok)
-	{
+
+	private String getComment(String vok) {
 		int Start1 = vok.indexOf("[");
-		if (Start1>-1)
-		{
-			int Start2 = vok.indexOf("]", Start1+1);
-			if (Start2> Start1)
-			{
-				return vok.substring(Start1,Start2+1);
+		if (Start1 > -1) {
+			int Start2 = vok.indexOf("]", Start1 + 1);
+			if (Start2 > Start1) {
+				return vok.substring(Start1, Start2 + 1);
 			}
-				
+
 		}
-		return "";		
+		return "";
 	}
-	
-	private void SetActionBarTitle() throws Exception
-	{
+
+	private void SetActionBarTitle() throws Exception {
 		if (vok.getGesamtzahl() > 5) {
 			String title = "Learn " + (new File(vok.getFileName())).getName()
-					+ " " + getString(R.string.number) + ": "
-					+ vok.getIndex() + " "
-					+ getString(R.string.counter) + ": "
+					+ " " + getString(R.string.number) + ": " + vok.getIndex()
+					+ " " + getString(R.string.counter) + ": "
 					+ vok.getZaehler();
-					String Right = " " + vok.AnzRichtig;
-					String Wrong = " " + vok.AnzFalsch;
-					SpannableString spnTitle = new SpannableString(title);
-					SpannableString spnRight = new SpannableString(Right);
-					SpannableString spnWrong = new SpannableString(Wrong);
-					spnRight.setSpan(new ForegroundColorSpan(Color.GREEN), 0, spnRight.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-					spnWrong.setSpan(new ForegroundColorSpan(Color.RED), 0, spnWrong.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-					
-					getSupportActionBar().setTitle(TextUtils.concat(spnTitle,spnRight,spnWrong));
-					
+			String Right = " " + vok.AnzRichtig;
+			String Wrong = " " + vok.AnzFalsch;
+			SpannableString spnTitle = new SpannableString(title);
+			SpannableString spnRight = new SpannableString(Right);
+			SpannableString spnWrong = new SpannableString(Wrong);
+			spnRight.setSpan(new ForegroundColorSpan(Color.GREEN), 0,
+					spnRight.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+			spnWrong.setSpan(new ForegroundColorSpan(Color.RED), 0,
+					spnWrong.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			getSupportActionBar().setTitle(
+					TextUtils.concat(spnTitle, spnRight, spnWrong));
+
 		}
 	}
-	
+
 	public Spanned getSpanned(String txt) throws IOException {
 		if (txt.startsWith("{\\rtf1\\")) {
 			// txt = Java2Html.convertToHtml(txt,

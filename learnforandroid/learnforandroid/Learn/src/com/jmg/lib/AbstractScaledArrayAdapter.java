@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 
 public class AbstractScaledArrayAdapter<T> extends ArrayAdapter<T> {
-	
 
 	public AbstractScaledArrayAdapter(Context context, int resource) {
 		super(context, resource);

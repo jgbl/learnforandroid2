@@ -51,9 +51,7 @@ import com.jmg.lib.ColorSetting;
 import yuku.ambilwarna.*;
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 
-
-public class SettingsActivity extends android.support.v4.app.FragmentActivity 
-{
+public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 	private static final int FILE_CHOOSER = 0x42FA;
 	public Spinner spnAbfragebereich;
 	public Spinner spnASCII;
@@ -73,61 +71,77 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 	public SharedPreferences prefs;
 	public View mainView;
 	private Intent intent = new Intent();
-	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mainView = findViewById(Window.ID_ANDROID_CONTENT);
-        mainView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
-            @Override
-            public void onGlobalLayout() {
-                // Ensure you call it only once :
-                
-            	if (Build.VERSION.SDK_INT<16) {
-                    removeLayoutListenerPre16(mainView.getViewTreeObserver(),this);
-                } else {
-                    removeLayoutListenerPost16(mainView.getViewTreeObserver(), this);
-                }
-                // Here you can get the size :)
-            	resize();
-            }
-        });
-        setContentView(R.layout.activity_settings);
-		Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
-		prefs = this.getPreferences(Context.MODE_PRIVATE);
-		Colors = new ColorsArrayAdapter(this,android.R.layout.simple_spinner_item);
-		Sounds = new SoundsArrayAdapter(this,android.R.layout.simple_spinner_item);
-		TextView txtSettings = (TextView)findViewById(R.id.txtSettings);
-		SpannableString Settings = new SpannableString(txtSettings.getText());
-		Settings.setSpan(new UnderlineSpan(), 0, Settings.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		txtSettings.setText(Settings);
-		initSpinners();
-		initCheckBoxes();
-		initButtons();
-		//resize();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		try
+		{
+			mainView = findViewById(Window.ID_ANDROID_CONTENT);
+			mainView.getViewTreeObserver().addOnGlobalLayoutListener(
+					new ViewTreeObserver.OnGlobalLayoutListener() {
+
+						@Override
+						public void onGlobalLayout() {
+							// Ensure you call it only once :
+
+							if (Build.VERSION.SDK_INT < 16) {
+								removeLayoutListenerPre16(
+										mainView.getViewTreeObserver(), this);
+							} else {
+								removeLayoutListenerPost16(
+										mainView.getViewTreeObserver(), this);
+							}
+							// Here you can get the size :)
+							resize();
+						}
+					});
+			setContentView(R.layout.activity_settings);
+			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
+			prefs = this.getPreferences(Context.MODE_PRIVATE);
+			Colors = new ColorsArrayAdapter(this,
+					android.R.layout.simple_spinner_item);
+			Sounds = new SoundsArrayAdapter(this,
+					android.R.layout.simple_spinner_item);
+			TextView txtSettings = (TextView) findViewById(R.id.txtSettings);
+			SpannableString Settings = new SpannableString(txtSettings.getText());
+			Settings.setSpan(new UnderlineSpan(), 0, Settings.length(),
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			txtSettings.setText(Settings);
+			initSpinners();
+			initCheckBoxes();
+			initButtons();
+			// resize();
+
+		}
+		catch (Exception ex)
+		{
+			lib.ShowException(this, ex);
+		}
 		
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	private void removeLayoutListenerPre16(ViewTreeObserver observer, OnGlobalLayoutListener listener){
-	    observer.removeGlobalOnLayoutListener(listener);
+	private void removeLayoutListenerPre16(ViewTreeObserver observer,
+			OnGlobalLayoutListener listener) {
+		observer.removeGlobalOnLayoutListener(listener);
 	}
 
 	@TargetApi(16)
-	private void removeLayoutListenerPost16(ViewTreeObserver observer, OnGlobalLayoutListener listener){
-	    observer.removeOnGlobalLayoutListener(listener);
+	private void removeLayoutListenerPost16(ViewTreeObserver observer,
+			OnGlobalLayoutListener listener) {
+		observer.removeOnGlobalLayoutListener(listener);
 	}
-	
-	private void initCheckBoxes()
-	{
+
+	private void initCheckBoxes() {
 		chkRandom = (CheckBox) findViewById(R.id.chkRandom);
 		chkAskAll = (CheckBox) findViewById(R.id.chkAskAll);
 		chkSound = (CheckBox) findViewById(R.id.chkSound);
 		boolean checked = getIntent().getBooleanExtra("Random", false);
 		chkRandom.setChecked(checked);
 		intent.putExtra("Random", checked);
-		
-		chkRandom.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+		chkRandom.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
@@ -135,14 +149,14 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				// TODO Auto-generated method stub
 				intent.putExtra("Random", isChecked);
 			}
-			
+
 		});
-		
+
 		checked = getIntent().getBooleanExtra("AskAll", false);
 		chkAskAll.setChecked(checked);
 		intent.putExtra("AskAll", checked);
-		
-		chkAskAll.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+		chkAskAll.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
@@ -150,14 +164,14 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				// TODO Auto-generated method stub
 				intent.putExtra("AskAll", isChecked);
 			}
-			
+
 		});
-		
+
 		checked = getIntent().getBooleanExtra("Sound", true);
 		chkSound.setChecked(checked);
 		intent.putExtra("Sound", checked);
-		
-		chkSound.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+		chkSound.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
@@ -165,18 +179,14 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				// TODO Auto-generated method stub
 				intent.putExtra("Sound", isChecked);
 			}
-			
+
 		});
 
-
-		
 	}
-	
-	private void initSpinners()
-	{
+
+	private void initSpinners() {
 		libLearn.gStatus = "initSpinners";
-		try
-		{
+		try {
 			spnAbfragebereich = (Spinner) findViewById(R.id.spnAbfragebereich);
 			spnASCII = (Spinner) findViewById(R.id.spnASCII);
 			spnStep = (Spinner) findViewById(R.id.spnStep);
@@ -186,347 +196,379 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 			spnProbabilityFactor = (Spinner) findViewById(R.id.spnProbabilityFactor);
 			spnColors = (com.jmg.lib.NoClickSpinner) findViewById(R.id.spnColors);
 			spnSounds = (com.jmg.lib.NoClickSpinner) findViewById(R.id.spnSounds);
-			
-			spnASCII.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			spnStep.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			spnDisplayDurationBed.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			spnDisplayDurationWord.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			spnAbfragebereich.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			spnPaukRepetitions.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			spnProbabilityFactor.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			spnColors.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			spnSounds.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-			
-			
-			// Create an ArrayAdapter using the string array and a default spinner layout
-			ScaledArrayAdapter<CharSequence> adapter = ScaledArrayAdapter.createFromResource(this,
-			        R.array.spnAbfragebereichEntries, android.R.layout.simple_spinner_item);
+
+			spnASCII.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnStep.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnDisplayDurationBed.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnDisplayDurationWord.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnAbfragebereich.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnPaukRepetitions.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnProbabilityFactor.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnColors.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnSounds.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+
+			// Create an ArrayAdapter using the string array and a default
+			// spinner layout
+			ScaledArrayAdapter<CharSequence> adapter = ScaledArrayAdapter
+					.createFromResource(this, R.array.spnAbfragebereichEntries,
+							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
 			spnAbfragebereich.setAdapter(adapter);
-			spnAbfragebereich.setSelection(getIntent().getShortExtra("Abfragebereich", (short) -1)+1);
-			
-			spnAbfragebereich.setOnItemSelectedListener(new OnItemSelectedListener() {
-	
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					intent.putExtra("Abfragebereich", (short)(position-1));
-					
-				}
-	
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
-					setResult(Activity.RESULT_CANCELED, null);
-				}
-			});
-			ScaledArrayAdapter<CharSequence> adapterStep = ScaledArrayAdapter.createFromResource(this,
-			        R.array.spnStepEntries, android.R.layout.simple_spinner_item);
+			spnAbfragebereich.setSelection(getIntent().getShortExtra(
+					"Abfragebereich", (short) -1) + 1);
+
+			spnAbfragebereich
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							intent.putExtra("Abfragebereich",
+									(short) (position - 1));
+
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> parent) {
+							// TODO Auto-generated method stub
+							setResult(Activity.RESULT_CANCELED, null);
+						}
+					});
+			ScaledArrayAdapter<CharSequence> adapterStep = ScaledArrayAdapter
+					.createFromResource(this, R.array.spnStepEntries,
+							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
-			adapterStep.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			adapterStep
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
 			spnStep.setAdapter(adapterStep);
-			spnStep.setSelection(adapterStep.getPosition("" + getIntent().getShortExtra("Step", (short) 5)));
+			spnStep.setSelection(adapterStep.getPosition(""
+					+ getIntent().getShortExtra("Step", (short) 5)));
 			spnStep.setOnItemSelectedListener(new OnItemSelectedListener() {
-	
+
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					intent.putExtra("Step", (short)(Integer.parseInt((String) parent.getItemAtPosition(position))));
-					
+					intent.putExtra("Step", (short) (Integer
+							.parseInt((String) parent
+									.getItemAtPosition(position))));
+
 				}
-	
+
 				@Override
 				public void onNothingSelected(AdapterView<?> parent) {
 					// TODO Auto-generated method stub
 					setResult(Activity.RESULT_CANCELED, null);
 				}
 			});
-	
-			ScaledArrayAdapter<String> adapterASCII = new ScaledArrayAdapter<String>(this, android.R.layout.simple_spinner_item);   
-			//adapterASCII.addAll(Charset.availableCharsets().values());
-			
-			for(Charset c:Charset.availableCharsets().values())
-			{
+
+			ScaledArrayAdapter<String> adapterASCII = new ScaledArrayAdapter<String>(
+					this, android.R.layout.simple_spinner_item);
+			// adapterASCII.addAll(Charset.availableCharsets().values());
+
+			for (Charset c : Charset.availableCharsets().values()) {
 				adapterASCII.add(c.name());
 			}
 			// Specify the layout to use when the list of choices appears
-			adapterASCII.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			adapterASCII
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
 			spnASCII.setAdapter(adapterASCII);
 			String CharsetASCII = getIntent().getStringExtra("CharsetASCII");
-			if (!libString.IsNullOrEmpty(CharsetASCII))
-			{
+			if (!libString.IsNullOrEmpty(CharsetASCII)) {
 				int i = 0;
-				for(Charset c:Charset.availableCharsets().values())
-				{
-					if (c.name().equalsIgnoreCase(CharsetASCII))
-					{
+				for (Charset c : Charset.availableCharsets().values()) {
+					if (c.name().equalsIgnoreCase(CharsetASCII)) {
 						break;
 					}
 					i++;
 				}
-				if (i < adapterASCII.getCount())
-				{
+				if (i < adapterASCII.getCount()) {
 					spnASCII.setSelection(i);
 				}
-	
+
 			}
 			spnASCII.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					intent.putExtra("CharsetASCII", ((String)
-							(parent.getSelectedItem())));
-					
+					intent.putExtra("CharsetASCII",
+							((String) (parent.getSelectedItem())));
+
 				}
-	
+
 				@Override
 				public void onNothingSelected(AdapterView<?> parent) {
 					// TODO Auto-generated method stub
 					setResult(Activity.RESULT_CANCELED, null);
 				}
 			});
-			
-			ScaledArrayAdapter<CharSequence> adapterDDWord = ScaledArrayAdapter.createFromResource(this,
-			        R.array.spnDurations, android.R.layout.simple_spinner_item);
+
+			ScaledArrayAdapter<CharSequence> adapterDDWord = ScaledArrayAdapter
+					.createFromResource(this, R.array.spnDurations,
+							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
-			adapterDDWord.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			adapterDDWord
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
 			spnDisplayDurationWord.setAdapter(adapterDDWord);
-			String strDD = "" + getIntent().getFloatExtra("DisplayDurationWord", 1.5f); 
+			String strDD = ""
+					+ getIntent().getFloatExtra("DisplayDurationWord", 1.5f);
 			strDD = strDD.replace(".0", "");
 			int Pos = adapterDDWord.getPosition(strDD);
 			spnDisplayDurationWord.setSelection(Pos);
-			spnDisplayDurationWord.setOnItemSelectedListener(new OnItemSelectedListener() {
-	
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					intent.putExtra("DisplayDurationWord", (Float.parseFloat((String) parent.getItemAtPosition(position))));
-					
-				}
-	
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
-					setResult(Activity.RESULT_CANCELED, null);
-				}
-			});
-			
-			ScaledArrayAdapter<CharSequence> adapterDDBed = ScaledArrayAdapter.createFromResource(this,
-			        R.array.spnDurations, android.R.layout.simple_spinner_item);
+			spnDisplayDurationWord
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							intent.putExtra("DisplayDurationWord", (Float
+									.parseFloat((String) parent
+											.getItemAtPosition(position))));
+
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> parent) {
+							// TODO Auto-generated method stub
+							setResult(Activity.RESULT_CANCELED, null);
+						}
+					});
+
+			ScaledArrayAdapter<CharSequence> adapterDDBed = ScaledArrayAdapter
+					.createFromResource(this, R.array.spnDurations,
+							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
-			adapterDDBed.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			adapterDDBed
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
 			spnDisplayDurationBed.setAdapter(adapterDDBed);
 			strDD = "" + getIntent().getFloatExtra("DisplayDurationBed", 2.5f);
 			strDD = strDD.replace(".0", "");
 			Pos = adapterDDBed.getPosition(strDD);
 			spnDisplayDurationBed.setSelection(Pos);
-			spnDisplayDurationBed.setOnItemSelectedListener(new OnItemSelectedListener() {
-	
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					intent.putExtra("DisplayDurationBed", (Float.parseFloat((String) parent.getItemAtPosition(position))));
-					
-				}
-	
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
-					setResult(Activity.RESULT_CANCELED, null);
-				}
-			});
-			
-			ScaledArrayAdapter<CharSequence> adapterPaukRepetitions = ScaledArrayAdapter.createFromResource(this,
-			        R.array.spnRepetitions, android.R.layout.simple_spinner_item);
+			spnDisplayDurationBed
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							intent.putExtra("DisplayDurationBed", (Float
+									.parseFloat((String) parent
+											.getItemAtPosition(position))));
+
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> parent) {
+							// TODO Auto-generated method stub
+							setResult(Activity.RESULT_CANCELED, null);
+						}
+					});
+
+			ScaledArrayAdapter<CharSequence> adapterPaukRepetitions = ScaledArrayAdapter
+					.createFromResource(this, R.array.spnRepetitions,
+							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
-			adapterPaukRepetitions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			adapterPaukRepetitions
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			spnPaukRepetitions.setAdapter(adapterPaukRepetitions);
-			Pos = getIntent().getIntExtra("PaukRepetitions", 3)-1;
+			Pos = getIntent().getIntExtra("PaukRepetitions", 3) - 1;
 			spnPaukRepetitions.setSelection(Pos);
-			spnPaukRepetitions.setOnItemSelectedListener(new OnItemSelectedListener() {
-	
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					intent.putExtra("PaukRepetitions", (Integer.parseInt((String) parent.getItemAtPosition(position))));
-					
-				}
-	
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
-					setResult(Activity.RESULT_CANCELED, null);
-				}
-			});
-	
-			ScaledArrayAdapter<CharSequence> adapterProbabilityFactor = ScaledArrayAdapter.createFromResource(this,
-			        R.array.spnProbabilityFactors, android.R.layout.simple_spinner_item);
+			spnPaukRepetitions
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							intent.putExtra("PaukRepetitions", (Integer
+									.parseInt((String) parent
+											.getItemAtPosition(position))));
+
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> parent) {
+							// TODO Auto-generated method stub
+							setResult(Activity.RESULT_CANCELED, null);
+						}
+					});
+
+			ScaledArrayAdapter<CharSequence> adapterProbabilityFactor = ScaledArrayAdapter
+					.createFromResource(this, R.array.spnProbabilityFactors,
+							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
-			adapterProbabilityFactor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			adapterProbabilityFactor
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			spnProbabilityFactor.setAdapter(adapterProbabilityFactor);
-			float ProbabilityFactor = getIntent().getFloatExtra("ProbabilityFactor", -1f); 
-			if (ProbabilityFactor == -1)
-			{
+			float ProbabilityFactor = getIntent().getFloatExtra(
+					"ProbabilityFactor", -1f);
+			if (ProbabilityFactor == -1) {
 				strDD = "auto";
-			}
-			else
-			{
+			} else {
 				strDD = "" + ProbabilityFactor;
 				strDD = strDD.replace(".0", "");
 			}
-			
+
 			ArrayAdapter<CharSequence> a1 = adapterProbabilityFactor;
-			if (a1 != null)
-			{
-				try
-				{
+			if (a1 != null) {
+				try {
 					libLearn.gStatus = "get Spinneradapter ProbabilityFactor";
 					Pos = (a1.getPosition(strDD));
 					spnProbabilityFactor.setSelection(Pos);
-				}
-				catch (Exception ex)
-				{
+				} catch (Exception ex) {
 					lib.ShowException(this, ex);
 				}
-				
+
 			}
-			
-			spnProbabilityFactor.setOnItemSelectedListener(new OnItemSelectedListener() {
-	
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					String strDD = (String) parent.getItemAtPosition(position);
-					if (strDD.equalsIgnoreCase("auto")) strDD = "-1";
-					intent.putExtra("ProbabilityFactor", (Float.parseFloat(strDD)));
-					
-				}
-	
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
-					setResult(Activity.RESULT_CANCELED, null);
-				}
-			});
-			
+
+			spnProbabilityFactor
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							String strDD = (String) parent
+									.getItemAtPosition(position);
+							if (strDD.equalsIgnoreCase("auto"))
+								strDD = "-1";
+							intent.putExtra("ProbabilityFactor",
+									(Float.parseFloat(strDD)));
+
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> parent) {
+							// TODO Auto-generated method stub
+							setResult(Activity.RESULT_CANCELED, null);
+						}
+					});
+
 			spnColors.setAdapter(Colors);
-			spnColors.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
-				
-				@Override
-				public boolean onLongClick(View v) {
-					// TODO Auto-generated method stub
-					spnColors.blnDontCallOnClick = true;
-					ShowColorDialog();
-					return false;
-				}
-			});
-			spnColors.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
-				
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent,
-						View view, int position, long id) {
-					// TODO Auto-generated method stub
-					spnColors.blnDontCallOnClick = true;
-					ShowColorDialog();
-					return false;
-				}
-			});
-			
+			spnColors
+					.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
+
+						@Override
+						public boolean onLongClick(View v) {
+							// TODO Auto-generated method stub
+							spnColors.blnDontCallOnClick = true;
+							ShowColorDialog();
+							return false;
+						}
+					});
+			spnColors
+					.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+
+						@Override
+						public boolean onItemLongClick(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							spnColors.blnDontCallOnClick = true;
+							ShowColorDialog();
+							return false;
+						}
+					});
+
 			spnSounds.setAdapter(Sounds);
-			spnSounds.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
-				
-				@Override
-				public boolean onLongClick(View v) {
-					// TODO Auto-generated method stub
-					spnSounds.blnDontCallOnClick = true;
-					ShowSoundsDialog();
-					return false;
-				}
-			});
-			spnSounds.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
-				
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent,
-						View view, int position, long id) {
-					// TODO Auto-generated method stub
-					spnSounds.blnDontCallOnClick = true;
-					ShowSoundsDialog();
-					return false;
-				}
-			});
-			
+			spnSounds
+					.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
+
+						@Override
+						public boolean onLongClick(View v) {
+							// TODO Auto-generated method stub
+							spnSounds.blnDontCallOnClick = true;
+							ShowSoundsDialog();
+							return false;
+						}
+					});
+			spnSounds
+					.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+
+						@Override
+						public boolean onItemLongClick(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							spnSounds.blnDontCallOnClick = true;
+							ShowSoundsDialog();
+							return false;
+						}
+					});
+
 			spnSounds.setOnItemSelectedListener(new OnItemSelectedListener() {
-				
+
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					SoundSetting item = (SoundSetting)parent.getItemAtPosition(position);
+					SoundSetting item = (SoundSetting) parent
+							.getItemAtPosition(position);
 					File F = new File(item.SoundPath);
-					try 
-					{
-						if (F.exists())	lib.playSound(F);
-						else lib.playSound(getAssets(),item.SoundPath);
-					} 
-					catch (IOException e) {
+					try {
+						if (F.exists())
+							lib.playSound(F);
+						else
+							lib.playSound(getAssets(), item.SoundPath);
+					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-	
+
 				@Override
 				public void onNothingSelected(AdapterView<?> parent) {
 					// TODO Auto-generated method stub
 					setResult(Activity.RESULT_CANCELED, null);
 				}
 			});
-	
-			
-		}
-		catch (Exception ex)
-		{
+
+		} catch (Exception ex) {
 			lib.ShowException(this, ex);
 		}
 	}
-	
-	private void initButtons()
-	{
-		Button b = (Button)findViewById(R.id.btnOK);
+
+	private void initButtons() {
+		Button b = (Button) findViewById(R.id.btnOK);
 		b.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				setResult(Activity.RESULT_OK, intent);
-				for (int i = 0; i < Colors.getCount(); i++)
-				{
-					intent.putExtra(Colors.getItem(i).ColorItem.name(), Colors.getItem(i).ColorValue);
+				for (int i = 0; i < Colors.getCount(); i++) {
+					intent.putExtra(Colors.getItem(i).ColorItem.name(),
+							Colors.getItem(i).ColorValue);
 				}
-				
-				for (int i = 0; i < Sounds.getCount(); i++)
-				{
-					intent.putExtra(Sounds.getItem(i).Sound.name(), Sounds.getItem(i).SoundPath);
+
+				for (int i = 0; i < Sounds.getCount(); i++) {
+					intent.putExtra(Sounds.getItem(i).Sound.name(),
+							Sounds.getItem(i).SoundPath);
 				}
-					
+
 				finish();
 			}
 		});
-		b = (Button)findViewById(R.id.btnCancel);
+		b = (Button) findViewById(R.id.btnCancel);
 		b.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -534,181 +576,186 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 				finish();
 			}
 		});
-		
-		
-				
+
 	}
-	
+
 	public float scale = 1;
-	private void resize()
-	{
-		
-		//Resources resources = this.getResources();
-		//DisplayMetrics metrics = resources.getDisplayMetrics();
-		int width = mainView.getWidth();
-		float scale1 = width / (float)((findViewById(R.id.txtCharsetASCII)).getWidth()
-				+ spnASCII.getWidth() + width/50);
-		float scale2 = width / (float)((findViewById(R.id.txtSounds)).getWidth()
-				+ spnSounds.getWidth() + width/50);
-		float scale = (scale1<scale2)? scale1 : scale2;
-		ViewGroup Settings=(ViewGroup)findViewById(R.id.layoutSettings);
-		for (int i = 0; i < Settings.getChildCount(); i ++)
+
+	private void resize() {
+
+		// Resources resources = this.getResources();
+		// DisplayMetrics metrics = resources.getDisplayMetrics();
+		try
 		{
-			
-			View V = Settings.getChildAt(i);
-			//if (!(V instanceof CheckBox))
-			//{
-				RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) 
-						V.getLayoutParams();
+			int width = mainView.getWidth();
+			float scale1 = width
+					/ (float) ((findViewById(R.id.txtCharsetASCII)).getWidth()
+							+ spnASCII.getWidth() + width / 50);
+			float scale2 = width
+					/ (float) ((findViewById(R.id.txtSounds)).getWidth()
+							+ spnSounds.getWidth() + width / 50);
+			float scale = (scale1 < scale2) ? scale1 : scale2;
+			ViewGroup Settings = (ViewGroup) findViewById(R.id.layoutSettings);
+			for (int i = 0; i < Settings.getChildCount(); i++) {
+
+				View V = Settings.getChildAt(i);
+				// if (!(V instanceof CheckBox))
+				// {
+				RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) V
+						.getLayoutParams();
 				params.topMargin = (int) (params.topMargin * scale);
 				params.height = (int) (params.height * scale);
-				params.width= (int) (params.width*scale);
-				if (V==spnSounds)
-				{
+				params.width = (int) (params.width * scale);
+				if (V == spnSounds) {
 					int soundsHeight = spnSounds.getHeight();
-					float margin = (float) ((soundsHeight * scale)/5.25);
-					params.topMargin= (int) margin;
+					float margin = (float) ((soundsHeight * scale) / 5.25);
+					params.topMargin = (int) margin;
 				}
 				V.setLayoutParams(params);
-			//}
-			if (V instanceof TextView && !(V instanceof CheckBox))
-			{
-				TextView t = (TextView)V;
-				t.setTextSize(TypedValue.COMPLEX_UNIT_PX,t.getTextSize()*scale);
-			}
-			else if (V instanceof Spinner)
-			{
-				Spinner spn = (Spinner) V;
-				SpinnerAdapter A = spn.getAdapter();
-				if (A instanceof AbstractScaledArrayAdapter<?>)
-				{
-					AbstractScaledArrayAdapter<?> AA = (AbstractScaledArrayAdapter<?>)A;
-					AA.Scale=scale;
-					AA.notifyDataSetChanged();
-					
+				// }
+				if (V instanceof TextView && !(V instanceof CheckBox)) {
+					TextView t = (TextView) V;
+					t.setTextSize(TypedValue.COMPLEX_UNIT_PX, t.getTextSize()
+							* scale);
+				} else if (V instanceof Spinner) {
+					Spinner spn = (Spinner) V;
+					SpinnerAdapter A = spn.getAdapter();
+					if (A instanceof AbstractScaledArrayAdapter<?>) {
+						AbstractScaledArrayAdapter<?> AA = (AbstractScaledArrayAdapter<?>) A;
+						AA.Scale = scale;
+						AA.notifyDataSetChanged();
+
+					}
+				} else if (V instanceof CheckBox) {
+					CheckBox c = (CheckBox) V;
+					// c.setScaleX(scale);
+					// c.setScaleY(scale);
+					// c.setle
+					c.setTextSize(TypedValue.COMPLEX_UNIT_PX, c.getTextSize()
+							* scale);
+					// Drawable d = lib.getDefaultCheckBoxDrawable(this);
+					// d = new ScaleDrawable(d, 0, c.getHeight()*scale,
+					// c.getHeight()*scale).getDrawable();
+					// float scaleC = (float)c.getHeight()/d.getBounds().height();
+					// d.setBounds(0, 0,(int) (c.getHeight()*scale),(int)
+					// (c.getHeight()*scale));
+					// LayerDrawable L = new LayerDrawable(new Drawable[]{d});
+					// d = lib.scaleImage(this, d, scaleC);
+					// /c.setButtonDrawable(d);
 				}
 			}
-			else if (V instanceof CheckBox)
-			{
-				CheckBox c = (CheckBox) V;
-				//c.setScaleX(scale);
-				//c.setScaleY(scale);
-				//c.setle
-				c.setTextSize(TypedValue.COMPLEX_UNIT_PX,c.getTextSize()*scale);
-				//Drawable d = lib.getDefaultCheckBoxDrawable(this);
-				//d = new ScaleDrawable(d, 0, c.getHeight()*scale, c.getHeight()*scale).getDrawable();
-				//float scaleC = (float)c.getHeight()/d.getBounds().height();
-				//d.setBounds(0, 0,(int) (c.getHeight()*scale),(int) (c.getHeight()*scale));
-				//LayerDrawable L = new LayerDrawable(new Drawable[]{d});
-				//d = lib.scaleImage(this, d, scaleC);
-				///c.setButtonDrawable(d);
-			}
+			Button b = (Button) findViewById(R.id.btnOK);
+			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) b
+					.getLayoutParams();
+			params.topMargin = (int) (params.topMargin * scale);
+			params.height = (int) (params.height * scale);
+			params.width = (int) (params.width * scale);
+			b.setLayoutParams(params);
+			b.setTextSize(TypedValue.COMPLEX_UNIT_PX, b.getTextSize() * scale);
+
+			b = (Button) findViewById(R.id.btnCancel);
+			params = (android.widget.RelativeLayout.LayoutParams) b
+					.getLayoutParams();
+			params.topMargin = (int) (params.topMargin * scale);
+			params.height = (int) (params.height * scale);
+			params.width = (int) (params.width * scale);
+			b.setLayoutParams(params);
+			b.setTextSize(TypedValue.COMPLEX_UNIT_PX, b.getTextSize() * scale);
 		}
-		Button b = (Button)findViewById(R.id.btnOK);
-		RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) 
-				b.getLayoutParams();
-		params.topMargin = (int) (params.topMargin * scale);
-		params.height = (int) (params.height * scale);
-		params.width= (int) (params.width*scale);
-		b.setLayoutParams(params);
-		b.setTextSize(TypedValue.COMPLEX_UNIT_PX,b.getTextSize()*scale);
+		catch (Exception ex)
+		{
+			lib.ShowException(this, ex);
+		}
 		
-		b = (Button)findViewById(R.id.btnCancel);
-		params = (android.widget.RelativeLayout.LayoutParams) 
-				b.getLayoutParams();
-		params.topMargin = (int) (params.topMargin * scale);
-		params.height = (int) (params.height * scale);
-		params.width= (int) (params.width*scale);
-		b.setLayoutParams(params);
-		b.setTextSize(TypedValue.COMPLEX_UNIT_PX,b.getTextSize()*scale);
 	}
-	
-	private void ShowColorDialog()
-	{
+
+	private void ShowColorDialog() {
 		spnColors.blnDontCallOnClick = true;
-		ColorSetting item = SettingsActivity.this.Colors.getItem(spnColors.getSelectedItemPosition());
-		AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, item.ColorValue, new OnAmbilWarnaListener() {
-			
-			@Override
-			public void onOk(AmbilWarnaDialog dialog, int color) {
-				// TODO Auto-generated method stub
-				ColorSetting item = SettingsActivity.this.Colors.getItem(spnColors.getSelectedItemPosition());
-				item.ColorValue = color;
-				Editor editor = prefs.edit();
-	            editor.putInt(item.ColorItem.name(), item.ColorValue);
-	            intent.putExtra(item.ColorItem.name(), item.ColorValue);;
-	            editor.commit();
-				Colors.notifyDataSetChanged();
-				spnColors.blnDontCallOnClick = false;
-			}
-			
-			@Override
-			public void onCancel(AmbilWarnaDialog dialog) {
-				// TODO Auto-generated method stub
-				spnColors.blnDontCallOnClick = false;
-			}
-		});				    
-		dialog.show();				
-	
-	
+		ColorSetting item = SettingsActivity.this.Colors.getItem(spnColors
+				.getSelectedItemPosition());
+		AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, item.ColorValue,
+				new OnAmbilWarnaListener() {
+
+					@Override
+					public void onOk(AmbilWarnaDialog dialog, int color) {
+						// TODO Auto-generated method stub
+						ColorSetting item = SettingsActivity.this.Colors
+								.getItem(spnColors.getSelectedItemPosition());
+						item.ColorValue = color;
+						Editor editor = prefs.edit();
+						editor.putInt(item.ColorItem.name(), item.ColorValue);
+						intent.putExtra(item.ColorItem.name(), item.ColorValue);
+						;
+						editor.commit();
+						Colors.notifyDataSetChanged();
+						spnColors.blnDontCallOnClick = false;
+					}
+
+					@Override
+					public void onCancel(AmbilWarnaDialog dialog) {
+						// TODO Auto-generated method stub
+						spnColors.blnDontCallOnClick = false;
+					}
+				});
+		dialog.show();
+
 	}
-	
-	
-	private void ShowSoundsDialog()
-	{
+
+	private void ShowSoundsDialog() {
 		spnSounds.blnDontCallOnClick = true;
-		SoundSetting item = SettingsActivity.this.Sounds.getItem(spnSounds.getSelectedItemPosition());
+		SoundSetting item = SettingsActivity.this.Sounds.getItem(spnSounds
+				.getSelectedItemPosition());
 		File F = new File(item.SoundPath);
 		String dir = Environment.getExternalStorageDirectory().getPath();
-		if (F.exists()) dir = F.getParent();
+		if (F.exists())
+			dir = F.getParent();
 		Intent intent = new Intent(this, FileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
 		extensions.add(".wav");
 		extensions.add(".mp3");
 		extensions.add(".ogg");
 		extensions.add(".flv");
-		
+
 		intent.putStringArrayListExtra("filterFileExtension", extensions);
 		intent.putExtra("DefaultDir", dir);
-		
+
 		this.startActivityForResult(intent, FILE_CHOOSER);
 	}
-	
+
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) 
-	{
-		try 
-		{
-			if (requestCode == FILE_CHOOSER && (resultCode == Activity.RESULT_OK)) 
-			{
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		try {
+			if (requestCode == FILE_CHOOSER
+					&& (resultCode == Activity.RESULT_OK)) {
 				String fileSelected = data.getStringExtra("fileSelected");
-				SoundSetting item = SettingsActivity.this.Sounds.getItem(spnSounds.getSelectedItemPosition());
+				SoundSetting item = SettingsActivity.this.Sounds
+						.getItem(spnSounds.getSelectedItemPosition());
 				item.SoundPath = fileSelected;
 				File F = new File(item.SoundPath);
-				try 
-				{
-					if (F.exists())	lib.playSound(F);
-					else lib.playSound(getAssets(),item.SoundPath);
-				} 
-				catch (IOException e) {
+				try {
+					if (F.exists())
+						lib.playSound(F);
+					else
+						lib.playSound(getAssets(), item.SoundPath);
+				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				Editor editor = prefs.edit();
-	            editor.putString(item.Sound.name(), item.SoundPath);
-	            intent.putExtra(item.Sound.name(), item.SoundName);;
-	            editor.commit();
+				editor.putString(item.Sound.name(), item.SoundPath);
+				intent.putExtra(item.Sound.name(), item.SoundName);
+				;
+				editor.commit();
 				Sounds.notifyDataSetChanged();
 				spnSounds.blnDontCallOnClick = false;
 			}
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			lib.ShowException(this, ex);
-		}	
+		}
 	}
+
 	public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
-		
+
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
 			// TODO Auto-generated method stub
