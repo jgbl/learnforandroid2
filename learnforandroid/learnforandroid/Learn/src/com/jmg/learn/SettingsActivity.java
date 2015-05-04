@@ -17,6 +17,9 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +97,10 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity
 		prefs = this.getPreferences(Context.MODE_PRIVATE);
 		Colors = new ColorsArrayAdapter(this,android.R.layout.simple_spinner_item);
 		Sounds = new SoundsArrayAdapter(this,android.R.layout.simple_spinner_item);
-		
+		TextView txtSettings = (TextView)findViewById(R.id.txtSettings);
+		SpannableString Settings = new SpannableString(txtSettings.getText());
+		Settings.setSpan(new UnderlineSpan(), 0, Settings.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		txtSettings.setText(Settings);
 		initSpinners();
 		initCheckBoxes();
 		initButtons();
