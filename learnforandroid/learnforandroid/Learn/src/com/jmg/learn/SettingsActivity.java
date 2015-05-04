@@ -77,26 +77,9 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 		super.onCreate(savedInstanceState);
 		try
 		{
-			mainView = findViewById(Window.ID_ANDROID_CONTENT);
-			mainView.getViewTreeObserver().addOnGlobalLayoutListener(
-					new ViewTreeObserver.OnGlobalLayoutListener() {
-
-						@Override
-						public void onGlobalLayout() {
-							// Ensure you call it only once :
-
-							if (Build.VERSION.SDK_INT < 16) {
-								removeLayoutListenerPre16(
-										mainView.getViewTreeObserver(), this);
-							} else {
-								removeLayoutListenerPost16(
-										mainView.getViewTreeObserver(), this);
-							}
-							// Here you can get the size :)
-							resize();
-						}
-					});
+			//lib.ShowToast(this, "Settings Start");
 			setContentView(R.layout.activity_settings);
+			mainView = findViewById(Window.ID_ANDROID_CONTENT);
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 			prefs = this.getPreferences(Context.MODE_PRIVATE);
 			Colors = new ColorsArrayAdapter(this,
@@ -112,8 +95,30 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 			initCheckBoxes();
 			initButtons();
 			// resize();
+			//lib.ShowToast(this, "Settings addlayoutlistener");
+			if (!(lib.NookSimpleTouch))
+			{
+				mainView.getViewTreeObserver().addOnGlobalLayoutListener(
+						new ViewTreeObserver.OnGlobalLayoutListener() {
 
-		}
+							@Override
+							public void onGlobalLayout() {
+								// Ensure you call it only once :
+								if (Build.VERSION.SDK_INT < 16) {
+									removeLayoutListenerPre16(
+											mainView.getViewTreeObserver(), this);
+								} else {
+									removeLayoutListenerPost16(
+											mainView.getViewTreeObserver(), this);
+								}
+								// Here you can get the size :)
+								resize();
+							}
+						});
+
+			}
+			
+					}
 		catch (Exception ex)
 		{
 			lib.ShowException(this, ex);
@@ -585,9 +590,12 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 
 		// Resources resources = this.getResources();
 		// DisplayMetrics metrics = resources.getDisplayMetrics();
+		
 		try
 		{
 			int width = mainView.getWidth();
+			mainView.setVisibility(View.INVISIBLE);
+			libLearn.gStatus="Calculating Scale";
 			float scale1 = width
 					/ (float) ((findViewById(R.id.txtCharsetASCII)).getWidth()
 							+ spnASCII.getWidth() + width / 50);
@@ -596,8 +604,9 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 							+ spnSounds.getWidth() + width / 50);
 			float scale = (scale1 < scale2) ? scale1 : scale2;
 			ViewGroup Settings = (ViewGroup) findViewById(R.id.layoutSettings);
+			libLearn.gStatus = "Enumerating ChildViews";
 			for (int i = 0; i < Settings.getChildCount(); i++) {
-
+				libLearn.gStatus="getting view "+i;
 				View V = Settings.getChildAt(i);
 				// if (!(V instanceof CheckBox))
 				// {
@@ -611,9 +620,11 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 					float margin = (float) ((soundsHeight * scale) / 5.25);
 					params.topMargin = (int) margin;
 				}
+				libLearn.gStatus="Setting Layoutparams";
 				V.setLayoutParams(params);
 				// }
 				if (V instanceof TextView && !(V instanceof CheckBox)) {
+					libLearn.gStatus="TextView set size";
 					TextView t = (TextView) V;
 					t.setTextSize(TypedValue.COMPLEX_UNIT_PX, t.getTextSize()
 							* scale);
@@ -621,12 +632,14 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 					Spinner spn = (Spinner) V;
 					SpinnerAdapter A = spn.getAdapter();
 					if (A instanceof AbstractScaledArrayAdapter<?>) {
+						libLearn.gStatus="Scaling Adapter";
 						AbstractScaledArrayAdapter<?> AA = (AbstractScaledArrayAdapter<?>) A;
 						AA.Scale = scale;
 						AA.notifyDataSetChanged();
 
 					}
 				} else if (V instanceof CheckBox) {
+					libLearn.gStatus="CheckBox";
 					CheckBox c = (CheckBox) V;
 					// c.setScaleX(scale);
 					// c.setScaleY(scale);
@@ -644,6 +657,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 					// /c.setButtonDrawable(d);
 				}
 			}
+			libLearn.gStatus="Buttons";
 			Button b = (Button) findViewById(R.id.btnOK);
 			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) b
 					.getLayoutParams();
@@ -666,6 +680,11 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 		{
 			lib.ShowException(this, ex);
 		}
+		finally
+		{
+			mainView.setVisibility(View.VISIBLE);
+		}
+		
 		
 	}
 

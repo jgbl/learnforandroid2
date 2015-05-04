@@ -1520,7 +1520,7 @@ public class MainActivity extends ActionBarActivity {
 
 			v = findViewById(R.id.txtMeaning1);
 			t = (TextView) v;
-			t.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+			if (!libString.IsNullOrEmpty(vok.getBedeutung2())) t.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 			t.setText((showBeds ? vok.getBedeutung1() : getComment(vok
 					.getBedeutung1())));
 			if (vok.getFontBed().getName() == "Cardo") {
