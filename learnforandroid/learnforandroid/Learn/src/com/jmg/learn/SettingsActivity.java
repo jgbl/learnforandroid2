@@ -116,6 +116,7 @@ public class SettingsActivity extends ActionBarActivity {
 								}
 								// Here you can get the size :)
 								resize();
+								lib.ShowToast(SettingsActivity.this, "Resize End");
 							}
 						});
 
@@ -631,10 +632,12 @@ public class SettingsActivity extends ActionBarActivity {
 			float scale = (scale1 < scale2) ? scale1 : scale2;
 			ViewGroup Settings = (ViewGroup) findViewById(R.id.layoutSettings);
 			libLearn.gStatus = "Enumerating ChildViews";
-			for (int i = 0; i < Settings.getChildCount(); i++) {
+			int ChildCount = Settings.getChildCount();
+			for (int i = 0; i < ChildCount; i++) {
 				if (i>100)break;
 				libLearn.gStatus="getting view "+i;
 				View V = Settings.getChildAt(i);
+				//if (V==spnASCII)continue;
 				// if (!(V instanceof CheckBox))
 				// {
 				RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) V
@@ -662,7 +665,11 @@ public class SettingsActivity extends ActionBarActivity {
 						libLearn.gStatus="Scaling Adapter";
 						AbstractScaledArrayAdapter<?> AA = (AbstractScaledArrayAdapter<?>) A;
 						AA.Scale = scale;
-						AA.notifyDataSetChanged();
+						if (spn.getSelectedItemPosition()>-1)
+						{
+							AA.notifyDataSetChanged();
+						}
+						
 
 					}
 				} else if (V instanceof CheckBox) {

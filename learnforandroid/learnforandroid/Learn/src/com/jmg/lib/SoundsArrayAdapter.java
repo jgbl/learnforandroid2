@@ -49,6 +49,7 @@ public class SoundsArrayAdapter extends
 	}
 
 	public View getCustomView(int position, View convertView, ViewGroup parent) {
+		if (position < 0) return convertView;
 		boolean blnNew = false;
 		LayoutInflater inflater = _Activity.getLayoutInflater();
 		SoundSetting SoundItem = getItem(position);

@@ -17,24 +17,34 @@ public class ScaledArrayAdapter<T> extends AbstractScaledArrayAdapter<T> {
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 		boolean blnNew = (convertView == null);
+		if (position < 0) return null;
 		View V = super.getDropDownView(position, convertView, parent);
-		if (V.getTag() == null)
-			blnNew = true;
-		if (blnNew) {
-			resizeviews(V);
+		if (V != null)
+		{
+			if (V.getTag() == null)
+				blnNew = true;
+			if (blnNew) {
+				resizeviews(V);
+			}
 		}
+		
 		return V;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		boolean blnNew = (convertView == null);
+		if (position < 0) return convertView;
 		View V = super.getView(position, convertView, parent);
-		if (V.getTag() == null)
-			blnNew = true;
-		if (blnNew) {
-			resizeviews(V);
+		if (V != null)
+		{
+			if (V.getTag() == null)
+				blnNew = true;
+			if (blnNew) {
+				resizeviews(V);
+			}
 		}
+		
 		return V;
 	}
 
