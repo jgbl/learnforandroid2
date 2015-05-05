@@ -81,7 +81,15 @@ public class SettingsActivity extends ActionBarActivity {
 		try
 		{
 			//lib.ShowToast(this, "Settings Start");
+			if (lib.NookSimpleTouch)
+			{
+				setContentView(R.layout.activity_settings_nook);
+			}
+			else
+			{
 			setContentView(R.layout.activity_settings);
+			}
+			
 			mainView = findViewById(Window.ID_ANDROID_CONTENT);
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 			prefs = this.getPreferences(Context.MODE_PRIVATE);
@@ -115,14 +123,18 @@ public class SettingsActivity extends ActionBarActivity {
 											mainView.getViewTreeObserver(), this);
 								}
 								// Here you can get the size :)
-								resize();
+								resize(0);
 								lib.ShowToast(SettingsActivity.this, "Resize End");
 							}
 						});
 
 			}
+			else
+			{
+				//resize(1.8f);
+			}
 			
-					}
+		}
 		catch (Exception ex)
 		{
 			lib.ShowException(this, ex);
@@ -161,7 +173,7 @@ public class SettingsActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.mnuResize) resize();
+		if (id == R.id.mnuResize && !lib.NookSimpleTouch) resize(0);
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -255,6 +267,7 @@ public class SettingsActivity extends ActionBarActivity {
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			if (lib.NookSimpleTouch) adapter.Scale = 1.8f;
 			// Apply the adapter to the spinner
 			spnAbfragebereich.setAdapter(adapter);
 			spnAbfragebereich.setSelection(getIntent().getShortExtra(
@@ -285,6 +298,7 @@ public class SettingsActivity extends ActionBarActivity {
 			adapterStep
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
+			if (lib.NookSimpleTouch) adapterStep.Scale = 1.8f;
 			spnStep.setAdapter(adapterStep);
 			spnStep.setSelection(adapterStep.getPosition(""
 					+ getIntent().getShortExtra("Step", (short) 5)));
@@ -318,6 +332,7 @@ public class SettingsActivity extends ActionBarActivity {
 			adapterASCII
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
+			if (lib.NookSimpleTouch) adapterASCII.Scale = 1.8f;
 			spnASCII.setAdapter(adapterASCII);
 			String CharsetASCII = getIntent().getStringExtra("CharsetASCII");
 			if (!libString.IsNullOrEmpty(CharsetASCII)) {
@@ -356,6 +371,7 @@ public class SettingsActivity extends ActionBarActivity {
 			// Specify the layout to use when the list of choices appears
 			adapterDDWord
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			if (lib.NookSimpleTouch) adapterDDWord.Scale = 1.8f;
 			// Apply the adapter to the spinner
 			spnDisplayDurationWord.setAdapter(adapterDDWord);
 			String strDD = ""
@@ -389,6 +405,7 @@ public class SettingsActivity extends ActionBarActivity {
 			// Specify the layout to use when the list of choices appears
 			adapterDDBed
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			if (lib.NookSimpleTouch) adapterDDBed.Scale = 1.8f;
 			// Apply the adapter to the spinner
 			spnDisplayDurationBed.setAdapter(adapterDDBed);
 			strDD = "" + getIntent().getFloatExtra("DisplayDurationBed", 2.5f);
@@ -421,6 +438,7 @@ public class SettingsActivity extends ActionBarActivity {
 			// Specify the layout to use when the list of choices appears
 			adapterPaukRepetitions
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			if (lib.NookSimpleTouch) adapterPaukRepetitions.Scale = 1.8f;
 			spnPaukRepetitions.setAdapter(adapterPaukRepetitions);
 			Pos = getIntent().getIntExtra("PaukRepetitions", 3) - 1;
 			spnPaukRepetitions.setSelection(Pos);
@@ -450,6 +468,7 @@ public class SettingsActivity extends ActionBarActivity {
 			// Specify the layout to use when the list of choices appears
 			adapterProbabilityFactor
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			if (lib.NookSimpleTouch) adapterProbabilityFactor.Scale = 1.8f;
 			spnProbabilityFactor.setAdapter(adapterProbabilityFactor);
 			float ProbabilityFactor = getIntent().getFloatExtra(
 					"ProbabilityFactor", -1f);
@@ -494,7 +513,7 @@ public class SettingsActivity extends ActionBarActivity {
 							setResult(Activity.RESULT_CANCELED, null);
 						}
 					});
-
+			if (lib.NookSimpleTouch) Colors.Scale = 1.8f;
 			spnColors.setAdapter(Colors);
 			spnColors
 					.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
@@ -519,7 +538,8 @@ public class SettingsActivity extends ActionBarActivity {
 							return false;
 						}
 					});
-
+			
+			if (lib.NookSimpleTouch) Sounds.Scale = 1.8f;
 			spnSounds.setAdapter(Sounds);
 			spnSounds
 					.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
@@ -613,23 +633,28 @@ public class SettingsActivity extends ActionBarActivity {
 
 	public float scale = 1;
 
-	private void resize() {
+	private void resize(float scale) {
 
 		// Resources resources = this.getResources();
 		// DisplayMetrics metrics = resources.getDisplayMetrics();
 		
 		try
 		{
-			int width = mainView.getWidth();
-			mainView.setVisibility(View.INVISIBLE);
-			libLearn.gStatus="Calculating Scale";
-			float scale1 = width
-					/ (float) ((findViewById(R.id.txtCharsetASCII)).getWidth()
-							+ spnASCII.getWidth() + width / 50);
-			float scale2 = width
-					/ (float) ((findViewById(R.id.txtSounds)).getWidth()
-							+ spnSounds.getWidth() + width / 50);
-			float scale = (scale1 < scale2) ? scale1 : scale2;
+			if (scale == 0)
+			{
+				int width = mainView.getWidth();
+				mainView.setVisibility(View.INVISIBLE);
+				libLearn.gStatus="Calculating Scale";
+					
+				float scale1 = width
+						/ (float) ((findViewById(R.id.txtCharsetASCII)).getWidth()
+								+ spnASCII.getWidth() + width / 50);
+				float scale2 = width
+						/ (float) ((findViewById(R.id.txtSounds)).getWidth()
+								+ spnSounds.getWidth() + width / 50);
+				scale = (scale1 < scale2) ? scale1 : scale2;
+			}
+			
 			ViewGroup Settings = (ViewGroup) findViewById(R.id.layoutSettings);
 			libLearn.gStatus = "Enumerating ChildViews";
 			int ChildCount = Settings.getChildCount();
@@ -637,9 +662,7 @@ public class SettingsActivity extends ActionBarActivity {
 				if (i>100)break;
 				libLearn.gStatus="getting view "+i;
 				View V = Settings.getChildAt(i);
-				//if (V==spnASCII)continue;
-				// if (!(V instanceof CheckBox))
-				// {
+				
 				RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) V
 						.getLayoutParams();
 				params.topMargin = (int) (params.topMargin * scale);

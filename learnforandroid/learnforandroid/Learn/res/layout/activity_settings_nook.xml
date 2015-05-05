@@ -30,13 +30,14 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtSettings"
 	            android:text="@string/txtCharsetASCII"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
 	        <Spinner
 	            android:id="@+id/spnASCII"
 	            style="?android:attr/spinnerItemStyle"
+	            android:textSize="27sp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBaseline="@id/txtCharsetASCII"
@@ -52,7 +53,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtCharsetASCII"
 	            android:text="@string/txtAbfragebereich"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	
@@ -60,6 +61,7 @@
 	        <Spinner
 	            android:id="@+id/spnAbfragebereich"
 	            style="?android:attr/spinnerItemStyle"
+	            android:textSize="27sp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBaseline="@id/txtAbfragebereich"
@@ -77,13 +79,14 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtAbfragebereich"
 	            android:text="@string/txtStep"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
 	        <Spinner
 	            android:id="@+id/spnStep"
 	            style="?android:attr/spinnerItemStyle"
+	            android:textSize="27sp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBaseline="@id/txtStep"
@@ -99,13 +102,14 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtStep"
 	            android:text="@string/txtAnzeigedauerWord"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
 	        <Spinner
 	            android:id="@+id/spnAnzeigedauerWord"
 	            style="?android:attr/spinnerItemStyle"
+	            android:textSize="27sp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBaseline="@id/txtAnzeigedauerWord"
@@ -121,13 +125,14 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtAnzeigedauerWord"
 	            android:text="@string/txtAnzeigedauerBed"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
 	        <Spinner
 	            android:id="@+id/spnAnzeigedauerBed"
 	            style="?android:attr/spinnerItemStyle"
+	            android:textSize="27sp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBaseline="@id/txtAnzeigedauerBed"
@@ -143,13 +148,14 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtAnzeigedauerBed"
 	            android:text="@string/txtRepetitions"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
 	        <Spinner
 	            android:id="@+id/spnRepetitions"
 	            style="?android:attr/spinnerItemStyle"
+	            android:textSize="27sp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBaseline="@id/txtRepetitions"
@@ -166,13 +172,14 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtRepetitions"
 	            android:text="@string/txtProbabilityFactor"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
 	        <Spinner
 	            android:id="@+id/spnProbabilityFactor"
 	            style="?android:attr/spinnerItemStyle"
+	            android:textSize="27sp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBaseline="@id/txtProbabilityFactor"
@@ -189,19 +196,18 @@
 	            android:layout_below="@+id/txtProbabilityFactor"
 	            android:layout_marginTop="5dp"
 	            android:text="@string/txtColors"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
 	        <com.jmg.lib.NoClickSpinner
 	            android:id="@+id/spnColors"
-	            android:layout_width="200dp"
+	            android:layout_width="300dp"
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtProbabilityFactor"
-	            android:layout_marginTop="5dp"
 	            android:layout_alignParentRight="true"
 	            android:contentDescription="@string/spnColorDescription"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:prompt="@string/spnColors" />
 	       
 	        <TextView
@@ -211,20 +217,21 @@
 	            android:layout_below="@+id/txtColors"
 	            android:layout_marginTop="5dp"
 	            android:text="@string/txtSounds"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
 	        <com.jmg.lib.NoClickSpinner
 	            android:id="@+id/spnSounds"
-	            android:layout_width="250dp"
+	            android:textSize="27sp"
+	            android:layout_width="350dp"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentRight="true"
 	            android:layout_below="@+id/txtColors"
 	            android:layout_marginTop="5dp"
 	            android:contentDescription="@string/spnSoundsDescription"
 	            android:prompt="@string/spnSounds"
-	            android:textSize="18sp" />
+	        />
 	        
 	        <CheckBox
 	            android:id="@+id/chkRandom"
@@ -235,7 +242,7 @@
 	            android:checked="false"
 	            android:hint="@string/chkRandomHint"
 	            android:text="@string/chkRandom"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
@@ -248,7 +255,7 @@
 	            android:checked="false"
 	            android:hint="@string/chkAskAllHint"
 	            android:text="@string/chkAskAll"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
@@ -261,7 +268,7 @@
 	            android:checked="false"
 	            android:hint="@string/chkSoundHint"
 	            android:text="@string/chkSound"
-	            android:textSize="18sp"
+	            android:textSize="27sp"
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 		    
@@ -280,7 +287,7 @@
 			        android:layout_height="wrap_content"
 			        android:layout_alignParentBottom="true"
 			        android:text="@string/btnCancel"
-			        android:textSize="20sp" />
+			        android:textSize="30sp" />
 				<Button
 			        android:id="@+id/btnOK"
 			        android:layout_width="wrap_content"
@@ -288,7 +295,7 @@
 			        android:layout_alignParentBottom="true"
 			        android:layout_toRightOf="@+id/btnCancel"
 			        android:text="@string/btnOK"
-			        android:textSize="20sp" />
+			        android:textSize="30sp" />
 	
 			    
 			        
