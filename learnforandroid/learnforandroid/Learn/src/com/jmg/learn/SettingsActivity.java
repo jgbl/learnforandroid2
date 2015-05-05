@@ -17,10 +17,13 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -51,7 +54,7 @@ import com.jmg.lib.ColorSetting;
 import yuku.ambilwarna.*;
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 
-public class SettingsActivity extends android.support.v4.app.FragmentActivity {
+public class SettingsActivity extends ActionBarActivity {
 	private static final int FILE_CHOOSER = 0x42FA;
 	public Spinner spnAbfragebereich;
 	public Spinner spnASCII;
@@ -138,6 +141,29 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 		observer.removeOnGlobalLayoutListener(listener);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		try {
+			getMenuInflater().inflate(R.menu.settings, menu);
+			//resize();
+			return true;
+		} catch (Exception ex) {
+			lib.ShowException(this, ex);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.mnuResize) resize();
+		return super.onOptionsItemSelected(item);
+	}
+	
 	private void initCheckBoxes() {
 		chkRandom = (CheckBox) findViewById(R.id.chkRandom);
 		chkAskAll = (CheckBox) findViewById(R.id.chkAskAll);
@@ -606,6 +632,7 @@ public class SettingsActivity extends android.support.v4.app.FragmentActivity {
 			ViewGroup Settings = (ViewGroup) findViewById(R.id.layoutSettings);
 			libLearn.gStatus = "Enumerating ChildViews";
 			for (int i = 0; i < Settings.getChildCount(); i++) {
+				if (i>100)break;
 				libLearn.gStatus="getting view "+i;
 				View V = Settings.getChildAt(i);
 				// if (!(V instanceof CheckBox))

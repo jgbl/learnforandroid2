@@ -181,5 +181,6 @@
 	            <string name="EnterNewFilename">enter new filename</string>
 	            <string name="Overwrite">Do you want to overwrite the existing file?</string>
 	            <string name="mnuRestart">restart</string>
+	            <string name="mnuResize">resize</string>
         
 </resources>

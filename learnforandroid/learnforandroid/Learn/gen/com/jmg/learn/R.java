@@ -1759,6 +1759,7 @@ containing a value of this type.
         public static final int mnuFileOpenASCII=0x7f090086;
         public static final int mnuFileSave=0x7f090081;
         public static final int mnuReset=0x7f090089;
+        public static final int mnuResize=0x7f09008b;
         public static final int mnuRestart=0x7f090083;
         public static final int mnuReverse=0x7f090088;
         public static final int mnuSaveAs=0x7f090082;
@@ -1882,6 +1883,7 @@ containing a value of this type.
     }
     public static final class menu {
         public static final int main=0x7f0d0000;
+        public static final int settings=0x7f0d0001;
     }
     public static final class string {
         public static final int AnswerCorrect=0x7f0a005b;
@@ -1992,6 +1994,7 @@ containing a value of this type.
         public static final int mnuFileOpenASCII=0x7f0a002c;
         public static final int mnuFileSave=0x7f0a002b;
         public static final int mnuReset=0x7f0a004f;
+        public static final int mnuResize=0x7f0a0070;
         public static final int mnuRestart=0x7f0a006f;
         public static final int mnuReverse=0x7f0a0047;
         public static final int mnuSaveAs=0x7f0a006b;
