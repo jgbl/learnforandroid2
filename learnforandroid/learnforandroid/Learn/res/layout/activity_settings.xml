@@ -198,7 +198,7 @@
 	            android:layout_width="200dp"
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtProbabilityFactor"
-	            android:layout_marginTop="5dp"
+	            android:layout_marginTop="0dp"
 	            android:layout_alignParentRight="true"
 	            android:contentDescription="@string/spnColorDescription"
 	            android:textSize="18sp"
@@ -221,7 +221,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentRight="true"
 	            android:layout_below="@+id/txtColors"
-	            android:layout_marginTop="5dp"
+	            android:layout_marginTop="7dp"
 	            android:contentDescription="@string/spnSoundsDescription"
 	            android:prompt="@string/spnSounds"
 	            android:textSize="18sp" />

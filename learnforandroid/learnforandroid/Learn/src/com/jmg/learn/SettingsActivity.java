@@ -81,7 +81,7 @@ public class SettingsActivity extends ActionBarActivity {
 		try
 		{
 			//lib.ShowToast(this, "Settings Start");
-			if (lib.NookSimpleTouch)
+			if (lib.NookSimpleTouch())
 			{
 				setContentView(R.layout.activity_settings_nook);
 			}
@@ -107,7 +107,7 @@ public class SettingsActivity extends ActionBarActivity {
 			initButtons();
 			// resize();
 			//lib.ShowToast(this, "Settings addlayoutlistener");
-			if (!(lib.NookSimpleTouch))
+			if (!(lib.NookSimpleTouch()))
 			{
 				mainView.getViewTreeObserver().addOnGlobalLayoutListener(
 						new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -173,7 +173,7 @@ public class SettingsActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.mnuResize && !lib.NookSimpleTouch) resize(0);
+		if (id == R.id.mnuResize && !lib.NookSimpleTouch()) resize(0);
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -267,7 +267,7 @@ public class SettingsActivity extends ActionBarActivity {
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			if (lib.NookSimpleTouch) adapter.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) adapter.Scale = 1.8f;
 			// Apply the adapter to the spinner
 			spnAbfragebereich.setAdapter(adapter);
 			spnAbfragebereich.setSelection(getIntent().getShortExtra(
@@ -298,7 +298,7 @@ public class SettingsActivity extends ActionBarActivity {
 			adapterStep
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
-			if (lib.NookSimpleTouch) adapterStep.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) adapterStep.Scale = 1.8f;
 			spnStep.setAdapter(adapterStep);
 			spnStep.setSelection(adapterStep.getPosition(""
 					+ getIntent().getShortExtra("Step", (short) 5)));
@@ -332,7 +332,7 @@ public class SettingsActivity extends ActionBarActivity {
 			adapterASCII
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
-			if (lib.NookSimpleTouch) adapterASCII.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) adapterASCII.Scale = 1.8f;
 			spnASCII.setAdapter(adapterASCII);
 			String CharsetASCII = getIntent().getStringExtra("CharsetASCII");
 			if (!libString.IsNullOrEmpty(CharsetASCII)) {
@@ -371,7 +371,7 @@ public class SettingsActivity extends ActionBarActivity {
 			// Specify the layout to use when the list of choices appears
 			adapterDDWord
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			if (lib.NookSimpleTouch) adapterDDWord.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) adapterDDWord.Scale = 1.8f;
 			// Apply the adapter to the spinner
 			spnDisplayDurationWord.setAdapter(adapterDDWord);
 			String strDD = ""
@@ -405,7 +405,7 @@ public class SettingsActivity extends ActionBarActivity {
 			// Specify the layout to use when the list of choices appears
 			adapterDDBed
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			if (lib.NookSimpleTouch) adapterDDBed.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) adapterDDBed.Scale = 1.8f;
 			// Apply the adapter to the spinner
 			spnDisplayDurationBed.setAdapter(adapterDDBed);
 			strDD = "" + getIntent().getFloatExtra("DisplayDurationBed", 2.5f);
@@ -438,7 +438,7 @@ public class SettingsActivity extends ActionBarActivity {
 			// Specify the layout to use when the list of choices appears
 			adapterPaukRepetitions
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			if (lib.NookSimpleTouch) adapterPaukRepetitions.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) adapterPaukRepetitions.Scale = 1.8f;
 			spnPaukRepetitions.setAdapter(adapterPaukRepetitions);
 			Pos = getIntent().getIntExtra("PaukRepetitions", 3) - 1;
 			spnPaukRepetitions.setSelection(Pos);
@@ -468,7 +468,7 @@ public class SettingsActivity extends ActionBarActivity {
 			// Specify the layout to use when the list of choices appears
 			adapterProbabilityFactor
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			if (lib.NookSimpleTouch) adapterProbabilityFactor.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) adapterProbabilityFactor.Scale = 1.8f;
 			spnProbabilityFactor.setAdapter(adapterProbabilityFactor);
 			float ProbabilityFactor = getIntent().getFloatExtra(
 					"ProbabilityFactor", -1f);
@@ -513,7 +513,7 @@ public class SettingsActivity extends ActionBarActivity {
 							setResult(Activity.RESULT_CANCELED, null);
 						}
 					});
-			if (lib.NookSimpleTouch) Colors.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) Colors.Scale = 1.8f;
 			spnColors.setAdapter(Colors);
 			spnColors
 					.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {
@@ -539,7 +539,7 @@ public class SettingsActivity extends ActionBarActivity {
 						}
 					});
 			
-			if (lib.NookSimpleTouch) Sounds.Scale = 1.8f;
+			if (lib.NookSimpleTouch()) Sounds.Scale = 1.8f;
 			spnSounds.setAdapter(Sounds);
 			spnSounds
 					.setOnLongClickListener(new android.widget.AdapterView.OnLongClickListener() {

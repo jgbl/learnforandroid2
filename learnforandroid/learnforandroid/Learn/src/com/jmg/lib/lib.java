@@ -43,7 +43,7 @@ public class lib {
 	// private static final String ONEDRIVE_APP_ID = "48122D4E";
 	private static final String ClassName = "lib.lib";
 	public static final String TAG = "com.jmg.lib.lib";
-	public static final boolean NookSimpleTouch = true;
+	
 	public static boolean sndEnabled = true;
 	public static String getgstatus() {
 		return _status;
@@ -54,6 +54,25 @@ public class lib {
 		System.out.println(value);
 	}
 
+	
+	public static final boolean NookSimpleTouch()
+	{
+		String MANUFACTURER = getBuildField("MANUFACTURER");
+		String MODEL = getBuildField("MODEL");
+		String DEVICE = getBuildField("DEVICE");
+		return (MANUFACTURER.equalsIgnoreCase("BarnesAndNoble") && DEVICE.equalsIgnoreCase("zoom2"));
+	}
+	
+	private static String getBuildField(String fieldName) {
+		
+		try {
+			return (String)Build.class.getField(fieldName).get(null);
+		} catch (Exception e) {
+			Log.d("cr3", "Exception while trying to check Build." + fieldName);
+			return "";
+		}
+	}
+	
 	public static String getRealPathFromURI(Activity context,
 			android.net.Uri contentURI) {
 		android.database.Cursor cursor = null;
