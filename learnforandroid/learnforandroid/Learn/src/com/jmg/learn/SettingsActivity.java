@@ -13,7 +13,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -89,7 +92,15 @@ public class SettingsActivity extends ActionBarActivity {
 			{
 			setContentView(R.layout.activity_settings);
 			}
-			
+			RelativeLayout layout = (RelativeLayout) this.findViewById(R.id.layoutSettings); // id fetch from xml
+			ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
+			int pxPadding = lib.dpToPx(10);
+			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding);
+			Paint paint = rectShapeDrawable.getPaint();
+			paint.setColor(Color.BLACK);
+			paint.setStyle(Style.STROKE);
+			paint.setStrokeWidth(5); // you can change the value of 5
+			lib.setBgRelative(layout, rectShapeDrawable);
 			mainView = findViewById(Window.ID_ANDROID_CONTENT);
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 			prefs = this.getPreferences(Context.MODE_PRIVATE);
@@ -648,10 +659,10 @@ public class SettingsActivity extends ActionBarActivity {
 					
 				float scale1 = width
 						/ (float) ((findViewById(R.id.txtCharsetASCII)).getWidth()
-								+ spnASCII.getWidth() + width / 50);
+								+ spnASCII.getWidth() + width / 25);
 				float scale2 = width
 						/ (float) ((findViewById(R.id.txtSounds)).getWidth()
-								+ spnSounds.getWidth() + width / 50);
+								+ spnSounds.getWidth() + width / 25);
 				scale = (scale1 < scale2) ? scale1 : scale2;
 			}
 			

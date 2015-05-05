@@ -13,6 +13,7 @@ import com.jmg.learn.libLearn;
 
 //import com.microsoft.live.*;
 
+import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
 import android.content.SharedPreferences.Editor;
@@ -23,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
@@ -32,6 +34,7 @@ import android.os.Message;
 import android.provider.*;
 import android.util.Log;
 import android.util.TypedValue;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class lib {
@@ -645,6 +648,30 @@ public class lib {
 		}
 
 		return context.getResources().getDrawable(resID);
+	}
+	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN) 
+	@SuppressWarnings("deprecation") 
+	public static void setBgRelative(RelativeLayout layout, ShapeDrawable rectShapeDrawable) 
+	{ 
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) 
+		{ 
+			layout.setBackgroundDrawable(rectShapeDrawable); 
+		} 
+		else 
+		{ 
+			layout.setBackground(rectShapeDrawable); 
+		} 
+		
+	}
+	public static int dpToPx(int dp)
+	{
+	    return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+	}
+
+	public static int pxToDp(int px)
+	{
+	    return (int) (px / Resources.getSystem().getDisplayMetrics().density);
 	}
 
 }
