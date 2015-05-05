@@ -668,11 +668,13 @@ public class SettingsActivity extends ActionBarActivity {
 				params.topMargin = (int) (params.topMargin * scale);
 				params.height = (int) (params.height * scale);
 				params.width = (int) (params.width * scale);
+				/*
 				if (V == spnSounds) {
 					int soundsHeight = spnSounds.getHeight();
 					float margin = (float) ((soundsHeight * scale) / 5.25);
-					params.topMargin = (int) margin;
+					params.topMargin = params.topMargin + (int) margin;
 				}
+				*/
 				libLearn.gStatus="Setting Layoutparams";
 				V.setLayoutParams(params);
 				// }
