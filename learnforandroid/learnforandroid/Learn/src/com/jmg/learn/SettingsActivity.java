@@ -689,7 +689,7 @@ public class SettingsActivity extends ActionBarActivity {
 					if (A instanceof AbstractScaledArrayAdapter<?>) {
 						libLearn.gStatus="Scaling Adapter";
 						AbstractScaledArrayAdapter<?> AA = (AbstractScaledArrayAdapter<?>) A;
-						AA.Scale = scale;
+						AA.Scale = AA.Scale * scale;
 						if (spn.getSelectedItemPosition()>-1)
 						{
 							AA.notifyDataSetChanged();
