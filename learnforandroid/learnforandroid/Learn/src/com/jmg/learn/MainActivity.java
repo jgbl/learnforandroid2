@@ -97,15 +97,8 @@ public class MainActivity extends ActionBarActivity {
 
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 			
-			View LayoutMain = findViewById(R.id.layoutMain);
-			LayoutMain.setOnFocusChangeListener(new OnFocusChangeListener(){
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					hideKeyboard();
-				}});
-			
+			//View LayoutMain = findViewById(R.id.layoutMain);
+						
 			try {
 				libLearn.gStatus = "onCreate getPrefs";
 				prefs = this.getPreferences(Context.MODE_PRIVATE);
@@ -851,7 +844,7 @@ public class MainActivity extends ActionBarActivity {
 				Colors.get(ColorItems.background).ColorValue);
 	}
 
-	// private boolean _firstFocus;
+	private boolean _firstFocus = true;
 
 	private void resize() {
 		// _firstFocus = true;
@@ -1540,6 +1533,18 @@ public class MainActivity extends ActionBarActivity {
 			} else {
 				t.setTypeface(Typeface.DEFAULT);
 			}
+			t.setOnFocusChangeListener(new OnFocusChangeListener(){
+
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) {
+					// TODO Auto-generated method stub
+					if (hasFocus && _firstFocus)
+						{
+							hideKeyboard();
+							_firstFocus=false;
+						}
+				}});
+
 
 			v = findViewById(R.id.txtMeaning2);
 			t = (TextView) v;
