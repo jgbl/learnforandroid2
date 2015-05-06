@@ -44,6 +44,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -95,6 +96,16 @@ public class MainActivity extends ActionBarActivity {
 			setContentView(R.layout.activity_main);
 
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
+			
+			View LayoutMain = findViewById(R.id.layoutMain);
+			LayoutMain.setOnFocusChangeListener(new OnFocusChangeListener(){
+
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) {
+					// TODO Auto-generated method stub
+					hideKeyboard();
+				}});
+			
 			try {
 				libLearn.gStatus = "onCreate getPrefs";
 				prefs = this.getPreferences(Context.MODE_PRIVATE);
@@ -272,21 +283,21 @@ public class MainActivity extends ActionBarActivity {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				lib.ShowException(this, e);
-				return false;
+				return true;
 			}
 		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 			try {
 				if (_backPressed > 0 || saveVok(false)) {
 					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
 				} else {
-					return false;
+					return true;
 				}
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				Log.e("onBackPressed", e.getMessage(), e);
 				lib.ShowException(this, e);
-				return false;
+				return true;
 			}
 		}
 
@@ -387,6 +398,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
 		/*
 		 * if (_firstFocus) { _firstFocus = false; hideKeyboard(); }
 		 */
@@ -1567,6 +1579,7 @@ public class MainActivity extends ActionBarActivity {
 			}
 
 			SetActionBarTitle();
+			hideKeyboard();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
