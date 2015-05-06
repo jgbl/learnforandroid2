@@ -135,6 +135,7 @@ public class MainActivity extends ActionBarActivity {
 				InitMeanings();
 				String tmppath = Path.combine(getApplicationInfo().dataDir,
 						"vok.tmp");
+				SetActionBarTitle();
 				boolean CardMode = false;
 				if (savedInstanceState != null) {
 					libLearn.gStatus = "onCreate Load SavedInstanceState";
@@ -863,25 +864,8 @@ public class MainActivity extends ActionBarActivity {
 		 */
 		if (scale != 1) {
 			
-			View tb = this.findViewById(R.id.action_bar);
-			Paint p = new Paint();
-			if (tb != null)
-			{
-				ViewGroup g = (ViewGroup)tb;
-				for (int i = 0; i < g.getChildCount(); i++)
-				{
-					View v = g.getChildAt(i);
-					if (v instanceof TextView)
-					{
-						TextView t = (TextView)v;
-						p.setTextSize(t.getTextSize());
-						SpannedString s = (SpannedString) t.getText();
-						float measuredWidth = p.measureText(s.toString()) + lib.dpToPx(100);
-						t.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (t.getTextSize() * (width/measuredWidth)));
-					}
-				}
-				
-			}
+			resizeActionbar(width);
+			
 			lib.ShowToast(this, "Scaling font by " + scale + " Screenheight = "
 					+ height);
 			_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -955,6 +939,37 @@ public class MainActivity extends ActionBarActivity {
 			params.width = (int) (params.width * scale);
 			_btnEdit.setLayoutParams(params);
 
+		}
+	}
+	public void resizeActionbar(int width)
+	{
+		View tb = this.findViewById(R.id.action_bar);
+		Paint p = new Paint();
+		if (tb != null)
+		{
+			if (width == 0) width=tb.getWidth();
+			if (width>0)
+			{
+				ViewGroup g = (ViewGroup)tb;
+				for (int i = 0; i < g.getChildCount(); i++)
+				{
+					View v = g.getChildAt(i);
+					if (v instanceof TextView)
+					{
+						TextView t = (TextView)v;
+						p.setTextSize(t.getTextSize());
+						if (t.getText() instanceof SpannedString)
+						{
+							SpannedString s = (SpannedString) t.getText();
+							float measuredWidth = p.measureText(s.toString()) + lib.dpToPx(100);
+							t.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (t.getTextSize() * (width/measuredWidth)));
+						
+						}
+					}
+				}
+		
+			}
+					
 		}
 	}
 
@@ -1648,6 +1663,26 @@ public class MainActivity extends ActionBarActivity {
 			
 
 		}
+		else
+		{
+			String title = "Learn " + "empty.vok"
+					+ " " + getString(R.string.number) + ": " + vok.getIndex()
+					+ " " + getString(R.string.counter) + ": "
+					+ vok.getZaehler();
+			String Right = " " + vok.AnzRichtig;
+			String Wrong = " " + vok.AnzFalsch;
+			SpannableString spnTitle = new SpannableString(title);
+			SpannableString spnRight = new SpannableString(Right);
+			SpannableString spnWrong = new SpannableString(Wrong);
+			spnRight.setSpan(new ForegroundColorSpan(Color.GREEN), 0,
+					spnRight.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+			spnWrong.setSpan(new ForegroundColorSpan(Color.RED), 0,
+					spnWrong.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			getSupportActionBar().setTitle(
+					TextUtils.concat(spnTitle, spnRight, spnWrong));
+		}
+		resizeActionbar(0);
 	}
 
 	public Spanned getSpanned(String txt) throws IOException {
