@@ -39,6 +39,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -851,6 +852,7 @@ public class MainActivity extends ActionBarActivity {
 		Resources resources = context.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		int height = metrics.heightPixels;
+		int width = metrics.widthPixels;
 		int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
 		height = height - viewTop;
 		scale = (double) height / (double) 950;
@@ -860,6 +862,26 @@ public class MainActivity extends ActionBarActivity {
 		 * height);
 		 */
 		if (scale != 1) {
+			
+			View tb = this.findViewById(R.id.action_bar);
+			Paint p = new Paint();
+			if (tb != null)
+			{
+				ViewGroup g = (ViewGroup)tb;
+				for (int i = 0; i < g.getChildCount(); i++)
+				{
+					View v = g.getChildAt(i);
+					if (v instanceof TextView)
+					{
+						TextView t = (TextView)v;
+						p.setTextSize(t.getTextSize());
+						SpannedString s = (SpannedString) t.getText();
+						float measuredWidth = p.measureText(s.toString()) + lib.dpToPx(100);
+						t.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (t.getTextSize() * (width/measuredWidth)));
+					}
+				}
+				
+			}
 			lib.ShowToast(this, "Scaling font by " + scale + " Screenheight = "
 					+ height);
 			_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -1623,6 +1645,7 @@ public class MainActivity extends ActionBarActivity {
 
 			getSupportActionBar().setTitle(
 					TextUtils.concat(spnTitle, spnRight, spnWrong));
+			
 
 		}
 	}
