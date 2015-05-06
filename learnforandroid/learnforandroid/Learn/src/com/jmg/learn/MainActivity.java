@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
 				InitMeanings();
 				String tmppath = Path.combine(getApplicationInfo().dataDir,
 						"vok.tmp");
-				SetActionBarTitle();
+				//SetActionBarTitle();
 				boolean CardMode = false;
 				if (savedInstanceState != null) {
 					libLearn.gStatus = "onCreate Load SavedInstanceState";
@@ -864,7 +864,7 @@ public class MainActivity extends ActionBarActivity {
 		 */
 		if (scale != 1) {
 			
-			resizeActionbar(width);
+			resizeActionbar(0);
 			
 			lib.ShowToast(this, "Scaling font by " + scale + " Screenheight = "
 					+ height);
@@ -961,7 +961,7 @@ public class MainActivity extends ActionBarActivity {
 						if (t.getText() instanceof SpannedString)
 						{
 							SpannedString s = (SpannedString) t.getText();
-							float measuredWidth = p.measureText(s.toString()) + lib.dpToPx(100);
+							float measuredWidth = p.measureText(s.toString()) + lib.dpToPx(60);
 							t.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (t.getTextSize() * (width/measuredWidth)));
 						
 						}
@@ -1665,6 +1665,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 		else
 		{
+			/*
 			String title = "Learn " + "empty.vok"
 					+ " " + getString(R.string.number) + ": " + vok.getIndex()
 					+ " " + getString(R.string.counter) + ": "
@@ -1681,6 +1682,7 @@ public class MainActivity extends ActionBarActivity {
 
 			getSupportActionBar().setTitle(
 					TextUtils.concat(spnTitle, spnRight, spnWrong));
+			*/
 		}
 		resizeActionbar(0);
 	}
