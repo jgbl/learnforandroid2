@@ -945,6 +945,7 @@ public class MainActivity extends ActionBarActivity {
 	{
 		View tb = this.findViewById(R.id.action_bar);
 		Paint p = new Paint();
+		int SizeOther = 0;
 		if (tb != null)
 		{
 			if (width == 0) width=tb.getWidth();
@@ -954,16 +955,24 @@ public class MainActivity extends ActionBarActivity {
 				for (int i = 0; i < g.getChildCount(); i++)
 				{
 					View v = g.getChildAt(i);
+					if (! (v instanceof TextView))
+					{
+						SizeOther += v.getWidth();
+					}
+				}
+				for (int i = 0; i < g.getChildCount(); i++)
+				{
+					View v = g.getChildAt(i);
 					if (v instanceof TextView)
 					{
 						TextView t = (TextView)v;
-						p.setTextSize(t.getTextSize());
+						
 						if (t.getText() instanceof SpannedString)
 						{
+							p.setTextSize(t.getTextSize());
 							SpannedString s = (SpannedString) t.getText();
-							float measuredWidth = p.measureText(s.toString()) + lib.dpToPx(60);
+							float measuredWidth = p.measureText(s.toString()) + SizeOther + lib.dpToPx(50);
 							t.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (t.getTextSize() * (width/measuredWidth)));
-						
 						}
 					}
 				}
