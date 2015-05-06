@@ -653,16 +653,16 @@ public class SettingsActivity extends ActionBarActivity {
 		{
 			if (scale == 0)
 			{
-				int width = mainView.getWidth();
+				int width = mainView.getWidth() - lib.dpToPx(40);
 				mainView.setVisibility(View.INVISIBLE);
 				libLearn.gStatus="Calculating Scale";
 					
 				float scale1 = width
 						/ (float) ((findViewById(R.id.txtCharsetASCII)).getWidth()
-								+ spnASCII.getWidth() + width / 25);
+								+ spnASCII.getWidth() + width / 50);
 				float scale2 = width
 						/ (float) ((findViewById(R.id.txtSounds)).getWidth()
-								+ spnSounds.getWidth() + width / 25);
+								+ spnSounds.getWidth() + width / 50);
 				scale = (scale1 < scale2) ? scale1 : scale2;
 			}
 			
