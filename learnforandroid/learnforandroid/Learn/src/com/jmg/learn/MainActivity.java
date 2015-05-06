@@ -301,7 +301,7 @@ public class MainActivity extends ActionBarActivity {
 	private int _backPressed;
 	private Handler handlerbackpressed = new Handler();
 
-	private boolean saveVok(boolean dontPrompt) throws Exception {
+	private synchronized boolean saveVok(boolean dontPrompt) throws Exception {
 
 		if (vok.aend) {
 			if (!dontPrompt) {

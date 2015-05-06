@@ -1565,11 +1565,11 @@ public class Vokabel {
 		return;
 	}
 
-	public void SaveFile() throws Exception {
+	public synchronized void SaveFile() throws Exception {
 		SaveFile(mFileName, true, false);
 	}
 
-	public void SaveFile(String strFileName, boolean blnUniCode,
+	public synchronized void SaveFile(String strFileName, boolean blnUniCode,
 			boolean dontPrompt) throws Exception {
 		if (libString.IsNullOrEmpty(strFileName))
 			return;
