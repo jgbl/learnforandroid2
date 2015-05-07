@@ -36,6 +36,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -62,10 +63,13 @@ public class lib {
 	
 	public static final boolean NookSimpleTouch()
 	{
+		//return false;
+		
 		String MANUFACTURER = getBuildField("MANUFACTURER");
 		String MODEL = getBuildField("MODEL");
 		String DEVICE = getBuildField("DEVICE");
 		return (MANUFACTURER.equalsIgnoreCase("BarnesAndNoble") && DEVICE.equalsIgnoreCase("zoom2"));
+		
 	}
 	
 	private static String getBuildField(String fieldName) {
@@ -654,15 +658,30 @@ public class lib {
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN) 
 	@SuppressWarnings("deprecation") 
-	public static void setBgRelative(RelativeLayout layout, ShapeDrawable rectShapeDrawable) 
+	public static void setBgCheckBox(CheckBox c, Drawable d) 
 	{ 
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) 
 		{ 
-			layout.setBackgroundDrawable(rectShapeDrawable); 
+			c.setBackgroundDrawable(d); 
 		} 
 		else 
 		{ 
-			layout.setBackground(rectShapeDrawable); 
+			c.setBackground(d); 
+		} 
+		
+	}
+	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN) 
+	@SuppressWarnings("deprecation") 
+	public static void setBg(RelativeLayout l, ShapeDrawable rectShapeDrawable) 
+	{ 
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) 
+		{ 
+			l.setBackgroundDrawable(rectShapeDrawable); 
+		} 
+		else 
+		{ 
+			l.setBackground(rectShapeDrawable); 
 		} 
 		
 	}

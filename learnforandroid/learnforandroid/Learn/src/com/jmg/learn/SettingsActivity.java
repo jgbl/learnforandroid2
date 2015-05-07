@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
@@ -22,7 +23,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -98,7 +99,7 @@ public class SettingsActivity extends ActionBarActivity {
 			paint.setColor(Color.BLACK);
 			paint.setStyle(Style.STROKE);
 			paint.setStrokeWidth(5); // you can change the value of 5
-			lib.setBgRelative(layout, rectShapeDrawable);
+			lib.setBg(layout, rectShapeDrawable);
 			mainView = findViewById(Window.ID_ANDROID_CONTENT);
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 			prefs = this.getPreferences(Context.MODE_PRIVATE);
@@ -629,9 +630,9 @@ public class SettingsActivity extends ActionBarActivity {
 
 	private void resize(float scale) {
 
-		// Resources resources = this.getResources();
-		// DisplayMetrics metrics = resources.getDisplayMetrics();
-		
+		Resources resources = this.getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		int Density = metrics.densityDpi;
 		try
 		{
 			int width = mainView.getWidth() - lib.dpToPx(40);
@@ -707,11 +708,17 @@ public class SettingsActivity extends ActionBarActivity {
 				} else if (V instanceof CheckBox) {
 					libLearn.gStatus="CheckBox";
 					CheckBox c = (CheckBox) V;
-					// c.setScaleX(scale);
-					// c.setScaleY(scale);
+					//c.setScaleX(scale);
+					//c.setScaleY(scale);
 					// c.setle
 					c.setTextSize(TypedValue.COMPLEX_UNIT_PX, c.getTextSize()
 							* scale);
+					//LevelListDrawable D = (LevelListDrawable) c.getBackground();
+					
+					//NinePatchDrawable d = (NinePatchDrawable) c.getBackground();
+					//d.setTargetDensity((int) (Density * scale));
+					//d.setBounds(0, 0, c.getHeight(), c.getHeight());
+					//lib.setBgCheckBox(c,d);
 					/*
 					ViewGroup check = (ViewGroup) V;
 					for (int ii = 0; ii<check.getChildCount(); ii++)
