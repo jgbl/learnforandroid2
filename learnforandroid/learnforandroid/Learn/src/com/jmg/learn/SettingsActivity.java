@@ -633,9 +633,9 @@ public class SettingsActivity extends ActionBarActivity {
 		
 		try
 		{
+			int width = mainView.getWidth() - lib.dpToPx(40);
 			if (scale == 0)
 			{
-				int width = mainView.getWidth() - lib.dpToPx(40);
 				mainView.setVisibility(View.INVISIBLE);
 				libLearn.gStatus="Calculating Scale";
 					
@@ -661,9 +661,19 @@ public class SettingsActivity extends ActionBarActivity {
 				
 				RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) V
 						.getLayoutParams();
-				params.topMargin = (int) (params.topMargin * scale);
-				if (params.height>0) params.height = (int) (params.height * scale);
-				if (params.width>0)params.width = (int) (params.width * scale);
+				if (V instanceof CheckBox)
+				{
+					params.topMargin = (int) (params.topMargin * scale);
+					if (params.height>0) params.height = (int) (params.height * scale);
+					params.width = ((width - lib.dpToPx(10))/3);
+				}
+				else
+				{
+					params.topMargin = (int) (params.topMargin * scale);
+					if (params.height>0) params.height = (int) (params.height * scale);
+					if (params.width>0)params.width = (int) (params.width * scale);
+					
+				}
 				/*
 				if (V == spnSounds) {
 					int soundsHeight = spnSounds.getHeight();
