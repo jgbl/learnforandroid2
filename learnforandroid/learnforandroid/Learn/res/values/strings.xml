@@ -19,7 +19,7 @@
     <string name="mnuFile">File</string>
     <string name="mnuFileOpen">open file</string>
     <string name="Save">Do you want to save the vocabulary?</string>
-    <string name="mnuFileSave">Save</string>
+    <string name="mnuFileSave">save</string>
     <string name="mnuFileOpenASCII">open ASCII</string>
     <string name="FileFormatNotRecognized">The file format could not be recognized! Aborting load!</string>
     <string name="btnEdit">Edit</string>
@@ -40,12 +40,12 @@
         <string name="spnASCIIFontDescription">Charset for loading ASCII files</string>
         <string name="askingRange">asking range</string>
         <string name="spnSelect">select ...</string>
-        <string name="txtSettings">Settings</string>
+        <string name="txtSettings">settings</string>
         <string name="txtAbfragebereich">asking range:</string>
         <string name="txtCharsetASCII">charset ascii:</string>
         <string name="btnOK">OK</string>
         <string name="btnCancel">Cancel</string>
-        <string name="txtStep">Step:</string>
+        <string name="txtStep">step:</string>
         <string name="spnStep">step</string>
         <string name="spnStepDescriptions">enter the step used for repeating not known vocabulary</string>
         <string-array name="spnStepEntries">
@@ -151,7 +151,7 @@
 	            <string name="mnuReset">reset vocabulary</string>
 	            <string name="ResetVocabulary">Do you really want to reset the vocabulary?</string>
 	            <string name="PressBackAgain">press back again to exit</string>
-	            <string name="txtColors">Colors</string>
+	            <string name="txtColors">colors</string>
 	            <string name="spnColors">Colors</string>
 	            <string name="spnColorDescription">Select Colors for each element</string>
 	            <string name="SelColor">sel</string>
@@ -174,8 +174,8 @@
 	            <string name="txtSounds">sounds</string>
 	            <string name="spnSoundsDescription">select a soundfile</string>
 	            <string name="spnSounds">select as soundfile</string>
-	            <string name="mnuConvertMulti">Convert Multitext</string>
-	            <string name="mnuExtras">Extras</string>
+	            <string name="mnuConvertMulti">convert multitext</string>
+	            <string name="mnuExtras">extras</string>
 	            <string name="mnuSaveAs">save as</string>
 	            <string name="SaveAs">save as</string>
 	            <string name="EnterNewFilename">enter new filename</string>

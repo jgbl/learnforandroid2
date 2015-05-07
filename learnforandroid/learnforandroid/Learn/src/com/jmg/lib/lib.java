@@ -34,6 +34,8 @@ import android.os.Message;
 import android.provider.*;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -672,6 +674,29 @@ public class lib {
 	public static int pxToDp(int px)
 	{
 	    return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+	}
+	
+	public static void removeLayoutListener(ViewTreeObserver observer,
+			OnGlobalLayoutListener listener)
+	{
+		if (Build.VERSION.SDK_INT < 16) {
+			removeLayoutListenerPre16(
+					observer,listener);
+		} else {
+			removeLayoutListenerPost16(
+					observer,listener);
+		}
+	}
+	@SuppressWarnings("deprecation")
+	private static void removeLayoutListenerPre16(ViewTreeObserver observer,
+			OnGlobalLayoutListener listener) {
+		observer.removeGlobalOnLayoutListener(listener);
+	}
+
+	@TargetApi(16)
+	private static void removeLayoutListenerPost16(ViewTreeObserver observer,
+			OnGlobalLayoutListener listener) {
+		observer.removeOnGlobalLayoutListener(listener);
 	}
 
 }

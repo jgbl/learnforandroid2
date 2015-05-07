@@ -77,6 +77,7 @@ public class MainActivity extends ActionBarActivity {
 	public HashMap<Sounds, SoundSetting> colSounds;
 	public Vokabel vok;
 	public String CharsetASCII = "Windows-1252";
+	public View mainView;
 	public SharedPreferences prefs; // =
 									// this.getPreferences(Context.MODE_PRIVATE);
 
@@ -95,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
 		try {
 			libLearn.gStatus = "onCreate setContentView";
 			setContentView(R.layout.activity_main);
-
+			mainView = findViewById(Window.ID_ANDROID_CONTENT);
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 
 			// View LayoutMain = findViewById(R.id.layoutMain);
@@ -208,6 +209,23 @@ public class MainActivity extends ActionBarActivity {
 				e.printStackTrace();
 				lib.ShowException(this, e);
 			}
+			if (true)
+			{
+				mainView.getViewTreeObserver().addOnGlobalLayoutListener(
+						new ViewTreeObserver.OnGlobalLayoutListener() {
+
+							@Override
+							public void onGlobalLayout() {
+								// Ensure you call it only once :
+								lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
+								// Here you can get the size :)
+								resize();
+								//lib.ShowToast(SettingsActivity.this, "Resize End");
+							}
+						});
+
+			}
+			
 
 		} catch (Exception ex) {
 			lib.ShowException(this, ex);
@@ -941,7 +959,7 @@ public class MainActivity extends ActionBarActivity {
 		if (scale != 1) {
 
 			resizeActionbar(0);
-			resizeActionbar(0);
+			
 
 			lib.ShowToast(this, "Scaling font by " + scale + " Screenheight = "
 					+ height);
@@ -1034,6 +1052,7 @@ public class MainActivity extends ActionBarActivity {
 						SizeOther += v.getWidth();
 					}
 				}
+				if (SizeOther == 0) SizeOther=lib.dpToPx(50);
 				for (int i = 0; i < g.getChildCount(); i++) {
 					View v = g.getChildAt(i);
 					if (v instanceof TextView) {
@@ -1122,7 +1141,7 @@ public class MainActivity extends ActionBarActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		try {
 			getMenuInflater().inflate(R.menu.main, menu);
-			resize();
+			//resize();
 			return true;
 		} catch (Exception ex) {
 			lib.ShowException(this, ex);

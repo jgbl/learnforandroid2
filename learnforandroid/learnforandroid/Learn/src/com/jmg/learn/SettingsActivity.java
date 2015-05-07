@@ -6,7 +6,6 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -30,7 +28,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -75,7 +72,7 @@ public class SettingsActivity extends ActionBarActivity {
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
-	public View mainView;
+	private View mainView;
 	private Intent intent = new Intent();
 
 	@Override
@@ -126,16 +123,11 @@ public class SettingsActivity extends ActionBarActivity {
 							@Override
 							public void onGlobalLayout() {
 								// Ensure you call it only once :
-								if (Build.VERSION.SDK_INT < 16) {
-									removeLayoutListenerPre16(
-											mainView.getViewTreeObserver(), this);
-								} else {
-									removeLayoutListenerPost16(
-											mainView.getViewTreeObserver(), this);
-								}
+								lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
+								
 								// Here you can get the size :)
 								resize(0);
-								lib.ShowToast(SettingsActivity.this, "Resize End");
+								//lib.ShowToast(SettingsActivity.this, "Resize End");
 							}
 						});
 
@@ -153,17 +145,7 @@ public class SettingsActivity extends ActionBarActivity {
 		
 	}
 
-	@SuppressWarnings("deprecation")
-	private void removeLayoutListenerPre16(ViewTreeObserver observer,
-			OnGlobalLayoutListener listener) {
-		observer.removeGlobalOnLayoutListener(listener);
-	}
-
-	@TargetApi(16)
-	private void removeLayoutListenerPost16(ViewTreeObserver observer,
-			OnGlobalLayoutListener listener) {
-		observer.removeOnGlobalLayoutListener(listener);
-	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -663,7 +645,10 @@ public class SettingsActivity extends ActionBarActivity {
 				float scale2 = width
 						/ (float) ((findViewById(R.id.txtSounds)).getWidth()
 								+ spnSounds.getWidth() + width / 50);
+				float scale3 = width / (float)((findViewById(R.id.txtCharsetASCII)).getWidth()
+						+ spnASCII.getWidth() + width / 50);
 				scale = (scale1 < scale2) ? scale1 : scale2;
+				scale = (scale3 < scale) ? scale3 : scale;
 			}
 			
 			ViewGroup Settings = (ViewGroup) findViewById(R.id.layoutSettings);
@@ -677,8 +662,8 @@ public class SettingsActivity extends ActionBarActivity {
 				RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) V
 						.getLayoutParams();
 				params.topMargin = (int) (params.topMargin * scale);
-				params.height = (int) (params.height * scale);
-				params.width = (int) (params.width * scale);
+				if (params.height>0) params.height = (int) (params.height * scale);
+				if (params.width>0)params.width = (int) (params.width * scale);
 				/*
 				if (V == spnSounds) {
 					int soundsHeight = spnSounds.getHeight();
@@ -732,8 +717,8 @@ public class SettingsActivity extends ActionBarActivity {
 			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) b
 					.getLayoutParams();
 			params.topMargin = (int) (params.topMargin * scale);
-			params.height = (int) (params.height * scale);
-			params.width = (int) (params.width * scale);
+			if (params.height>0)params.height = (int) (params.height * scale);
+			if (params.width>0)params.width = (int) (params.width * scale);
 			b.setLayoutParams(params);
 			b.setTextSize(TypedValue.COMPLEX_UNIT_PX, b.getTextSize() * scale);
 
@@ -741,8 +726,8 @@ public class SettingsActivity extends ActionBarActivity {
 			params = (android.widget.RelativeLayout.LayoutParams) b
 					.getLayoutParams();
 			params.topMargin = (int) (params.topMargin * scale);
-			params.height = (int) (params.height * scale);
-			params.width = (int) (params.width * scale);
+			if (params.height>0)params.height = (int) (params.height * scale);
+			if (params.width>0)params.width = (int) (params.width * scale);
 			b.setLayoutParams(params);
 			b.setTextSize(TypedValue.COMPLEX_UNIT_PX, b.getTextSize() * scale);
 		}
