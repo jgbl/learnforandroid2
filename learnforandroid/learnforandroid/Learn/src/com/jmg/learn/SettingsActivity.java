@@ -22,6 +22,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -92,7 +93,7 @@ public class SettingsActivity extends ActionBarActivity {
 			RelativeLayout layout = (RelativeLayout) this.findViewById(R.id.layoutSettings); // id fetch from xml
 			ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
 			int pxPadding = lib.dpToPx(10);
-			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding);
+			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding*2);
 			Paint paint = rectShapeDrawable.getPaint();
 			paint.setColor(Color.BLACK);
 			paint.setStyle(Style.STROKE);
@@ -661,18 +662,18 @@ public class SettingsActivity extends ActionBarActivity {
 				
 				RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) V
 						.getLayoutParams();
+
+				params.topMargin = (int) (params.topMargin * scale);
+				params.bottomMargin = (int) (params.bottomMargin * scale);
+				
+				if (params.height>0) params.height = (int) (params.height * scale);
 				if (V instanceof CheckBox)
 				{
-					params.topMargin = (int) (params.topMargin * scale);
-					if (params.height>0) params.height = (int) (params.height * scale);
 					params.width = ((width - lib.dpToPx(10))/3);
 				}
 				else
 				{
-					params.topMargin = (int) (params.topMargin * scale);
-					if (params.height>0) params.height = (int) (params.height * scale);
 					if (params.width>0)params.width = (int) (params.width * scale);
-					
 				}
 				/*
 				if (V == spnSounds) {
@@ -711,6 +712,15 @@ public class SettingsActivity extends ActionBarActivity {
 					// c.setle
 					c.setTextSize(TypedValue.COMPLEX_UNIT_PX, c.getTextSize()
 							* scale);
+					/*
+					ViewGroup check = (ViewGroup) V;
+					for (int ii = 0; ii<check.getChildCount(); ii++)
+					{
+						View cv = check.getChildAt(ii);
+						String cls = cv.getClass().getName();
+						Log.d("Classs", cls);
+					}
+					*/
 					// Drawable d = lib.getDefaultCheckBoxDrawable(this);
 					// d = new ScaleDrawable(d, 0, c.getHeight()*scale,
 					// c.getHeight()*scale).getDrawable();
