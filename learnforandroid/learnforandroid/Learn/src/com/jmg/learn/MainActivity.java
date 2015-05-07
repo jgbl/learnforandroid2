@@ -97,9 +97,9 @@ public class MainActivity extends ActionBarActivity {
 			setContentView(R.layout.activity_main);
 
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
-			
-			//View LayoutMain = findViewById(R.id.layoutMain);
-						
+
+			// View LayoutMain = findViewById(R.id.layoutMain);
+
 			try {
 				libLearn.gStatus = "onCreate getPrefs";
 				prefs = this.getPreferences(Context.MODE_PRIVATE);
@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
 				InitMeanings();
 				String tmppath = Path.combine(getApplicationInfo().dataDir,
 						"vok.tmp");
-				//SetActionBarTitle();
+				// SetActionBarTitle();
 				boolean CardMode = false;
 				if (savedInstanceState != null) {
 					libLearn.gStatus = "onCreate Load SavedInstanceState";
@@ -282,7 +282,7 @@ public class MainActivity extends ActionBarActivity {
 			}
 		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 			try {
-				if (_backPressed > 0 || saveVok(false)) {
+				if (_backPressed > 0 || saveVokAsync(false)) {
 					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
 				} else {
 					return true;
@@ -368,6 +368,81 @@ public class MainActivity extends ActionBarActivity {
 
 	}
 
+	private boolean saveVokAsync(boolean dontPrompt) throws Exception {
+
+		if (vok.aend) {
+			if (!dontPrompt) {
+				
+				 AlertDialog.Builder A = new AlertDialog.Builder(context);
+				 A.setPositiveButton(getString(R.string.yes), new
+				 AlertDialog.OnClickListener() 
+				 {				  
+				  @Override public void onClick(DialogInterface dialog, int
+				  which) 
+				  { 
+					  try 
+					  { 
+						  vok.SaveFile(vok.getFileName(), vok.getUniCode(),	false); 
+						  vok.aend = false; _backPressed += 1;
+						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+						  saveFilePrefs(false); 
+					  } 
+					  catch (Exception e) 
+					  { 
+						  lib.ShowException(MainActivity.this, e); 
+						  } 
+					  } 
+				  });
+				  A.setNegativeButton(getString(R.string.no), new
+				  AlertDialog.OnClickListener() 
+				  {
+					  @Override 
+					  public void onClick(DialogInterface dialog, int which) 
+					  { 
+						  lib.ShowToast( MainActivity.this, 
+								  MainActivity.this.getString(R.string.PressBackAgain)); 
+						  _backPressed += 1;
+						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000); 
+					  }
+				  }); 
+				  A.setMessage(getString(R.string.Save));
+				  A.setTitle("Question"); 
+				  A.show(); 
+				  if (!dontPrompt) 
+				  { 
+					  if (_backPressed > 0) 
+					  { 
+						  return true; 
+					  } 
+					  else 
+					  {
+						  lib.ShowToast(this, this.getString(R.string.PressBackAgain));
+						  _backPressed += 1; 
+						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000); }
+				  
+				  }
+				 
+			}
+
+			if (dontPrompt) {
+				try {
+					vok.SaveFile();
+					vok.aend = false;
+					_backPressed += 1;
+					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+					saveFilePrefs(false);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					lib.ShowException(this, e);
+				}
+			}
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
 	private void saveFilePrefs(boolean isTmpFile) {
 		Editor edit = prefs.edit();
 		edit.putString("LastFile", vok.getFileName()).commit();
@@ -393,7 +468,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		/*
 		 * if (_firstFocus) { _firstFocus = false; hideKeyboard(); }
 		 */
@@ -863,9 +938,10 @@ public class MainActivity extends ActionBarActivity {
 		 * height);
 		 */
 		if (scale != 1) {
-			
+
 			resizeActionbar(0);
-			
+			resizeActionbar(0);
+
 			lib.ShowToast(this, "Scaling font by " + scale + " Screenheight = "
 					+ height);
 			_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -941,44 +1017,41 @@ public class MainActivity extends ActionBarActivity {
 
 		}
 	}
-	public void resizeActionbar(int width)
-	{
+
+	public void resizeActionbar(int width) {
 		View tb = this.findViewById(R.id.action_bar);
 		Paint p = new Paint();
 		int SizeOther = 0;
-		if (tb != null)
-		{
-			if (width == 0) width=tb.getWidth();
-			if (width>0)
-			{
-				ViewGroup g = (ViewGroup)tb;
-				for (int i = 0; i < g.getChildCount(); i++)
-				{
+		if (tb != null) {
+			if (width == 0)
+				width = tb.getWidth();
+			if (width > 0) {
+				ViewGroup g = (ViewGroup) tb;
+				for (int i = 0; i < g.getChildCount(); i++) {
 					View v = g.getChildAt(i);
-					if (! (v instanceof TextView))
-					{
+					if (!(v instanceof TextView)) {
 						SizeOther += v.getWidth();
 					}
 				}
-				for (int i = 0; i < g.getChildCount(); i++)
-				{
+				for (int i = 0; i < g.getChildCount(); i++) {
 					View v = g.getChildAt(i);
-					if (v instanceof TextView)
-					{
-						TextView t = (TextView)v;
-						
-						if (t.getText() instanceof SpannedString)
-						{
+					if (v instanceof TextView) {
+						TextView t = (TextView) v;
+
+						if (t.getText() instanceof SpannedString) {
 							p.setTextSize(t.getTextSize());
 							SpannedString s = (SpannedString) t.getText();
-							float measuredWidth = p.measureText(s.toString()) + SizeOther + lib.dpToPx(50);
-							t.setTextSize(TypedValue.COMPLEX_UNIT_PX,(float) (t.getTextSize() * (width/measuredWidth)));
+							width = width - SizeOther - lib.dpToPx(50);
+							float measuredWidth = p.measureText(s.toString());
+							t.setTextSize(
+									TypedValue.COMPLEX_UNIT_PX,
+									(float) (t.getTextSize() * (width / measuredWidth)));
 						}
 					}
 				}
-		
+
 			}
-					
+
 		}
 	}
 
@@ -1571,7 +1644,8 @@ public class MainActivity extends ActionBarActivity {
 
 			v = findViewById(R.id.txtMeaning1);
 			t = (TextView) v;
-			if (!libString.IsNullOrEmpty(vok.getBedeutung2())) t.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+			if (!libString.IsNullOrEmpty(vok.getBedeutung2()))
+				t.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 			t.setText((showBeds ? vok.getBedeutung1() : getComment(vok
 					.getBedeutung1())));
 			if (vok.getFontBed().getName() == "Cardo") {
@@ -1579,18 +1653,17 @@ public class MainActivity extends ActionBarActivity {
 			} else {
 				t.setTypeface(Typeface.DEFAULT);
 			}
-			t.setOnFocusChangeListener(new OnFocusChangeListener(){
+			t.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 				@Override
 				public void onFocusChange(View v, boolean hasFocus) {
 					// TODO Auto-generated method stub
-					if (hasFocus && _firstFocus)
-						{
-							hideKeyboard();
-							_firstFocus=false;
-						}
-				}});
-
+					if (hasFocus && _firstFocus) {
+						hideKeyboard();
+						_firstFocus = false;
+					}
+				}
+			});
 
 			v = findViewById(R.id.txtMeaning2);
 			t = (TextView) v;
@@ -1669,29 +1742,24 @@ public class MainActivity extends ActionBarActivity {
 
 			getSupportActionBar().setTitle(
 					TextUtils.concat(spnTitle, spnRight, spnWrong));
-			
 
-		}
-		else
-		{
+		} else {
 			/*
-			String title = "Learn " + "empty.vok"
-					+ " " + getString(R.string.number) + ": " + vok.getIndex()
-					+ " " + getString(R.string.counter) + ": "
-					+ vok.getZaehler();
-			String Right = " " + vok.AnzRichtig;
-			String Wrong = " " + vok.AnzFalsch;
-			SpannableString spnTitle = new SpannableString(title);
-			SpannableString spnRight = new SpannableString(Right);
-			SpannableString spnWrong = new SpannableString(Wrong);
-			spnRight.setSpan(new ForegroundColorSpan(Color.GREEN), 0,
-					spnRight.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-			spnWrong.setSpan(new ForegroundColorSpan(Color.RED), 0,
-					spnWrong.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			getSupportActionBar().setTitle(
-					TextUtils.concat(spnTitle, spnRight, spnWrong));
-			*/
+			 * String title = "Learn " + "empty.vok" + " " +
+			 * getString(R.string.number) + ": " + vok.getIndex() + " " +
+			 * getString(R.string.counter) + ": " + vok.getZaehler(); String
+			 * Right = " " + vok.AnzRichtig; String Wrong = " " + vok.AnzFalsch;
+			 * SpannableString spnTitle = new SpannableString(title);
+			 * SpannableString spnRight = new SpannableString(Right);
+			 * SpannableString spnWrong = new SpannableString(Wrong);
+			 * spnRight.setSpan(new ForegroundColorSpan(Color.GREEN), 0,
+			 * spnRight.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+			 * spnWrong.setSpan(new ForegroundColorSpan(Color.RED), 0,
+			 * spnWrong.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+			 * 
+			 * getSupportActionBar().setTitle( TextUtils.concat(spnTitle,
+			 * spnRight, spnWrong));
+			 */
 		}
 		resizeActionbar(0);
 	}
