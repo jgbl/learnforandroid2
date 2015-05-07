@@ -383,7 +383,8 @@ public class MainActivity extends ActionBarActivity {
 					  try 
 					  { 
 						  vok.SaveFile(vok.getFileName(), vok.getUniCode(),	false); 
-						  vok.aend = false; _backPressed += 1;
+						  vok.aend = false; 
+						  _backPressed += 1;
 						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 						  saveFilePrefs(false); 
 					  } 
