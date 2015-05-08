@@ -24,7 +24,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -95,7 +94,7 @@ public class SettingsActivity extends ActionBarActivity {
 			RelativeLayout layout = (RelativeLayout) this.findViewById(R.id.layoutSettings); // id fetch from xml
 			ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
 			int pxPadding = lib.dpToPx(10);
-			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding*2);
+			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding);
 			Paint paint = rectShapeDrawable.getPaint();
 			paint.setColor(Color.BLACK);
 			paint.setStyle(Style.STROKE);
@@ -714,17 +713,19 @@ public class SettingsActivity extends ActionBarActivity {
 					// c.setle
 					c.setTextSize(TypedValue.COMPLEX_UNIT_PX, c.getTextSize()
 							* scale);
+					
 					/*
 					int p1 = c.getPaddingTop();
 					int p2 = c.getPaddingBottom();
 					int p3 = c.getPaddingLeft();
 					int p4 = c.getPaddingRight();
-					c.setPadding((int) (p3*scale), p1, p4, p2);
-					Log.d("Padding", "" + p4);
+					c.setPadding((int) (p3/scale), p1, p4, p2);
 					*/
 					//LevelListDrawable D = (LevelListDrawable) c.getBackground();
-					
-					//NinePatchDrawable d = (NinePatchDrawable) c.getBackground();
+					/*
+					Drawable d = c.getBackground();
+					Log.d("bounds", d.getBounds().toString());
+					*/
 					//d.setTargetDensity((int) (Density * scale));
 					//d.setBounds(0, 0, c.getHeight(), c.getHeight());
 					//lib.setBgCheckBox(c,d);

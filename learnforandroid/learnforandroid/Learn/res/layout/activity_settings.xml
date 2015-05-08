@@ -240,7 +240,7 @@
 		            android:gravity="center_vertical"
 		            android:hint="@string/chkRandomHint"
 		            android:text="@string/chkRandom"
-		            android:textSize="18sp"
+		            android:textSize="16sp"
 		            android:textStyle="bold"
 		            android:typeface="normal" />
 		        
@@ -256,7 +256,7 @@
 		            android:gravity="center_vertical"
 		            android:hint="@string/chkAskAllHint"
 		            android:text="@string/chkAskAll"
-		            android:textSize="18sp"
+		            android:textSize="16sp"
 		            android:textStyle="bold"
 		            android:typeface="normal" />
 		        
@@ -270,7 +270,7 @@
 		            android:gravity="center_vertical"
 		            android:hint="@string/chkSoundHint"
 		            android:text="@string/chkSound"
-		            android:textSize="18sp"
+		            android:textSize="16sp"
 		            android:textStyle="bold"
 		            android:typeface="normal" />
 		    

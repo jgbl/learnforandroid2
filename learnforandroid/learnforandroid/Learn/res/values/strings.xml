@@ -144,9 +144,9 @@
 	            <string name="txtProbabilityFactor">probability factor</string>
 	            <string name="spnProbabilityFactor">probability factor</string>
 	            <string name="spnProbabilityFactorDescription">This is the factor by which the probability for showing a word is divided</string>
-	            <string name="chkRandom">random</string>
+	            <string name="chkRandom">Random</string>
 	            <string name="chkRandomHint">ask vocabulary randomly not subsequently</string>
-	            <string name="chkAskAll">ask all</string>
+	            <string name="chkAskAll">Ask all</string>
 	            <string name="chkAskAllHint">ask all vocabulary subsequently independent of  how often they were right</string>
 	            <string name="mnuReset">reset vocabulary</string>
 	            <string name="ResetVocabulary">Do you really want to reset the vocabulary?</string>
@@ -169,7 +169,7 @@
 	            <string name="mnuStatistics">statistics</string>
 	            <string name="number">Number</string>
 	            <string name="counter">Counter</string>
-	            <string name="chkSound">sound on</string>
+	            <string name="chkSound">Sound</string>
 	            <string name="chkSoundHint">switch sound on or off</string>
 	            <string name="txtSounds">sounds</string>
 	            <string name="spnSoundsDescription">select a soundfile</string>
