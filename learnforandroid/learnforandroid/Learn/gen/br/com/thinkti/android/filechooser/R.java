@@ -353,20 +353,20 @@ public final class R {
 		public static final int abc_textfield_search_material = 0x7f020032;
 		public static final int and = 0x7f02003a;
 		public static final int back = 0x7f02003b;
-		public static final int doc = 0x7f02003c;
-		public static final int folder = 0x7f02003d;
-		public static final int folder_icon = 0x7f02003e;
-		public static final int gif = 0x7f02003f;
-		public static final int jpg = 0x7f020041;
-		public static final int pdf = 0x7f020042;
-		public static final int pdf_list = 0x7f020043;
-		public static final int png = 0x7f020044;
-		public static final int ppt = 0x7f020045;
-		public static final int rtf = 0x7f020046;
-		public static final int txt = 0x7f020047;
-		public static final int whitepage = 0x7f020048;
-		public static final int xls = 0x7f020049;
-		public static final int zip = 0x7f02004a;
+		public static final int doc = 0x7f020041;
+		public static final int folder = 0x7f020042;
+		public static final int folder_icon = 0x7f020043;
+		public static final int gif = 0x7f020044;
+		public static final int jpg = 0x7f020046;
+		public static final int pdf = 0x7f020047;
+		public static final int pdf_list = 0x7f020048;
+		public static final int png = 0x7f020049;
+		public static final int ppt = 0x7f02004a;
+		public static final int rtf = 0x7f02004b;
+		public static final int txt = 0x7f02004d;
+		public static final int whitepage = 0x7f02004e;
+		public static final int xls = 0x7f02004f;
+		public static final int zip = 0x7f020050;
 	}
 	public static final class id {
 		public static final int TextView01 = 0x7f090075;

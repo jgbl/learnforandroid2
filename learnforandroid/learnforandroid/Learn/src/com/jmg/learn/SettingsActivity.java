@@ -24,6 +24,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -629,7 +630,7 @@ public class SettingsActivity extends ActionBarActivity {
 	public float scale = 1;
 
 	private void resize(float scale) {
-
+		
 		Resources resources = this.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		int Density = metrics.densityDpi;
@@ -713,6 +714,14 @@ public class SettingsActivity extends ActionBarActivity {
 					// c.setle
 					c.setTextSize(TypedValue.COMPLEX_UNIT_PX, c.getTextSize()
 							* scale);
+					/*
+					int p1 = c.getPaddingTop();
+					int p2 = c.getPaddingBottom();
+					int p3 = c.getPaddingLeft();
+					int p4 = c.getPaddingRight();
+					c.setPadding((int) (p3*scale), p1, p4, p2);
+					Log.d("Padding", "" + p4);
+					*/
 					//LevelListDrawable D = (LevelListDrawable) c.getBackground();
 					
 					//NinePatchDrawable d = (NinePatchDrawable) c.getBackground();
