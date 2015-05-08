@@ -242,7 +242,7 @@
 		            android:layout_alignParentLeft="true"
 		            android:layout_below="@+id/txtSounds"
 		            android:layout_marginBottom="15dp"
-		            android:layout_marginTop="30dp"
+		            android:layout_marginTop="60dp"
 		            android:checked="false"
 		            android:hint="@string/chkRandomHint"
 		            android:text="@string/chkRandom"
@@ -253,7 +253,7 @@
 		        <CheckBox
 		            android:id="@+id/chkAskAll"
 		            android:layout_width="150dp"
-		            android:layout_height="30dp"
+		            android:layout_height="60dp"
 		            android:layout_alignBaseline="@id/chkRandom"
 		            android:layout_centerHorizontal="true"
 		            android:layout_centerInParent="false"
@@ -267,7 +267,7 @@
 		        <CheckBox
 		            android:id="@+id/chkSound"
 		            android:layout_width="150dp"
-		            android:layout_height="30dp"
+		            android:layout_height="60dp"
 		            android:layout_alignBaseline="@id/chkRandom"
 		            android:layout_alignParentRight="true"
 		            android:checked="false"
