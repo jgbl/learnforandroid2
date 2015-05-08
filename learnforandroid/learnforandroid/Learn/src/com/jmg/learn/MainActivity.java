@@ -1063,9 +1063,13 @@ public class MainActivity extends ActionBarActivity {
 							SpannedString s = (SpannedString) t.getText();
 							width = width - SizeOther - lib.dpToPx(50);
 							float measuredWidth = p.measureText(s.toString());
-							t.setTextSize(
-									TypedValue.COMPLEX_UNIT_PX,
-									(float) (t.getTextSize() * (width / measuredWidth)));
+							if (measuredWidth > width)
+							{
+								t.setTextSize(
+										TypedValue.COMPLEX_UNIT_PX,
+										(float) (t.getTextSize() * (width / measuredWidth)));
+							}
+							
 						}
 					}
 				}
