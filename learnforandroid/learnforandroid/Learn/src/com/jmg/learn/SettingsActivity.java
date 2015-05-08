@@ -94,7 +94,7 @@ public class SettingsActivity extends ActionBarActivity {
 			RelativeLayout layout = (RelativeLayout) this.findViewById(R.id.layoutSettings); // id fetch from xml
 			ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
 			int pxPadding = lib.dpToPx(10);
-			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding);
+			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding * ((lib.NookSimpleTouch()) ? 2 : 1));
 			Paint paint = rectShapeDrawable.getPaint();
 			paint.setColor(Color.BLACK);
 			paint.setStyle(Style.STROKE);
