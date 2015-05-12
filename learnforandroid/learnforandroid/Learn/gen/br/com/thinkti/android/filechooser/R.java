@@ -37,16 +37,16 @@ public final class R {
 		public static final int list_view = 0x7f03001d;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f060000;
-		public static final int currentDir = 0x7f060001;
-		public static final int fileSize = 0x7f060002;
-		public static final int folder = 0x7f060003;
-		public static final int no = 0x7f060009;
-		public static final int openFolder = 0x7f060005;
-		public static final int optionSelection = 0x7f060007;
-		public static final int parentDirectory = 0x7f060004;
-		public static final int quit = 0x7f06000a;
-		public static final int selectThis = 0x7f060006;
-		public static final int yes = 0x7f060008;
+		public static final int app_name = 0x7f050000;
+		public static final int currentDir = 0x7f050001;
+		public static final int fileSize = 0x7f050002;
+		public static final int folder = 0x7f050003;
+		public static final int no = 0x7f050009;
+		public static final int openFolder = 0x7f050005;
+		public static final int optionSelection = 0x7f050007;
+		public static final int parentDirectory = 0x7f050004;
+		public static final int quit = 0x7f05000a;
+		public static final int selectThis = 0x7f050006;
+		public static final int yes = 0x7f050008;
 	}
 }

@@ -11,10 +11,10 @@ public final class R {
 		public static final int supportsAlpha = 0x7f010000;
 	}
 	public static final class dimen {
-		public static final int ambilwarna_hsvHeight = 0x7f050000;
-		public static final int ambilwarna_hsvWidth = 0x7f050001;
-		public static final int ambilwarna_hueWidth = 0x7f050002;
-		public static final int ambilwarna_spacer = 0x7f050003;
+		public static final int ambilwarna_hsvHeight = 0x7f060000;
+		public static final int ambilwarna_hsvWidth = 0x7f060001;
+		public static final int ambilwarna_hueWidth = 0x7f060002;
+		public static final int ambilwarna_spacer = 0x7f060003;
 	}
 	public static final class drawable {
 		public static final int ambilwarna_alphacheckered = 0x7f020033;
