@@ -51,6 +51,7 @@ public class lib {
 	public static final String TAG = "com.jmg.lib.lib";
 	
 	public static boolean sndEnabled = true;
+	public static boolean AntwWasRichtig;
 	public static String getgstatus() {
 		return _status;
 	}
@@ -568,6 +569,7 @@ public class lib {
 
 	public static void playSound(Context context, int Zaehler)
 			throws IOException {
+		if (Zaehler == 0 && lib.AntwWasRichtig) Zaehler = 1;
 		MainActivity main = (MainActivity) context;
 		if (main.colSounds.size() > 0) {
 			if (Zaehler < -4)

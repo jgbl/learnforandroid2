@@ -275,6 +275,7 @@ public class Vokabel {
 	}
 
 	private String[] _Trennzeichen = new String[6];
+	
 
 	public String getTrennzeichen() {
 		libLearn.gStatus = "Vokabel.Trennzeichen Start";
@@ -1205,8 +1206,8 @@ public class Vokabel {
 		// ERROR: Not supported in C#: OnErrorStatement
 		int res = 0;
 		libLearn.gStatus = "Vokabel.AntwortRichtig Start";
-		if (mVok.get(mIndex).z < 0)
-			mVok.get(mIndex).z = 0;
+		if (mVok.get(mIndex).z < -1)
+			mVok.get(mIndex).z = -1;
 		mVok.get(mIndex).z = (short) (mVok.get(mIndex).z + 1);
 		aend = true;
 		res = mVok.get(mIndex).z;
@@ -1218,6 +1219,7 @@ public class Vokabel {
 			}
 		}
 		AnzRichtig += 1;
+		lib.AntwWasRichtig = true;
 		InitAbfrage();
 
 		return res;
@@ -1245,6 +1247,7 @@ public class Vokabel {
 		}
 		aend = true;
 		AnzFalsch += 1;
+		lib.AntwWasRichtig = false;
 		// InitAbfrage
 		return;
 	}
