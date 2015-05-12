@@ -64,6 +64,8 @@ public class MainActivity extends ActionBarActivity {
 	private Button _btnEdit;
 	private BorderedTextView _txtWord;
 	private BorderedTextView _txtKom;
+	private BorderedEditText _txtedWord;
+	private BorderedEditText _txtedKom;
 	private BorderedTextView _txtStatus;
 	private BorderedEditText _txtMeaning1;
 	private BorderedEditText _txtMeaning2;
@@ -369,11 +371,18 @@ public class MainActivity extends ActionBarActivity {
 
 			if (dontPrompt) {
 				try {
-					vok.SaveFile();
-					vok.aend = false;
-					_backPressed += 1;
-					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-					saveFilePrefs(false);
+					if (libString.IsNullOrEmpty(vok.getFileName()))
+					{
+						SaveVokAs(true);
+					}
+					else
+					{
+						vok.SaveFile();
+						vok.aend = false;
+						_backPressed += 1;
+						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+						saveFilePrefs(false);
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(this, e);
@@ -400,11 +409,19 @@ public class MainActivity extends ActionBarActivity {
 				  { 
 					  try 
 					  { 
-						  vok.SaveFile(vok.getFileName(), vok.getUniCode(),	false); 
-						  vok.aend = false; 
-						  _backPressed += 1;
-						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-						  saveFilePrefs(false); 
+						  if (libString.IsNullOrEmpty(vok.getFileName()))
+						  {
+							  SaveVokAs(true);
+						  }
+						  else
+						  {
+							  vok.SaveFile(vok.getFileName(), vok.getUniCode(),	false); 
+							  vok.aend = false; 
+							  _backPressed += 1;
+							  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+							  saveFilePrefs(false);  
+						  }
+						   
 					  } 
 					  catch (Exception e) 
 					  { 
@@ -445,11 +462,19 @@ public class MainActivity extends ActionBarActivity {
 
 			if (dontPrompt) {
 				try {
-					vok.SaveFile();
-					vok.aend = false;
-					_backPressed += 1;
-					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-					saveFilePrefs(false);
+					if (libString.IsNullOrEmpty(vok.getFileName()))
+					{
+						SaveVokAs(true);
+					}
+					else
+					{
+						vok.SaveFile();
+						vok.aend = false;
+						_backPressed += 1;
+						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+						saveFilePrefs(false);
+					}
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(this, e);
@@ -620,9 +645,15 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				try {
-					vok.setBedeutung1(_txtMeaning1.getText().toString());
-					vok.setBedeutung2(_txtMeaning2.getText().toString());
-					vok.setBedeutung3(_txtMeaning3.getText().toString());
+					if (_txtWord.getVisibility()==View.VISIBLE)
+					{
+						StartEdit();
+					}
+					else
+					{
+						EndEdit();
+					}
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					lib.ShowException(MainActivity.this, e);
@@ -638,10 +669,56 @@ public class MainActivity extends ActionBarActivity {
 		_txtMeaning3 = (BorderedEditText) findViewById(R.id.txtMeaning3);
 		_txtMeaning3.setBackgroundResource(0);
 		_txtWord = (BorderedTextView) findViewById(R.id.word);
+		_txtedWord= (BorderedEditText) findViewById(R.id.edword);
+		_txtedKom = (BorderedEditText) findViewById(R.id.edComment);
 		_txtKom = (BorderedTextView) findViewById(R.id.Comment);
 		_txtStatus = (BorderedTextView) findViewById(R.id.txtStatus);
 		setBtnsEnabled(false);
 		setTextColors();
+	}
+	
+	private void StartEdit() throws Exception
+	{
+		_txtWord.setVisibility(View.GONE);
+		_txtKom.setVisibility(View.GONE);
+		_txtedWord.setVisibility(View.VISIBLE);
+		_txtedWord.setText(_txtWord.getText());
+		_txtedKom.setVisibility(View.VISIBLE);
+		_txtedKom.setText(_txtKom.getText());
+		_txtedWord.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+		_txtedKom.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+		_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+		_txtMeaning2.setVisibility(View.VISIBLE);
+		_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+		_txtMeaning3.setVisibility(View.VISIBLE);
+		_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		_txtMeaning1.setText(vok.getBedeutung1());
+		_txtMeaning2.setText(vok.getBedeutung2());
+		_txtMeaning3.setText(vok.getBedeutung3());
+		_txtedWord.requestFocus();
+	}
+	
+	private void EndEdit() throws Exception
+	{
+		_txtWord.setVisibility(View.VISIBLE);
+		_txtKom.setVisibility(View.VISIBLE);
+		_txtedWord.setVisibility(View.GONE);
+		_txtWord.setText(_txtedWord.getText());
+		_txtedKom.setVisibility(View.GONE);
+		_txtKom.setText(_txtedKom.getText());
+		_txtedWord.setImeOptions(EditorInfo.IME_ACTION_NONE);
+		_txtedKom.setImeOptions(EditorInfo.IME_ACTION_NONE);
+		_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NONE);
+		_txtMeaning2.setVisibility(View.VISIBLE);
+		_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NONE);
+		_txtMeaning3.setVisibility(View.VISIBLE);
+		_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_NONE);
+		vok.setWort(_txtedWord.getText().toString());
+		vok.setKommentar(_txtedKom.getText().toString());
+		vok.setBedeutung1(_txtMeaning1.getText().toString());
+		vok.setBedeutung2(_txtMeaning2.getText().toString());
+		vok.setBedeutung3(_txtMeaning3.getText().toString());
+		getVokabel(false, false);
 	}
 
 	private void InitMeanings() {
@@ -676,65 +753,78 @@ public class MainActivity extends ActionBarActivity {
 							.getText().toString() : "";
 					String meaning3 = _txtMeaning3.getVisibility() == View.VISIBLE ? _txtMeaning3
 							.getText().toString() : "";
-					Antworten = new String[] { meaning1, meaning2, meaning3 };
-					try {
-						Bew = vok.CheckAntwort(Antworten);
-						if (Bew == Bewertung.AllesRichtig) {
-							lib.ShowToast(MainActivity.this,
-									getString(R.string.AnswerCorrect));
-							_btnRight.performClick();
-						} else if (Bew == Bewertung.AllesFalsch) {
-							try {
-								vok.AntwortFalsch();
-								lib.playSound(MainActivity.this,
-										vok.getZaehler());
-								_lastIsWrongVokID = vok.getIndex();
-								getVokabel(true, false);
-								if (!vok.getCardMode()) {
-									setBtnsEnabled(false);
-									flashwords();
-									Handler handler = new Handler();
-									handler.postDelayed(
-											runnableFalse,
-											(long) ((DisplayDurationWord * 1000 + vok
-													.getAnzBed()
-													* 1000
-													* DisplayDurationBed) * PaukRepetitions));
+					if (_txtWord.getVisibility()==View.VISIBLE)
+					{
+						Antworten = new String[] { meaning1, meaning2, meaning3 };
+						try {
+							Bew = vok.CheckAntwort(Antworten);
+							if (Bew == Bewertung.AllesRichtig) {
+								lib.ShowToast(MainActivity.this,
+										getString(R.string.AnswerCorrect));
+								_btnRight.performClick();
+							} else if (Bew == Bewertung.AllesFalsch) {
+								try {
+									vok.AntwortFalsch();
+									lib.playSound(MainActivity.this,
+											vok.getZaehler());
+									_lastIsWrongVokID = vok.getIndex();
+									getVokabel(true, false);
+									if (!vok.getCardMode()) {
+										setBtnsEnabled(false);
+										flashwords();
+										Handler handler = new Handler();
+										handler.postDelayed(
+												runnableFalse,
+												(long) ((DisplayDurationWord * 1000 + vok
+														.getAnzBed()
+														* 1000
+														* DisplayDurationBed) * PaukRepetitions));
+									}
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									lib.ShowException(MainActivity.this, e);
 								}
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								lib.ShowException(MainActivity.this, e);
+							} else if (Bew == Bewertung.aehnlich) {
+								lib.ShowMessage(MainActivity.this,
+										getString(R.string.MeaningSimilar));
+							} else if (Bew == Bewertung.TeilweiseRichtig) {
+								lib.ShowMessage(MainActivity.this,
+										getString(R.string.MeaningPartiallyCorrect));
+							} else if (Bew == Bewertung.enthalten) {
+								lib.ShowMessage(MainActivity.this,
+										getString(R.string.MeaningIsSubstring));
+							} else if (Bew == Bewertung.AehnlichEnthalten) {
+								lib.ShowMessage(
+										MainActivity.this,
+										getString(R.string.MeaningIsSubstringSimilar));
+							} else if (Bew == Bewertung.TeilweiseRichtigAehnlich) {
+								lib.ShowMessage(
+										MainActivity.this,
+										getString(R.string.MeaningIsPartiallyCorrectSimilar));
+							} else if (Bew == Bewertung.TeilweiseRichtigAehnlichEnthalten) {
+								lib.ShowMessage(
+										MainActivity.this,
+										getString(R.string.MeaningIsPartiallyCorrectSimilarSubstring));
+							} else if (Bew == Bewertung.TeilweiseRichtigEnthalten) {
+								lib.ShowMessage(
+										MainActivity.this,
+										getString(R.string.MeaningIsPartiallyCorrectSubstring));
 							}
-						} else if (Bew == Bewertung.aehnlich) {
-							lib.ShowMessage(MainActivity.this,
-									getString(R.string.MeaningSimilar));
-						} else if (Bew == Bewertung.TeilweiseRichtig) {
-							lib.ShowMessage(MainActivity.this,
-									getString(R.string.MeaningPartiallyCorrect));
-						} else if (Bew == Bewertung.enthalten) {
-							lib.ShowMessage(MainActivity.this,
-									getString(R.string.MeaningIsSubstring));
-						} else if (Bew == Bewertung.AehnlichEnthalten) {
-							lib.ShowMessage(
-									MainActivity.this,
-									getString(R.string.MeaningIsSubstringSimilar));
-						} else if (Bew == Bewertung.TeilweiseRichtigAehnlich) {
-							lib.ShowMessage(
-									MainActivity.this,
-									getString(R.string.MeaningIsPartiallyCorrectSimilar));
-						} else if (Bew == Bewertung.TeilweiseRichtigAehnlichEnthalten) {
-							lib.ShowMessage(
-									MainActivity.this,
-									getString(R.string.MeaningIsPartiallyCorrectSimilarSubstring));
-						} else if (Bew == Bewertung.TeilweiseRichtigEnthalten) {
-							lib.ShowMessage(
-									MainActivity.this,
-									getString(R.string.MeaningIsPartiallyCorrectSubstring));
+	
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							lib.ShowException(MainActivity.this, e);
 						}
-
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						lib.ShowException(MainActivity.this, e);
+					}
+					else
+					{
+						try {
+							EndEdit();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							lib.ShowException(MainActivity.this, e);
+						}
+						
 					}
 					return true;
 				}
@@ -973,6 +1063,10 @@ public class MainActivity extends ActionBarActivity {
 					(float) (_txtWord.getTextSize() * scale));
 			_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_txtKom.getTextSize() * scale));
+			_txtedWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_txtedWord.getTextSize() * scale));
+			_txtedKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_txtedKom.getTextSize() * scale));
 			_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_txtStatus.getTextSize() * scale));
 
@@ -1164,6 +1258,16 @@ public class MainActivity extends ActionBarActivity {
 				ShowSettings();
 			} else if (id == R.id.mnuFileOpen) {
 				LoadFile(true);
+			} else if (id == R.id.mnuNew) {
+				saveVok(false);
+				vok.NewFile();
+				vok.AddVokabel();
+				getVokabel(true, false);
+				StartEdit();
+			} else if (id == R.id.mnuAddWord) {
+				vok.AddVokabel();
+				getVokabel(true, false);
+				StartEdit();
 			} else if (id == R.id.mnuFileOpenASCII) {
 				LoadFile(false);
 			} else if (id == R.id.mnuConvMulti) {
@@ -1329,6 +1433,7 @@ public class MainActivity extends ActionBarActivity {
 												ParentDir.mkdirs();
 											vok.SaveFile(F.getPath(),
 													_blnUniCode, false);
+											SetActionBarTitle();
 										}
 
 									} catch (Exception e) {
@@ -1749,7 +1854,7 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void SetActionBarTitle() throws Exception {
-		if (vok.getGesamtzahl() > 5) {
+		if (vok.getGesamtzahl() > 0) {
 			String title = "Learn " + (new File(vok.getFileName())).getName()
 					+ " " + getString(R.string.number) + ": " + vok.getIndex()
 					+ " " + getString(R.string.counter) + ": "

@@ -511,10 +511,10 @@ public class lib {
 	}
 
 	public enum Sounds {
-		Richtig1, Richtig2, Richtig3, Richtig4, Richtig5, Falsch1, Falsch2, Falsch3, Falsch4, Falsch5, Beep
+		Richtig0, Richtig1, Richtig2, Richtig3, Richtig4, Richtig5, Falsch0, Falsch1, Falsch2, Falsch3, Falsch4, Falsch5, Beep
 	}
 
-	public static String[] AssetSounds = new String[11];
+	public static String[] AssetSounds = new String[13];
 
 	public static void initSounds() {
 		AssetSounds[0] = "snd/clapping_hurray.ogg";
@@ -522,12 +522,14 @@ public class lib {
 		AssetSounds[2] = "snd/Red_stag_roar-Juan_Carlos_-2004708707.ogg";
 		AssetSounds[3] = "snd/Fireworks Finale-SoundBible.com-370363529.ogg";
 		AssetSounds[4] = "snd/clapping_hurray.ogg";
-		AssetSounds[5] = "snd/chickens_demanding_food.ogg";
-		AssetSounds[6] = "snd/Cow And Bell-SoundBible.com-1243222141.ogg";
-		AssetSounds[7] = "snd/gobbler_bod.ogg";
-		AssetSounds[8] = "snd/Toilet_Flush.ogg";
-		AssetSounds[9] = "snd/ziegengatter.ogg";
-		AssetSounds[10] = "snd/Pew_Pew-DKnight556-1379997159.ogg";
+		AssetSounds[5] = "snd/clapping_hurray.ogg";
+		AssetSounds[6] = "snd/chickens_demanding_food.ogg";
+		AssetSounds[7] = "snd/Cow And Bell-SoundBible.com-1243222141.ogg";
+		AssetSounds[8] = "snd/gobbler_bod.ogg";
+		AssetSounds[9] = "snd/Toilet_Flush.ogg";
+		AssetSounds[10] = "snd/ziegengatter.ogg";
+		AssetSounds[11] = "snd/ziegengatter.ogg";
+		AssetSounds[12] = "snd/Pew_Pew-DKnight556-1379997159.ogg";
 
 	}
 
@@ -569,7 +571,6 @@ public class lib {
 
 	public static void playSound(Context context, int Zaehler)
 			throws IOException {
-		if (Zaehler == 0 && lib.AntwWasRichtig) Zaehler = 1;
 		MainActivity main = (MainActivity) context;
 		if (main.colSounds.size() > 0) {
 			if (Zaehler < -4)
@@ -577,10 +578,8 @@ public class lib {
 			else if (Zaehler > 5)
 				Zaehler = 5;
 			lib.Sounds Sound = null;
-			if (Zaehler > 0)
-				Zaehler = Zaehler - 1;
-			else if (Zaehler <= 0)
-				Zaehler = Math.abs(Zaehler - 5);
+			if (Zaehler <= 0 && lib.AntwWasRichtig==false)
+				Zaehler = Math.abs(Zaehler - 6);
 
 			Sound = getSoundByNumber(Zaehler);
 

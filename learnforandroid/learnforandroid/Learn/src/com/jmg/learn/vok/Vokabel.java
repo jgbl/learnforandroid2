@@ -1557,8 +1557,6 @@ public class Vokabel {
 	}
 
 	public void AddVokabel() {
-		// ERROR: Not supported in C#: OnErrorStatement
-
 		libLearn.gStatus = "Vokabel.AddVokabel Start";
 		//
 		mVok.add(new typVok("", "", "", "", "", (short) 0));
@@ -1694,7 +1692,7 @@ public class Vokabel {
 
 		}
 		aend = false;
-
+		mFileName = strFileName;
 		spr = (short) (spr & 7);
 		_UniCode = blnUniCode;
 		// System.Windows.Forms.Cursor.Current =
@@ -2024,6 +2022,8 @@ public class Vokabel {
 		mLastIndex = 0;
 		mGesamtzahl = 0;
 		mIndex = 0;
+		mFileName = "";
+		mSprache=EnumSprachen.Normal;
 	}
 
 	public void LoadFile(String strFileName) throws Exception {

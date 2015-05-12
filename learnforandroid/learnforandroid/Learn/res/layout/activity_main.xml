@@ -12,7 +12,7 @@
 
 	<LinearLayout
 	    android:id="@+id/LayWord"
-	    android:layout_width="wrap_content"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_centerHorizontal="true" >
 
@@ -29,11 +29,25 @@
 	        android:textSize="60px"
 	        android:textStyle="bold"
 	        android:typeface="normal" />
+	    
+	    <com.jmg.lib.BorderedEditText
+	        android:id="@+id/edword"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:maxLines="3"
+	        android:scrollHorizontally="false"
+	        android:text="@string/hello_world"
+	        android:textColor="#000000"
+	        android:textSize="60px"
+	        android:textStyle="bold"
+	        android:typeface="normal"
+	        android:visibility="gone" />
+	    
 	  </LinearLayout>
 
 	  <LinearLayout
 	      android:id="@+id/LayCom"
-	      android:layout_width="wrap_content"
+	      android:layout_width="match_parent"
 	      android:layout_height="wrap_content"
 	      android:layout_below="@+id/LayWord"
 	      android:layout_centerHorizontal="true" >
@@ -49,6 +63,18 @@
 	        android:gravity="center"
 	        android:textColor="#000000"
 	        android:textSize="35px" />
+	    
+	    <com.jmg.lib.BorderedEditText
+	        android:id="@+id/edComment"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:maxLines="3"
+	        android:scrollHorizontally="false"
+	        android:text="@string/hello_world"
+	        android:textColor="#000000"
+	        android:textSize="35px"
+	        android:visibility="gone" />
+	    
     </LinearLayout>
     
     <com.jmg.lib.BorderedEditText
