@@ -696,6 +696,9 @@ public class MainActivity extends ActionBarActivity {
 		_txtMeaning2.setText(vok.getBedeutung2());
 		_txtMeaning3.setText(vok.getBedeutung3());
 		_txtedWord.requestFocus();
+		setBtnsEnabled(false);
+		_btnEdit.setEnabled(true);
+		
 	}
 	
 	private void EndEdit() throws Exception
@@ -1380,6 +1383,7 @@ public class MainActivity extends ActionBarActivity {
 		intent.putExtra("Random", vok.getAbfrageZufaellig());
 		intent.putExtra("AskAll", vok.getAskAll());
 		intent.putExtra("Sound", lib.sndEnabled);
+		intent.putExtra("Language", vok.getSprache().ordinal());
 		this.startActivityForResult(intent, Settings_Activity);
 	}
 
@@ -1433,6 +1437,7 @@ public class MainActivity extends ActionBarActivity {
 												ParentDir.mkdirs();
 											vok.SaveFile(F.getPath(),
 													_blnUniCode, false);
+											saveFilePrefs(false);
 											SetActionBarTitle();
 										}
 
@@ -1481,6 +1486,15 @@ public class MainActivity extends ActionBarActivity {
 						"ProbabilityFactor");
 				vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
 				vok.setAskAll(data.getExtras().getBoolean("AskAll"));
+				int Language = data.getExtras().getInt("Language",Vokabel.EnumSprachen.undefiniert.ordinal());
+				for (int i = 0; i < Vokabel.EnumSprachen.values().length; i++)
+				{
+					if (Vokabel.EnumSprachen.values()[i].ordinal() == Language)
+					{
+						vok.setSprache(Vokabel.EnumSprachen.values()[i]);
+						break;
+					}
+				}
 				lib.sndEnabled = data.getExtras().getBoolean("Sound");
 				Colors = getColorsFromIntent(data);
 				colSounds = getSoundsFromIntent(data);

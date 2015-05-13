@@ -270,7 +270,11 @@ public class Vokabel {
 
 	public void setSprache(EnumSprachen value) {
 		libLearn.gStatus = "Vokabel.Sprache Start";
-		mSprache = value;
+		if (mSprache.ordinal() != value.ordinal())
+		{
+			mSprache = value;
+			aend = true;
+		}
 		return;
 	}
 

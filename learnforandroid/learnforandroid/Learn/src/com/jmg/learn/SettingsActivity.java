@@ -65,6 +65,7 @@ public class SettingsActivity extends ActionBarActivity {
 	public Spinner spnDisplayDurationBed;
 	public Spinner spnPaukRepetitions;
 	public Spinner spnProbabilityFactor;
+	public Spinner spnLanguages;
 	public com.jmg.lib.NoClickSpinner spnColors;
 	public com.jmg.lib.NoClickSpinner spnSounds;
 	public Button btnColors;
@@ -233,6 +234,7 @@ public class SettingsActivity extends ActionBarActivity {
 			spnDisplayDurationBed = (Spinner) findViewById(R.id.spnAnzeigedauerBed);
 			spnPaukRepetitions = (Spinner) findViewById(R.id.spnRepetitions);
 			spnProbabilityFactor = (Spinner) findViewById(R.id.spnProbabilityFactor);
+			spnLanguages = (Spinner) findViewById(R.id.spnLanguages);
 			spnColors = (com.jmg.lib.NoClickSpinner) findViewById(R.id.spnColors);
 			spnSounds = (com.jmg.lib.NoClickSpinner) findViewById(R.id.spnSounds);
 
@@ -249,6 +251,8 @@ public class SettingsActivity extends ActionBarActivity {
 			spnPaukRepetitions.getBackground().setColorFilter(Color.BLACK,
 					PorterDuff.Mode.SRC_ATOP);
 			spnProbabilityFactor.getBackground().setColorFilter(Color.BLACK,
+					PorterDuff.Mode.SRC_ATOP);
+			spnLanguages.getBackground().setColorFilter(Color.BLACK,
 					PorterDuff.Mode.SRC_ATOP);
 			spnColors.getBackground().setColorFilter(Color.BLACK,
 					PorterDuff.Mode.SRC_ATOP);
@@ -508,6 +512,35 @@ public class SettingsActivity extends ActionBarActivity {
 							setResult(Activity.RESULT_CANCELED, null);
 						}
 					});
+			ScaledArrayAdapter<CharSequence> adapterLanguages = ScaledArrayAdapter
+					.createFromResource(this, R.array.spnLanguages,
+							android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapterLanguages
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			if (lib.NookSimpleTouch()) adapterLanguages.Scale = 1.8f;
+			spnLanguages.setAdapter(adapterLanguages);
+			int Language = getIntent().getIntExtra(
+					"Language", com.jmg.learn.vok.Vokabel.EnumSprachen.undefiniert.ordinal());
+			spnLanguages.setSelection(Language);
+
+			spnLanguages
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+								View view, int position, long id) {
+							intent.putExtra("Language", position);
+
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> parent) {
+							// TODO Auto-generated method stub
+							setResult(Activity.RESULT_CANCELED, null);
+						}
+					});
+
 			if (lib.NookSimpleTouch()) Colors.Scale = 1.8f;
 			spnColors.setAdapter(Colors);
 			spnColors

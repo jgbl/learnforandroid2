@@ -192,10 +192,31 @@
 	            android:prompt="@string/spnProbabilityFactor" />
 	        
 	        <TextView
-	            android:id="@+id/txtColors"
+	            android:id="@+id/txtLanguage"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtProbabilityFactor"
+	            android:text="@string/txtLanguage"
+	            android:textSize="27sp"
+	            android:textStyle="bold"
+	            android:typeface="normal" />
+	        
+	        <Spinner
+	            android:id="@+id/spnLanguages"
+	            style="?android:attr/spinnerItemStyle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignBaseline="@id/txtLanguage"
+	            android:layout_alignParentRight="true"
+	            android:layout_gravity="right"
+	            android:gravity="right"
+	            android:prompt="@string/spnLanguage" />
+	        
+	        <TextView
+	            android:id="@+id/txtColors"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/txtLanguage"
 	            android:layout_marginTop="5dp"
 	            android:text="@string/txtColors"
 	            android:textSize="27sp"
@@ -206,7 +227,7 @@
 	            android:id="@+id/spnColors"
 	            android:layout_width="300dp"
 	            android:layout_height="wrap_content"
-	            android:layout_below="@+id/txtProbabilityFactor"
+	            android:layout_below="@+id/txtLanguage"
 	            android:layout_alignParentRight="true"
 	            android:contentDescription="@string/spnColorDescription"
 	            android:textSize="27sp"
