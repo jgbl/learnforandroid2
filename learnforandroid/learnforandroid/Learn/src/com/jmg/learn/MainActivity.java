@@ -324,7 +324,7 @@ public class MainActivity extends ActionBarActivity {
 	private Handler handlerbackpressed = new Handler();
 
 	private synchronized boolean saveVok(boolean dontPrompt) throws Exception {
-
+		EndEdit();
 		if (vok.aend) {
 			if (!dontPrompt) {
 				dontPrompt = lib.ShowMessageYesNo(this,
@@ -396,7 +396,7 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private boolean saveVokAsync(boolean dontPrompt) throws Exception {
-
+		EndEdit();
 		if (vok.aend) {
 			if (!dontPrompt) {
 				
@@ -683,18 +683,27 @@ public class MainActivity extends ActionBarActivity {
 		_txtKom.setVisibility(View.GONE);
 		_txtedWord.setVisibility(View.VISIBLE);
 		_txtedWord.setText(_txtWord.getText());
+		_txtedWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,_txtWord.getTextSize());
 		_txtedKom.setVisibility(View.VISIBLE);
 		_txtedKom.setText(_txtKom.getText());
+		_txtedKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,_txtKom.getTextSize());
 		_txtedWord.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 		_txtedKom.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-		_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-		_txtMeaning2.setVisibility(View.VISIBLE);
-		_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-		_txtMeaning3.setVisibility(View.VISIBLE);
-		_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		if (!vok.getCardMode())
+		{
+			_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+			_txtMeaning2.setVisibility(View.VISIBLE);
+			_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+			_txtMeaning3.setVisibility(View.VISIBLE);
+			_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
+			_txtMeaning2.setText(vok.getBedeutung2());
+			_txtMeaning3.setText(vok.getBedeutung3());
+		}
+		else
+		{
+			_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		}
 		_txtMeaning1.setText(vok.getBedeutung1());
-		_txtMeaning2.setText(vok.getBedeutung2());
-		_txtMeaning3.setText(vok.getBedeutung3());
 		_txtedWord.requestFocus();
 		setBtnsEnabled(false);
 		_btnEdit.setEnabled(true);
@@ -703,25 +712,29 @@ public class MainActivity extends ActionBarActivity {
 	
 	private void EndEdit() throws Exception
 	{
-		_txtWord.setVisibility(View.VISIBLE);
-		_txtKom.setVisibility(View.VISIBLE);
-		_txtedWord.setVisibility(View.GONE);
-		_txtWord.setText(_txtedWord.getText());
-		_txtedKom.setVisibility(View.GONE);
-		_txtKom.setText(_txtedKom.getText());
-		_txtedWord.setImeOptions(EditorInfo.IME_ACTION_NONE);
-		_txtedKom.setImeOptions(EditorInfo.IME_ACTION_NONE);
-		_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NONE);
-		_txtMeaning2.setVisibility(View.VISIBLE);
-		_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NONE);
-		_txtMeaning3.setVisibility(View.VISIBLE);
-		_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_NONE);
-		vok.setWort(_txtedWord.getText().toString());
-		vok.setKommentar(_txtedKom.getText().toString());
-		vok.setBedeutung1(_txtMeaning1.getText().toString());
-		vok.setBedeutung2(_txtMeaning2.getText().toString());
-		vok.setBedeutung3(_txtMeaning3.getText().toString());
-		getVokabel(false, false);
+		if (_txtedWord.getVisibility()== View.VISIBLE)
+		{
+			_txtWord.setVisibility(View.VISIBLE);
+			_txtKom.setVisibility(View.VISIBLE);
+			_txtedWord.setVisibility(View.GONE);
+			_txtWord.setText(_txtedWord.getText());
+			_txtedKom.setVisibility(View.GONE);
+			_txtKom.setText(_txtedKom.getText());
+			_txtedWord.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			_txtedKom.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			_txtMeaning2.setVisibility(View.VISIBLE);
+			_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			_txtMeaning3.setVisibility(View.VISIBLE);
+			_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			vok.setWort(_txtedWord.getText().toString());
+			vok.setKommentar(_txtedKom.getText().toString());
+			vok.setBedeutung1(_txtMeaning1.getText().toString());
+			vok.setBedeutung2(_txtMeaning2.getText().toString());
+			vok.setBedeutung3(_txtMeaning3.getText().toString());
+			getVokabel(false, false);
+		}
+		
 	}
 
 	private void InitMeanings() {
@@ -1264,6 +1277,10 @@ public class MainActivity extends ActionBarActivity {
 			} else if (id == R.id.mnuNew) {
 				saveVok(false);
 				vok.NewFile();
+				if (lib.ShowMessageYesNo(this, getString(R.string.txtFlashCardFile)))
+				{
+					vok.setCardMode(true);
+				}
 				vok.AddVokabel();
 				getVokabel(true, false);
 				StartEdit();
@@ -1313,7 +1330,8 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void SaveVokAs(boolean blnUniCode) {
+	public void SaveVokAs(boolean blnUniCode) throws Exception {
+		EndEdit();
 		Intent intent = new Intent(this, AdvFileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
 		extensions.add(".k??");
@@ -1425,6 +1443,20 @@ public class MainActivity extends ActionBarActivity {
 										int whichButton) {
 									String value = input.getText().toString();
 									try {
+										if (vok.getCardMode())
+										{
+											if (!lib.ExtensionMatch(value, "k??"))
+											{
+												value += ".kar";
+											}
+										}
+										else
+										{
+											if (!lib.ExtensionMatch(value, "v??"))
+											{
+												value += ".vok";
+											}
+										}
 										File F = new File(Path.combine(
 												fileSelected, value));
 										if (!F.isDirectory()
@@ -1435,6 +1467,7 @@ public class MainActivity extends ActionBarActivity {
 											File ParentDir = F.getParentFile();
 											if (!ParentDir.exists())
 												ParentDir.mkdirs();
+											
 											vok.SaveFile(F.getPath(),
 													_blnUniCode, false);
 											saveFilePrefs(false);
@@ -1739,6 +1772,7 @@ public class MainActivity extends ActionBarActivity {
 
 	public void getVokabel(boolean showBeds, boolean LoadNext) {
 		try {
+			EndEdit();
 			setBtnsEnabled(true);
 			if (showBeds) {
 				_btnRight.setEnabled(true);
@@ -1769,8 +1803,10 @@ public class MainActivity extends ActionBarActivity {
 					|| vok.getSprache() == EnumSprachen.Griechisch
 					|| (vok.getFontWort().getName() == "Cardo")) {
 				t.setTypeface(vok.TypefaceCardo);
+				_txtedWord.setTypeface(vok.TypefaceCardo);
 			} else {
 				t.setTypeface(Typeface.DEFAULT);
+				_txtedWord.setTypeface(Typeface.DEFAULT);
 			}
 
 			v = findViewById(R.id.Comment);
@@ -1781,8 +1817,10 @@ public class MainActivity extends ActionBarActivity {
 					|| vok.getSprache() == EnumSprachen.Griechisch
 					|| (vok.getFontKom().getName() == "Cardo")) {
 				t.setTypeface(vok.TypefaceCardo);
+				_txtedKom.setTypeface(vok.TypefaceCardo);
 			} else {
 				t.setTypeface(Typeface.DEFAULT);
+				_txtedKom.setTypeface(Typeface.DEFAULT);
 			}
 
 			v = findViewById(R.id.txtMeaning1);

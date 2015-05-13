@@ -61,6 +61,34 @@ public class lib {
 		System.out.println(value);
 	}
 
+
+	public static boolean ExtensionMatch(String value, String extension)
+	{
+		String ext;
+		if(value.contains("."))
+		{
+			ext = value.substring(value.lastIndexOf("."));
+		}
+		else
+		{
+			return false;
+		}
+		
+		if (extension.toLowerCase().contains(ext.toLowerCase())) return true;
+		
+		String itext = extension;
+		itext = itext.replace(".", "\\.");
+		itext = itext.toLowerCase();
+		ext = ext.toLowerCase();
+		if (ext.matches(itext.replace("?", ".{1}").replace("*", ".*")))
+				{
+					return true;
+				}
+		
+		
+		return false;
+		
+	}
 	
 	public static final boolean NookSimpleTouch()
 	{
