@@ -26,6 +26,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,23 +77,35 @@ public class SettingsActivity extends Fragment {
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
+	public MainActivity main;
 	private View mainView;
+	
 	private Intent intent = new Intent();
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		if (lib.NookSimpleTouch())
+		{
+			mainView = inflater.inflate(R.layout.activity_settings_nook, null);
+		}
+		else
+		{
+			mainView = inflater.inflate(R.layout.activity_settings, null);
+		}
+		main = (MainActivity) getActivity();
+		
+		
+		return mainView;
+	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		try
 		{
 			//lib.ShowToast(this, "Settings Start");
-			if (lib.NookSimpleTouch())
-			{
-				setContentView(R.layout.activity_settings_nook);
-			}
-			else
-			{
-			setContentView(R.layout.activity_settings);
-			}
+			
 			RelativeLayout layout = (RelativeLayout) this.findViewById(R.id.layoutSettings); // id fetch from xml
 			ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
 			int pxPadding = lib.dpToPx(10);
@@ -150,6 +163,11 @@ public class SettingsActivity extends Fragment {
 	}
 
 	
+
+	private View findViewById(int id) {
+		// TODO Auto-generated method stub
+		return mainView.findViewById(id);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

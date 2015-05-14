@@ -81,6 +81,7 @@ public class _MainActivity extends Fragment {
 	public HashMap<ColorItems, ColorSetting> Colors;
 	public HashMap<Sounds, SoundSetting> colSounds;
 	public Vokabel vok;
+	public MainActivity main;
 	public String CharsetASCII = "Windows-1252";
 	public View mainView;
 	public SharedPreferences prefs; // =
@@ -89,6 +90,15 @@ public class _MainActivity extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mainView = inflater.inflate(R.layout.fragmentactivity_main, null);
+		main = (MainActivity) getActivity();
+		
+		
+		return mainView;
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		try {
 			libLearn.gStatus = "onCreate setContentView";
 			//setContentView(R.layout.fragmentactivity_main);
@@ -99,9 +109,8 @@ public class _MainActivity extends Fragment {
 
 			try {
 				libLearn.gStatus = "onCreate getPrefs";
-				prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-				vok = new Vokabel(getActivity(),
-						(TextView) mainView.findViewById(R.id.txtStatus));
+				prefs = main.prefs;
+				vok = main.vok;
 				vok.setSchrittweite((short) prefs.getInt("Schrittweite", 6));
 				CharsetASCII = prefs.getString("CharsetASCII", "Windows-1252");
 				vok.CharsetASCII = CharsetASCII;
@@ -117,8 +126,8 @@ public class _MainActivity extends Fragment {
 						vok.getAbfrageZufaellig()));
 				vok.setAskAll(prefs.getBoolean("AskAll", vok.getAskAll()));
 				lib.sndEnabled = prefs.getBoolean("Sound", lib.sndEnabled);
-				Colors = getColorsFromPrefs();
-				colSounds = getSoundsFromPrefs();
+				Colors = main.Colors; //getColorsFromPrefs();
+				colSounds = main.colSounds; //getSoundsFromPrefs();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				lib.ShowException(getActivity(), e);
@@ -227,13 +236,6 @@ public class _MainActivity extends Fragment {
 			lib.ShowException(getActivity(), ex);
 		}
 
-		
-		return mainView;
-	}
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		
 	}
 
@@ -674,6 +676,11 @@ public class _MainActivity extends Fragment {
 		setTextColors();
 	}
 	
+	public View findViewById(int id) {
+		// TODO Auto-generated method stub
+		return mainView.findViewById(id);
+	}
+
 	private void StartEdit() throws Exception
 	{
 		_txtWord.setVisibility(View.GONE);
@@ -1654,45 +1661,7 @@ public class _MainActivity extends Fragment {
 		}
 	}
 
-	private HashMap<ColorItems, ColorSetting> getColorsFromPrefs() {
-		HashMap<ColorItems, ColorSetting> res = new HashMap<ColorItems, ColorSetting>();
-		for (int i = 0; i < ColorSetting.ColorItems.values().length; i++) {
-			ColorItems ColorItem = ColorSetting.ColorItems.values()[i];
-			String Name = getResources().getStringArray(R.array.spnColors)[i];
-			int defValue = 0;
-			switch (ColorItem) {
-			case word:
-				defValue = 0xff000000;
-				break;
-			case meaning:
-				defValue = 0xff000000;
-				break;
-			case comment:
-				defValue = 0xff000000;
-				break;
-			case background:
-				defValue = 0xffffffff;
-				break;
-			case background_wrong:
-				defValue = 0xffc0c0c0;
-				break;
-			case box_word:
-				defValue = 0xffffffff;
-				break;
-			case box_meaning:
-				defValue = 0xffffffff;
-				break;
-			default:
-				defValue = 0xff000000;
-				break;
-			}
-			int Color = prefs.getInt(ColorItem.name(), defValue);
-			res.put(ColorItem, new ColorSetting(ColorItem, Name, Color));
-		}
-		return res;
-
-	}
-
+	
 	private HashMap<ColorItems, ColorSetting> getColorsFromIntent(Intent intent) {
 		HashMap<ColorItems, ColorSetting> res = new HashMap<ColorItems, ColorSetting>();
 		for (int i = 0; i < ColorSetting.ColorItems.values().length; i++) {
@@ -1751,21 +1720,7 @@ public class _MainActivity extends Fragment {
 
 	}
 
-	private HashMap<Sounds, SoundSetting> getSoundsFromPrefs() {
-		HashMap<Sounds, SoundSetting> res = new HashMap<Sounds, SoundSetting>();
-		if (lib.AssetSounds[0] == null)
-			lib.initSounds();
-		for (int i = 0; i < lib.Sounds.values().length; i++) {
-			Sounds SoundItem = Sounds.values()[i];
-			String Name = getResources().getStringArray(R.array.spnSounds)[i];
-			String defValue = "";
-			defValue = lib.AssetSounds[SoundItem.ordinal()];
-			String SoundPath = prefs.getString(SoundItem.name(), defValue);
-			res.put(SoundItem, new SoundSetting(SoundItem, Name, SoundPath));
-		}
-		return res;
-
-	}
+	
 
 	public void getVokabel(boolean showBeds, boolean LoadNext) {
 		try {
