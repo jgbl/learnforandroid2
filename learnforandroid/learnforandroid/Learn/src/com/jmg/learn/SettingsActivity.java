@@ -28,7 +28,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -90,20 +90,11 @@ public class SettingsActivity extends Fragment {
 		{
 			mainView = inflater.inflate(R.layout.activity_settings, container);
 		}
-		main = (MainActivity) getActivity();
-		
-		
-		return mainView;
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		try
 		{
 			//lib.ShowToast(main, "Settings Start");
 			
-			RelativeLayout layout = (RelativeLayout) main.findViewById(R.id.layoutSettings); // id fetch from xml
+			RelativeLayout layout = (RelativeLayout) mainView.findViewById(R.id.layoutSettings); // id fetch from xml
 			ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
 			int pxPadding = lib.dpToPx(10);
 			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding * ((lib.NookSimpleTouch()) ? 2 : 1));
@@ -131,20 +122,16 @@ public class SettingsActivity extends Fragment {
 			//lib.ShowToast(main, "Settings addlayoutlistener");
 			if (!(lib.NookSimpleTouch()))
 			{
-				mainView.getViewTreeObserver().addOnGlobalLayoutListener(
-						new ViewTreeObserver.OnGlobalLayoutListener() {
-
-							@Override
-							public void onGlobalLayout() {
-								// Ensure you call it only once :
-								lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
-								
-								// Here you can get the size :)
-								resize(0);
-								//lib.ShowToast(main, "Resize End");
-							}
-						});
-
+				
+				mainView.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+					
+					@Override
+					public boolean onPreDraw() {
+						// TODO Auto-generated method stub
+						resize (0);
+						return false;
+					}
+				});				
 			}
 			else
 			{
@@ -156,7 +143,16 @@ public class SettingsActivity extends Fragment {
 		{
 			lib.ShowException(main, ex);
 		}
+
 		
+		return mainView;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		main = (MainActivity) getActivity();
+				
 	}
 
 	

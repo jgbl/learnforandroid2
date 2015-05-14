@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 	
 	final int PAGE_COUNT = 2;
-	public final _MainActivity fragMain = new _MainActivity();
-	public final SettingsActivity fragSettings = new SettingsActivity();
+	public _MainActivity fragMain;
+	public SettingsActivity fragSettings;
 	
 	/** Constructor of the class */
 	public MyFragmentPagerAdapter(FragmentManager fm) {
@@ -24,11 +24,12 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 			/** tab1 is selected */
 			case 0:
 				
-				
+				fragMain = new _MainActivity();
 				return fragMain;
 				
 			/** tab2 is selected */
 			case 1:
+				fragSettings = new SettingsActivity();
 				return fragSettings;	
 		}
 		

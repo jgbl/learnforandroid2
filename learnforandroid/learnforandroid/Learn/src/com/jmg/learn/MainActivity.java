@@ -22,7 +22,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -45,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		try 
 		{
-			setContentView(R.layout.fragmentactivity_main);
+			setContentView(R.layout.activity_main);
 			        /** Getting a reference to ViewPager from the layout */
 	        mPager = (ViewPager) findViewById(R.id.pager);
 	        
@@ -71,11 +70,14 @@ public class MainActivity extends ActionBarActivity {
 	        /** Setting the FragmentPagerAdapter object to the viewPager object */
 	        mPager.setAdapter(fragmentPagerAdapter);
         
-			vok = new Vokabel(this,
-					(TextView) fragmentPagerAdapter.fragMain.findViewById(R.id.txtStatus));
+	        prefs = this.getPreferences(Context.MODE_PRIVATE);
 			Colors = getColorsFromPrefs();
 			colSounds = getSoundsFromPrefs();
-			prefs = this.getPreferences(Context.MODE_PRIVATE);
+			
+			
+			vok = new Vokabel(this, null);
+			mPager.setCurrentItem(0);
+			
 		} catch (Exception e) {
 			lib.ShowException(this, e);
 		}

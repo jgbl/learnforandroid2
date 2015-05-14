@@ -57,7 +57,7 @@ public class _MainActivity extends Fragment {
 	private static final int FILE_CHOOSER = 34823;
 	private static final int Settings_Activity = 34824;
 	private static final int FILE_CHOOSERADV = 34825;
-	private Context context = getActivity();
+	private Context context;
 	private Button _btnRight;
 	private Button _btnWrong;
 	private Button _btnSkip;
@@ -87,16 +87,114 @@ public class _MainActivity extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mainView = inflater.inflate(R.layout.fragmentactivity_main, container);
-		main = (MainActivity) getActivity();
+		main.vok.Init ((TextView) findViewById(R.id.txtStatus));
 		
-		
+		try {
+			libLearn.gStatus = "onCreate InitButtons";
+			InitButtons();
+			libLearn.gStatus = "onCreate InitMeanings";
+			InitMeanings();
+			String tmppath = Path.combine(getActivity().getApplicationInfo().dataDir,
+					"vok.tmp");
+			// SetActionBarTitle();
+			boolean CardMode = false;
+			if (savedInstanceState != null) {
+				libLearn.gStatus = "onCreate Load SavedInstanceState";
+				String filename = savedInstanceState.getString("vokpath");
+				int index = savedInstanceState.getInt("vokindex");
+				int[] Lernvokabeln = savedInstanceState
+						.getIntArray("Lernvokabeln");
+				int Lernindex = savedInstanceState.getInt("Lernindex");
+				CardMode = savedInstanceState.getBoolean("Cardmode", false);
+				if (!libString.IsNullOrEmpty(filename) && index > 0) {
+					boolean Unicode = savedInstanceState.getBoolean(
+							"Unicode", true);
+					_blnUniCode = Unicode;
+					LoadVokabel(tmppath, index, Lernvokabeln, Lernindex,
+							CardMode);
+					vok.setLastIndex(savedInstanceState.getInt(
+							"vokLastIndex", vok.getLastIndex()));
+					vok.setFileName(filename);
+					vok.setCardMode(CardMode);
+					vok.aend = savedInstanceState.getBoolean("aend", true);
+					SetActionBarTitle();
+				}
+			} else {
+				if (prefs.getString("LastFile", null) != null) {
+					libLearn.gStatus = "onCreate Load Lastfile";
+					String filename = prefs.getString("LastFile", "");
+					int index = prefs.getInt("vokindex", 1);
+					int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
+							"Lernvokabeln");
+					int Lernindex = prefs.getInt("Lernindex", 0);
+					boolean Unicode = prefs.getBoolean("Unicode", true);
+					_blnUniCode = Unicode;
+					boolean isTmpFile = prefs
+							.getBoolean("isTmpFile", false);
+					boolean aend = prefs.getBoolean("aend", true);
+					CardMode = prefs.getBoolean("Cardmode", false);
+					if (Lernvokabeln != null) {
+						if (isTmpFile) {
+							LoadVokabel(tmppath, index, Lernvokabeln,
+									Lernindex, CardMode);
+							vok.setFileName(filename);
+							vok.setCardMode(CardMode);
+							vok.setLastIndex(prefs.getInt("vokLastIndex",
+									vok.getLastIndex()));
+							SetActionBarTitle();
+							vok.aend = aend;
+						} else {
+							LoadVokabel(filename, index, Lernvokabeln,
+									Lernindex, CardMode);
+							vok.setLastIndex(prefs.getInt("vokLastIndex",
+									vok.getLastIndex()));
+						}
+					} else {
+						if (isTmpFile) {
+							LoadVokabel(tmppath, 1, null, 0, CardMode);
+							vok.setFileName(filename);
+							vok.setCardMode(CardMode);
+							SetActionBarTitle();
+							vok.aend = aend;
+						} else {
+							LoadVokabel(filename, 1, null, 0, CardMode);
+						}
+					}
+
+				}
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			lib.ShowException(getActivity(), e);
+		}
+		if (true)
+		{
+			
+			
+			mainView.getViewTreeObserver().addOnPreDrawListener(
+					new ViewTreeObserver.OnPreDrawListener() {
+						
+						@Override
+						public boolean onPreDraw() {
+							// TODO Auto-generated method stub
+							lib.removeOnPreDrawListener(mainView.getViewTreeObserver(), this);
+							// Here you can get the size :)
+							resize();
+							return false;
+						}
+					});			
+		}
+
 		return mainView;
 	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		try {
+		try 
+		{
 			libLearn.gStatus = "onCreate setContentView";
 			//setContentView(R.layout.fragmentactivity_main);
 			//mainView = findViewById(Window.ID_ANDROID_CONTENT);
@@ -106,6 +204,8 @@ public class _MainActivity extends Fragment {
 
 			try {
 				libLearn.gStatus = "onCreate getPrefs";
+				main = (MainActivity) getActivity();
+				context = main;
 				prefs = main.prefs;
 				vok = main.vok;
 				vok.setSchrittweite((short) prefs.getInt("Schrittweite", 6));
@@ -131,105 +231,11 @@ public class _MainActivity extends Fragment {
 			}
 			libLearn.gStatus = "onCreate Copy Assets";
 			CopyAssets();
-			try {
-				libLearn.gStatus = "onCreate InitButtons";
-				InitButtons();
-				libLearn.gStatus = "onCreate InitMeanings";
-				InitMeanings();
-				String tmppath = Path.combine(getActivity().getApplicationInfo().dataDir,
-						"vok.tmp");
-				// SetActionBarTitle();
-				boolean CardMode = false;
-				if (savedInstanceState != null) {
-					libLearn.gStatus = "onCreate Load SavedInstanceState";
-					String filename = savedInstanceState.getString("vokpath");
-					int index = savedInstanceState.getInt("vokindex");
-					int[] Lernvokabeln = savedInstanceState
-							.getIntArray("Lernvokabeln");
-					int Lernindex = savedInstanceState.getInt("Lernindex");
-					CardMode = savedInstanceState.getBoolean("Cardmode", false);
-					if (!libString.IsNullOrEmpty(filename) && index > 0) {
-						boolean Unicode = savedInstanceState.getBoolean(
-								"Unicode", true);
-						_blnUniCode = Unicode;
-						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex,
-								CardMode);
-						vok.setLastIndex(savedInstanceState.getInt(
-								"vokLastIndex", vok.getLastIndex()));
-						vok.setFileName(filename);
-						vok.setCardMode(CardMode);
-						vok.aend = savedInstanceState.getBoolean("aend", true);
-						SetActionBarTitle();
-					}
-				} else {
-					if (prefs.getString("LastFile", null) != null) {
-						libLearn.gStatus = "onCreate Load Lastfile";
-						String filename = prefs.getString("LastFile", "");
-						int index = prefs.getInt("vokindex", 1);
-						int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
-								"Lernvokabeln");
-						int Lernindex = prefs.getInt("Lernindex", 0);
-						boolean Unicode = prefs.getBoolean("Unicode", true);
-						_blnUniCode = Unicode;
-						boolean isTmpFile = prefs
-								.getBoolean("isTmpFile", false);
-						boolean aend = prefs.getBoolean("aend", true);
-						CardMode = prefs.getBoolean("Cardmode", false);
-						if (Lernvokabeln != null) {
-							if (isTmpFile) {
-								LoadVokabel(tmppath, index, Lernvokabeln,
-										Lernindex, CardMode);
-								vok.setFileName(filename);
-								vok.setCardMode(CardMode);
-								vok.setLastIndex(prefs.getInt("vokLastIndex",
-										vok.getLastIndex()));
-								SetActionBarTitle();
-								vok.aend = aend;
-							} else {
-								LoadVokabel(filename, index, Lernvokabeln,
-										Lernindex, CardMode);
-								vok.setLastIndex(prefs.getInt("vokLastIndex",
-										vok.getLastIndex()));
-							}
-						} else {
-							if (isTmpFile) {
-								LoadVokabel(tmppath, 1, null, 0, CardMode);
-								vok.setFileName(filename);
-								vok.setCardMode(CardMode);
-								SetActionBarTitle();
-								vok.aend = aend;
-							} else {
-								LoadVokabel(filename, 1, null, 0, CardMode);
-							}
-						}
+						
 
-					}
-				}
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				lib.ShowException(getActivity(), e);
-			}
-			if (true)
-			{
-				mainView.getViewTreeObserver().addOnGlobalLayoutListener(
-						new ViewTreeObserver.OnGlobalLayoutListener() {
-
-							@Override
-							public void onGlobalLayout() {
-								// Ensure you call it only once :
-								lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
-								// Here you can get the size :)
-								resize();
-								//lib.ShowToast(SettingsActivity.main, "Resize End");
-							}
-						});
-
-			}
-			
-
-		} catch (Exception ex) {
+		} 
+		catch (Exception ex) 
+		{
 			lib.ShowException(getActivity(), ex);
 		}
 
@@ -1025,8 +1031,13 @@ public class _MainActivity extends Fragment {
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		int height = metrics.heightPixels;
 		int width = metrics.widthPixels;
-		int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
+		int viewTop = main.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+		int height2 = mainView.getHeight();
 		height = height - viewTop;
+		if (height2 < height)
+		{
+			height = height2;
+		}
 		scale = (double) height / (double) 950;
 		/*
 		 * lib.ShowMessage(main, "Meaning3 Bottom: " +_txtMeaning3.getBottom() +

@@ -13,6 +13,7 @@ import com.jmg.learn.libLearn;
 
 //import com.microsoft.live.*;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
@@ -36,6 +37,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -62,7 +64,7 @@ public class lib {
 	}
 
 
-	public static boolean ExtensionMatch(String value, String extension)
+	@SuppressLint("DefaultLocale") public static boolean ExtensionMatch(String value, String extension)
 	{
 		String ext;
 		if(value.contains("."))
@@ -745,6 +747,13 @@ public class lib {
 	private static void removeLayoutListenerPost16(ViewTreeObserver observer,
 			OnGlobalLayoutListener listener) {
 		observer.removeOnGlobalLayoutListener(listener);
+	}
+
+	public static void removeOnPreDrawListener(
+			ViewTreeObserver viewTreeObserver,
+			OnPreDrawListener onPreDrawListener) {
+		viewTreeObserver.removeOnPreDrawListener(onPreDrawListener);
+		
 	}
 
 }
