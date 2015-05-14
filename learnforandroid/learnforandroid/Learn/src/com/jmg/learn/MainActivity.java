@@ -2,6 +2,7 @@ package com.jmg.learn;
 
 import java.util.HashMap;
 
+import com.jmg.learn.chart.IDemoChart;
 import com.jmg.learn.vok.Vokabel;
 import com.jmg.lib.ColorSetting;
 import com.jmg.lib.SoundSetting;
@@ -10,15 +11,17 @@ import com.jmg.lib.ColorSetting.ColorItems;
 import com.jmg.lib.lib.Sounds;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
@@ -28,7 +31,14 @@ public class MainActivity extends ActionBarActivity {
 	public HashMap<ColorItems, ColorSetting> Colors;
 	public HashMap<Sounds, SoundSetting> colSounds;
 	public SharedPreferences prefs;
-	
+	public MyFragmentPagerAdapter fragmentPagerAdapter;
+	public _MainActivity fragMain;
+	public SettingsActivity fragSettings;
+	public int LastPosition = -1;
+	public ViewPager getPager()
+	{
+		return mPager;
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +57,16 @@ public class MainActivity extends ActionBarActivity {
 	                @Override
 	                public void onPageSelected(int position) {
 	                        super.onPageSelected(position);
+	                        LastPosition = position;
 	                }
 	
 	        };
 	
 	        /** Setting the pageChange listener to the viewPager */
 	        mPager.setOnPageChangeListener(pageChangeListener);
-	
+	       
 	        /** Creating an instance of FragmentPagerAdapter */
-	        MyFragmentPagerAdapter fragmentPagerAdapter = new MyFragmentPagerAdapter(fm);
+	        fragmentPagerAdapter = new MyFragmentPagerAdapter(fm);
 	
 	        /** Setting the FragmentPagerAdapter object to the viewPager object */
 	        mPager.setAdapter(fragmentPagerAdapter);
@@ -130,6 +141,117 @@ public class MainActivity extends ActionBarActivity {
 		return res;
 
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		try {
+			getMenuInflater().inflate(R.menu.main, menu);
+			//resize();
+			return true;
+		} catch (Exception ex) {
+			lib.ShowException(this, ex);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		try {
+			if (id == R.id.action_settings) {
+				fragMain.ShowSettings();
+			} else if (id == R.id.mnuFileOpen) {
+				fragMain.LoadFile(true);
+			} else if (id == R.id.mnuNew) {
+				fragmentPagerAdapter.fragMain.saveVok(false);
+				vok.NewFile();
+				if (lib.ShowMessageYesNo(this, getString(R.string.txtFlashCardFile)))
+				{
+					vok.setCardMode(true);
+				}
+				vok.AddVokabel();
+				fragMain.getVokabel(true, false);
+				fragMain.StartEdit();
+			} else if (id == R.id.mnuAddWord) {
+				vok.AddVokabel();
+				fragMain.getVokabel(true, false);
+				fragMain.StartEdit();
+			} else if (id == R.id.mnuFileOpenASCII) {
+				fragMain.LoadFile(false);
+			} else if (id == R.id.mnuConvMulti) {
+				vok.ConvertMulti();
+				fragMain.getVokabel(false, false);
+			} else if (id == R.id.mnuFileSave) {
+				fragMain.saveVok(false);
+			} else if (id == R.id.mnuSaveAs) {
+				fragMain.SaveVokAs(true);
+			} else if (id == R.id.mnuRestart) {
+				vok.restart();
+			} else if (id == R.id.mnuDelete) {
+				vok.DeleteVokabel();
+				fragMain.getVokabel(false, false);
+			} else if (id == R.id.mnuReverse) {
+				vok.revert();
+				fragMain.getVokabel(false, false);
+			} else if (id == R.id.mnuReset) {
+				if (lib.ShowMessageYesNo(this,
+						this.getString(R.string.ResetVocabulary))) {
+					vok.reset();
+				}
+
+			} else if (id == R.id.mnuStatistics) {
+				if (vok.getGesamtzahl() > 5) {
+					try {
+						IDemoChart chart = new com.jmg.learn.chart.LearnBarChart();
+						Intent intent = chart.execute(this);
+						this.startActivity(intent);
+					} catch (Exception ex) {
+						lib.ShowException(this, ex);
+					}
+
+				}
+			}
+
+		} catch (Exception ex) {
+			lib.ShowException(this, ex);
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		if (keyCode == KeyEvent.KEYCODE_HOME) {
+			try {
+				fragMain.saveVok(false);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				lib.ShowException(this, e);
+				return true;
+			}
+		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
+			try {
+				if (fragMain._backPressed > 0 || fragMain.saveVokAsync(false)) {
+					fragMain.handlerbackpressed.removeCallbacks(fragMain.rSetBackPressedFalse);
+				} else {
+					return true;
+				}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Log.e("onBackPressed", e.getMessage(), e);
+				lib.ShowException(this, e);
+				return true;
+			}
+		}
+
+		return super.onKeyDown(keyCode, event);
+
+	};
 
 
 }

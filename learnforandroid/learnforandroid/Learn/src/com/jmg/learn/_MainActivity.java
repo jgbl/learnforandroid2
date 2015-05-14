@@ -1,6 +1,6 @@
 package com.jmg.learn;
 
-import in.wptrafficanalyzer.actionbarcompatnavtabswipe.R;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +13,6 @@ import java.util.HashMap;
 
 import br.com.thinkti.android.filechooser.*;
 
-import com.jmg.learn.chart.IDemoChart;
 import com.jmg.learn.vok.*;
 import com.jmg.learn.vok.Vokabel.Bewertung;
 import com.jmg.learn.vok.Vokabel.EnumSprachen;
@@ -23,7 +22,6 @@ import com.jmg.lib.lib.Sounds;
 import com.jmg.lib.lib.libString;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
@@ -59,7 +57,7 @@ public class _MainActivity extends Fragment {
 	private static final int FILE_CHOOSER = 34823;
 	private static final int Settings_Activity = 34824;
 	private static final int FILE_CHOOSERADV = 34825;
-	private Context context = this.getActivity();
+	private Context context = getActivity();
 	private Button _btnRight;
 	private Button _btnWrong;
 	private Button _btnSkip;
@@ -77,7 +75,6 @@ public class _MainActivity extends Fragment {
 	private float DisplayDurationBed;
 	private int PaukRepetitions = 3;
 	private double scale = 1;
-	private boolean _blnEink;
 	public HashMap<ColorItems, ColorSetting> Colors;
 	public HashMap<Sounds, SoundSetting> colSounds;
 	public Vokabel vok;
@@ -85,11 +82,11 @@ public class _MainActivity extends Fragment {
 	public String CharsetASCII = "Windows-1252";
 	public View mainView;
 	public SharedPreferences prefs; // =
-									// this.getPreferences(Context.MODE_PRIVATE);
+									// main.getPreferences(Context.MODE_PRIVATE);
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mainView = inflater.inflate(R.layout.fragmentactivity_main, null);
+		mainView = inflater.inflate(R.layout.fragmentactivity_main, container);
 		main = (MainActivity) getActivity();
 		
 		
@@ -225,7 +222,7 @@ public class _MainActivity extends Fragment {
 								lib.removeLayoutListener(mainView.getViewTreeObserver(), this);
 								// Here you can get the size :)
 								resize();
-								//lib.ShowToast(SettingsActivity.this, "Resize End");
+								//lib.ShowToast(SettingsActivity.main, "Resize End");
 							}
 						});
 
@@ -284,53 +281,23 @@ public class _MainActivity extends Fragment {
 	/*
 	 * @Override public void onAttachedToWindow() {
 	 * super.onAtFILE_CHOOSERtachedToWindow();
-	 * this.getWindow().setType(WindowManager
+	 * main.getWindow().setType(WindowManager
 	 * .LayoutParams.TYPE_KEYGUARD_DIALOG); }
 	 */
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	
+	int _backPressed;
+	Handler handlerbackpressed = new Handler();
 
-		if (keyCode == KeyEvent.KEYCODE_HOME) {
-			try {
-				saveVok(false);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				lib.ShowException(this, e);
-				return true;
-			}
-		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
-			try {
-				if (_backPressed > 0 || saveVokAsync(false)) {
-					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
-				} else {
-					return true;
-				}
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				Log.e("onBackPressed", e.getMessage(), e);
-				lib.ShowException(this, e);
-				return true;
-			}
-		}
-
-		return super.onKeyDown(keyCode, event);
-
-	};
-
-	private int _backPressed;
-	private Handler handlerbackpressed = new Handler();
-
-	private synchronized boolean saveVok(boolean dontPrompt) throws Exception {
+	synchronized boolean saveVok(boolean dontPrompt) throws Exception {
 		EndEdit();
 		if (vok.aend) {
 			if (!dontPrompt) {
-				dontPrompt = lib.ShowMessageYesNo(this,
+				dontPrompt = lib.ShowMessageYesNo(main,
 						getString(R.string.Save));
 				if (!dontPrompt) {
 					_backPressed += 1;
-					lib.ShowToast(_MainActivity.this, _MainActivity.this
+					lib.ShowToast(main, main
 							.getString(R.string.PressBackAgain));
 					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 
@@ -347,12 +314,12 @@ public class _MainActivity extends Fragment {
 				 * handler.postDelayed(rSetBackPressedFalse, 10000);
 				 * saveFilePrefs(); } catch (Exception e) { // TODO
 				 * Auto-generated catch block
-				 * lib.ShowException(MainActivity.this, e); } } });
+				 * lib.ShowException(MainActivity.main, e); } } });
 				 * A.setNegativeButton(getString(R.string.no), new
 				 * AlertDialog.OnClickListener() {
 				 * 
 				 * @Override public void onClick(DialogInterface dialog, int
-				 * which) { lib.ShowToast( MainActivity.this, MainActivity.this
+				 * which) { lib.ShowToast( MainActivity.main, MainActivity.main
 				 * .getString(R.string.PressBackAgain)); _backPressed += 1;
 				 * Handler handler = new Handler();
 				 * handler.postDelayed(rSetBackPressedFalse, 10000); }
@@ -360,7 +327,7 @@ public class _MainActivity extends Fragment {
 				 * }); A.setMessage(getString(R.string.Save));
 				 * A.setTitle("Question"); A.show(); if (!dontPrompt) { if
 				 * (_backPressed > 0) { return true; } else {
-				 * lib.ShowToast(this, this.getString(R.string.PressBackAgain));
+				 * lib.ShowToast(main, main.getString(R.string.PressBackAgain));
 				 * _backPressed += 1; handler = new Handler();
 				 * handler.postDelayed(rSetBackPressedFalse, 10000); }
 				 * 
@@ -384,7 +351,7 @@ public class _MainActivity extends Fragment {
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					lib.ShowException(this, e);
+					lib.ShowException(main, e);
 				}
 			}
 			return false;
@@ -394,7 +361,7 @@ public class _MainActivity extends Fragment {
 
 	}
 
-	private boolean saveVokAsync(boolean dontPrompt) throws Exception {
+	boolean saveVokAsync(boolean dontPrompt) throws Exception {
 		EndEdit();
 		if (vok.aend) {
 			if (!dontPrompt) {
@@ -424,7 +391,7 @@ public class _MainActivity extends Fragment {
 					  } 
 					  catch (Exception e) 
 					  { 
-						  lib.ShowException(_MainActivity.this, e); 
+						  lib.ShowException(main, e); 
 						  } 
 					  } 
 				  });
@@ -434,8 +401,8 @@ public class _MainActivity extends Fragment {
 					  @Override 
 					  public void onClick(DialogInterface dialog, int which) 
 					  { 
-						  lib.ShowToast( _MainActivity.this, 
-								  _MainActivity.this.getString(R.string.PressBackAgain)); 
+						  lib.ShowToast( main, 
+								  main.getString(R.string.PressBackAgain)); 
 						  _backPressed += 1;
 						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000); 
 					  }
@@ -451,7 +418,7 @@ public class _MainActivity extends Fragment {
 					  } 
 					  else 
 					  {
-						  lib.ShowToast(this, this.getString(R.string.PressBackAgain));
+						  lib.ShowToast(main, main.getString(R.string.PressBackAgain));
 						  _backPressed += 1; 
 						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000); }
 				  
@@ -476,7 +443,7 @@ public class _MainActivity extends Fragment {
 					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					lib.ShowException(this, e);
+					lib.ShowException(main, e);
 				}
 			}
 			return false;
@@ -500,7 +467,7 @@ public class _MainActivity extends Fragment {
 		edit.commit();
 	}
 
-	private Runnable rSetBackPressedFalse = new Runnable() {
+	Runnable rSetBackPressedFalse = new Runnable() {
 		@Override
 		public void run() {
 			/* do what you need to do */
@@ -509,7 +476,7 @@ public class _MainActivity extends Fragment {
 	};
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 
 		/*
@@ -519,7 +486,7 @@ public class _MainActivity extends Fragment {
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		// saveVok(false);
 		super.onPause();
 		/*
@@ -529,7 +496,7 @@ public class _MainActivity extends Fragment {
 	}
 
 	@Override
-	protected void onStart() {
+	public void onStart() {
 		super.onStart();
 		/*
 		 * if (_firstFocus) { _firstFocus = false; hideKeyboard(); }
@@ -549,12 +516,12 @@ public class _MainActivity extends Fragment {
 			public void onClick(View v) {
 				try {
 					if (_lastIsWrongVokID == vok.getIndex()) {
-						lib.playSound(_MainActivity.this, Sounds.Beep);
+						lib.playSound(main, Sounds.Beep);
 						getVokabel(false, true);
 					} else {
 
 						int Zaehler = vok.AntwortRichtig();
-						lib.playSound(_MainActivity.this, Zaehler);
+						lib.playSound(main, Zaehler);
 
 						getVokabel(false, false);
 					}
@@ -562,7 +529,7 @@ public class _MainActivity extends Fragment {
 
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					lib.ShowException(_MainActivity.this, e);
+					lib.ShowException(main, e);
 
 				}
 
@@ -577,7 +544,7 @@ public class _MainActivity extends Fragment {
 			public void onClick(View v) {
 				try {
 					vok.AntwortFalsch();
-					lib.playSound(_MainActivity.this, vok.getZaehler());
+					lib.playSound(main, vok.getZaehler());
 					_lastIsWrongVokID = vok.getIndex();
 
 					if (!vok.getCardMode()) {
@@ -597,7 +564,7 @@ public class _MainActivity extends Fragment {
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					lib.ShowException(_MainActivity.this, e);
+					lib.ShowException(main, e);
 				}
 
 			}
@@ -614,7 +581,7 @@ public class _MainActivity extends Fragment {
 					getVokabel(false, false);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					lib.ShowException(_MainActivity.this, e);
+					lib.ShowException(main, e);
 				}
 
 			}
@@ -630,7 +597,7 @@ public class _MainActivity extends Fragment {
 					getVokabel(true, false);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					lib.ShowException(_MainActivity.this, e);
+					lib.ShowException(main, e);
 				}
 
 			}
@@ -655,7 +622,7 @@ public class _MainActivity extends Fragment {
 					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					lib.ShowException(_MainActivity.this, e);
+					lib.ShowException(main, e);
 				}
 
 			}
@@ -681,7 +648,7 @@ public class _MainActivity extends Fragment {
 		return mainView.findViewById(id);
 	}
 
-	private void StartEdit() throws Exception
+	void StartEdit() throws Exception
 	{
 		_txtWord.setVisibility(View.GONE);
 		_txtKom.setVisibility(View.GONE);
@@ -749,9 +716,9 @@ public class _MainActivity extends Fragment {
 
 	private void hideKeyboard() {
 		// Check if no view has focus:
-		View view = this.getCurrentFocus();
+		View view = main.getCurrentFocus();
 		if (view != null) {
-			InputMethodManager inputManager = (InputMethodManager) this
+			InputMethodManager inputManager = (InputMethodManager) main
 					.getSystemService(Context.INPUT_METHOD_SERVICE);
 			inputManager.hideSoftInputFromWindow(view.getWindowToken(),
 					InputMethodManager.HIDE_NOT_ALWAYS);
@@ -779,13 +746,13 @@ public class _MainActivity extends Fragment {
 						try {
 							Bew = vok.CheckAntwort(Antworten);
 							if (Bew == Bewertung.AllesRichtig) {
-								lib.ShowToast(_MainActivity.this,
+								lib.ShowToast(main,
 										getString(R.string.AnswerCorrect));
 								_btnRight.performClick();
 							} else if (Bew == Bewertung.AllesFalsch) {
 								try {
 									vok.AntwortFalsch();
-									lib.playSound(_MainActivity.this,
+									lib.playSound(main,
 											vok.getZaehler());
 									_lastIsWrongVokID = vok.getIndex();
 									getVokabel(true, false);
@@ -802,38 +769,38 @@ public class _MainActivity extends Fragment {
 									}
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
-									lib.ShowException(_MainActivity.this, e);
+									lib.ShowException(main, e);
 								}
 							} else if (Bew == Bewertung.aehnlich) {
-								lib.ShowMessage(_MainActivity.this,
+								lib.ShowMessage(main,
 										getString(R.string.MeaningSimilar));
 							} else if (Bew == Bewertung.TeilweiseRichtig) {
-								lib.ShowMessage(_MainActivity.this,
+								lib.ShowMessage(main,
 										getString(R.string.MeaningPartiallyCorrect));
 							} else if (Bew == Bewertung.enthalten) {
-								lib.ShowMessage(_MainActivity.this,
+								lib.ShowMessage(main,
 										getString(R.string.MeaningIsSubstring));
 							} else if (Bew == Bewertung.AehnlichEnthalten) {
 								lib.ShowMessage(
-										_MainActivity.this,
+										main,
 										getString(R.string.MeaningIsSubstringSimilar));
 							} else if (Bew == Bewertung.TeilweiseRichtigAehnlich) {
 								lib.ShowMessage(
-										_MainActivity.this,
+										main,
 										getString(R.string.MeaningIsPartiallyCorrectSimilar));
 							} else if (Bew == Bewertung.TeilweiseRichtigAehnlichEnthalten) {
 								lib.ShowMessage(
-										_MainActivity.this,
+										main,
 										getString(R.string.MeaningIsPartiallyCorrectSimilarSubstring));
 							} else if (Bew == Bewertung.TeilweiseRichtigEnthalten) {
 								lib.ShowMessage(
-										_MainActivity.this,
+										main,
 										getString(R.string.MeaningIsPartiallyCorrectSubstring));
 							}
 	
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
-							lib.ShowException(_MainActivity.this, e);
+							lib.ShowException(main, e);
 						}
 					}
 					else
@@ -842,7 +809,7 @@ public class _MainActivity extends Fragment {
 							EndEdit();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
-							lib.ShowException(_MainActivity.this, e);
+							lib.ShowException(main, e);
 						}
 						
 					}
@@ -967,7 +934,7 @@ public class _MainActivity extends Fragment {
 	private class showWordBordersTask implements Runnable {
 		public void run() {
 			try {
-				lib.playSound(_MainActivity.this, com.jmg.lib.lib.Sounds.Beep);
+				lib.playSound(main, com.jmg.lib.lib.Sounds.Beep);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -999,7 +966,7 @@ public class _MainActivity extends Fragment {
 			Bed.setShowBorders(true,
 					Colors.get(ColorItems.box_meaning).ColorValue);
 			try {
-				lib.playSound(_MainActivity.this, com.jmg.lib.lib.Sounds.Beep);
+				lib.playSound(main, com.jmg.lib.lib.Sounds.Beep);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1028,7 +995,7 @@ public class _MainActivity extends Fragment {
 
 	/*
 	 * private class CancelTimerTask extends TimerTask { public Timer T; public
-	 * CancelTimerTask(Timer T) { // TODO Auto-generated constructor stub this.T
+	 * CancelTimerTask(Timer T) { // TODO Auto-generated constructor stub main.T
 	 * = T; }
 	 * 
 	 * @Override public void run() { // TODO Auto-generated method stub
@@ -1062,7 +1029,7 @@ public class _MainActivity extends Fragment {
 		height = height - viewTop;
 		scale = (double) height / (double) 950;
 		/*
-		 * lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() +
+		 * lib.ShowMessage(main, "Meaning3 Bottom: " +_txtMeaning3.getBottom() +
 		 * "\nbtnRight.Top: " + _btnRight.getTop() + "\nDisplayHeight: " +
 		 * height);
 		 */
@@ -1071,7 +1038,7 @@ public class _MainActivity extends Fragment {
 			resizeActionbar(0);
 			
 
-			lib.ShowToast(this, "Scaling font by " + scale + " Screenheight = "
+			lib.ShowToast(main, "Scaling font by " + scale + " Screenheight = "
 					+ height);
 			_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_txtMeaning1.getTextSize() * scale));
@@ -1152,7 +1119,7 @@ public class _MainActivity extends Fragment {
 	}
 
 	public void resizeActionbar(int width) {
-		View tb = this.findViewById(R.id.action_bar);
+		View tb = main.findViewById(R.id.action_bar);
 		Paint p = new Paint();
 		int SizeOther = 0;
 		if (tb != null) {
@@ -1206,7 +1173,7 @@ public class _MainActivity extends Fragment {
 			if (F1.isDirectory() == false && !F1.exists()) {
 				F1.mkdirs();
 			}
-			AssetManager A = this.getAssets();
+			AssetManager A = main.getAssets();
 			try {
 				final String languages[] = new String[] { "Greek", "Hebrew",
 						"KAR", "Spanish" };
@@ -1246,97 +1213,18 @@ public class _MainActivity extends Fragment {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				lib.ShowException(this, e);
-				// lib.ShowMessage(this, "CopyAssets");
+				lib.ShowException(main, e);
+				// lib.ShowMessage(main, "CopyAssets");
 			}
 
 		}
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		try {
-			getMenuInflater().inflate(R.menu.main, menu);
-			//resize();
-			return true;
-		} catch (Exception ex) {
-			lib.ShowException(this, ex);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		try {
-			if (id == R.id.action_settings) {
-				ShowSettings();
-			} else if (id == R.id.mnuFileOpen) {
-				LoadFile(true);
-			} else if (id == R.id.mnuNew) {
-				saveVok(false);
-				vok.NewFile();
-				if (lib.ShowMessageYesNo(this, getString(R.string.txtFlashCardFile)))
-				{
-					vok.setCardMode(true);
-				}
-				vok.AddVokabel();
-				getVokabel(true, false);
-				StartEdit();
-			} else if (id == R.id.mnuAddWord) {
-				vok.AddVokabel();
-				getVokabel(true, false);
-				StartEdit();
-			} else if (id == R.id.mnuFileOpenASCII) {
-				LoadFile(false);
-			} else if (id == R.id.mnuConvMulti) {
-				vok.ConvertMulti();
-				getVokabel(false, false);
-			} else if (id == R.id.mnuFileSave) {
-				saveVok(false);
-			} else if (id == R.id.mnuSaveAs) {
-				SaveVokAs(true);
-			} else if (id == R.id.mnuRestart) {
-				vok.restart();
-			} else if (id == R.id.mnuDelete) {
-				vok.DeleteVokabel();
-				getVokabel(false, false);
-			} else if (id == R.id.mnuReverse) {
-				vok.revert();
-				getVokabel(false, false);
-			} else if (id == R.id.mnuReset) {
-				if (lib.ShowMessageYesNo(this,
-						this.getString(R.string.ResetVocabulary))) {
-					vok.reset();
-				}
-
-			} else if (id == R.id.mnuStatistics) {
-				if (vok.getGesamtzahl() > 5) {
-					try {
-						IDemoChart chart = new com.jmg.learn.chart.LearnBarChart();
-						Intent intent = chart.execute(this);
-						this.startActivity(intent);
-					} catch (Exception ex) {
-						lib.ShowException(this, ex);
-					}
-
-				}
-			}
-
-		} catch (Exception ex) {
-			lib.ShowException(this, ex);
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
+	
 	public void SaveVokAs(boolean blnUniCode) throws Exception {
 		EndEdit();
-		Intent intent = new Intent(this, AdvFileChooser.class);
+		Intent intent = new Intent(main, AdvFileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
 		extensions.add(".k??");
 		extensions.add(".v??");
@@ -1361,11 +1249,11 @@ public class _MainActivity extends Fragment {
 			_oldUnidCode = yesnoundefined.no;
 		_blnUniCode = blnUniCode;
 
-		this.startActivityForResult(intent, FILE_CHOOSERADV);
+		main.startActivityForResult(intent, FILE_CHOOSERADV);
 	}
 
 	public void LoadFile(boolean blnUniCode) {
-		Intent intent = new Intent(this, FileChooser.class);
+		Intent intent = new Intent(main, FileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
 		extensions.add(".k??");
 		extensions.add(".v??");
@@ -1389,11 +1277,11 @@ public class _MainActivity extends Fragment {
 			_oldUnidCode = yesnoundefined.no;
 		_blnUniCode = blnUniCode;
 
-		this.startActivityForResult(intent, FILE_CHOOSER);
+		main.startActivityForResult(intent, FILE_CHOOSER);
 	}
 
 	public void ShowSettings() {
-		Intent intent = new Intent(this, SettingsActivity.class);
+		Intent intent = new Intent(main, SettingsActivity.class);
 		intent.putExtra("Abfragebereich", vok.getAbfragebereich());
 		intent.putExtra("CharsetASCII", vok.CharsetASCII);
 		intent.putExtra("Step", vok.getSchrittweite());
@@ -1406,7 +1294,7 @@ public class _MainActivity extends Fragment {
 		intent.putExtra("AskAll", vok.getAskAll());
 		intent.putExtra("Sound", lib.sndEnabled);
 		intent.putExtra("Language", vok.getSprache().ordinal());
-		this.startActivityForResult(intent, Settings_Activity);
+		main.startActivityForResult(intent, Settings_Activity);
 	}
 
 	boolean _blnUniCode = true;
@@ -1431,14 +1319,14 @@ public class _MainActivity extends Fragment {
 				final String fileSelected = data.getStringExtra("fileSelected");
 				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
 				if (!libString.IsNullOrEmpty(fileSelected)) {
-					AlertDialog.Builder alert = new AlertDialog.Builder(this);
+					AlertDialog.Builder alert = new AlertDialog.Builder(main);
 
 					alert.setTitle(getString(R.string.SaveAs));
 					alert.setMessage(getString(R.string.EnterNewFilename)
 							+ ": " + fileSelected);
 
 					// Set an EditText view to get user input
-					final EditText input = new EditText(this);
+					final EditText input = new EditText(main);
 					alert.setView(input);
 					input.setText(new File(vok.getFileName()).getName());
 					alert.setPositiveButton(getString(R.string.ok),
@@ -1466,7 +1354,7 @@ public class _MainActivity extends Fragment {
 										if (!F.isDirectory()
 												&& (!F.exists() || lib
 														.ShowMessageYesNo(
-																_MainActivity.this,
+																main,
 																getString(R.string.Overwrite)))) {
 											File ParentDir = F.getParentFile();
 											if (!ParentDir.exists())
@@ -1480,7 +1368,7 @@ public class _MainActivity extends Fragment {
 
 									} catch (Exception e) {
 										// TODO Auto-generated catch block
-										lib.ShowException(_MainActivity.this, e);
+										lib.ShowException(main, e);
 										e.printStackTrace();
 									}
 								}
@@ -1565,7 +1453,7 @@ public class _MainActivity extends Fragment {
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			lib.ShowException(_MainActivity.this, e);
+			lib.ShowException(main, e);
 		}
 	}
 
@@ -1657,7 +1545,7 @@ public class _MainActivity extends Fragment {
 			getVokabel(false, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			lib.ShowException(this, e);
+			lib.ShowException(main, e);
 		}
 	}
 
@@ -1840,7 +1728,7 @@ public class _MainActivity extends Fragment {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			lib.ShowException(this, e);
+			lib.ShowException(main, e);
 		}
 
 	}
@@ -1873,7 +1761,7 @@ public class _MainActivity extends Fragment {
 			spnWrong.setSpan(new ForegroundColorSpan(Color.RED), 0,
 					spnWrong.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-			getSupportActionBar().setTitle(
+			main.getSupportActionBar().setTitle(
 					TextUtils.concat(spnTitle, spnRight, spnWrong));
 
 		} else {

@@ -20,15 +20,12 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -80,18 +77,18 @@ public class SettingsActivity extends Fragment {
 	public MainActivity main;
 	private View mainView;
 	
-	private Intent intent = new Intent();
+	private Bundle intent = new Bundle();
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		if (lib.NookSimpleTouch())
 		{
-			mainView = inflater.inflate(R.layout.activity_settings_nook, null);
+			mainView = inflater.inflate(R.layout.activity_settings_nook, container);
 		}
 		else
 		{
-			mainView = inflater.inflate(R.layout.activity_settings, null);
+			mainView = inflater.inflate(R.layout.activity_settings, container);
 		}
 		main = (MainActivity) getActivity();
 		
@@ -104,9 +101,9 @@ public class SettingsActivity extends Fragment {
 		super.onCreate(savedInstanceState);
 		try
 		{
-			//lib.ShowToast(this, "Settings Start");
+			//lib.ShowToast(main, "Settings Start");
 			
-			RelativeLayout layout = (RelativeLayout) this.findViewById(R.id.layoutSettings); // id fetch from xml
+			RelativeLayout layout = (RelativeLayout) main.findViewById(R.id.layoutSettings); // id fetch from xml
 			ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
 			int pxPadding = lib.dpToPx(10);
 			rectShapeDrawable.setPadding(pxPadding, pxPadding, pxPadding, pxPadding * ((lib.NookSimpleTouch()) ? 2 : 1));
@@ -117,10 +114,10 @@ public class SettingsActivity extends Fragment {
 			lib.setBg(layout, rectShapeDrawable);
 			mainView = findViewById(Window.ID_ANDROID_CONTENT);
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
-			prefs = this.getPreferences(Context.MODE_PRIVATE);
-			Colors = new ColorsArrayAdapter(this,
+			prefs = main.getPreferences(Context.MODE_PRIVATE);
+			Colors = new ColorsArrayAdapter(main,
 					android.R.layout.simple_spinner_item);
-			Sounds = new SoundsArrayAdapter(this,
+			Sounds = new SoundsArrayAdapter(main,
 					android.R.layout.simple_spinner_item);
 			TextView txtSettings = (TextView) findViewById(R.id.txtSettings);
 			SpannableString Settings = new SpannableString(txtSettings.getText());
@@ -131,7 +128,7 @@ public class SettingsActivity extends Fragment {
 			initCheckBoxes();
 			initButtons();
 			// resize();
-			//lib.ShowToast(this, "Settings addlayoutlistener");
+			//lib.ShowToast(main, "Settings addlayoutlistener");
 			if (!(lib.NookSimpleTouch()))
 			{
 				mainView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -144,7 +141,7 @@ public class SettingsActivity extends Fragment {
 								
 								// Here you can get the size :)
 								resize(0);
-								//lib.ShowToast(SettingsActivity.this, "Resize End");
+								//lib.ShowToast(main, "Resize End");
 							}
 						});
 
@@ -157,7 +154,7 @@ public class SettingsActivity extends Fragment {
 		}
 		catch (Exception ex)
 		{
-			lib.ShowException(this, ex);
+			lib.ShowException(main, ex);
 		}
 		
 	}
@@ -169,36 +166,14 @@ public class SettingsActivity extends Fragment {
 		return mainView.findViewById(id);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		try {
-			getMenuInflater().inflate(R.menu.settings, menu);
-			//resize();
-			return true;
-		} catch (Exception ex) {
-			lib.ShowException(this, ex);
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.mnuResize && !lib.NookSimpleTouch()) resize(0);
-		return super.onOptionsItemSelected(item);
-	}
 	
 	private void initCheckBoxes() {
 		chkRandom = (CheckBox) findViewById(R.id.chkRandom);
 		chkAskAll = (CheckBox) findViewById(R.id.chkAskAll);
 		chkSound = (CheckBox) findViewById(R.id.chkSound);
-		boolean checked = getIntent().getBooleanExtra("Random", false);
+		boolean checked = getArguments().getBoolean("Random", false);
 		chkRandom.setChecked(checked);
-		intent.putExtra("Random", checked);
+		intent.putBoolean("Random", checked);
 
 		chkRandom.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -206,14 +181,14 @@ public class SettingsActivity extends Fragment {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				intent.putExtra("Random", isChecked);
+				intent.putBoolean("Random", isChecked);
 			}
 
 		});
 
-		checked = getIntent().getBooleanExtra("AskAll", false);
+		checked = getArguments().getBoolean("AskAll", false);
 		chkAskAll.setChecked(checked);
-		intent.putExtra("AskAll", checked);
+		intent.putBoolean("AskAll", checked);
 
 		chkAskAll.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -221,14 +196,14 @@ public class SettingsActivity extends Fragment {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				intent.putExtra("AskAll", isChecked);
+				intent.putBoolean("AskAll", isChecked);
 			}
 
 		});
 
-		checked = getIntent().getBooleanExtra("Sound", true);
+		checked = getArguments().getBoolean("Sound", true);
 		chkSound.setChecked(checked);
-		intent.putExtra("Sound", checked);
+		intent.putBoolean("Sound", checked);
 
 		chkSound.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -236,7 +211,7 @@ public class SettingsActivity extends Fragment {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				intent.putExtra("Sound", isChecked);
+				intent.putBoolean("Sound", isChecked);
 			}
 
 		});
@@ -281,14 +256,14 @@ public class SettingsActivity extends Fragment {
 			// Create an ArrayAdapter using the string array and a default
 			// spinner layout
 			ScaledArrayAdapter<CharSequence> adapter = ScaledArrayAdapter
-					.createFromResource(this, R.array.spnAbfragebereichEntries,
+					.createFromResource(main, R.array.spnAbfragebereichEntries,
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch()) adapter.Scale = 1.8f;
 			// Apply the adapter to the spinner
 			spnAbfragebereich.setAdapter(adapter);
-			spnAbfragebereich.setSelection(getIntent().getShortExtra(
+			spnAbfragebereich.setSelection(getArguments().getShort(
 					"Abfragebereich", (short) -1) + 1);
 
 			spnAbfragebereich
@@ -298,7 +273,7 @@ public class SettingsActivity extends Fragment {
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
 							// TODO Auto-generated method stub
-							intent.putExtra("Abfragebereich",
+							intent.putInt("Abfragebereich",
 									(short) (position - 1));
 
 						}
@@ -310,7 +285,7 @@ public class SettingsActivity extends Fragment {
 						}
 					});
 			ScaledArrayAdapter<CharSequence> adapterStep = ScaledArrayAdapter
-					.createFromResource(this, R.array.spnStepEntries,
+					.createFromResource(main, R.array.spnStepEntries,
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterStep
@@ -319,14 +294,14 @@ public class SettingsActivity extends Fragment {
 			if (lib.NookSimpleTouch()) adapterStep.Scale = 1.8f;
 			spnStep.setAdapter(adapterStep);
 			spnStep.setSelection(adapterStep.getPosition(""
-					+ getIntent().getShortExtra("Step", (short) 5)));
+					+ getArguments().getShort("Step", (short) 5)));
 			spnStep.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					intent.putExtra("Step", (short) (Integer
+					intent.putInt("Step", (short) (Integer
 							.parseInt((String) parent
 									.getItemAtPosition(position))));
 
@@ -340,7 +315,7 @@ public class SettingsActivity extends Fragment {
 			});
 
 			ScaledArrayAdapter<String> adapterASCII = new ScaledArrayAdapter<String>(
-					this, android.R.layout.simple_spinner_item);
+					main, android.R.layout.simple_spinner_item);
 			// adapterASCII.addAll(Charset.availableCharsets().values());
 
 			for (Charset c : Charset.availableCharsets().values()) {
@@ -352,7 +327,7 @@ public class SettingsActivity extends Fragment {
 			// Apply the adapter to the spinner
 			if (lib.NookSimpleTouch()) adapterASCII.Scale = 1.8f;
 			spnASCII.setAdapter(adapterASCII);
-			String CharsetASCII = getIntent().getStringExtra("CharsetASCII");
+			String CharsetASCII = getArguments().getString("CharsetASCII");
 			if (!libString.IsNullOrEmpty(CharsetASCII)) {
 				int i = 0;
 				for (Charset c : Charset.availableCharsets().values()) {
@@ -371,7 +346,7 @@ public class SettingsActivity extends Fragment {
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					intent.putExtra("CharsetASCII",
+					intent.putString("CharsetASCII",
 							((String) (parent.getSelectedItem())));
 
 				}
@@ -384,7 +359,7 @@ public class SettingsActivity extends Fragment {
 			});
 
 			ScaledArrayAdapter<CharSequence> adapterDDWord = ScaledArrayAdapter
-					.createFromResource(this, R.array.spnDurations,
+					.createFromResource(main, R.array.spnDurations,
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterDDWord
@@ -393,7 +368,7 @@ public class SettingsActivity extends Fragment {
 			// Apply the adapter to the spinner
 			spnDisplayDurationWord.setAdapter(adapterDDWord);
 			String strDD = ""
-					+ getIntent().getFloatExtra("DisplayDurationWord", 1.5f);
+					+ getArguments().getFloat("DisplayDurationWord", 1.5f);
 			strDD = strDD.replace(".0", "");
 			int Pos = adapterDDWord.getPosition(strDD);
 			spnDisplayDurationWord.setSelection(Pos);
@@ -404,7 +379,7 @@ public class SettingsActivity extends Fragment {
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
 							// TODO Auto-generated method stub
-							intent.putExtra("DisplayDurationWord", (Float
+							intent.putFloat("DisplayDurationWord", (Float
 									.parseFloat((String) parent
 											.getItemAtPosition(position))));
 
@@ -418,7 +393,7 @@ public class SettingsActivity extends Fragment {
 					});
 
 			ScaledArrayAdapter<CharSequence> adapterDDBed = ScaledArrayAdapter
-					.createFromResource(this, R.array.spnDurations,
+					.createFromResource(main, R.array.spnDurations,
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterDDBed
@@ -426,7 +401,7 @@ public class SettingsActivity extends Fragment {
 			if (lib.NookSimpleTouch()) adapterDDBed.Scale = 1.8f;
 			// Apply the adapter to the spinner
 			spnDisplayDurationBed.setAdapter(adapterDDBed);
-			strDD = "" + getIntent().getFloatExtra("DisplayDurationBed", 2.5f);
+			strDD = "" + getArguments().getFloat("DisplayDurationBed", 2.5f);
 			strDD = strDD.replace(".0", "");
 			Pos = adapterDDBed.getPosition(strDD);
 			spnDisplayDurationBed.setSelection(Pos);
@@ -437,7 +412,7 @@ public class SettingsActivity extends Fragment {
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
 							// TODO Auto-generated method stub
-							intent.putExtra("DisplayDurationBed", (Float
+							intent.putFloat("DisplayDurationBed", (Float
 									.parseFloat((String) parent
 											.getItemAtPosition(position))));
 
@@ -451,14 +426,14 @@ public class SettingsActivity extends Fragment {
 					});
 
 			ScaledArrayAdapter<CharSequence> adapterPaukRepetitions = ScaledArrayAdapter
-					.createFromResource(this, R.array.spnRepetitions,
+					.createFromResource(main, R.array.spnRepetitions,
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterPaukRepetitions
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch()) adapterPaukRepetitions.Scale = 1.8f;
 			spnPaukRepetitions.setAdapter(adapterPaukRepetitions);
-			Pos = getIntent().getIntExtra("PaukRepetitions", 3) - 1;
+			Pos = getArguments().getInt("PaukRepetitions", 3) - 1;
 			spnPaukRepetitions.setSelection(Pos);
 			spnPaukRepetitions
 					.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -467,7 +442,7 @@ public class SettingsActivity extends Fragment {
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
 							// TODO Auto-generated method stub
-							intent.putExtra("PaukRepetitions", (Integer
+							intent.putInt("PaukRepetitions", (Integer
 									.parseInt((String) parent
 											.getItemAtPosition(position))));
 
@@ -481,14 +456,14 @@ public class SettingsActivity extends Fragment {
 					});
 
 			ScaledArrayAdapter<CharSequence> adapterProbabilityFactor = ScaledArrayAdapter
-					.createFromResource(this, R.array.spnProbabilityFactors,
+					.createFromResource(main, R.array.spnProbabilityFactors,
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterProbabilityFactor
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch()) adapterProbabilityFactor.Scale = 1.8f;
 			spnProbabilityFactor.setAdapter(adapterProbabilityFactor);
-			float ProbabilityFactor = getIntent().getFloatExtra(
+			float ProbabilityFactor = getArguments().getFloat(
 					"ProbabilityFactor", -1f);
 			if (ProbabilityFactor == -1) {
 				strDD = "auto";
@@ -504,7 +479,7 @@ public class SettingsActivity extends Fragment {
 					Pos = (a1.getPosition(strDD));
 					spnProbabilityFactor.setSelection(Pos);
 				} catch (Exception ex) {
-					lib.ShowException(this, ex);
+					lib.ShowException(main, ex);
 				}
 
 			}
@@ -520,7 +495,7 @@ public class SettingsActivity extends Fragment {
 									.getItemAtPosition(position);
 							if (strDD.equalsIgnoreCase("auto"))
 								strDD = "-1";
-							intent.putExtra("ProbabilityFactor",
+							intent.putFloat("ProbabilityFactor",
 									(Float.parseFloat(strDD)));
 
 						}
@@ -532,14 +507,14 @@ public class SettingsActivity extends Fragment {
 						}
 					});
 			ScaledArrayAdapter<CharSequence> adapterLanguages = ScaledArrayAdapter
-					.createFromResource(this, R.array.spnLanguages,
+					.createFromResource(main, R.array.spnLanguages,
 							android.R.layout.simple_spinner_item);
 			// Specify the layout to use when the list of choices appears
 			adapterLanguages
 					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			if (lib.NookSimpleTouch()) adapterLanguages.Scale = 1.8f;
 			spnLanguages.setAdapter(adapterLanguages);
-			int Language = getIntent().getIntExtra(
+			int Language = getArguments().getInt(
 					"Language", com.jmg.learn.vok.Vokabel.EnumSprachen.undefiniert.ordinal());
 			spnLanguages.setSelection(Language);
 
@@ -549,7 +524,7 @@ public class SettingsActivity extends Fragment {
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-							intent.putExtra("Language", position);
+							intent.putInt("Language", position);
 
 						}
 
@@ -625,7 +600,7 @@ public class SettingsActivity extends Fragment {
 						if (F.exists())
 							lib.playSound(F);
 						else
-							lib.playSound(getAssets(), item.SoundPath);
+							lib.playSound(main.getAssets(), item.SoundPath);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -640,8 +615,17 @@ public class SettingsActivity extends Fragment {
 			});
 
 		} catch (Exception ex) {
-			lib.ShowException(this, ex);
+			lib.ShowException(main, ex);
 		}
+	}
+
+	
+	public int Result;
+	protected void setResult(int result, Object object) {
+		// TODO Auto-generated method stub
+		Result = result;
+		intent.putInt("Result", result);
+		if (object != null) this.setArguments(intent);
 	}
 
 	private void initButtons() {
@@ -653,12 +637,12 @@ public class SettingsActivity extends Fragment {
 				// TODO Auto-generated method stub
 				setResult(Activity.RESULT_OK, intent);
 				for (int i = 0; i < Colors.getCount(); i++) {
-					intent.putExtra(Colors.getItem(i).ColorItem.name(),
+					intent.putInt(Colors.getItem(i).ColorItem.name(),
 							Colors.getItem(i).ColorValue);
 				}
 
 				for (int i = 0; i < Sounds.getCount(); i++) {
-					intent.putExtra(Sounds.getItem(i).Sound.name(),
+					intent.putString(Sounds.getItem(i).Sound.name(),
 							Sounds.getItem(i).SoundPath);
 				}
 
@@ -678,11 +662,18 @@ public class SettingsActivity extends Fragment {
 
 	}
 
+	protected void finish() {
+		// TODO Auto-generated method stub
+		this.setArguments(intent);
+		main.getPager().setCurrentItem(0);
+	}
+
+
 	public float scale = 1;
 
 	private void resize(float scale) {
 		
-		Resources resources = this.getResources();
+		Resources resources = main.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		int Density = metrics.densityDpi;
 		try
@@ -790,14 +781,14 @@ public class SettingsActivity extends Fragment {
 						Log.d("Classs", cls);
 					}
 					*/
-					// Drawable d = lib.getDefaultCheckBoxDrawable(this);
+					// Drawable d = lib.getDefaultCheckBoxDrawable(main);
 					// d = new ScaleDrawable(d, 0, c.getHeight()*scale,
 					// c.getHeight()*scale).getDrawable();
 					// float scaleC = (float)c.getHeight()/d.getBounds().height();
 					// d.setBounds(0, 0,(int) (c.getHeight()*scale),(int)
 					// (c.getHeight()*scale));
 					// LayerDrawable L = new LayerDrawable(new Drawable[]{d});
-					// d = lib.scaleImage(this, d, scaleC);
+					// d = lib.scaleImage(main, d, scaleC);
 					// /c.setButtonDrawable(d);
 				}
 			}
@@ -822,7 +813,7 @@ public class SettingsActivity extends Fragment {
 		}
 		catch (Exception ex)
 		{
-			lib.ShowException(this, ex);
+			lib.ShowException(main, ex);
 		}
 		finally
 		{
@@ -834,20 +825,19 @@ public class SettingsActivity extends Fragment {
 
 	private void ShowColorDialog() {
 		spnColors.blnDontCallOnClick = true;
-		ColorSetting item = SettingsActivity.this.Colors.getItem(spnColors
+		ColorSetting item = Colors.getItem(spnColors
 				.getSelectedItemPosition());
-		AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, item.ColorValue,
+		AmbilWarnaDialog dialog = new AmbilWarnaDialog(main, item.ColorValue,
 				new OnAmbilWarnaListener() {
 
 					@Override
 					public void onOk(AmbilWarnaDialog dialog, int color) {
 						// TODO Auto-generated method stub
-						ColorSetting item = SettingsActivity.this.Colors
-								.getItem(spnColors.getSelectedItemPosition());
+						ColorSetting item = Colors.getItem(spnColors.getSelectedItemPosition());
 						item.ColorValue = color;
 						Editor editor = prefs.edit();
 						editor.putInt(item.ColorItem.name(), item.ColorValue);
-						intent.putExtra(item.ColorItem.name(), item.ColorValue);
+						intent.putInt(item.ColorItem.name(), item.ColorValue);
 						;
 						editor.commit();
 						Colors.notifyDataSetChanged();
@@ -866,13 +856,13 @@ public class SettingsActivity extends Fragment {
 
 	private void ShowSoundsDialog() {
 		spnSounds.blnDontCallOnClick = true;
-		SoundSetting item = SettingsActivity.this.Sounds.getItem(spnSounds
+		SoundSetting item = Sounds.getItem(spnSounds
 				.getSelectedItemPosition());
 		File F = new File(item.SoundPath);
 		String dir = Environment.getExternalStorageDirectory().getPath();
 		if (F.exists())
 			dir = F.getParent();
-		Intent intent = new Intent(this, FileChooser.class);
+		Intent intent = new Intent(main, FileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
 		extensions.add(".wav");
 		extensions.add(".mp3");
@@ -891,29 +881,28 @@ public class SettingsActivity extends Fragment {
 			if (requestCode == FILE_CHOOSER
 					&& (resultCode == Activity.RESULT_OK)) {
 				String fileSelected = data.getStringExtra("fileSelected");
-				SoundSetting item = SettingsActivity.this.Sounds
-						.getItem(spnSounds.getSelectedItemPosition());
+				SoundSetting item = Sounds.getItem(spnSounds.getSelectedItemPosition());
 				item.SoundPath = fileSelected;
 				File F = new File(item.SoundPath);
 				try {
 					if (F.exists())
 						lib.playSound(F);
 					else
-						lib.playSound(getAssets(), item.SoundPath);
+						lib.playSound(main.getAssets(), item.SoundPath);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				Editor editor = prefs.edit();
 				editor.putString(item.Sound.name(), item.SoundPath);
-				intent.putExtra(item.Sound.name(), item.SoundName);
+				intent.putString(item.Sound.name(), item.SoundName);
 				;
 				editor.commit();
 				Sounds.notifyDataSetChanged();
 				spnSounds.blnDontCallOnClick = false;
 			}
 		} catch (Exception ex) {
-			lib.ShowException(this, ex);
+			lib.ShowException(main, ex);
 		}
 	}
 
@@ -922,7 +911,7 @@ public class SettingsActivity extends Fragment {
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
 			// TODO Auto-generated method stub
-			lib.ShowException(SettingsActivity.this, ex);
+			lib.ShowException(main, ex);
 		}
 	};
 
