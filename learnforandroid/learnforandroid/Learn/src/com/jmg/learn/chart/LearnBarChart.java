@@ -41,7 +41,7 @@ import org.achartengine.chart.BarChart.Type;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
-import com.jmg.learn.MainActivity;
+import com.jmg.learn._MainActivity;
 import com.jmg.learn.vok.Vokabel;
 
 import android.content.Context;
@@ -79,7 +79,7 @@ public class LearnBarChart extends AbstractDemoChart {
 	 * @return the built intent
 	 */
 	public Intent execute(Context context) {
-		MainActivity Main = (MainActivity) context;
+		_MainActivity Main = (_MainActivity) context;
 		Vokabel vok = Main.vok;
 		File F = new File(vok.getFileName());
 		String[] titles = new String[] { F.getName() };

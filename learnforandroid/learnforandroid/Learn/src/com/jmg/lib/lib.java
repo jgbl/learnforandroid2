@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Pattern;
 
-import com.jmg.learn.MainActivity;
+import com.jmg.learn._MainActivity;
 import com.jmg.learn.R;
 import com.jmg.learn.libLearn;
 
@@ -562,7 +562,7 @@ public class lib {
 	}
 
 	public static void playSound(Context context, Sounds s) throws IOException {
-		MainActivity main = (MainActivity) context;
+		_MainActivity main = (_MainActivity) context;
 		AssetManager assets = context.getAssets();
 		if (main.colSounds.size() > 0) {
 			File F = new File(main.colSounds.get(s).SoundPath);
@@ -599,7 +599,7 @@ public class lib {
 
 	public static void playSound(Context context, int Zaehler)
 			throws IOException {
-		MainActivity main = (MainActivity) context;
+		_MainActivity main = (_MainActivity) context;
 		if (main.colSounds.size() > 0) {
 			if (Zaehler < -4)
 				Zaehler = -4;

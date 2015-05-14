@@ -19,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -56,7 +57,7 @@ import com.jmg.lib.ColorSetting;
 import yuku.ambilwarna.*;
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends Fragment {
 	private static final int FILE_CHOOSER = 0x42FA;
 	public Spinner spnAbfragebereich;
 	public Spinner spnASCII;
