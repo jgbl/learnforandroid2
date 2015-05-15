@@ -76,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
 			
 			
 			vok = new Vokabel(this, null);
-			mPager.setCurrentItem(0);
+			mPager.setCurrentItem(1);
 			
 		} catch (Exception e) {
 			lib.ShowException(this, e);
