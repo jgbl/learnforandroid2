@@ -734,11 +734,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			_txtKom.setText(_txtedKom.getText());
 			_txtedWord.setImeOptions(EditorInfo.IME_ACTION_NONE);
 			_txtedKom.setImeOptions(EditorInfo.IME_ACTION_NONE);
-			_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			_txtMeaning2.setVisibility(View.VISIBLE);
-			_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			_txtMeaning3.setVisibility(View.VISIBLE);
-			_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			_txtMeaning1.setBackgroundResource(0);
 			_txtMeaning2.setBackgroundResource(0);
 			_txtMeaning3.setBackgroundResource(0);
