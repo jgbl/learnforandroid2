@@ -742,6 +742,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			_txtMeaning1.setBackgroundResource(0);
 			_txtMeaning2.setBackgroundResource(0);
 			_txtMeaning3.setBackgroundResource(0);
+			_txtMeaning1.setLines(1);
+			_txtMeaning1.setSingleLine();
+			_txtMeaning2.setLines(1);
+			_txtMeaning2.setSingleLine();
+			_txtMeaning3.setLines(1);
+			_txtMeaning3.setSingleLine();
 			vok.setWort(_txtedWord.getText().toString());
 			vok.setKommentar(_txtedKom.getText().toString());
 			vok.setBedeutung1(_txtMeaning1.getText().toString());
