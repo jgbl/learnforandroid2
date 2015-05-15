@@ -1215,8 +1215,9 @@ public class Vokabel {
 			mVok.get(mIndex).z = -1;
 		mVok.get(mIndex).z = (short) (mVok.get(mIndex).z + 1);
 		aend = true;
+		lib.AntwWasRichtig = true;
 		res = mVok.get(mIndex).z;
-		if (mVok.get(mIndex).z > 0) {
+		if (mVok.get(mIndex).z > -1) {
 			if (mLernVokabeln == null) {
 				this.InitAbfrage();
 			} else {
@@ -1224,7 +1225,6 @@ public class Vokabel {
 			}
 		}
 		AnzRichtig += 1;
-		lib.AntwWasRichtig = true;
 		InitAbfrage();
 
 		return res;
