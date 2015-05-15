@@ -254,6 +254,7 @@ public class Vokabel {
 			value = 1;
 		if (mblnLernInit == false)
 			InitAbfrage();
+			if (value > mSchrittweite) value = mSchrittweite;
 		if (value > 0 && value <= mSchrittweite && mblnLernInit) {
 			mLernindex = value;
 			mIndex = mLernVokabeln[mLernindex];
@@ -1271,7 +1272,7 @@ public class Vokabel {
 		voknr = (short) mLastIndex;
 
 		libLearn.gStatus = "Init Abfrage";
-		if (mGesamtzahl > 1) {
+		if (mGesamtzahl > 0) {
 			libLearn.gStatus = "Vokabel.InitAbfrage Line 499";
 			// Inserted by CodeCompleter
 			if (mSchrittweite < 5)

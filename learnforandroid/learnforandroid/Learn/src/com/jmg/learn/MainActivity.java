@@ -20,7 +20,6 @@ import com.jmg.lib.ColorSetting.ColorItems;
 import com.jmg.lib.lib.Sounds;
 import com.jmg.lib.lib.libString;
 
-import android.R.drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -151,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
 							.getIntArray("Lernvokabeln");
 					int Lernindex = savedInstanceState.getInt("Lernindex");
 					CardMode = savedInstanceState.getBoolean("Cardmode", false);
-					if (!libString.IsNullOrEmpty(filename) && index > 0) {
+					if (index > 0) {
 						boolean Unicode = savedInstanceState.getBoolean(
 								"Unicode", true);
 						_blnUniCode = Unicode;
@@ -253,7 +252,7 @@ public class MainActivity extends ActionBarActivity {
 		try {
 			boolean aend = vok.aend;
 			String filename = vok.getFileName();
-			if (vok.getGesamtzahl() > 0 && !libString.IsNullOrEmpty(filename)) {
+			if (vok.getGesamtzahl() > 0 ) {
 				saveFilePrefs(true);
 				vok.SaveFile(
 						Path.combine(getApplicationInfo().dataDir, "vok.tmp"),
@@ -492,7 +491,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private void saveFilePrefs(boolean isTmpFile) {
 		Editor edit = prefs.edit();
-		edit.putString("LastFile", vok.getFileName()).commit();
+		edit.putString("LastFile", vok.getFileName());
 		edit.putInt("vokindex", vok.getIndex());
 		edit.putInt("vokLastIndex", vok.getLastIndex());
 		lib.putIntArrayToPrefs(prefs, vok.getLernvokabeln(), "Lernvokabeln");
@@ -705,6 +704,12 @@ public class MainActivity extends ActionBarActivity {
 			lib.setBgEditText(_txtMeaning1,_MeaningBG);
 			lib.setBgEditText(_txtMeaning2,_MeaningBG);
 			lib.setBgEditText(_txtMeaning3,_MeaningBG);
+			_txtMeaning1.setLines(1);
+			_txtMeaning1.setSingleLine();
+			_txtMeaning2.setLines(1);
+			_txtMeaning2.setSingleLine();
+			_txtMeaning3.setLines(1);
+			_txtMeaning3.setSingleLine();
 			
 		}
 		else
@@ -1266,6 +1271,8 @@ public class MainActivity extends ActionBarActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		try {
 			getMenuInflater().inflate(R.menu.main, menu);
+			//findViewById(R.menu.main).setBackgroundColor(Color.BLACK);
+			//.setBackgroundColor(Color.BLACK);
 			//resize();
 			return true;
 		} catch (Exception ex) {
@@ -1386,32 +1393,53 @@ public class MainActivity extends ActionBarActivity {
 		this.startActivityForResult(intent, FILE_CHOOSERADV);
 	}
 
-	public void LoadFile(boolean blnUniCode) {
-		Intent intent = new Intent(this, FileChooser.class);
-		ArrayList<String> extensions = new ArrayList<String>();
-		extensions.add(".k??");
-		extensions.add(".v??");
-		extensions.add(".K??");
-		extensions.add(".V??");
-		extensions.add(".KAR");
-		extensions.add(".VOK");
-		extensions.add(".kar");
-		extensions.add(".vok");
-		extensions.add(".dic");
-		extensions.add(".DIC");
-
-		intent.putStringArrayListExtra("filterFileExtension", extensions);
-		intent.putExtra("blnUniCode", blnUniCode);
-		intent.putExtra("DefaultDir",
-				new File(JMGDataDirectory).exists() ? JMGDataDirectory
-						: "/sdcard/");
-		if (_blnUniCode)
-			_oldUnidCode = yesnoundefined.yes;
+	public void LoadFile(boolean blnUniCode) throws Exception {
+		boolean blnLoadFile = false;
+		if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()))
+		{
+			if (lib.ShowMessageYesNo(this, getString(R.string.SaveNewVokabularyAs)))
+			{
+				SaveVokAs(true,false);
+			}
+			else
+			{
+				vok.aend = false;
+				blnLoadFile = true;
+			}
+		}
 		else
-			_oldUnidCode = yesnoundefined.no;
-		_blnUniCode = blnUniCode;
+		{
+			blnLoadFile = true;
+		}
+		if (blnLoadFile)
+		{			
+			Intent intent = new Intent(this, FileChooser.class);
+			ArrayList<String> extensions = new ArrayList<String>();
+			extensions.add(".k??");
+			extensions.add(".v??");
+			extensions.add(".K??");
+			extensions.add(".V??");
+			extensions.add(".KAR");
+			extensions.add(".VOK");
+			extensions.add(".kar");
+			extensions.add(".vok");
+			extensions.add(".dic");
+			extensions.add(".DIC");
 
-		this.startActivityForResult(intent, FILE_CHOOSER);
+			intent.putStringArrayListExtra("filterFileExtension", extensions);
+			intent.putExtra("blnUniCode", blnUniCode);
+			intent.putExtra("DefaultDir",
+					new File(JMGDataDirectory).exists() ? JMGDataDirectory
+							: "/sdcard/");
+			if (_blnUniCode)
+				_oldUnidCode = yesnoundefined.yes;
+			else
+				_oldUnidCode = yesnoundefined.no;
+			_blnUniCode = blnUniCode;
+
+			this.startActivityForResult(intent, FILE_CHOOSER);
+
+		}
 	}
 
 	public void ShowSettings() {
@@ -1682,7 +1710,7 @@ public class MainActivity extends ActionBarActivity {
 				vok.setLernvokabeln(Lernvokabeln);
 			if (Lernindex > 0)
 				vok.setLernIndex((short) Lernindex);
-			if (vok.getGesamtzahl() > 1)
+			if (vok.getGesamtzahl() > 0)
 				setBtnsEnabled(true);
 			getVokabel(false, false);
 		} catch (Exception e) {
@@ -1916,7 +1944,7 @@ public class MainActivity extends ActionBarActivity {
 				_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 				_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			}
-
+			_txtMeaning1.requestFocus();
 			SetActionBarTitle();
 			hideKeyboard();
 

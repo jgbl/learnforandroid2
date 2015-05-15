@@ -198,5 +198,6 @@
 	            <string name="txtLanguage">language</string>
 	            <string name="spnLanguage">language?</string>
 	            <string name="txtFlashCardFile">Do you want to create a flashcard file?</string>
+	            <string name="SaveNewVokabularyAs">Do you want to save the new vocabulary?</string>
         
 </resources>
