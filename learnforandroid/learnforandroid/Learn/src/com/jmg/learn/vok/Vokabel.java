@@ -957,7 +957,7 @@ public class Vokabel {
 				f2 = Bed.indexOf(")", f1 + 1); // libString.InStr(f1 + 1, Bed,
 												// ")");
 				if (f2 > -1) {
-					Bed = Bed.substring(0, f1 - 1) + "*"
+					Bed = Bed.substring(0, f1) + "*"
 							+ Bed.substring(f2 + 1, Bed.length()); // libString.Left(Bed,
 																	// f1 - 1) +
 																	// "*" +
