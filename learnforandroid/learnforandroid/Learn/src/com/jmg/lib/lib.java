@@ -37,6 +37,7 @@ import android.util.TypedValue;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -714,6 +715,22 @@ public class lib {
 		} 
 		
 	}
+	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN) 
+	@SuppressWarnings("deprecation") 
+	public static void setBgEditText(EditText e, Drawable drawable) 
+	{ 
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) 
+		{ 
+			e.setBackgroundDrawable(drawable); 
+		} 
+		else 
+		{ 
+			e.setBackground(drawable); 
+		} 
+		
+	}
+	
 	public static int dpToPx(int dp)
 	{
 	    return (int) (dp * Resources.getSystem().getDisplayMetrics().density);

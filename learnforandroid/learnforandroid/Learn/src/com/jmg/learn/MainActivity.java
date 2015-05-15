@@ -20,6 +20,7 @@ import com.jmg.lib.ColorSetting.ColorItems;
 import com.jmg.lib.lib.Sounds;
 import com.jmg.lib.lib.libString;
 
+import android.R.drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -41,6 +42,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
@@ -75,6 +77,7 @@ public class MainActivity extends ActionBarActivity {
 	private int PaukRepetitions = 3;
 	private double scale = 1;
 	private boolean _blnEink;
+	private Drawable _MeaningBG;
 	public HashMap<ColorItems, ColorSetting> Colors;
 	public HashMap<Sounds, SoundSetting> colSounds;
 	public Vokabel vok;
@@ -373,7 +376,7 @@ public class MainActivity extends ActionBarActivity {
 				try {
 					if (libString.IsNullOrEmpty(vok.getFileName()))
 					{
-						SaveVokAs(true);
+						SaveVokAs(true,false);
 					}
 					else
 					{
@@ -411,7 +414,7 @@ public class MainActivity extends ActionBarActivity {
 					  { 
 						  if (libString.IsNullOrEmpty(vok.getFileName()))
 						  {
-							  SaveVokAs(true);
+							  SaveVokAs(true,false);
 						  }
 						  else
 						  {
@@ -464,7 +467,7 @@ public class MainActivity extends ActionBarActivity {
 				try {
 					if (libString.IsNullOrEmpty(vok.getFileName()))
 					{
-						SaveVokAs(true);
+						SaveVokAs(true,false);
 					}
 					else
 					{
@@ -663,6 +666,7 @@ public class MainActivity extends ActionBarActivity {
 		});
 
 		_txtMeaning1 = (BorderedEditText) findViewById(R.id.txtMeaning1);
+		_MeaningBG = _txtMeaning1.getBackground();
 		_txtMeaning1.setBackgroundResource(0);
 		_txtMeaning2 = (BorderedEditText) findViewById(R.id.txtMeaning2);
 		_txtMeaning2.setBackgroundResource(0);
@@ -698,6 +702,10 @@ public class MainActivity extends ActionBarActivity {
 			_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			_txtMeaning2.setText(vok.getBedeutung2());
 			_txtMeaning3.setText(vok.getBedeutung3());
+			lib.setBgEditText(_txtMeaning1,_MeaningBG);
+			lib.setBgEditText(_txtMeaning2,_MeaningBG);
+			lib.setBgEditText(_txtMeaning3,_MeaningBG);
+			
 		}
 		else
 		{
@@ -727,6 +735,9 @@ public class MainActivity extends ActionBarActivity {
 			_txtMeaning2.setImeOptions(EditorInfo.IME_ACTION_NONE);
 			_txtMeaning3.setVisibility(View.VISIBLE);
 			_txtMeaning3.setImeOptions(EditorInfo.IME_ACTION_NONE);
+			_txtMeaning1.setBackgroundResource(0);
+			_txtMeaning2.setBackgroundResource(0);
+			_txtMeaning3.setBackgroundResource(0);
 			vok.setWort(_txtedWord.getText().toString());
 			vok.setKommentar(_txtedKom.getText().toString());
 			vok.setBedeutung1(_txtMeaning1.getText().toString());
@@ -1275,16 +1286,18 @@ public class MainActivity extends ActionBarActivity {
 			} else if (id == R.id.mnuFileOpen) {
 				LoadFile(true);
 			} else if (id == R.id.mnuNew) {
-				saveVok(false);
-				vok.NewFile();
-				if (lib.ShowMessageYesNo(this, getString(R.string.txtFlashCardFile)))
+				if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()))
 				{
-					vok.setCardMode(true);
+					SaveVokAs(true,true);
 				}
-				vok.AddVokabel();
-				getVokabel(true, false);
-				StartEdit();
+				else
+				{
+					saveVok(false);
+					newvok();
+				}
+				
 			} else if (id == R.id.mnuAddWord) {
+				EndEdit();
 				vok.AddVokabel();
 				getVokabel(true, false);
 				StartEdit();
@@ -1296,7 +1309,7 @@ public class MainActivity extends ActionBarActivity {
 			} else if (id == R.id.mnuFileSave) {
 				saveVok(false);
 			} else if (id == R.id.mnuSaveAs) {
-				SaveVokAs(true);
+				SaveVokAs(true,false);
 			} else if (id == R.id.mnuRestart) {
 				vok.restart();
 			} else if (id == R.id.mnuDelete) {
@@ -1329,8 +1342,20 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	public void SaveVokAs(boolean blnUniCode) throws Exception {
+	
+	private void newvok() throws Exception
+	{
+		vok.NewFile();
+		if (lib.ShowMessageYesNo(this, getString(R.string.txtFlashCardFile)))
+		{
+			vok.setCardMode(true);
+		}
+		vok.AddVokabel();
+		getVokabel(true, false);
+		StartEdit();
+	}
+	
+	public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Exception {
 		EndEdit();
 		Intent intent = new Intent(this, AdvFileChooser.class);
 		ArrayList<String> extensions = new ArrayList<String>();
@@ -1351,6 +1376,7 @@ public class MainActivity extends ActionBarActivity {
 				new File(JMGDataDirectory).exists() ? JMGDataDirectory
 						: "/sdcard/");
 		intent.putExtra("selectFolder", true);
+		intent.putExtra("blnNew", blnNew);
 		if (_blnUniCode)
 			_oldUnidCode = yesnoundefined.yes;
 		else
@@ -1426,6 +1452,7 @@ public class MainActivity extends ActionBarActivity {
 					&& (resultCode == Activity.RESULT_OK)) {
 				final String fileSelected = data.getStringExtra("fileSelected");
 				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
+				final boolean blnNew = data.getBooleanExtra("blnNew",false);
 				if (!libString.IsNullOrEmpty(fileSelected)) {
 					AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -1471,6 +1498,7 @@ public class MainActivity extends ActionBarActivity {
 											vok.SaveFile(F.getPath(),
 													_blnUniCode, false);
 											saveFilePrefs(false);
+											if (blnNew) newvok();
 											SetActionBarTitle();
 										}
 
@@ -1485,8 +1513,14 @@ public class MainActivity extends ActionBarActivity {
 					alert.setNegativeButton(getString(R.string.btnCancel),
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									// Canceled.
+										int whichButton) 
+								{
+									if(blnNew)
+										try {
+											newvok();
+										} catch (Exception e) {
+											lib.ShowException(MainActivity.this, e);
+										}
 								}
 							});
 
