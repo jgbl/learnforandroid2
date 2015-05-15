@@ -20,7 +20,6 @@ import com.jmg.lib.ColorSetting.ColorItems;
 import com.jmg.lib.lib.Sounds;
 import com.jmg.lib.lib.libString;
 
-import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
@@ -52,7 +51,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.TextView.OnEditorActionListener;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 	private static final int FILE_CHOOSER = 34823;
 	private static final int Settings_Activity = 34824;

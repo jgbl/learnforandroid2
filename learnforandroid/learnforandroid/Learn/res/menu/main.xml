@@ -1,5 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:compat="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.jmg.learn.MainActivity" >
 
@@ -12,19 +12,13 @@
     <item android:id="@+id/mnuFileSave" android:title="@string/mnuFileSave"></item>
     <item android:id="@+id/mnuSaveAs" android:title="@string/mnuSaveAs"></item><item android:id="@+id/mnuRestart" android:title="@string/mnuRestart"></item><item android:id="@+id/mnuStatistics" android:title="@string/mnuStatistics"></item>
     <item android:id="@+id/mnuExtras" android:title="@string/mnuExtras">
-        <menu
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-    		xmlns:tools="http://schemas.android.com/tools"
-    		tools:context="com.jmg.learn.MainActivity"
-            >
+        <menu>
             <item android:id="@+id/mnuNew" android:title="@string/mnuNew" /><item android:id="@+id/mnuFileOpenASCII" android:title="@string/mnuFileOpenASCII"></item>
        		<item android:id="@+id/mnuAddWord" android:title="@string/mnuAddWord" /><item android:id="@+id/mnuDelete" android:title="@string/mnuDelete"></item>
     		<item android:id="@+id/mnuReverse" android:title="@string/mnuReverse"></item>
     		<item android:id="@+id/mnuReset" android:title="@string/mnuReset"></item>
     		<item android:id="@+id/mnuConvMulti" android:title="@string/mnuConvertMulti"></item>
-    		
-    		  
-        </menu>
+    	</menu>
     </item>
     
     

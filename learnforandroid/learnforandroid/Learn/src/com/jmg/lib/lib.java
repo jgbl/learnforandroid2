@@ -663,6 +663,7 @@ public class lib {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public static Drawable getDefaultCheckBoxDrawable(Context context) {
 		int resID = 0;
 
@@ -682,8 +683,14 @@ public class lib {
 							true);
 			resID = value.resourceId;
 		}
-
-		return context.getResources().getDrawable(resID);
+		if (Build.VERSION.SDK_INT<22)
+		{
+			return context.getResources().getDrawable(resID);
+		}
+		else
+		{
+			return context.getResources().getDrawable(resID, null);
+		}
 	}
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN) 

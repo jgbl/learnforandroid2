@@ -23,6 +23,7 @@ hs_err_pid*
 # Generated files
 bin/
 gen/
+android-support-v7-appcompat/
 R.java
 
 # Gradle files

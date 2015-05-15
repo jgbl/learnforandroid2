@@ -19,7 +19,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -56,7 +56,7 @@ import com.jmg.lib.ColorSetting;
 import yuku.ambilwarna.*;
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends AppCompatActivity {
 	private static final int FILE_CHOOSER = 0x42FA;
 	public Spinner spnAbfragebereich;
 	public Spinner spnASCII;
