@@ -1089,6 +1089,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
 		height = height - viewTop;
 		scale = (double) height / (double) 950;
+		if (scale < .5) scale = .5;
 		/*
 		 * lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() +
 		 * "\nbtnRight.Top: " + _btnRight.getTop() + "\nDisplayHeight: " +
@@ -1128,9 +1129,34 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			 */
 
 			
-
+			
 			int widthButtons = _btnEdit.getRight() - _btnSkip.getLeft();
+			int allButtonsWidth = 520; /*_btnEdit.getWidth()
+					+_btnRight.getWidth()
+					+_btnView.getWidth()
+					+_btnWrong.getWidth()
+					+_btnEdit.getWidth();
+					*/
+			boolean blnWrongWidth = false;
+			if (widthButtons< allButtonsWidth) 
+				{
+					widthButtons=allButtonsWidth;
+					blnWrongWidth = true;
+				}
 			Double ScaleWidth = (width - 50)/(double)widthButtons;
+			if (ScaleWidth<.7)
+			{
+				_btnEdit.setVisibility(View.GONE);
+				_btnSkip.setVisibility(View.GONE);
+				widthButtons = _btnWrong.getRight() - _btnRight.getLeft();
+				if (widthButtons< 320) 
+				{
+					widthButtons=320;
+					blnWrongWidth = true;
+				}
+				ScaleWidth = (width - 20)/(double)widthButtons;
+				if (ScaleWidth<.5) ScaleWidth=.5;
+			}
 			Double ScaleTextButtons = ((scale < ScaleWidth)?scale:ScaleWidth);
 			
 			_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -1162,27 +1188,31 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnRight
 					.getLayoutParams();
-			params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) params.height = (int) (params.height * scale);
 			params.width = (int) (params.width * ScaleWidth);
 			_btnRight.setLayoutParams(params);
+			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnWrong
 					.getLayoutParams();
-			params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) params.height = (int) (params.height * scale);
 			params.width = (int) (params.width * ScaleWidth);
 			_btnWrong.setLayoutParams(params);
+			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnSkip
 					.getLayoutParams();
-			params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) params.height = (int) (params.height * scale);
 			params.width = (int) (params.width * ScaleWidth);
 			_btnSkip.setLayoutParams(params);
+			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnView
 					.getLayoutParams();
-			params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) params.height = (int) (params.height * scale);
 			params.width = (int) (params.width * ScaleWidth);
 			_btnView.setLayoutParams(params);
+			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnEdit
 					.getLayoutParams();
-			params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) params.height = (int) (params.height * scale);
 			params.width = (int) (params.width * ScaleWidth);
 			_btnEdit.setLayoutParams(params);
 
@@ -1217,9 +1247,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							float measuredWidth = p.measureText(s.toString());
 							if (measuredWidth > width)
 							{
+								float Scale = (float)width / (float)measuredWidth;
+								if (scale < .5) scale = .5;
+								
 								t.setTextSize(
 										TypedValue.COMPLEX_UNIT_PX,
-										(float) (t.getTextSize() * (width / measuredWidth)));
+										(float) (t.getTextSize() * (scale)));
 							}
 							
 						}
