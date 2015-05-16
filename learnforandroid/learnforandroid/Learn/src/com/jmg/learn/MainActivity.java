@@ -713,6 +713,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		}
 		else
 		{
+			lib.setBgEditText(_txtMeaning1,_MeaningBG);
 			_txtMeaning1.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		}
 		_txtMeaning1.setText(vok.getBedeutung1());
@@ -742,12 +743,15 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			_txtMeaning1.setBackgroundResource(0);
 			_txtMeaning2.setBackgroundResource(0);
 			_txtMeaning3.setBackgroundResource(0);
-			_txtMeaning1.setLines(1);
-			_txtMeaning1.setSingleLine();
-			_txtMeaning2.setLines(1);
-			_txtMeaning2.setSingleLine();
-			_txtMeaning3.setLines(1);
-			_txtMeaning3.setSingleLine();
+			if (!vok.getCardMode())
+			{
+				_txtMeaning1.setLines(1);
+				_txtMeaning1.setSingleLine();
+				_txtMeaning2.setLines(1);
+				_txtMeaning2.setSingleLine();
+				_txtMeaning3.setLines(1);
+				_txtMeaning3.setSingleLine();
+			}
 			vok.setWort(_txtedWord.getText().toString());
 			vok.setKommentar(_txtedKom.getText().toString());
 			vok.setBedeutung1(_txtMeaning1.getText().toString());
@@ -945,7 +949,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	 * e.printStackTrace(); } } }).start(); }
 	 */
 	private void flashwords() throws Exception {
-		RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMain);
+		ScrollView layout = (ScrollView) findViewById(R.id.layoutMain);
 		layout.setBackgroundColor(Colors.get(ColorItems.background_wrong).ColorValue);
 		Handler handler = new Handler();
 		long delay = 0;
@@ -970,14 +974,21 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 	private class resetLayoutTask implements Runnable {
 		public RelativeLayout layout;
+		public View view;
 
 		public resetLayoutTask(RelativeLayout layout) {
 			// TODO Auto-generated constructor stub
 			this.layout = layout;
 		}
 
+		public resetLayoutTask(ScrollView layout2) {
+			// TODO Auto-generated constructor stub
+			this.view = layout2;
+		}
+
 		public void run() {
-			layout.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+			if (layout != null) layout.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+			if (view != null) view.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
 		}
 	}
 
@@ -1116,17 +1127,23 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			 * hideKeyboard(); _firstFocus = false; } } });
 			 */
 
-			_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnRight.getTextSize() * scale));
-			_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnSkip.getTextSize() * scale));
-			_btnView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnView.getTextSize() * scale));
-			_btnWrong.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnWrong.getTextSize() * scale));
-			_btnEdit.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_btnEdit.getTextSize() * scale));
+			
 
+			int widthButtons = _btnEdit.getRight() - _btnSkip.getLeft();
+			Double ScaleWidth = (width - 50)/(double)widthButtons;
+			Double ScaleTextButtons = ((scale < ScaleWidth)?scale:ScaleWidth);
+			
+			_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnRight.getTextSize() * ScaleTextButtons));
+			_btnSkip.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnSkip.getTextSize() * ScaleTextButtons));
+			_btnView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnView.getTextSize() * ScaleTextButtons));
+			_btnWrong.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnWrong.getTextSize() * ScaleTextButtons));
+			_btnEdit.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_btnEdit.getTextSize() * ScaleTextButtons));
+			
 			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1
 					.getLayoutParams();
 			params.topMargin = (int) (params.topMargin * scale);
@@ -1139,30 +1156,34 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					.getLayoutParams();
 			params.topMargin = (int) (params.topMargin * scale);
 			_txtMeaning3.setLayoutParams(params);
+			
+			
+			
+			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnRight
 					.getLayoutParams();
 			params.height = (int) (params.height * scale);
-			params.width = (int) (params.width * scale);
+			params.width = (int) (params.width * ScaleWidth);
 			_btnRight.setLayoutParams(params);
 			params = (android.widget.RelativeLayout.LayoutParams) _btnWrong
 					.getLayoutParams();
 			params.height = (int) (params.height * scale);
-			params.width = (int) (params.width * scale);
+			params.width = (int) (params.width * ScaleWidth);
 			_btnWrong.setLayoutParams(params);
 			params = (android.widget.RelativeLayout.LayoutParams) _btnSkip
 					.getLayoutParams();
 			params.height = (int) (params.height * scale);
-			params.width = (int) (params.width * scale);
+			params.width = (int) (params.width * ScaleWidth);
 			_btnSkip.setLayoutParams(params);
 			params = (android.widget.RelativeLayout.LayoutParams) _btnView
 					.getLayoutParams();
 			params.height = (int) (params.height * scale);
-			params.width = (int) (params.width * scale);
+			params.width = (int) (params.width * ScaleWidth);
 			_btnView.setLayoutParams(params);
 			params = (android.widget.RelativeLayout.LayoutParams) _btnEdit
 					.getLayoutParams();
 			params.height = (int) (params.height * scale);
-			params.width = (int) (params.width * scale);
+			params.width = (int) (params.width * ScaleWidth);
 			_btnEdit.setLayoutParams(params);
 
 		}
@@ -1361,10 +1382,75 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		if (lib.ShowMessageYesNo(this, getString(R.string.txtFlashCardFile)))
 		{
 			vok.setCardMode(true);
+			SetViewsToCardmode();
+		}
+		else
+		{
+			vok.setCardMode(false);
+			SetViewsToVokMode();
 		}
 		vok.AddVokabel();
 		getVokabel(true, false);
 		StartEdit();
+	}
+	private void SetViewsToVokMode()
+	{
+		// _txtWord.setMaxLines(3);
+		// _txtWord.setLines(1);
+		_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				(float) (60 * scale));
+		_txtWord.setHorizontallyScrolling(false);
+
+		// _txtKom.setMaxLines(3);
+		// _txtKom.setLines(2);
+		_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				(float) (35 * scale));
+		_txtKom.setHorizontallyScrolling(false);
+
+		_txtMeaning1.setLines(1);
+		_txtMeaning1.setSingleLine();
+		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				(float) (40 * scale));
+		_txtMeaning1.setMaxLines(3);
+		_txtMeaning1.setHorizontallyScrolling(false);
+
+		_txtMeaning2.setVisibility(View.VISIBLE);
+		_txtMeaning2.setLines(1);
+		_txtMeaning2.setSingleLine();
+		_txtMeaning2.setMaxLines(3);
+		_txtMeaning2.setHorizontallyScrolling(false);
+
+		_txtMeaning3.setVisibility(View.VISIBLE);
+		_txtMeaning3.setLines(1);
+		_txtMeaning3.setSingleLine();
+		_txtMeaning3.setMaxLines(3);
+		_txtMeaning3.setHorizontallyScrolling(false);
+
+	}
+	private void SetViewsToCardmode()
+	{
+		// _txtWord.setMaxLines(3);
+		// _txtWord.setLines(2);
+		_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				(float) (40 * scale));
+
+		// _txtKom.setMaxLines(3);
+		// _txtKom.setLines(2);
+		_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				(float) (30 * scale));
+
+		_txtMeaning1.setSingleLine(false);
+		_txtMeaning1.setMaxLines(30);
+		_txtMeaning1.setLines(16);
+		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				(float) (20 * scale));
+		// _txtMeaning1.setImeOptions(EditorInfo.IME_NULL);
+		// _txtMeaning1.setImeActionLabel(null, KeyEvent.KEYCODE_ENTER);
+		// _txtMeaning1.setImeActionLabel("Custom text",
+		// KeyEvent.KEYCODE_ENTER);
+		_txtMeaning2.setVisibility(View.GONE);
+		_txtMeaning3.setVisibility(View.GONE);
+	
 	}
 	
 	public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Exception {
@@ -1653,61 +1739,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			}
 
 			if (vok.getCardMode() || CardMode) {
-
-				// _txtWord.setMaxLines(3);
-				// _txtWord.setLines(2);
-				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (40 * scale));
-
-				// _txtKom.setMaxLines(3);
-				// _txtKom.setLines(2);
-				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (30 * scale));
-
-				_txtMeaning1.setSingleLine(false);
-				_txtMeaning1.setMaxLines(30);
-				_txtMeaning1.setLines(16);
-				_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (20 * scale));
-				// _txtMeaning1.setImeOptions(EditorInfo.IME_NULL);
-				// _txtMeaning1.setImeActionLabel(null, KeyEvent.KEYCODE_ENTER);
-				// _txtMeaning1.setImeActionLabel("Custom text",
-				// KeyEvent.KEYCODE_ENTER);
-				_txtMeaning2.setVisibility(View.GONE);
-				_txtMeaning3.setVisibility(View.GONE);
-			} else {
-
-				// _txtWord.setMaxLines(3);
-				// _txtWord.setLines(1);
-				_txtWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (60 * scale));
-				_txtWord.setHorizontallyScrolling(false);
-
-				// _txtKom.setMaxLines(3);
-				// _txtKom.setLines(2);
-				_txtKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (35 * scale));
-				_txtKom.setHorizontallyScrolling(false);
-
-				_txtMeaning1.setLines(1);
-				_txtMeaning1.setSingleLine();
-				_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						(float) (40 * scale));
-				_txtMeaning1.setMaxLines(3);
-				_txtMeaning1.setHorizontallyScrolling(false);
-
-				_txtMeaning2.setVisibility(View.VISIBLE);
-				_txtMeaning2.setLines(1);
-				_txtMeaning2.setSingleLine();
-				_txtMeaning2.setMaxLines(3);
-				_txtMeaning2.setHorizontallyScrolling(false);
-
-				_txtMeaning3.setVisibility(View.VISIBLE);
-				_txtMeaning3.setLines(1);
-				_txtMeaning3.setSingleLine();
-				_txtMeaning3.setMaxLines(3);
-				_txtMeaning3.setHorizontallyScrolling(false);
-
+				SetViewsToCardmode();
+			} 
+			else 
+			{
+				SetViewsToVokMode();
 			}
 
 			// if (index >0 ) vok.setIndex(index);
