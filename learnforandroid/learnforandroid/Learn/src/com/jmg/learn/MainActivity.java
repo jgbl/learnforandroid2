@@ -787,9 +787,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					com.jmg.learn.vok.Vokabel.Bewertung Bew;
 					String meaning1 = _txtMeaning1.getText().toString();
 					String meaning2 = _txtMeaning2.getVisibility() == View.VISIBLE ? _txtMeaning2
-							.getText().toString() : "";
+							.getText().toString() : null;
 					String meaning3 = _txtMeaning3.getVisibility() == View.VISIBLE ? _txtMeaning3
-							.getText().toString() : "";
+							.getText().toString() : null;
 					if (_txtWord.getVisibility()==View.VISIBLE)
 					{
 						Antworten = new String[] { meaning1, meaning2, meaning3 };

@@ -672,9 +672,9 @@ public class Vokabel {
 			libLearn.gStatus = "Vokabel.CheckAnwort Line 268";
 			// Inserted by CodeCompleter
 			for (i = 0; i <= (Antworten.length - 1); i++) {
-				Antworten[i] = (Antworten[i]).trim();
-				String Antwort = RemoveKomment(Antworten[i]);
-				if (!libString.IsNullOrEmpty(Antworten[i])) {
+				if (!(Antworten[i]==null)) {
+					Antworten[i] = (Antworten[i]).trim();
+					String Antwort = RemoveKomment(Antworten[i]);
 					for (ii = 0; ii <= (Bedeutungen.length - 1); ii++) {
 						Bedeutungen[ii] = (Bedeutungen[ii]).trim();
 
@@ -965,7 +965,7 @@ public class Vokabel {
 																	// f2 + 1,
 																	// libString.Len(Bed)
 																	// - f2);
-					f1 = Bed.indexOf("(", f2 + 1); // libString.InStr(f2 + 1,
+					f1 = Bed.indexOf("(", f1 + 1); // libString.InStr(f2 + 1,
 													// Bed, "(");
 				} else {
 					f1 = f2;
@@ -1052,8 +1052,8 @@ public class Vokabel {
 				for (ii = 0; ii <= (Antworten).length - 1; ii++) {
 					Antworten[ii] = (Antworten[ii]).trim();
 					if (!libString.IsNullOrEmpty(Antworten[ii])) {
-						if (lib.like(Antworten[ii],
-								MakeVergl(teile.getValue()[i]))) // If
+						String comp = MakeVergl(teile.getValue()[i]);
+						if (!comp.equalsIgnoreCase("*") && lib.like(Antworten[ii],comp)) // If
 																	// Antworten(ii)
 																	// Like
 																	// MakeVergl(teile(i))
