@@ -153,7 +153,7 @@ public class Vokabel {
 	// lokale Kopie
 	private short mLerngeschwindigkeit;
 	// lokale Kopie
-	private EnumSprachen mSprache;
+	private EnumSprachen mSprache = EnumSprachen.undefiniert;
 	// lokale Kopie
 	private short mLernindex;
 	// lokale Kopie

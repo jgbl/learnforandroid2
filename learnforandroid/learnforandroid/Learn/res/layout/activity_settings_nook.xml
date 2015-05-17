@@ -225,7 +225,7 @@
 	        
 	        <com.jmg.lib.NoClickSpinner
 	            android:id="@+id/spnColors"
-	            android:layout_width="300dp"
+	            android:layout_width="400dp"
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtLanguage"
 	            android:layout_alignParentRight="true"
@@ -238,7 +238,7 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_below="@+id/txtColors"
-	            android:layout_marginTop="5dp"
+	            android:layout_marginTop="35dp"
 	            android:text="@string/txtSounds"
 	            android:textSize="27sp"
 	            android:textStyle="bold"
@@ -247,11 +247,11 @@
 	        <com.jmg.lib.NoClickSpinner
 	            android:id="@+id/spnSounds"
 	            android:textSize="27sp"
-	            android:layout_width="350dp"
+	            android:layout_width="450dp"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentRight="true"
 	            android:layout_below="@+id/txtColors"
-	            android:layout_marginTop="5dp"
+	            android:layout_marginTop="30dp"
 	            android:contentDescription="@string/spnSoundsDescription"
 	            android:prompt="@string/spnSounds"
 	        />

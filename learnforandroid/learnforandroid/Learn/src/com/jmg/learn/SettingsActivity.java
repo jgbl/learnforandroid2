@@ -101,13 +101,19 @@ public class SettingsActivity extends AppCompatActivity {
 			paint.setStyle(Style.STROKE);
 			paint.setStrokeWidth(5); // you can change the value of 5
 			lib.setBg(layout, rectShapeDrawable);
+			
 			mainView = findViewById(Window.ID_ANDROID_CONTENT);
 			Thread.setDefaultUncaughtExceptionHandler(ErrorHandler);
 			prefs = this.getPreferences(Context.MODE_PRIVATE);
+			
 			Colors = new ColorsArrayAdapter(this,
 					android.R.layout.simple_spinner_item);
+			Colors.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			
 			Sounds = new SoundsArrayAdapter(this,
 					android.R.layout.simple_spinner_item);
+			Sounds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					
 			TextView txtSettings = (TextView) findViewById(R.id.txtSettings);
 			SpannableString Settings = new SpannableString(txtSettings.getText());
 			Settings.setSpan(new UnderlineSpan(), 0, Settings.length(),
@@ -116,6 +122,7 @@ public class SettingsActivity extends AppCompatActivity {
 			initSpinners();
 			initCheckBoxes();
 			initButtons();
+			
 			// resize();
 			//lib.ShowToast(this, "Settings addlayoutlistener");
 			if (!(lib.NookSimpleTouch()))
@@ -254,10 +261,8 @@ public class SettingsActivity extends AppCompatActivity {
 					PorterDuff.Mode.SRC_ATOP);
 			spnLanguages.getBackground().setColorFilter(Color.BLACK,
 					PorterDuff.Mode.SRC_ATOP);
-			spnColors.getBackground().setColorFilter(Color.BLACK,
-					PorterDuff.Mode.SRC_ATOP);
-			spnSounds.getBackground().setColorFilter(Color.BLACK,
-					PorterDuff.Mode.SRC_ATOP);
+			//spnColors.getBackground().setColorFilter(Color.BLACK,	PorterDuff.Mode.SRC_ATOP);
+			//spnSounds.getBackground().setColorFilter(Color.BLACK,	PorterDuff.Mode.SRC_ATOP);
 
 			// Create an ArrayAdapter using the string array and a default
 			// spinner layout
