@@ -1182,10 +1182,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					.getLayoutParams();
 			params.topMargin = (int) (params.topMargin * scale);
 			_txtMeaning1.setLayoutParams(params);
+			
 			params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning2
 					.getLayoutParams();
 			params.topMargin = (int) (params.topMargin * scale);
 			_txtMeaning2.setLayoutParams(params);
+			
 			params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning3
 					.getLayoutParams();
 			params.topMargin = (int) (params.topMargin * scale);
