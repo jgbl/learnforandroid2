@@ -223,7 +223,7 @@
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
-	        <com.jmg.lib.NoClickSpinner
+	        <org.de.jmg.lib.NoClickSpinner
 	            android:id="@+id/spnColors"
 	            android:layout_width="400dp"
 	            android:layout_height="wrap_content"
@@ -244,7 +244,7 @@
 	            android:textStyle="bold"
 	            android:typeface="normal" />
 	        
-	        <com.jmg.lib.NoClickSpinner
+	        <org.de.jmg.lib.NoClickSpinner
 	            android:id="@+id/spnSounds"
 	            android:textSize="27sp"
 	            android:layout_width="450dp"
