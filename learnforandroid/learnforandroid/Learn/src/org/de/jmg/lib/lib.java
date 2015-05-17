@@ -749,6 +749,17 @@ public class lib {
 	    return (int) (px / Resources.getSystem().getDisplayMetrics().density);
 	}
 	
+	public static final int SELECT_PICTURE = 0xa3b4;
+	
+	public static void SelectFile(Activity context)
+	{
+			Intent intent = new Intent();
+			intent.setType("file/*");
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			intent.addCategory(Intent.CATEGORY_OPENABLE);
+			context.startActivityForResult(Intent.createChooser(intent,"Select File"), SELECT_PICTURE);
+	}
+	
 	public static void removeLayoutListener(ViewTreeObserver observer,
 			OnGlobalLayoutListener listener)
 	{
@@ -760,7 +771,7 @@ public class lib {
 					observer,listener);
 		}
 	}
-	@SuppressWarnings("deprecation")
+		@SuppressWarnings("deprecation")
 	private static void removeLayoutListenerPre16(ViewTreeObserver observer,
 			OnGlobalLayoutListener listener) {
 		observer.removeGlobalOnLayoutListener(listener);

@@ -15,6 +15,7 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.widget.TextView;
 
 import org.de.jmg.learn.*;
@@ -87,7 +88,7 @@ public class Vokabel {
 	public int AnzRichtig;
 	public float ProbabilityFactor = -1;
 	public Typeface TypefaceCardo;
-
+	
 	public int AnzFalsch;
 
 	public enum Bewertung {
@@ -166,7 +167,19 @@ public class Vokabel {
 	private boolean _cardmode;
 	private boolean _UniCode;
 	private boolean _AskAll;
+	private Uri _uri = null;
 
+
+	public Uri getURI()
+	{
+		return _uri;
+	}
+	
+	public void setURI(Uri value)
+	{
+		_uri = value;
+	}
+	
 	public boolean getAskAll() {
 		return _AskAll;
 	}
@@ -2032,10 +2045,10 @@ public class Vokabel {
 	}
 
 	public void LoadFile(String strFileName) throws Exception {
-		LoadFile(strFileName, false, false, true);
+		LoadFile(Container, strFileName, null, false, false, true);
 	}
 
-	public void LoadFile(String strFileName, boolean blnSingleLine,
+	public void LoadFile(Context context, String strFileName, Uri uri, boolean blnSingleLine,
 			boolean blnAppend, boolean blnUnicode) throws Exception {
 		try {
 			final String CodeLoc = "Vokabel.LoadFile";
@@ -2054,7 +2067,7 @@ public class Vokabel {
 			String tastbel = null;
 			String strTmp = null;
 			java.io.InputStreamReader isr = null;
-			java.io.FileInputStream is = null;
+			InputStream is = null;
 			WindowsBufferedReader sr = null;
 			String tmp = null;
 			fontfil = "";
@@ -2069,9 +2082,19 @@ public class Vokabel {
 
 			libLearn.gStatus = CodeLoc + " Open Stream";
 			// Inserted by CodeCompleter
-			java.io.File F = new java.io.File(strFileName);
+			java.io.File F = null;
+			if (libString.IsNullOrEmpty(strFileName) && uri!=null)
+			{
+				is = context.getContentResolver().openInputStream(uri);
+			}
+			else 
+			{
+				F = new java.io.File(strFileName);
+			}
+			if (uri!=null) _uri = uri;
+			
 			do {
-				if (F.exists()) {
+				if (is != null || F.exists()) {
 					Charset CharsetWindows = null;
 					try {
 						CharsetWindows = Charset.forName(CharsetASCII);
@@ -2082,7 +2105,7 @@ public class Vokabel {
 						CharsetWindows = Charset.defaultCharset();
 					Charset CharSetUnicode = (sp >= -1 ? Charset
 							.forName("UTF-8") : Charset.forName("UTF-16"));
-					is = new java.io.FileInputStream(F);
+					if (is == null) is = new java.io.FileInputStream(F);
 					isr = new java.io.InputStreamReader(is,
 							(blnUnicode ? CharSetUnicode : CharsetWindows));
 					sr = new WindowsBufferedReader(isr);
@@ -2098,11 +2121,26 @@ public class Vokabel {
 										// ||
 										// isr.getEncoding().equals("UTF16"));
 
-				if (lib.getExtension(F).toLowerCase(Locale.getDefault())
-						.indexOf(".k") != -1)
-					_cardmode = true;
-				else
-					_cardmode = false;
+				if (F != null)
+				{
+					if (lib.getExtension(F).toLowerCase(Locale.getDefault())
+							.indexOf(".k") != -1)
+						_cardmode = true;
+					else
+						_cardmode = false;
+				}
+				else if (uri!=null)
+				{
+					String path = uri.getPath().toLowerCase(Locale.getDefault());
+					if (path.lastIndexOf(".k")>path.length()-5 )
+					{
+						_cardmode = true;
+					}
+					else
+					{
+						_cardmode = false;
+					}
+				}
 				libLearn.gStatus = CodeLoc + " ReadLine1";
 				tmp = sr.readLine();
 				try {

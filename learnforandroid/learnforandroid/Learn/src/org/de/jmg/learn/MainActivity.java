@@ -41,6 +41,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
@@ -144,6 +145,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				if (savedInstanceState != null) {
 					libLearn.gStatus = "onCreate Load SavedInstanceState";
 					String filename = savedInstanceState.getString("vokpath");
+					Uri uri = null;
+					String strURI = savedInstanceState.getString("URI");
+					if (!libString.IsNullOrEmpty(strURI)) uri = Uri.parse(strURI);
 					int index = savedInstanceState.getInt("vokindex");
 					int[] Lernvokabeln = savedInstanceState
 							.getIntArray("Lernvokabeln");
@@ -153,7 +157,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						boolean Unicode = savedInstanceState.getBoolean(
 								"Unicode", true);
 						_blnUniCode = Unicode;
-						LoadVokabel(tmppath, index, Lernvokabeln, Lernindex,
+						LoadVokabel(tmppath, uri, index, Lernvokabeln, Lernindex,
 								CardMode);
 						vok.setLastIndex(savedInstanceState.getInt(
 								"vokLastIndex", vok.getLastIndex()));
@@ -166,6 +170,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					if (prefs.getString("LastFile", null) != null) {
 						libLearn.gStatus = "onCreate Load Lastfile";
 						String filename = prefs.getString("LastFile", "");
+						
+						Uri uri = null;
+						String strURI = prefs.getString("URI","");
+						if (!libString.IsNullOrEmpty(strURI)) uri = Uri.parse(strURI);
+						
 						int index = prefs.getInt("vokindex", 1);
 						int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
 								"Lernvokabeln");
@@ -178,7 +187,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						CardMode = prefs.getBoolean("Cardmode", false);
 						if (Lernvokabeln != null) {
 							if (isTmpFile) {
-								LoadVokabel(tmppath, index, Lernvokabeln,
+								LoadVokabel(tmppath, uri, index, Lernvokabeln,
 										Lernindex, CardMode);
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
@@ -187,20 +196,20 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 								SetActionBarTitle();
 								vok.aend = aend;
 							} else {
-								LoadVokabel(filename, index, Lernvokabeln,
+								LoadVokabel(filename, uri, index, Lernvokabeln,
 										Lernindex, CardMode);
 								vok.setLastIndex(prefs.getInt("vokLastIndex",
 										vok.getLastIndex()));
 							}
 						} else {
 							if (isTmpFile) {
-								LoadVokabel(tmppath, 1, null, 0, CardMode);
+								LoadVokabel(tmppath, uri, 1, null, 0, CardMode);
 								vok.setFileName(filename);
 								vok.setCardMode(CardMode);
 								SetActionBarTitle();
 								vok.aend = aend;
 							} else {
-								LoadVokabel(filename, 1, null, 0, CardMode);
+								LoadVokabel(filename, uri, 1, null, 0, CardMode);
 							}
 						}
 
@@ -264,6 +273,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				outState.putBoolean("Unicode", vok.getUniCode());
 				outState.putBoolean("Cardmode", vok.getCardMode());
 				outState.putBoolean("aend", aend);
+				if (vok.getURI()!= null) outState.putString("URI", vok.getURI().getPath());
 				vok.aend = aend;
 				vok.setFileName(filename);
 			}
@@ -499,6 +509,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		edit.putBoolean("isTmpFile", isTmpFile);
 		edit.putBoolean("Cardmode", vok.getCardMode());
 		edit.putBoolean("aend", vok.aend);
+		if (vok.getURI()!= null) edit.putString("URI", vok.getURI().getPath());
 		edit.commit();
 	}
 
@@ -1403,6 +1414,8 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				ShowSettings();
 			} else if (id == R.id.mnuFileOpen) {
 				LoadFile(true);
+			} else if (id == R.id.mnuOpenUri) {
+				lib.SelectFile(this);
 			} else if (id == R.id.mnuNew) {
 				if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()))
 				{
@@ -1649,10 +1662,10 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					&& (resultCode == Activity.RESULT_OK)) {
 				String fileSelected = data.getStringExtra("fileSelected");
 				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
-				LoadVokabel(fileSelected, 1, null, 0, false);
+				LoadVokabel(fileSelected, null, 1, null, 0, false);
 
 			}
-			if ((requestCode == FILE_CHOOSERADV)
+			else if ((requestCode == FILE_CHOOSERADV)
 					&& (resultCode == Activity.RESULT_OK)) {
 				final String fileSelected = data.getStringExtra("fileSelected");
 				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
@@ -1667,7 +1680,15 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					// Set an EditText view to get user input
 					final EditText input = new EditText(this);
 					alert.setView(input);
-					input.setText(new File(vok.getFileName()).getName());
+					if (vok.getURI()!=null && libString.IsNullOrEmpty(vok.getFileName()))
+					{
+						input.setText(vok.getURI().getPath().substring(vok.getURI().getPath().lastIndexOf("/")+1));
+					}
+					else
+					{
+						input.setText(new File(vok.getFileName()).getName());
+					}
+					
 					alert.setPositiveButton(getString(R.string.ok),
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1797,24 +1818,30 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				libLearn.gStatus = "getVokabel";
 				getVokabel(false, false);
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			else if (resultCode == RESULT_OK && requestCode == lib.SELECT_PICTURE) 
+			{
+				Uri selectedImageUri = data.getData();
+				LoadVokabel(null,selectedImageUri, 1, null, 0, false);
+			}
+		}
+		catch (Exception e) 
+		{
 			lib.ShowException(MainActivity.this, e);
 		}
 	}
 
-	public void LoadVokabel(String fileSelected, int index, int[] Lernvokabeln,
+	public void LoadVokabel(String fileSelected, Uri uri, int index, int[] Lernvokabeln,
 			int Lernindex, boolean CardMode) {
 		try {
 			saveVok(false);
 			try {
-				vok.LoadFile(fileSelected, false, false, _blnUniCode);
+				vok.LoadFile(this, fileSelected, uri, false, false, _blnUniCode);
 			} catch (RuntimeException ex) {
 				if (ex.getCause() != null) {
 					if (ex.getCause().getMessage() != null
 							&& ex.getCause().getMessage()
 									.contains("IsSingleline")) {
-						vok.LoadFile(fileSelected, true, false, _blnUniCode);
+						vok.LoadFile(this, fileSelected, uri, true, false, _blnUniCode);
 					} else {
 						throw ex;
 					}
@@ -2095,7 +2122,16 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 	private void SetActionBarTitle() throws Exception {
 		if (vok.getGesamtzahl() > 0) {
-			String title = "Learn " + (new File(vok.getFileName())).getName()
+			String FName = null;
+			if (! libString.IsNullOrEmpty(vok.getFileName()))
+			{
+				FName = new File(vok.getFileName()).getName();
+			}
+			if (vok.getURI()!=null)
+			{
+				FName = vok.getURI().getPath().substring(vok.getURI().getPath().lastIndexOf("/"));
+			}
+			String title = "Learn " + FName
 					+ " " + getString(R.string.number) + ": " + vok.getIndex()
 					+ " " + getString(R.string.counter) + ": "
 					+ vok.getZaehler();
