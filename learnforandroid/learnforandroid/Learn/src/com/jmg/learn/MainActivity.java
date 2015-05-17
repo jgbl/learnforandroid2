@@ -952,6 +952,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		ScrollView layout = (ScrollView) findViewById(R.id.layoutMain);
 		layout.setBackgroundColor(Colors.get(ColorItems.background_wrong).ColorValue);
 		Handler handler = new Handler();
+		if (_isSmallDevice)
+		{
+			_txtKom.setVisibility(View.GONE);
+		}
+		_txtWord.requestFocus();
 		long delay = 0;
 		for (int i = 0; i < PaukRepetitions; i++) {
 			// _txtWord.setBackgroundResource(R.layout.roundedbox);
@@ -973,22 +978,21 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	}
 
 	private class resetLayoutTask implements Runnable {
-		public RelativeLayout layout;
 		public View view;
 
-		public resetLayoutTask(RelativeLayout layout) {
+		public resetLayoutTask(View layout) {
 			// TODO Auto-generated constructor stub
-			this.layout = layout;
-		}
-
-		public resetLayoutTask(ScrollView layout2) {
-			// TODO Auto-generated constructor stub
-			this.view = layout2;
+			this.view = layout;
 		}
 
 		public void run() {
-			if (layout != null) layout.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
-			if (view != null) view.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+			if (view != null) {
+				view.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+				if (_isSmallDevice)
+				{
+					_txtKom.setVisibility(View.VISIBLE);
+				}
+			}
 		}
 	}
 
@@ -1079,7 +1083,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	}
 
 	private boolean _firstFocus = true;
-
+	private boolean _isSmallDevice = false;
 	private void resize() {
 		// _firstFocus = true;
 		Resources resources = context.getResources();
@@ -1089,7 +1093,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		int viewTop = findViewById(Window.ID_ANDROID_CONTENT).getTop();
 		height = height - viewTop;
 		scale = (double) height / (double) 950;
-		if (scale < .5) scale = .5;
+		if (scale < .5f) 
+		{
+			_isSmallDevice = true;
+			scale = .5f;
+		}
 		/*
 		 * lib.ShowMessage(this, "Meaning3 Bottom: " +_txtMeaning3.getBottom() +
 		 * "\nbtnRight.Top: " + _btnRight.getTop() + "\nDisplayHeight: " +
@@ -1155,7 +1163,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					blnWrongWidth = true;
 				}
 				ScaleWidth = (width - 20)/(double)widthButtons;
-				if (ScaleWidth<.5) ScaleWidth=.5;
+				if (ScaleWidth<.5d) ScaleWidth=.5d;
 			}
 			Double ScaleTextButtons = ((scale < ScaleWidth)?scale:ScaleWidth);
 			
@@ -1188,37 +1196,72 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnRight
 					.getLayoutParams();
-			if (!blnWrongWidth) params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) 
+			{
+				params.height = (int) (params.height * scale);
+			}
+			else
+			{
+				params.height = (int) (60 * ScaleWidth);
+			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnRight.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnWrong
 					.getLayoutParams();
-			if (!blnWrongWidth) params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) 
+			{
+				params.height = (int) (params.height * scale);
+			}
+			else
+			{
+				params.height = (int) (60 * ScaleWidth);
+			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnWrong.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnSkip
 					.getLayoutParams();
-			if (!blnWrongWidth) params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) 
+			{
+				params.height = (int) (params.height * scale);
+			}
+			else
+			{
+				params.height = (int) (60 * ScaleWidth);
+			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnSkip.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnView
 					.getLayoutParams();
-			if (!blnWrongWidth) params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) 
+			{
+				params.height = (int) (params.height * scale);
+			}
+			else
+			{
+				params.height = (int) (60 * ScaleWidth);
+			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnView.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnEdit
 					.getLayoutParams();
-			if (!blnWrongWidth) params.height = (int) (params.height * scale);
+			if (!blnWrongWidth) 
+			{
+				params.height = (int) (params.height * scale);
+			}
+			else
+			{
+				params.height = (int) (60 * ScaleWidth);
+			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnEdit.setLayoutParams(params);
 
 		}
 	}
-
+	float _ActionBarOriginalTextSize[] = {0f,0f,0f,0f,0f};
 	public void resizeActionbar(int width) {
 		View tb = this.findViewById(R.id.action_bar);
 		Paint p = new Paint();
@@ -1239,7 +1282,14 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					View v = g.getChildAt(i);
 					if (v instanceof TextView) {
 						TextView t = (TextView) v;
-
+						if (_ActionBarOriginalTextSize[i] == 0 )
+						{
+							_ActionBarOriginalTextSize[i] = t.getTextSize();
+						}
+						else
+						{
+							t.setTextSize(TypedValue.COMPLEX_UNIT_PX,_ActionBarOriginalTextSize[i]);
+						}
 						if (t.getText() instanceof SpannedString) {
 							p.setTextSize(t.getTextSize());
 							SpannedString s = (SpannedString) t.getText();
@@ -1247,12 +1297,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							float measuredWidth = p.measureText(s.toString());
 							if (measuredWidth > width)
 							{
-								float Scale = (float)width / (float)measuredWidth;
-								if (scale < .5) scale = .5;
+								float scaleA = (float)width / (float)measuredWidth;
+								if (scaleA < .5f) scaleA = .5f;
 								
 								t.setTextSize(
 										TypedValue.COMPLEX_UNIT_PX,
-										(float) (t.getTextSize() * (scale)));
+										(float) (t.getTextSize() * (scaleA)));
 							}
 							
 						}

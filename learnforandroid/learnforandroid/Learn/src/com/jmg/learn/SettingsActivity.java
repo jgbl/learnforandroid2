@@ -668,7 +668,15 @@ public class SettingsActivity extends AppCompatActivity {
 		int Density = metrics.densityDpi;
 		try
 		{
-			int width = mainView.getWidth() - lib.dpToPx(40);
+			int width = mainView.getWidth();
+			if (width>500)
+			{
+				width -= lib.dpToPx(40);
+			}
+			else
+			{
+				width -= lib.dpToPx(40);
+			}
 			if (scale == 0)
 			{
 				mainView.setVisibility(View.INVISIBLE);
