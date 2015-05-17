@@ -2050,6 +2050,7 @@ public class Vokabel {
 			short indexlang = 0;
 			boolean canBeSingleLine = false;
 			String fontfil = null;
+			@SuppressWarnings("unused")
 			String tastbel = null;
 			String strTmp = null;
 			java.io.InputStreamReader isr = null;

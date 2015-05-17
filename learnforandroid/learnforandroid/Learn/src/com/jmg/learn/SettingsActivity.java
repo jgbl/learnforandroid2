@@ -670,6 +670,7 @@ public class SettingsActivity extends AppCompatActivity {
 		
 		Resources resources = this.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
+		@SuppressWarnings("unused")
 		int Density = metrics.densityDpi;
 		try
 		{

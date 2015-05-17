@@ -96,6 +96,7 @@ public class lib {
 		//return false;
 		
 		String MANUFACTURER = getBuildField("MANUFACTURER");
+		@SuppressWarnings("unused")
 		String MODEL = getBuildField("MODEL");
 		String DEVICE = getBuildField("DEVICE");
 		return (MANUFACTURER.equalsIgnoreCase("BarnesAndNoble") && DEVICE.equalsIgnoreCase("zoom2"));
