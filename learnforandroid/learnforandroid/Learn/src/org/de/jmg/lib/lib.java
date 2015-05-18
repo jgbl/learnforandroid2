@@ -3,6 +3,7 @@
 //import android.support.v7.app.ActionBarActivity;
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Pattern;
@@ -13,6 +14,7 @@ import org.de.jmg.learn.libLearn;
 
 //import com.microsoft.live.*;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
@@ -26,6 +28,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -75,12 +78,13 @@ public class lib {
 			return false;
 		}
 		
-		if (extension.toLowerCase().contains(ext.toLowerCase())) return true;
+		if (extension.toLowerCase(Locale.getDefault()).contains(ext.toLowerCase(Locale.getDefault()))) return true;
 		
 		String itext = extension;
+		if (!itext.startsWith(".")) itext = "." + itext;
 		itext = itext.replace(".", "\\.");
-		itext = itext.toLowerCase();
-		ext = ext.toLowerCase();
+		itext = itext.toLowerCase(Locale.getDefault());
+		ext = ext.toLowerCase(Locale.getDefault());
 		if (ext.matches(itext.replace("?", ".{1}").replace("*", ".*")))
 				{
 					return true;
@@ -664,6 +668,7 @@ public class lib {
 
 	}
 
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static Drawable getDefaultCheckBoxDrawable(Context context) {
 		int resID = 0;
@@ -751,13 +756,35 @@ public class lib {
 	
 	public static final int SELECT_PICTURE = 0xa3b4;
 	
-	public static void SelectFile(Activity context)
+	public static void SelectFile(Activity context, String defaultURI) throws Exception
 	{
-			Intent intent = new Intent();
+		
+		
+		Intent intent = new Intent();
+		if (!libString.IsNullOrEmpty(defaultURI))
+		{
+			defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
+			Uri def = Uri.parse(defaultURI);
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			//intent.setAction(Intent.ACTION_VIEW);
+		    intent.setDataAndType(def, "file/*");
+		}
+		else
+		{
 			intent.setType("file/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
-			intent.addCategory(Intent.CATEGORY_OPENABLE);
-			context.startActivityForResult(Intent.createChooser(intent,"Select File"), SELECT_PICTURE);
+		}
+		//intent.addCategory(Intent.CATEGORY_OPENABLE);
+		Intent chooser = Intent.createChooser(intent, "Open");
+		if (intent.resolveActivity(context.getPackageManager()) != null) 
+		{ 
+			context.startActivityForResult(chooser, SELECT_PICTURE);
+		}
+		else
+		{
+			intent.setData(null);
+			context.startActivityForResult(chooser, SELECT_PICTURE);
+		}
 	}
 	
 	public static void removeLayoutListener(ViewTreeObserver observer,

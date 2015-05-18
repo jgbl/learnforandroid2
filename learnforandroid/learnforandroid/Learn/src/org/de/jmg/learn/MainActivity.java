@@ -1415,7 +1415,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			} else if (id == R.id.mnuFileOpen) {
 				LoadFile(true);
 			} else if (id == R.id.mnuOpenUri) {
-				lib.SelectFile(this);
+				lib.SelectFile(this,prefs.getString("defaultURI", ""));
 			} else if (id == R.id.mnuNew) {
 				if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()))
 				{
@@ -1821,7 +1821,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			else if (resultCode == RESULT_OK && requestCode == lib.SELECT_PICTURE) 
 			{
 				Uri selectedImageUri = data.getData();
+				String strUri = selectedImageUri.toString();
 				LoadVokabel(null,selectedImageUri, 1, null, 0, false);
+				prefs.edit().putString("defaultURI",strUri).commit();
 			}
 		}
 		catch (Exception e) 
