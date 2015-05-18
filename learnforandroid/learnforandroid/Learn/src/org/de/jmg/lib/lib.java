@@ -754,8 +754,9 @@ public class lib {
 	    return (int) (px / Resources.getSystem().getDisplayMetrics().density);
 	}
 	
-	public static final int SELECT_PICTURE = 0xa3b4;
+	public static final int SELECT_FILE = 0xa3b4;
 	
+	@SuppressLint("InlinedApi")
 	public static void SelectFile(Activity context, String defaultURI) throws Exception
 	{
 		
@@ -765,25 +766,30 @@ public class lib {
 		{
 			defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
 			Uri def = Uri.parse(defaultURI);
-			intent.setAction(Intent.ACTION_GET_CONTENT);
-			//intent.setAction(Intent.ACTION_VIEW);
-		    intent.setDataAndType(def, "file/*");
+			intent.setDataAndType(def, "file/*");
 		}
 		else
 		{
 			intent.setType("file/*");
+		}
+		if (Build.VERSION.SDK_INT<999)
+		{
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 		}
-		//intent.addCategory(Intent.CATEGORY_OPENABLE);
+		else
+		{
+			intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+		}
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		Intent chooser = Intent.createChooser(intent, "Open");
 		if (intent.resolveActivity(context.getPackageManager()) != null) 
 		{ 
-			context.startActivityForResult(chooser, SELECT_PICTURE);
+			context.startActivityForResult(chooser, SELECT_FILE);
 		}
 		else
 		{
 			intent.setData(null);
-			context.startActivityForResult(chooser, SELECT_PICTURE);
+			context.startActivityForResult(chooser, SELECT_FILE);
 		}
 	}
 	

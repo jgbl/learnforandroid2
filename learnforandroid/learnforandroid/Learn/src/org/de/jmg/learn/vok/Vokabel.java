@@ -239,8 +239,15 @@ public class Vokabel {
 
 	public void setFileName(String value) {
 		mFileName = value;
-		File fname = new File(value);
-		this.mVokPath = fname.getParent();
+		if (value != null)
+		{
+			File fname = new File(value);
+			this.mVokPath = fname.getParent();
+		}
+		else
+		{
+			this.mVokPath = null;
+		}
 	}
 
 	public String[] getOldBed() {
@@ -1711,6 +1718,7 @@ public class Vokabel {
 		}
 		aend = false;
 		mFileName = strFileName;
+		_uri = null;
 		spr = (short) (spr & 7);
 		_UniCode = blnUniCode;
 		// System.Windows.Forms.Cursor.Current =
