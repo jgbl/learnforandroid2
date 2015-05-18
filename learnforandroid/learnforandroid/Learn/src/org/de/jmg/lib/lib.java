@@ -766,19 +766,21 @@ public class lib {
 		{
 			defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
 			Uri def = Uri.parse(defaultURI);
-			intent.setDataAndType(def, "file/*");
+			intent.setData(def);
 		}
 		else
 		{
-			intent.setType("file/*");
+			//intent.setType("file/*");
 		}
-		if (Build.VERSION.SDK_INT<999)
+		if (Build.VERSION.SDK_INT<19)
 		{
 			intent.setAction(Intent.ACTION_GET_CONTENT);
+			intent.setType("file/*");
 		}
 		else
 		{
 			intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+			intent.setType("*/*");
 		}
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		Intent chooser = Intent.createChooser(intent, "Open");
