@@ -2090,8 +2090,9 @@ public class Vokabel {
 			else 
 			{
 				F = new java.io.File(strFileName);
+				uri = null;
 			}
-			if (uri!=null) _uri = uri;
+			_uri = uri;
 			
 			do {
 				if (is != null || F.exists()) {
