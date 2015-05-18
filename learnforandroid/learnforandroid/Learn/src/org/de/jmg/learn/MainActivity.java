@@ -90,6 +90,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//this.grantUriPermission("com.google.android.apps.docs",null , Intent.FLAG_GRANT_READ_URI_PERMISSION & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 		libLearn.gStatus = "onCreate getEink";
 		try {
 			_blnEink = getWindowManager().getDefaultDisplay().getRefreshRate() < 5.0;
@@ -1600,10 +1601,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			 */
 		    // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's
 		    // file browser.
-		    
-			Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-			String defaultURI = prefs.getString("defaultURI", "");
-			if (!libString.IsNullOrEmpty(defaultURI))
+			Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+		    // Create a file with the requested MIME type.
+		    String defaultURI = prefs.getString("defaultURI", "");
+		    intent.putExtra(Intent.EXTRA_TITLE, "*.vok");
+		    if (!libString.IsNullOrEmpty(defaultURI))
 			{
 				defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
 				Uri def = Uri.parse(defaultURI);
@@ -1820,7 +1822,8 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				PaukRepetitions = data.getExtras().getInt("PaukRepetitions");
 				vok.ProbabilityFactor = data.getExtras().getFloat(
 						"ProbabilityFactor");
-				vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
+				//this.grantUriPermission("com.google.android.apps.docs",null , Intent.FLAG_GRANT_READ_URI_PERMISSION & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+						vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
 				vok.setAskAll(data.getExtras().getBoolean("AskAll"));
 				int Language = data.getExtras().getInt("Language",Vokabel.EnumSprachen.undefiniert.ordinal());
 				for (int i = 0; i < Vokabel.EnumSprachen.values().length; i++)
@@ -1892,6 +1895,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				{
 					selectedUri=Uri.parse(value);
 				}
+				this.grantUriPermission("org.de.jmg.learn", selectedUri , Intent.FLAG_GRANT_READ_URI_PERMISSION & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 				
 				vok.SaveFile(null, selectedUri,
 						_blnUniCode, false);
