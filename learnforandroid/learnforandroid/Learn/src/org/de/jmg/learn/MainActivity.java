@@ -345,16 +345,19 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 	private synchronized boolean saveVok(boolean dontPrompt) throws Exception {
 		EndEdit();
-		if (vok.aend) {
-			if (!dontPrompt) {
+		if (vok.aend) 
+		{
+			if (!dontPrompt) 
+			{
 				dontPrompt = lib.ShowMessageYesNo(this,
 						getString(R.string.Save));
-				if (!dontPrompt) {
+				if (!dontPrompt) 
+				{
 					_backPressed += 1;
 					lib.ShowToast(MainActivity.this, MainActivity.this
 							.getString(R.string.PressBackAgain));
 					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-
+					return true;
 				}
 				/*
 				 * AlertDialog.Builder A = new AlertDialog.Builder(context);
@@ -389,8 +392,10 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				 */
 			}
 
-			if (dontPrompt) {
-				try {
+			if (dontPrompt) 
+			{
+				try 
+				{
 					if (libString.IsNullOrEmpty(vok.getFileName()))
 					{
 						SaveVokAs(true,false);
@@ -402,14 +407,19 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						_backPressed += 1;
 						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 						saveFilePrefs(false);
+						return true;
 					}
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					// TODO Auto-generated catch block
 					lib.ShowException(this, e);
 				}
 			}
 			return false;
-		} else {
+		} 
+		else 
+		{
 			return true;
 		}
 
@@ -1424,15 +1434,13 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			} else if (id == R.id.mnuFileOpen) {
 				LoadFile(true);
 			} else if (id == R.id.mnuOpenUri) {
-				lib.SelectFile(this,prefs.getString("defaultURI", ""));
-			} else if (id == R.id.mnuNew) {
-				if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()))
+				if (saveVok(false))
 				{
-					SaveVokAs(true,true);
+					lib.SelectFile(this,prefs.getString("defaultURI", ""));
 				}
-				else
+			} else if (id == R.id.mnuNew) {
+				if (saveVok(false))
 				{
-					saveVok(false);
 					newvok();
 				}
 				
@@ -1562,70 +1570,89 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	private static final int EDIT_REQUEST_CODE = 0x3abd;
 	@SuppressLint("InlinedApi")
 	public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Exception {
-		EndEdit();
-		if (!libString.IsNullOrEmpty(vok.getFileName()) || vok.getURI()==null || Build.VERSION.SDK_INT<19)
+		try
 		{
-			Intent intent = new Intent(this, AdvFileChooser.class);
-			ArrayList<String> extensions = new ArrayList<String>();
-			extensions.add(".k??");
-			extensions.add(".v??");
-			extensions.add(".K??");
-			extensions.add(".V??");
-			extensions.add(".KAR");
-			extensions.add(".VOK");
-			extensions.add(".kar");
-			extensions.add(".vok");
-			extensions.add(".dic");
-			extensions.add(".DIC");
-
-			intent.putStringArrayListExtra("filterFileExtension", extensions);
-			intent.putExtra("blnUniCode", blnUniCode);
-			intent.putExtra("DefaultDir",
-					new File(JMGDataDirectory).exists() ? JMGDataDirectory
-							: "/sdcard/");
-			intent.putExtra("selectFolder", true);
-			intent.putExtra("blnNew", blnNew);
-			if (_blnUniCode)
-				_oldUnidCode = yesnoundefined.yes;
-			else
-				_oldUnidCode = yesnoundefined.no;
-			_blnUniCode = blnUniCode;
-
-			this.startActivityForResult(intent, FILE_CHOOSERADV);
-
+			EndEdit();
+			if (!libString.IsNullOrEmpty(vok.getFileName()) || vok.getURI()==null || Build.VERSION.SDK_INT<19)
+			{
+				Intent intent = new Intent(this, AdvFileChooser.class);
+				ArrayList<String> extensions = new ArrayList<String>();
+				extensions.add(".k??");
+				extensions.add(".v??");
+				extensions.add(".K??");
+				extensions.add(".V??");
+				extensions.add(".KAR");
+				extensions.add(".VOK");
+				extensions.add(".kar");
+				extensions.add(".vok");
+				extensions.add(".dic");
+				extensions.add(".DIC");
+	
+				intent.putStringArrayListExtra("filterFileExtension", extensions);
+				intent.putExtra("blnUniCode", blnUniCode);
+				intent.putExtra("DefaultDir",
+						new File(JMGDataDirectory).exists() ? JMGDataDirectory
+								: "/sdcard/");
+				intent.putExtra("selectFolder", true);
+				intent.putExtra("blnNew", blnNew);
+				if (_blnUniCode)
+					_oldUnidCode = yesnoundefined.yes;
+				else
+					_oldUnidCode = yesnoundefined.no;
+				_blnUniCode = blnUniCode;
+	
+				this.startActivityForResult(intent, FILE_CHOOSERADV);
+	
+			}
+			else if (Build.VERSION.SDK_INT>=19)
+			{
+				/**
+				 * Open a file for writing and append some text to it.
+				 */
+			    // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's
+			    // file browser.
+				Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+			    // Create a file with the requested MIME type.
+			    String defaultURI = prefs.getString("defaultURI", "");
+			    if (!libString.IsNullOrEmpty(defaultURI))
+				{
+			    	String FName="";
+			    	String path = Uri.parse(defaultURI).getPath();
+			    	if (vok.getURI()!=null)
+			    	{
+			    		String path2 = lib.dumpUriMetaData(this, vok.getURI());
+						if(path2.contains(":")) path2 = path2.split(":")[0];
+						FName = path2.substring(path2.lastIndexOf("/")+1);    	
+			    	}
+			    	else if (!libString.IsNullOrEmpty(vok.getFileName()))
+			    	{
+			    		FName = new File(vok.getFileName()).getName();
+			    	}
+			    	intent.putExtra(Intent.EXTRA_TITLE, FName);
+				    defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
+					Uri def = Uri.parse(defaultURI);
+					intent.setData(def);
+				}
+				else
+				{
+					//intent.setType("file/*");
+				}
+	
+			    // Filter to only show results that can be "opened", such as a
+			    // file (as opposed to a list of contacts or timezones).
+			    intent.addCategory(Intent.CATEGORY_OPENABLE);
+	
+			    // Filter to show only text files.
+			    intent.setType("*/*");
+	
+			    startActivityForResult(intent, EDIT_REQUEST_CODE);
+				
+			}
 		}
-		else if (Build.VERSION.SDK_INT>=19)
+		catch (Exception ex)
 		{
-			/**
-			 * Open a file for writing and append some text to it.
-			 */
-		    // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's
-		    // file browser.
-			Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-		    // Create a file with the requested MIME type.
-		    String defaultURI = prefs.getString("defaultURI", "");
-		    if (!libString.IsNullOrEmpty(defaultURI))
-			{
-		    	String path = Uri.parse(defaultURI).getPath();
-		    	intent.putExtra(Intent.EXTRA_TITLE, path.substring(path.lastIndexOf("/")+1));
-			    defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
-				Uri def = Uri.parse(defaultURI);
-				intent.setData(def);
-			}
-			else
-			{
-				//intent.setType("file/*");
-			}
-
-		    // Filter to only show results that can be "opened", such as a
-		    // file (as opposed to a list of contacts or timezones).
-		    intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-		    // Filter to show only text files.
-		    intent.setType("*/*");
-
-		    startActivityForResult(intent, EDIT_REQUEST_CODE);
-			
+			libLearn.gStatus= "SaveVokAs";
+			lib.ShowException(this, ex);
 		}
 	}
 
@@ -1881,11 +1908,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				Uri selectedUri = data.getData();
 				String strUri = selectedUri.toString();
-				String value = strUri;
+				String path = lib.dumpUriMetaData(this, selectedUri);
+				if(path.contains(":")) path = path.split(":")[0];
 				boolean blnWrongExt = false;
 				if (vok.getCardMode())
 				{
-					if (!lib.ExtensionMatch(value, "k??"))
+					if (!lib.ExtensionMatch(path, "k??"))
 					{
 						blnWrongExt=true;
 						//value += ".kar";
@@ -1893,7 +1921,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				}
 				else
 				{
-					if (!lib.ExtensionMatch(value, "v??"))
+					if (!lib.ExtensionMatch(path, "v??"))
 					{
 						//value += ".vok";
 						blnWrongExt=true;
@@ -1912,7 +1940,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					saveFilePrefs(false);
 					//if (blnNew) newvok();
 					SetActionBarTitle();
-					prefs.edit().putString("defaultURI",value).commit();
+					prefs.edit().putString("defaultURI",strUri).commit();
 				}
 			}
 		}
@@ -1935,7 +1963,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	public void LoadVokabel(String fileSelected, Uri uri, int index, int[] Lernvokabeln,
 			int Lernindex, boolean CardMode) {
 		try {
-			saveVok(false);
+			if (uri==null) saveVok(false);
 			try {
 				vok.LoadFile(this, fileSelected, uri, false, false, _blnUniCode);
 			} catch (RuntimeException ex) {
@@ -2231,7 +2259,17 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			}
 			else if (vok.getURI()!=null)
 			{
-				FName = vok.getURI().getPath().substring(vok.getURI().getPath().lastIndexOf("/"));
+				String path = lib.dumpUriMetaData(this, vok.getURI());
+				if(path.contains(":")) path = path.split(":")[0];
+				int li=path.lastIndexOf("/");
+				if (li>-1)
+				{
+					FName = path.substring(path.lastIndexOf("/"));
+				}
+				else
+				{
+					FName = "/" + path;
+				}
 			}
 			String title = "Learn " + FName
 					+ " " + getString(R.string.number) + ": " + vok.getIndex()

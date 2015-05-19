@@ -22,6 +22,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -35,6 +36,7 @@ import android.os.Looper;
 import android.os.Message;
 //import android.runtime.*;
 import android.provider.*;
+import android.provider.ContactsContract.RawContacts.DisplayPhoto;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewTreeObserver;
@@ -816,6 +818,49 @@ public class lib {
 	private static void removeLayoutListenerPost16(ViewTreeObserver observer,
 			OnGlobalLayoutListener listener) {
 		observer.removeOnGlobalLayoutListener(listener);
+	}
+	
+	public static String dumpUriMetaData(Activity context,Uri uri) {
+
+	    // The query, since it only applies to a single document, will only return
+	    // one row. There's no need to filter, sort, or select fields, since we want
+	    // all fields for one document.
+	    Cursor cursor = context.getContentResolver()
+	            .query(uri, null, null, null, null, null);
+
+	    try {
+	    // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
+	    // "if there's anything to look at, look at it" conditionals.
+	        if (cursor != null && cursor.moveToFirst()) {
+
+	            // Note it's called "Display Name".  This is
+	            // provider-specific, and might not necessarily be the file name.
+	            String displayName = cursor.getString(
+	                    cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+	            Log.i(TAG, "Display Name: " + displayName);
+
+	            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+	            // If the size is unknown, the value stored is null.  But since an
+	            // int can't be null in Java, the behavior is implementation-specific,
+	            // which is just a fancy term for "unpredictable".  So as
+	            // a rule, check if it's null before assigning to an int.  This will
+	            // happen often:  The storage API allows for remote files, whose
+	            // size might not be locally known.
+	            String size = null;
+	            if (!cursor.isNull(sizeIndex)) {
+	                // Technically the column stores an int, but cursor.getString()
+	                // will do the conversion automatically.
+	                size = cursor.getString(sizeIndex);
+	            } else {
+	                size = "Unknown";
+	            }
+	            Log.i(TAG, "Size: " + size);
+	            return displayName + ":" + size;
+	        }
+	    } finally {
+	        cursor.close();
+	    }
+		return null;
 	}
 
 }
