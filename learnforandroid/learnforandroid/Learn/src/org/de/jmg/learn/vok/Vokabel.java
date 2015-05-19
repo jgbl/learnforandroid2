@@ -14,6 +14,7 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -1653,6 +1654,7 @@ public class Vokabel {
 			}
 			else if (uri!=null)
 			{
+				Container.grantUriPermission("org.de.jmg.learn", uri , Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 				pfd = Container.getContentResolver().
 		                openFileDescriptor(uri, "w");
 		        os = new FileOutputStream(pfd.getFileDescriptor());

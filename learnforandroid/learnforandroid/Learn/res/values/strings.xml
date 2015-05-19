@@ -200,5 +200,6 @@
 	            <string name="txtFlashCardFile">Do you want to create a flashcard file?</string>
 	            <string name="SaveNewVokabularyAs">Do you want to save the new vocabulary?</string>
 	            <string name="mnuOpenUri">open URI</string>
+	            <string name="msgWrongExt">You have chosen a wrong extension! Do you want to save nevertheless?</string>
         
 </resources>

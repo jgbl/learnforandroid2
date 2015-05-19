@@ -1604,10 +1604,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
 		    // Create a file with the requested MIME type.
 		    String defaultURI = prefs.getString("defaultURI", "");
-		    intent.putExtra(Intent.EXTRA_TITLE, "*.vok");
 		    if (!libString.IsNullOrEmpty(defaultURI))
 			{
-				defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
+		    	String path = Uri.parse(defaultURI).getPath();
+		    	intent.putExtra(Intent.EXTRA_TITLE, path.substring(path.lastIndexOf("/")+1));
+			    defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
 				Uri def = Uri.parse(defaultURI);
 				intent.setData(def);
 			}
@@ -1869,6 +1870,10 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				Uri selectedUri = data.getData();
 				String strUri = selectedUri.toString();
+				if(Build.VERSION.SDK_INT>19)
+				{
+					takePersistableUri(data, selectedUri);
+				}
 				LoadVokabel(null,selectedUri, 1, null, 0, false);
 				prefs.edit().putString("defaultURI",strUri).commit();
 			}
@@ -1877,32 +1882,38 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				Uri selectedUri = data.getData();
 				String strUri = selectedUri.toString();
 				String value = strUri;
+				boolean blnWrongExt = false;
 				if (vok.getCardMode())
 				{
 					if (!lib.ExtensionMatch(value, "k??"))
 					{
-						value += ".kar";
+						blnWrongExt=true;
+						//value += ".kar";
 					}
 				}
 				else
 				{
 					if (!lib.ExtensionMatch(value, "v??"))
 					{
-						value += ".vok";
+						//value += ".vok";
+						blnWrongExt=true;
 					}
 				}
-				if (!value.equalsIgnoreCase(strUri))
-				{
-					selectedUri=Uri.parse(value);
-				}
-				this.grantUriPermission("org.de.jmg.learn", selectedUri , Intent.FLAG_GRANT_READ_URI_PERMISSION & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 				
-				vok.SaveFile(null, selectedUri,
-						_blnUniCode, false);
-				saveFilePrefs(false);
-				//if (blnNew) newvok();
-				SetActionBarTitle();
-				prefs.edit().putString("defaultURI",value).commit();
+				
+				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt)))
+				{
+					if (Build.VERSION.SDK_INT>=19)
+					{
+						takePersistableUri(data, selectedUri);
+					}
+					vok.SaveFile(null, selectedUri,
+							_blnUniCode, false);
+					saveFilePrefs(false);
+					//if (blnNew) newvok();
+					SetActionBarTitle();
+					prefs.edit().putString("defaultURI",value).commit();
+				}
 			}
 		}
 		catch (Exception e) 
@@ -1910,7 +1921,17 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			lib.ShowException(MainActivity.this, e);
 		}
 	}
-
+	
+	@SuppressLint("NewApi")
+	private void takePersistableUri(Intent intent,Uri selectedUri)
+	{
+		final int takeFlags = intent.getFlags()
+	            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+	            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+		// Check for the freshest data.
+		getContentResolver().takePersistableUriPermission(selectedUri, takeFlags);
+	}
+	
 	public void LoadVokabel(String fileSelected, Uri uri, int index, int[] Lernvokabeln,
 			int Lernindex, boolean CardMode) {
 		try {
