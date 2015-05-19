@@ -396,24 +396,27 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				try 
 				{
+					/*
 					if (libString.IsNullOrEmpty(vok.getFileName()))
 					{
 						SaveVokAs(true,false);
 					}
 					else
 					{
+					*/
 						vok.SaveFile();
 						vok.aend = false;
 						_backPressed += 1;
 						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 						saveFilePrefs(false);
 						return true;
-					}
+					//}
 				} 
 				catch (Exception e) 
 				{
 					// TODO Auto-generated catch block
-					lib.ShowException(this, e);
+					//lib.ShowException(this, e);
+					SaveVokAs(true,false);
 				}
 			}
 			return false;
@@ -1617,7 +1620,6 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			    if (!libString.IsNullOrEmpty(defaultURI))
 				{
 			    	String FName="";
-			    	String path = Uri.parse(defaultURI).getPath();
 			    	if (vok.getURI()!=null)
 			    	{
 			    		String path2 = lib.dumpUriMetaData(this, vok.getURI());
@@ -1753,10 +1755,14 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 					// Set an EditText view to get user input
 					final EditText input = new EditText(this);
+					input.setLines(1);
+					input.setSingleLine();
 					alert.setView(input);
 					if (vok.getURI()!=null && libString.IsNullOrEmpty(vok.getFileName()))
 					{
-						input.setText(vok.getURI().getPath().substring(vok.getURI().getPath().lastIndexOf("/")+1));
+						String path = lib.dumpUriMetaData(this, vok.getURI());
+						if (path.contains(":")) path = path.split(":")[0];
+						input.setText(path);
 					}
 					else
 					{
@@ -1768,6 +1774,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
 									String value = input.getText().toString();
+									value = value.replace("\n", "");
 									try {
 										if (vok.getCardMode())
 										{
@@ -1899,7 +1906,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				String strUri = selectedUri.toString();
 				if(Build.VERSION.SDK_INT>19)
 				{
-					takePersistableUri(data, selectedUri);
+					takePersistableUri(this.getIntent(), selectedUri);
 				}
 				LoadVokabel(null,selectedUri, 1, null, 0, false);
 				prefs.edit().putString("defaultURI",strUri).commit();

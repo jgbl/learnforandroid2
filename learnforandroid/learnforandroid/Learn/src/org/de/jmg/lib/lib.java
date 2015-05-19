@@ -36,7 +36,6 @@ import android.os.Looper;
 import android.os.Message;
 //import android.runtime.*;
 import android.provider.*;
-import android.provider.ContactsContract.RawContacts.DisplayPhoto;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewTreeObserver;
@@ -777,7 +776,7 @@ public class lib {
 		if (Build.VERSION.SDK_INT<19)
 		{
 			intent.setAction(Intent.ACTION_GET_CONTENT);
-			intent.setType("file/*");
+			intent.setType("*/*");
 		}
 		else
 		{
@@ -820,14 +819,14 @@ public class lib {
 		observer.removeOnGlobalLayoutListener(listener);
 	}
 	
+	
 	public static String dumpUriMetaData(Activity context,Uri uri) {
 
 	    // The query, since it only applies to a single document, will only return
 	    // one row. There's no need to filter, sort, or select fields, since we want
 	    // all fields for one document.
-	    Cursor cursor = context.getContentResolver()
-	            .query(uri, null, null, null, null, null);
-
+	    Cursor cursor;
+	    cursor = context.getContentResolver().query(uri, null, null, null, null);
 	    try {
 	    // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
 	    // "if there's anything to look at, look at it" conditionals.
@@ -857,10 +856,29 @@ public class lib {
 	            Log.i(TAG, "Size: " + size);
 	            return displayName + ":" + size;
 	        }
-	    } finally {
-	        cursor.close();
+	        else
+	        {
+	        	String p = uri.getPath();
+	        	if (!libString.IsNullOrEmpty(p))
+	        	{
+	        		p = p.substring(p.lastIndexOf("/")+1);
+	        		return p;
+	        	}
+	        	else
+	        	{
+	        		return "";
+	        	}
+	        }
 	    }
-		return null;
+	    catch(Exception ex)
+	    {
+	    	lib.ShowException(context, ex);
+	    } 
+	    finally 
+	    {
+	        if (cursor != null) cursor.close();
+	    }
+	    return "";
 	}
 
 }

@@ -2081,6 +2081,7 @@ public class Vokabel {
 		mGesamtzahl = 0;
 		mIndex = 0;
 		mFileName = "";
+		_uri = null;
 		mSprache=EnumSprachen.Normal;
 	}
 
@@ -2102,7 +2103,6 @@ public class Vokabel {
 			short lad = 0;
 			short indexlang = 0;
 			boolean canBeSingleLine = false;
-			boolean blnUriOpened = false;
 			String fontfil = null;
 			@SuppressWarnings("unused")
 			String tastbel = null;
@@ -2149,7 +2149,6 @@ public class Vokabel {
 					{
 						is = context.getContentResolver().openInputStream(uri);
 						aend=true;
-						blnUriOpened = true;
 					}
 					else 
 					{
@@ -2205,7 +2204,8 @@ public class Vokabel {
 				}
 				else if (uri!=null)
 				{
-					String path = uri.getPath().toLowerCase(Locale.getDefault());
+					String path = lib.dumpUriMetaData(Container, uri);
+					if (path.contains(":")) path = path.split(":")[0];
 					if (path.lastIndexOf(".k")>path.length()-5 )
 					{
 						_cardmode = true;
