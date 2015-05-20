@@ -90,7 +90,6 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//this.grantUriPermission("com.google.android.apps.docs",null , Intent.FLAG_GRANT_READ_URI_PERMISSION & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 		libLearn.gStatus = "onCreate getEink";
 		try {
 			_blnEink = getWindowManager().getDefaultDisplay().getRefreshRate() < 5.0;
@@ -173,12 +172,26 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				} else {
 					String strURI = prefs.getString("URI","");
 					String filename = prefs.getString("LastFile", "");
+					String UriName = prefs.getString("FileName", "");
 					if (!libString.IsNullOrEmpty(strURI)|| !libString.IsNullOrEmpty(filename)) 
 					{
 						libLearn.gStatus = "onCreate Load Lastfile";
 						
 						Uri uri = null;
-						if (!libString.IsNullOrEmpty(strURI)) uri = Uri.parse(strURI);
+						if (!libString.IsNullOrEmpty(strURI))
+						{
+							uri = Uri.parse(strURI);
+							try
+							{
+								this.grantUriPermission("org.de.jmg.learn", uri , 
+										Intent.FLAG_GRANT_READ_URI_PERMISSION 
+										| Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+							}
+							catch (Exception ex)
+							{
+								Log.e("MainActivity","OnCreate grantUriPermission",ex);
+							}
+						}
 						
 						int index = prefs.getInt("vokindex", 1);
 						int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
@@ -196,6 +209,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 										Lernindex, CardMode);
 								vok.setFileName(filename);
 								vok.setURI(uri);
+								vok.setURIName(UriName);
 								vok.setCardMode(CardMode);
 								vok.setLastIndex(prefs.getInt("vokLastIndex",
 										vok.getLastIndex()));
@@ -271,7 +285,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			if (vok.getGesamtzahl() > 0 ) {
 				saveFilePrefs(true);
 				vok.SaveFile(
-						Path.combine(getApplicationInfo().dataDir, "vok.tmp"),null,
+						Path.combine(getApplicationInfo().dataDir, "vok.tmp"),uri,
 						vok.getUniCode(), true);
 				outState.putString("vokpath", filename);
 				outState.putInt("vokindex", vok.getIndex());
@@ -285,6 +299,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				vok.aend = aend;
 				vok.setFileName(filename);
 				vok.setURI(uri);
+				if(uri!=null)this.takePersistableUri(getIntent(), uri);
 			}
 
 		} catch (Exception e) {
@@ -531,7 +546,23 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		edit.putBoolean("isTmpFile", isTmpFile);
 		edit.putBoolean("Cardmode", vok.getCardMode());
 		edit.putBoolean("aend", vok.aend);
-		if (vok.getURI()!= null) edit.putString("URI", vok.getURI().toString());
+		if (vok.getURI()!= null) 
+		{
+			edit.putString("URI", vok.getURI().toString());
+			try 
+			{
+				takePersistableUri(getIntent(), vok.getURI());
+			} 
+			catch (Exception e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Log.e("saveFilePrefs",vok.getURI().toString(),e);
+			}
+			String FileName = lib.dumpUriMetaData(this, vok.getURI());
+			if (FileName.contains(":")) FileName = FileName.split(":")[0];
+			edit.putString("FileName", FileName);
+		}
 		edit.commit();
 	}
 
@@ -1857,8 +1888,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				PaukRepetitions = data.getExtras().getInt("PaukRepetitions");
 				vok.ProbabilityFactor = data.getExtras().getFloat(
 						"ProbabilityFactor");
-				//this.grantUriPermission("com.google.android.apps.docs",null , Intent.FLAG_GRANT_READ_URI_PERMISSION & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-						vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
+				vok.setAbfrageZufaellig(data.getExtras().getBoolean("Random"));
 				vok.setAskAll(data.getExtras().getBoolean("AskAll"));
 				int Language = data.getExtras().getInt("Language",Vokabel.EnumSprachen.undefiniert.ordinal());
 				for (int i = 0; i < Vokabel.EnumSprachen.values().length; i++)
@@ -1908,11 +1938,8 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				if(path.contains(":")) path = path.split(":")[0];
 				if (lib.RegexMatchVok(path) || lib.ShowMessageYesNo(this, getString(R.string.msgWrongExtLoad)))
 				{
-					if(Build.VERSION.SDK_INT>19)
-					{
-						takePersistableUri(this.getIntent(), selectedUri);
-					}
 					LoadVokabel(null,selectedUri, 1, null, 0, false);
+					takePersistableUri(this.getIntent(), selectedUri);
 					prefs.edit().putString("defaultURI",strUri).commit();
 				}
 				
@@ -1944,10 +1971,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				
 				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt)))
 				{
-					if (Build.VERSION.SDK_INT>=19)
-					{
-						takePersistableUri(data, selectedUri);
-					}
+					takePersistableUri(this.getIntent(), selectedUri);
 					vok.SaveFile(null, selectedUri,
 							_blnUniCode, false);
 					saveFilePrefs(false);
@@ -1964,13 +1988,24 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	}
 	
 	@SuppressLint("NewApi")
-	private void takePersistableUri(Intent intent,Uri selectedUri)
+	private void takePersistableUri(Intent intent,Uri selectedUri) throws Exception
 	{
-		final int takeFlags = intent.getFlags()
-	            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-	            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-		// Check for the freshest data.
-		getContentResolver().takePersistableUriPermission(selectedUri, takeFlags);
+		if(Build.VERSION.SDK_INT>=19)
+		{
+			try
+			{
+				final int takeFlags = intent.getFlags()
+			            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+			            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+				// Check for the freshest data.
+				getContentResolver().takePersistableUriPermission(selectedUri, takeFlags);
+			}
+			catch (Exception ex)
+			{
+				Log.e("takePersistableUri", "Error", ex);
+			}
+
+		}
 	}
 	
 	public void LoadVokabel(String fileSelected, Uri uri, int index, int[] Lernvokabeln,

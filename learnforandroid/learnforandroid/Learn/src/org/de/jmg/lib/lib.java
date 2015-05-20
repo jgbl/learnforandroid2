@@ -832,7 +832,15 @@ public class lib {
 	    // one row. There's no need to filter, sort, or select fields, since we want
 	    // all fields for one document.
 	    Cursor cursor;
-	    cursor = context.getContentResolver().query(uri, null, null, null, null);
+	    try
+	    {
+	    	cursor = context.getContentResolver().query(uri, null, null, null, null);
+	    }
+	    catch(Exception ex)
+	    {
+	    	Log.e("DumpUri","getContentResolver().query "+ uri.toString(),ex);
+	    	cursor = null;
+	    }
 	    try {
 	    // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
 	    // "if there's anything to look at, look at it" conditionals.
@@ -864,15 +872,23 @@ public class lib {
 	        }
 	        else
 	        {
-	        	String p = uri.getPath();
-	        	if (!libString.IsNullOrEmpty(p))
+	        	MainActivity main = (MainActivity)context;
+	        	if (!libString.IsNullOrEmpty(main.vok.getURIName()))
 	        	{
-	        		p = p.substring(p.lastIndexOf("/")+1);
-	        		return p;
+	        		return "/" + main.vok.getURIName();
 	        	}
 	        	else
 	        	{
-	        		return "";
+		        	String p = uri.getPath();
+		        	if (!libString.IsNullOrEmpty(p))
+		        	{
+		        		p = p.substring(p.lastIndexOf("/")+1);
+		        		return p;
+		        	}
+		        	else
+		        	{
+		        		return "";
+		        	}
 	        	}
 	        }
 	    }
@@ -885,6 +901,25 @@ public class lib {
 	        if (cursor != null) cursor.close();
 	    }
 	    return "";
+	}
+
+	@SuppressLint("InlinedApi")
+	public static void GrantAllPermissions(Activity container, Uri uri) throws Exception
+	{
+		try
+		{
+			int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION 
+					| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
+			if (Build.VERSION.SDK_INT>=19)	Flags = Flags | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+			container.grantUriPermission("org.de.jmg.learn", uri , Flags);
+		}
+		catch (Exception ex)
+		{
+			Log.e("lib.GrantAllPermissions", ex.getMessage(), ex);
+			int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION 
+					| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
+			container.grantUriPermission("org.de.jmg.learn", uri , Flags);
+		}
 	}
 
 }
