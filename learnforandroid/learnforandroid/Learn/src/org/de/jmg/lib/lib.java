@@ -96,6 +96,12 @@ public class lib {
 		
 	}
 	
+	public static boolean RegexMatchVok(String FileName)
+	{
+		if (FileName.matches(".+\\.((?i)v.{1}.{1})|((?i)k.{1}.{1})$")) return true;
+		return false;
+	}
+	
 	public static final boolean NookSimpleTouch()
 	{
 		//return false;

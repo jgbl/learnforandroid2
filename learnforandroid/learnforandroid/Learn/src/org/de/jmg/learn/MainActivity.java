@@ -1904,12 +1904,18 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				Uri selectedUri = data.getData();
 				String strUri = selectedUri.toString();
-				if(Build.VERSION.SDK_INT>19)
+				String path = lib.dumpUriMetaData(this, selectedUri);
+				if(path.contains(":")) path = path.split(":")[0];
+				if (lib.RegexMatchVok(path) || lib.ShowMessageYesNo(this, getString(R.string.msgWrongExtLoad)))
 				{
-					takePersistableUri(this.getIntent(), selectedUri);
+					if(Build.VERSION.SDK_INT>19)
+					{
+						takePersistableUri(this.getIntent(), selectedUri);
+					}
+					LoadVokabel(null,selectedUri, 1, null, 0, false);
+					prefs.edit().putString("defaultURI",strUri).commit();
 				}
-				LoadVokabel(null,selectedUri, 1, null, 0, false);
-				prefs.edit().putString("defaultURI",strUri).commit();
+				
 			}
 			else if (resultCode == RESULT_OK && requestCode == EDIT_REQUEST_CODE && data!=null) 
 			{

@@ -201,5 +201,6 @@
 	            <string name="SaveNewVokabularyAs">Do you want to save the new vocabulary?</string>
 	            <string name="mnuOpenUri">open URI</string>
 	            <string name="msgWrongExt">You have chosen a wrong extension! Do you want to save nevertheless?</string>
+	            <string name="msgWrongExtLoad">The filename has a wrong extension! Do you want to load the file nevertheless?</string>
         
 </resources>
