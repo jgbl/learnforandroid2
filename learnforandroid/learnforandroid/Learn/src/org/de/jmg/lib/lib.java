@@ -787,6 +787,7 @@ public class lib {
 		else
 		{
 			intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+			intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 			intent.setType("*/*");
 		}
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -903,14 +904,18 @@ public class lib {
 	    return "";
 	}
 
-	@SuppressLint("InlinedApi")
-	public static void GrantAllPermissions(Activity container, Uri uri) throws Exception
+	@SuppressLint({ "InlinedApi", "NewApi" })
+	public static void GrantAllPermissions(Activity container, Uri uri, boolean force) throws Exception
 	{
 		try
 		{
 			int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION 
 					| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
-			if (Build.VERSION.SDK_INT>=19)	Flags = Flags | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+			if (Build.VERSION.SDK_INT>=19)	
+			{
+				Flags = Flags | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+				container.getContentResolver().takePersistableUriPermission(uri, Flags);
+			}
 			container.grantUriPermission("org.de.jmg.learn", uri , Flags);
 		}
 		catch (Exception ex)
@@ -919,6 +924,11 @@ public class lib {
 			int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION 
 					| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
 			container.grantUriPermission("org.de.jmg.learn", uri , Flags);
+			if (Build.VERSION.SDK_INT>= 19)
+			{
+				container.getContentResolver().takePersistableUriPermission(uri, Flags);
+			}
+			//if (force) lib.ShowException(container, ex);
 		}
 	}
 

@@ -14,10 +14,8 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.widget.TextView;
 
@@ -1655,7 +1653,7 @@ public class Vokabel {
 			}
 			else if (uri!=null)
 			{
-				lib.GrantAllPermissions(Container,uri);
+				lib.GrantAllPermissions(Container,uri,false);
 				pfd = Container.getContentResolver().
 		                openFileDescriptor(uri, "w");
 		        os = new FileOutputStream(pfd.getFileDescriptor());
@@ -2148,7 +2146,7 @@ public class Vokabel {
 					
 					if (libString.IsNullOrEmpty(strFileName) && uri!=null)
 					{
-						lib.GrantAllPermissions(Container, uri);
+						lib.GrantAllPermissions(Container, uri,true);
 						is = context.getContentResolver().openInputStream(uri);
 						aend=true;
 					}

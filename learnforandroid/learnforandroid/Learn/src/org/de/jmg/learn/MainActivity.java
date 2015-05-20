@@ -181,16 +181,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						if (!libString.IsNullOrEmpty(strURI))
 						{
 							uri = Uri.parse(strURI);
-							try
-							{
-								this.grantUriPermission("org.de.jmg.learn", uri , 
-										Intent.FLAG_GRANT_READ_URI_PERMISSION 
-										| Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-							}
-							catch (Exception ex)
-							{
-								Log.e("MainActivity","OnCreate grantUriPermission",ex);
-							}
+							lib.GrantAllPermissions(this, uri, false);
 						}
 						
 						int index = prefs.getInt("vokindex", 1);
@@ -284,6 +275,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			Uri uri = vok.getURI();
 			if (vok.getGesamtzahl() > 0 ) {
 				saveFilePrefs(true);
+				if(uri!=null)
+				{
+					lib.GrantAllPermissions(this, uri, true);
+					this.takePersistableUri(getIntent(), uri,true);
+				}
 				vok.SaveFile(
 						Path.combine(getApplicationInfo().dataDir, "vok.tmp"),uri,
 						vok.getUniCode(), true);
@@ -299,7 +295,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				vok.aend = aend;
 				vok.setFileName(filename);
 				vok.setURI(uri);
-				if(uri!=null)this.takePersistableUri(getIntent(), uri);
+				
 			}
 
 		} catch (Exception e) {
@@ -446,39 +442,40 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	private boolean saveVokAsync(boolean dontPrompt) throws Exception {
 		EndEdit();
 		if (vok.aend) {
-			if (!dontPrompt) {
+			if (!dontPrompt) 
+			{
 				
 				 AlertDialog.Builder A = new AlertDialog.Builder(context);
 				 A.setPositiveButton(getString(R.string.yes), new
 				 AlertDialog.OnClickListener() 
 				 {				  
-				  @Override public void onClick(DialogInterface dialog, int
-				  which) 
+				  @Override public void onClick(DialogInterface dialog, int which) 
 				  { 
 					  try 
 					  { 
-						  if (libString.IsNullOrEmpty(vok.getFileName()))
-						  {
-							  SaveVokAs(true,false);
-						  }
-						  else
-						  {
-							  vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false); 
-							  vok.aend = false; 
-							  _backPressed += 1;
-							  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-							  saveFilePrefs(false);  
-						  }
-						   
+						  vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false); 
+						  vok.aend = false; 
+						  _backPressed += 1;
+						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+						  saveFilePrefs(false);  
 					  } 
 					  catch (Exception e) 
 					  { 
-						  lib.ShowException(MainActivity.this, e); 
+						  try 
+						  {
+							SaveVokAs(true,false);
 						  } 
+						  catch (Exception e1) 
+						  {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							lib.ShowException(MainActivity.this, e1); 
+						  }
 					  } 
-				  });
-				  A.setNegativeButton(getString(R.string.no), new
-				  AlertDialog.OnClickListener() 
+				  }
+				 });
+				 A.setNegativeButton(getString(R.string.no), new
+				 AlertDialog.OnClickListener() 
 				  {
 					  @Override 
 					  public void onClick(DialogInterface dialog, int which) 
@@ -551,7 +548,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			edit.putString("URI", vok.getURI().toString());
 			try 
 			{
-				takePersistableUri(getIntent(), vok.getURI());
+				takePersistableUri(getIntent(), vok.getURI(),true);
 			} 
 			catch (Exception e) 
 			{
@@ -1603,7 +1600,8 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	}
 	private static final int EDIT_REQUEST_CODE = 0x3abd;
 	@SuppressLint("InlinedApi")
-	public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Exception {
+	public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Exception 
+	{
 		try
 		{
 			EndEdit();
@@ -1939,7 +1937,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				if (lib.RegexMatchVok(path) || lib.ShowMessageYesNo(this, getString(R.string.msgWrongExtLoad)))
 				{
 					LoadVokabel(null,selectedUri, 1, null, 0, false);
-					takePersistableUri(this.getIntent(), selectedUri);
+					takePersistableUri(this.getIntent(), selectedUri,true);
 					prefs.edit().putString("defaultURI",strUri).commit();
 				}
 				
@@ -1971,7 +1969,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				
 				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt)))
 				{
-					takePersistableUri(this.getIntent(), selectedUri);
+					takePersistableUri(this.getIntent(), selectedUri,false);
 					vok.SaveFile(null, selectedUri,
 							_blnUniCode, false);
 					saveFilePrefs(false);
@@ -1988,7 +1986,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	}
 	
 	@SuppressLint("NewApi")
-	private void takePersistableUri(Intent intent,Uri selectedUri) throws Exception
+	private void takePersistableUri(Intent intent,Uri selectedUri, boolean force) throws Exception
 	{
 		if(Build.VERSION.SDK_INT>=19)
 		{
@@ -2003,6 +2001,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			catch (Exception ex)
 			{
 				Log.e("takePersistableUri", "Error", ex);
+				if (force)lib.ShowException(this, ex);
 			}
 
 		}
