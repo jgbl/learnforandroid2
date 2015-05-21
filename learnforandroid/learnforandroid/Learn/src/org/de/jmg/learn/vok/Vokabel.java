@@ -2108,7 +2108,8 @@ public class Vokabel {
 
 	public void LoadFile(Context context, String strFileName, Uri uri, boolean blnSingleLine,
 			boolean blnAppend, boolean blnUnicode) throws Exception {
-		try {
+		try 
+		{
 			final String CodeLoc = "Vokabel.LoadFile";
 			libLearn.gStatus = CodeLoc + " Start";
 
@@ -2136,18 +2137,21 @@ public class Vokabel {
 
 			libLearn.gStatus = "Load File: " + strFileName;
 
-			mFileName = "";
+			//mFileName = "";
 
 			libLearn.gStatus = CodeLoc + " Open Stream";
 			// Inserted by CodeCompleter
 			java.io.File F = null;
 			
-			_uri = uri;
+			//_uri = uri;
 			
 			Charset CharsetWindows = null;
-			try {
+			try 
+			{
 				CharsetWindows = Charset.forName(CharsetASCII);
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				this.setStatus(ex.getMessage());
 			}
 			if (CharsetWindows == null)
@@ -2179,10 +2183,12 @@ public class Vokabel {
 								(blnUnicode ? CharSetUnicode : CharsetWindows));
 						sr = new WindowsBufferedReader(isr);
 						if (finished || i==2) break;
+						int ii = 0;
 						do
 						{
 							String s = sr.readLine();
-							if (s==null)
+							ii++;
+							if (s==null || ii >=500)
 							{
 								finished = true;
 								break;
@@ -2193,7 +2199,8 @@ public class Vokabel {
 								blnUnicode = !blnUnicode;
 								break;
 							}
-						}while(true);	
+						}
+						while(true);	
 						sr.close();
 						isr.close();
 						is.close();
@@ -2207,11 +2214,7 @@ public class Vokabel {
 						return;
 					}
 				}
-				_UniCode = blnUnicode; // (isr.getEncoding().equals("Unicode")
-										// || isr.getEncoding().equals("UTF8")
-										// ||
-										// isr.getEncoding().equals("UTF16"));
-
+				
 				if (F != null)
 				{
 					if (lib.getExtension(F).toLowerCase(Locale.getDefault())
@@ -2235,10 +2238,13 @@ public class Vokabel {
 				}
 				libLearn.gStatus = CodeLoc + " ReadLine1";
 				tmp = sr.readLine();
-				try {
+				try 
+				{
 					sp = (short) Integer.parseInt(tmp.trim()); // .replaceAll("[^\\d]",
 																// "")'
-				} catch (NumberFormatException ex) {
+				} 
+				catch (NumberFormatException ex) 
+				{
 					// lib.ShowException(getContext(), ex);
 					this.setStatus(ex.getMessage());
 					sp -= 1;
@@ -2262,7 +2268,8 @@ public class Vokabel {
 					}
 				}
 			} while (sp < 0 && sp >= -2);
-			if (sp < -1) {
+			if (sp < -1) 
+			{
 				lib.ShowMessage(getContext(),
 						getContext()
 								.getString(R.string.FileFormatNotRecognized));
@@ -2273,15 +2280,19 @@ public class Vokabel {
 				libLearn.gStatus = CodeLoc + " Line 819";
 				// Inserted by CodeCompleter
 				indexlang = (short) (sp & 7);
-				if (!blnAppend) {
-					for (EnumSprachen Sprache : EnumSprachen.values()) {
-						if (Sprache.ordinal() == indexlang) {
+				if (!blnAppend) 
+				{
+					for (EnumSprachen Sprache : EnumSprachen.values()) 
+					{
+						if (Sprache.ordinal() == indexlang) 
+						{
 							mSprache = Sprache;
 							break;
 						}
 					}
 				}
-				if ((sp & 128) != 0) {
+				if ((sp & 128) != 0) 
+				{
 					String x;
 					tastbel = sr.readLine();
 					x = sr.readLine();
@@ -2307,103 +2318,185 @@ public class Vokabel {
 						lad = (Short) refVar___5.getValue();
 					}
 					// Windows Fonts extrahieren
-				} else {
+				} 
+				else 
+				{
 					lad = 0;
 				}
 				libLearn.gStatus = CodeLoc + " Line 829";
 				// Inserted by CodeCompleter
-				if (blnAppend) {
+				if (blnAppend) 
+				{
 					n = (short) mGesamtzahl;
-				} else {
+				} 
+				else 
+				{
 					mVok.clear();
+					mFileName = "";
+					_uri= null;
 					mVok.add(new typVok("empty", "empty", "empty", "empty",
 							"empty", (short) 0));
 				}
-	
-				for (String x = sr.readLine(); x != null; x = sr.readLine()) {
+				String[][]csvall= new String[5][5];
+				int csvFound = 0;
+				boolean csvRegognized = false;
+				typVok CurVok = null;
+				for (String x = sr.readLine(); x != null; x = sr.readLine()) 
+				{
+					csvFound = 0;
 					int Len = x.length();
 					if (Len == 0)
 						continue;
-					typVok CurVok = new typVok();
+					String[]csv = x.split(",");
+					if (csv.length==5)
+					{
+						csvFound++;
+						csvall[0]=csv;
+					}
+					CurVok = new typVok();
 					mVok.add(CurVok);
 					n = (short) (mVok.size() - 1);
 					// mVok = lib.ResizeArray(mVok, n + 1);
 					libLearn.gStatus = CodeLoc + " ReadLine2";
-					CurVok.Wort = x.replace("{CR}", "\r").replace("{LF}", "\n");
-					qf = (short) libString.InStr(CurVok.Wort, "\0");
-					if (qf == 0)
-						qf = (short) libString.InStr(CurVok.Wort, libString.Chr(8));
-					if (qf != 0) {
-						CurVok.Kom = libString.Right(CurVok.Wort,
-								libString.Len(CurVok.Wort) - qf);
-						libLearn.gStatus = CodeLoc + " Line 839";
-						// Inserted by CodeCompleter
-						CurVok.Wort = libString.Left(CurVok.Wort, qf - 1);
-					} else {
-						CurVok.Kom = "";
-					}
+					SetWord(CurVok,x);
 					libLearn.gStatus = CodeLoc + " ReadLine3";
-					if (!((x = sr.readLine()) == null)) {
+					if (!((x = sr.readLine()) == null)) 
+					{
 						CurVok.Bed1 = x.replace("{CR}", "\r").replace("{LF}", "\n");
-					} else {
+						csv = x.split(",");
+						if (csv.length==5)
+						{
+							csvFound++;
+							csvall[1]=csv;
+						}
+					} 
+					else 
+					{
 						break;
 					}
 	
-					if (!blnSingleLine) {
-						if (!((x = sr.readLine()) == null)) {
+					if (!blnSingleLine) 
+					{
+						if (!((x = sr.readLine()) == null)) 
+						{
 							libLearn.gStatus = CodeLoc + " ReadLine4";
 							CurVok.Bed2 = x.replace("{CR}", "\r").replace("{LF}",
 									"\n");
+							csv = x.split(",");
+							if (csv.length==5)
+							{
+								csvFound++;
+								csvall[2]=csv;
+							}
 							strTmp = x;
 							short tmpZ = -100;
-							try {
+							try 
+							{
 								tmpZ = (short) Integer.parseInt(strTmp.trim());
-							} catch (Exception ex) {
+							} 
+							catch (Exception ex) 
+							{
 								tmpZ = -100;
 							}
 							if (tmpZ > -100)
 								canBeSingleLine = true;
 	
-						} else {
+						} 
+						else 
+						{
 							break;
 						}
 						libLearn.gStatus = CodeLoc + " Line 849";
 						// Inserted by CodeCompleter
-						if (!((x = sr.readLine()) == null)) {
+						if (!((x = sr.readLine()) == null)) 
+						{
 							libLearn.gStatus = CodeLoc + " ReadLine5";
 							CurVok.Bed3 = x.replace("{CR}", "\r").replace("{LF}",
 									"\n");
-						} else {
+							csv = x.split(",");
+							if (csv.length==5)
+							{
+								csvFound++;
+								csvall[3]=csv;
+							}
+						} 
+						else 
+						{
 							break;
 						}
-					} else {
+					} 
+					else 
+					{
 						CurVok.Bed2 = "";
 						CurVok.Bed3 = "";
 					}
-					if (!((x = sr.readLine()) == null)) {
+					if (!((x = sr.readLine()) == null)) 
+					{
 						libLearn.gStatus = CodeLoc + " ReadLine6";
 						strTmp = x;
-						try {
+						try 
+						{
 							CurVok.z = (short) Integer.parseInt(strTmp.trim());
-						} catch (Exception ex) {
-							if (canBeSingleLine) {
+						} 
+						catch (Exception ex) 
+						{
+							if (canBeSingleLine) 
+							{
 								blnSingleLine = true;
 								throw new RuntimeException("IsSingleline", ex);
-							} else {
-								throw ex;
+							} 
+							else 
+							{
+								csv = x.split(",");
+								if (csv.length==5)
+								{
+									csvFound++;
+									csvall[4]=csv;
+								}
+								if (csvFound == 5||csvRegognized)
+								{
+									csvRegognized=true;
+									for (int iii = 0; iii<csvFound; iii++)
+									{
+										for (int iiii=0; iiii<5; iiii++)
+										{
+											csvall[iii][iiii]=csvall[iii][iiii].replaceAll("^\"|\"$", "");
+										}
+										SetWord(CurVok, csvall[iii][0]);
+										CurVok.Bed1 = csvall[iii][1];
+										CurVok.Bed2 = csvall[iii][2];
+										CurVok.Bed3 = csvall[iii][3];
+										CurVok.z = (short) Integer.parseInt(csvall[iii][4].trim());
+										if (iii<4)
+										{
+											CurVok = new typVok();
+											mVok.add(CurVok);
+											n = (short) (mVok.size() - 1);
+										}
+									}								
+								}
+								else
+								{
+									throw ex;
+								}
 							}
 	
 						}
-					} else {
-						break;
+					} 
+					else 
+					{
+							break;
 					}
-					if (libString.IsNullOrEmpty(CurVok.Wort)) {
+					if (libString.IsNullOrEmpty(CurVok.Wort)) 
+					{
 						mVok.remove(n);
 						n = (short) (mVok.size() - 1);
 						libLearn.gStatus = CodeLoc + " Line 859";
 						// Inserted by CodeCompleter
 						// mVok = lib.ResizeArray(mVok, n + 1);
-					} else {
+					} 
+					else 
+					{
 						CurVok.Wort = CurVok.Wort.replace("ùú", "\r\n");
 						CurVok.Kom = CurVok.Kom.replace("ùú", "\r\n");
 						CurVok.Bed1 = CurVok.Bed1.replace("ùú", "\r\n");
@@ -2425,6 +2518,30 @@ public class Vokabel {
 						}
 					}
 					libLearn.gStatus = CodeLoc + " End While";
+					
+				}
+				if (csvFound == 5||csvRegognized)
+				{
+					for (int iii = 0; iii<csvFound; iii++)
+					{
+						
+						for (int iiii=0; iiii<5; iiii++)
+						{
+							csvall[iii][iiii]=csvall[iii][iiii].replaceAll("^\"|\"$", "");
+						}
+						
+						SetWord(CurVok, csvall[iii][0]);
+						CurVok.Bed1 = csvall[iii][1];
+						CurVok.Bed2 = csvall[iii][2];
+						CurVok.Bed3 = csvall[iii][3];
+						CurVok.z = (short) Integer.parseInt(csvall[iii][4].trim());
+						if (iii<4)
+						{
+							CurVok = new typVok();
+							mVok.add(CurVok);
+							n = (short) (mVok.size() - 1);
+						}
+					}								
 				}
 				mGesamtzahl = n;
 				if (!blnAppend)
@@ -2451,14 +2568,21 @@ public class Vokabel {
 				// Case Is > 2: Sprache = "Sonstige"
 				}
 				// If Sprache <> "" Then mSprache = Sprache
-				if (mGesamtzahl > 0) {
+				if (mGesamtzahl > 0) 
+				{
+					_UniCode = blnUnicode;
 					InitAbfrage();
 					if (!blnAppend)
 						mFileName = strFileName;
-				} else {
+						_uri = uri;
+				} 
+				else 
+				{
 					libLearn.gStatus = CodeLoc + " Line 889";
 					// Inserted by CodeCompleter
 					mblnLernInit = false;
+					mFileName = "";
+					_uri = null;
 				}
 				if (blnUnicode)
 					aend = false;
@@ -2471,6 +2595,26 @@ public class Vokabel {
 		} catch (Exception ex) {
 			throw new RuntimeException("Error in Loadfile", ex);
 		}
+	}
+
+	private void SetWord(typVok CurVok, String x) {
+		final String CodeLoc = "SetWord ";
+		CurVok.Wort = x.replace("{CR}", "\r").replace("{LF}", "\n");
+		short qf = (short) libString.InStr(CurVok.Wort, "\0");
+		if (qf == 0)
+			qf = (short) libString.InStr(CurVok.Wort, libString.Chr(8));
+		if (qf != 0) {
+			CurVok.Kom = libString.Right(CurVok.Wort,
+					libString.Len(CurVok.Wort) - qf);
+			
+			libLearn.gStatus = CodeLoc + " Line 839";
+			// Inserted by CodeCompleter
+			CurVok.Wort = libString.Left(CurVok.Wort, qf - 1);
+		} else {
+			CurVok.Kom = "";
+		}
+		
+		
 	}
 
 	public void ConvertMulti() {

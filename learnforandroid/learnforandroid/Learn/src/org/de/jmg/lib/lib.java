@@ -833,9 +833,11 @@ public class lib {
 	    // one row. There's no need to filter, sort, or select fields, since we want
 	    // all fields for one document.
 	    Cursor cursor;
+	    String mimeType = null;
 	    try
 	    {
 	    	cursor = context.getContentResolver().query(uri, null, null, null, null);
+	    	mimeType = context.getContentResolver().getType(uri);
 	    }
 	    catch(Exception ex)
 	    {
@@ -852,7 +854,14 @@ public class lib {
 	            String displayName = cursor.getString(
 	                    cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 	            Log.i(TAG, "Display Name: " + displayName);
-
+	            String path = uri.getPath();
+	            path = path.substring(path.lastIndexOf("/")+1);
+	            int found = path.indexOf(displayName);
+	            if (found>-1 && (found+displayName.length()<path.length()))
+	            {
+	            	displayName+=path.substring(found+displayName.length());
+	            }
+	            		
 	            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
 	            // If the size is unknown, the value stored is null.  But since an
 	            // int can't be null in Java, the behavior is implementation-specific,
@@ -868,8 +877,10 @@ public class lib {
 	            } else {
 	                size = "Unknown";
 	            }
-	            Log.i(TAG, "Size: " + size);
-	            return displayName + ":" + size;
+	            Log.i(TAG, "Size: " + size );
+	            
+	            
+	            return displayName + ":" + size + ":" + mimeType;
 	        }
 	        else
 	        {

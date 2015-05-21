@@ -2040,6 +2040,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			int Lernindex, boolean CardMode) {
 		try {
 			if (uri==null) saveVok(false);
+			setBtnsEnabled(false);
 			try {
 				vok.LoadFile(this, fileSelected, uri, false, false, _blnUniCode);
 			} catch (RuntimeException ex) {
@@ -2075,6 +2076,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			lib.ShowException(this, e);
+			getVokabel(true, true);
 		}
 	}
 
