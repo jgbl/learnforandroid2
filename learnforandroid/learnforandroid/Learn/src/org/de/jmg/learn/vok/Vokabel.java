@@ -2080,6 +2080,7 @@ public class Vokabel {
 		mGesamtzahl = 0;
 		mIndex = 0;
 		mFileName = "";
+		_URIName= "";
 		_uri = null;
 		mSprache=EnumSprachen.Normal;
 	}

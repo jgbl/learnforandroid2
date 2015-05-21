@@ -169,7 +169,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						vok.aend = savedInstanceState.getBoolean("aend", true);
 						SetActionBarTitle();
 					}
-				} else {
+				} 
+				else 
+				{
 					String strURI = prefs.getString("URI","");
 					String filename = prefs.getString("LastFile", "");
 					String UriName = prefs.getString("FileName", "");
@@ -206,21 +208,28 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 										vok.getLastIndex()));
 								SetActionBarTitle();
 								vok.aend = aend;
-							} else {
+							} 
+							else 
+							{
 								LoadVokabel(filename, uri, index, Lernvokabeln,
 										Lernindex, CardMode);
 								vok.setLastIndex(prefs.getInt("vokLastIndex",
 										vok.getLastIndex()));
 							}
-						} else {
-							if (isTmpFile) {
+						} 
+						else 
+						{
+							if (isTmpFile) 
+							{
 								LoadVokabel(tmppath, uri, 1, null, 0, CardMode);
 								vok.setFileName(filename);
 								vok.setURI(uri);
 								vok.setCardMode(CardMode);
 								SetActionBarTitle();
 								vok.aend = aend;
-							} else {
+							} 
+							else 
+							{
 								LoadVokabel(filename, uri, 1, null, 0, CardMode);
 							}
 						}
@@ -228,7 +237,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					}
 				}
 
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				lib.ShowException(this, e);
@@ -333,13 +344,17 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			}
 		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 			try {
-				if (_backPressed > 0 || saveVokAsync(false)) {
+				if (_backPressed > 0 || saveVokAsync(false)) 
+				{
 					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
-				} else {
+				} else 
+				{
 					return true;
 				}
 
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				// TODO Auto-generated catch block
 				Log.e("onBackPressed", e.getMessage(), e);
 				lib.ShowException(this, e);
@@ -407,21 +422,20 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				try 
 				{
-					/*
-					if (libString.IsNullOrEmpty(vok.getFileName()))
+					
+					if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 					{
 						SaveVokAs(true,false);
 					}
 					else
 					{
-					*/
 						vok.SaveFile();
 						vok.aend = false;
 						_backPressed += 1;
 						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
 						saveFilePrefs(false);
 						return true;
-					//}
+					}
 				} 
 				catch (Exception e) 
 				{
@@ -453,11 +467,18 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				  { 
 					  try 
 					  { 
-						  vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false); 
-						  vok.aend = false; 
-						  _backPressed += 1;
-						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
-						  saveFilePrefs(false);  
+						  if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
+						  {
+							SaveVokAs(true,false);
+						  }
+							else
+						  {
+							vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false);
+							vok.aend = false; 
+							_backPressed += 1;
+							handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+							saveFilePrefs(false);
+						  }
 					  } 
 					  catch (Exception e) 
 					  { 
@@ -507,7 +528,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 			if (dontPrompt) {
 				try {
-					if (libString.IsNullOrEmpty(vok.getFileName()))
+					if (libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 					{
 						SaveVokAs(true,false);
 					}
@@ -559,6 +580,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			String FileName = lib.dumpUriMetaData(this, vok.getURI());
 			if (FileName.contains(":")) FileName = FileName.split(":")[0];
 			edit.putString("FileName", FileName);
+		}
+		else
+		{
+			edit.putString("URI", "");
+			edit.putString("FileName", "");
 		}
 		edit.commit();
 	}
@@ -1833,7 +1859,10 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 											vok.SaveFile(F.getPath(), vok.getURI(),
 													_blnUniCode, false);
 											saveFilePrefs(false);
-											if (blnNew) newvok();
+											if (blnNew)
+											{
+												newvok();
+											}
 											SetActionBarTitle();
 										}
 
@@ -2299,7 +2328,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 	private void SetActionBarTitle() throws Exception {
 		if (vok.getGesamtzahl() > 0) {
-			String FName = null;
+			String FName = "";
 			if (! libString.IsNullOrEmpty(vok.getFileName()))
 			{
 				FName = new File(vok.getFileName()).getName();
@@ -2317,6 +2346,10 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				{
 					FName = "/" + path;
 				}
+			}
+			else if (! libString.IsNullOrEmpty(vok.getURIName()))
+			{
+				FName = vok.getURIName();
 			}
 			String title = "Learn " + FName
 					+ " " + getString(R.string.number) + ": " + vok.getIndex()
