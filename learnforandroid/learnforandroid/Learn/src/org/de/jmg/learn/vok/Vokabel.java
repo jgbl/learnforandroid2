@@ -468,7 +468,16 @@ public class Vokabel {
 	}
 
 	public void setLernvokabeln(int[] Lernvokabeln) {
-		mLernVokabeln = Lernvokabeln;
+		boolean found = false;
+		for (int i=1; i<Lernvokabeln.length;i++)
+		{
+			if (Lernvokabeln[i]>0)
+			{
+				found = true;
+				break;
+			}
+		}
+		if (found) mLernVokabeln = Lernvokabeln;
 	}
 
 	public short getZaehler() throws Exception {
@@ -1597,7 +1606,8 @@ public class Vokabel {
 	}
 
 	public synchronized void SaveFile(String strFileName,Uri uri, boolean blnUniCode,
-			boolean dontPrompt) throws Exception {
+			boolean dontPrompt) throws Exception 
+	{
 		if (libString.IsNullOrEmpty(strFileName) && uri==null)
 			return;
 		ParcelFileDescriptor pfd = null;
@@ -1613,6 +1623,7 @@ public class Vokabel {
 		short varbed = 0;
 		String fontfil = null;
 		String tastbel = null;
+		Exception finallyEx = null;
 		fontfil = "";
 		tastbel = "";
 
@@ -1719,9 +1730,13 @@ public class Vokabel {
 				}
 
 			}
-		} catch (Exception ex) {
+		} 
+		catch (Exception ex) 
+		{
 			throw new Exception("SaveVokError", ex);
-		} finally {
+		}
+		finally 
+		{
 			libLearn.gStatus="savevok close sWriter";
 			try
 			{
@@ -1732,7 +1747,7 @@ public class Vokabel {
 			}
 			catch (Exception ex)
 			{
-				lib.ShowException(Container, ex);
+				finallyEx = ex;
 			}
 			libLearn.gStatus="savevok close os";
 			if (os != null) {
@@ -1747,13 +1762,15 @@ public class Vokabel {
 			}
 
 		}
-		aend = false;
+		
 		mFileName = strFileName;
 		_uri = uri;
 		spr = (short) (spr & 7);
 		_UniCode = blnUniCode;
 		// System.Windows.Forms.Cursor.Current =
 		// System.Windows.Forms.Cursors.Default;
+		if (finallyEx!=null) throw finallyEx;
+		aend = false;
 	}
 
 	public void revert() {
@@ -2434,7 +2451,7 @@ public class Vokabel {
 				// Case Is > 2: Sprache = "Sonstige"
 				}
 				// If Sprache <> "" Then mSprache = Sprache
-				if (mGesamtzahl > 5) {
+				if (mGesamtzahl > 0) {
 					InitAbfrage();
 					if (!blnAppend)
 						mFileName = strFileName;

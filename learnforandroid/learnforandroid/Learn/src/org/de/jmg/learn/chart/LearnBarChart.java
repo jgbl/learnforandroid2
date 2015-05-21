@@ -43,10 +43,13 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import org.de.jmg.learn.MainActivity;
 import org.de.jmg.learn.vok.Vokabel;
+import org.de.jmg.lib.lib;
+import org.de.jmg.lib.lib.libString;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 
 /**
  * Sales demo bar chart.
@@ -81,8 +84,21 @@ public class LearnBarChart extends AbstractDemoChart {
 	public Intent execute(Context context) {
 		MainActivity Main = (MainActivity) context;
 		Vokabel vok = Main.vok;
-		File F = new File(vok.getFileName());
-		String[] titles = new String[] { F.getName() };
+		File F;
+		Uri uri;
+		String name = "";
+		if (!libString.IsNullOrEmpty(vok.getFileName()))
+		{
+			F = new File(vok.getFileName());
+			name = F.getName();
+		}
+		else if (vok.getURI()!=null)
+		{
+			uri = vok.getURI();
+			name = lib.dumpUriMetaData(Main, uri);
+			if (name.contains(":")) name = name.split(":")[0];
+		}
+		String[] titles = new String[] { name };
 		List<double[]> values = new ArrayList<double[]>();
 		double v[] = new double[14];
 		for (int i = -6; i <= 6; i++) {
@@ -95,7 +111,7 @@ public class LearnBarChart extends AbstractDemoChart {
 		XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
 		renderer.setOrientation(Orientation.HORIZONTAL);
 
-		setChartSettings(renderer, "Learned vocabulary for " + F.getName(),
+		setChartSettings(renderer, "Learned vocabulary for " + name,
 				"Learnindex", "Words", 1, 14, 0, vok.getGesamtzahl(),
 				Color.GREEN, Color.YELLOW);
 		renderer.setBackgroundColor(Color.BLACK);
