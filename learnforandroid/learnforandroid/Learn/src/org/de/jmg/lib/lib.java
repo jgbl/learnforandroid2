@@ -764,16 +764,14 @@ public class lib {
 	public static final int SELECT_FILE = 0xa3b4;
 	
 	@SuppressLint("InlinedApi")
-	public static void SelectFile(Activity context, String defaultURI) throws Exception
+	public static void SelectFile(Activity context, Uri defaultURI) throws Exception
 	{
 		
 		
 		Intent intent = new Intent();
-		if (!libString.IsNullOrEmpty(defaultURI))
+		if (defaultURI!=null)
 		{
-			defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
-			Uri def = Uri.parse(defaultURI);
-			intent.setData(def);
+			intent.setData(defaultURI);
 		}
 		else
 		{

@@ -59,6 +59,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	private static final int FILE_CHOOSER = 34823;
 	private static final int Settings_Activity = 34824;
 	private static final int FILE_CHOOSERADV = 34825;
+	private static final int FILE_OPENINTENT = 34826;
 	private Context context = this;
 	private Button _btnRight;
 	private Button _btnWrong;
@@ -1408,58 +1409,68 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	private void CopyAssets() {
 		libLearn.gStatus = "Copy Assets";
 		File F = android.os.Environment.getExternalStorageDirectory();
-		String extPath = F.getPath();
-		JMGDataDirectory = Path.combine(extPath, "learnforandroid", "vok");
-
-		if (F.isDirectory() && F.exists()) {
-			File F1 = new File(JMGDataDirectory);
-			if (F1.isDirectory() == false && !F1.exists()) {
-				F1.mkdirs();
+		boolean successful = false;
+		for (int i = 0; i<2; i++)
+		{
+			if(!F.exists()||i==1)
+			{
+				F= new File(getApplicationInfo().dataDir);
 			}
-			AssetManager A = this.getAssets();
-			try {
-				final String languages[] = new String[] { "Greek", "Hebrew",
-						"KAR", "Spanish" };
-				final String path = F1.getPath();
-				for (String language : languages) {
-					F1 = new File(Path.combine(path, language));
-					for (String File : A.list(language)) {
-						InputStream myInput = A.open(Path.combine(language,
-								File));
-						String outFileName = Path.combine(F1.getPath(), File);
-						if (F1.isDirectory() == false) {
-							F1.mkdirs();
-						}
-						// Open the empty db as the output stream
-
-						File file = new File(outFileName);
-
-						if (file.exists()) {
-							// file.delete();
-						} else {
-							file.createNewFile();
-							OutputStream myOutput = new FileOutputStream(file);
-
-							byte[] buffer = new byte[1024];
-							int length;
-							while ((length = myInput.read(buffer, 0, 1024)) > 0) {
-								myOutput.write(buffer, 0, length);
+			String extPath = F.getPath();
+			JMGDataDirectory = Path.combine(extPath, "learnforandroid", "vok");
+	
+			if (F.isDirectory() && F.exists()) {
+				File F1 = new File(JMGDataDirectory);
+				if (F1.isDirectory() == false && !F1.exists()) {
+					F1.mkdirs();
+				}
+				AssetManager A = this.getAssets();
+				try {
+					final String languages[] = new String[] { "Greek", "Hebrew",
+							"KAR", "Spanish" };
+					final String path = F1.getPath();
+					for (String language : languages) {
+						F1 = new File(Path.combine(path, language));
+						for (String File : A.list(language)) {
+							InputStream myInput = A.open(Path.combine(language,
+									File));
+							String outFileName = Path.combine(F1.getPath(), File);
+							if (F1.isDirectory() == false) {
+								F1.mkdirs();
 							}
-
-							// Close the streams
-							myOutput.flush();
-							myOutput.close();
-							myInput.close();
+							// Open the empty db as the output stream
+	
+							File file = new File(outFileName);
+	
+							if (file.exists()) {
+								// file.delete();
+							} else {
+								file.createNewFile();
+								OutputStream myOutput = new FileOutputStream(file);
+	
+								byte[] buffer = new byte[1024];
+								int length;
+								while ((length = myInput.read(buffer, 0, 1024)) > 0) {
+									myOutput.write(buffer, 0, length);
+								}
+	
+								// Close the streams
+								myOutput.flush();
+								myOutput.close();
+								myInput.close();
+								successful = true;
+							}
 						}
 					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
+					lib.ShowException(this, e);
+					// lib.ShowMessage(this, "CopyAssets");
+					successful = false;
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				lib.ShowException(this, e);
-				// lib.ShowMessage(this, "CopyAssets");
 			}
-
+			if (successful) break;
 		}
 
 	}
@@ -1493,7 +1504,18 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			} else if (id == R.id.mnuOpenUri) {
 				if (saveVok(false))
 				{
-					lib.SelectFile(this,prefs.getString("defaultURI", ""));
+					String defaultURI = prefs.getString("defaultURI", "");
+					Uri def;
+					if (libString.IsNullOrEmpty(defaultURI))
+					{
+						File F = new File(JMGDataDirectory);
+						def = Uri.fromFile(F);
+					}
+					else
+					{
+						def = Uri.parse(defaultURI);								
+					}
+					lib.SelectFile(this,def);
 				}
 			} else if (id == R.id.mnuNew) {
 				if (saveVok(false))
@@ -1633,33 +1655,46 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			EndEdit();
 			if (!libString.IsNullOrEmpty(vok.getFileName()) || vok.getURI()==null || Build.VERSION.SDK_INT<19)
 			{
-				Intent intent = new Intent(this, AdvFileChooser.class);
-				ArrayList<String> extensions = new ArrayList<String>();
-				extensions.add(".k??");
-				extensions.add(".v??");
-				extensions.add(".K??");
-				extensions.add(".V??");
-				extensions.add(".KAR");
-				extensions.add(".VOK");
-				extensions.add(".kar");
-				extensions.add(".vok");
-				extensions.add(".dic");
-				extensions.add(".DIC");
-	
-				intent.putStringArrayListExtra("filterFileExtension", extensions);
-				intent.putExtra("blnUniCode", blnUniCode);
-				intent.putExtra("DefaultDir",
-						new File(JMGDataDirectory).exists() ? JMGDataDirectory
-								: "/sdcard/");
-				intent.putExtra("selectFolder", true);
-				intent.putExtra("blnNew", blnNew);
-				if (_blnUniCode)
-					_oldUnidCode = yesnoundefined.yes;
+				if (vok.getURI()==null)
+				{
+					Intent intent = new Intent(this, AdvFileChooser.class);
+					ArrayList<String> extensions = new ArrayList<String>();
+					extensions.add(".k??");
+					extensions.add(".v??");
+					extensions.add(".K??");
+					extensions.add(".V??");
+					extensions.add(".KAR");
+					extensions.add(".VOK");
+					extensions.add(".kar");
+					extensions.add(".vok");
+					extensions.add(".dic");
+					extensions.add(".DIC");
+		
+					intent.putStringArrayListExtra("filterFileExtension", extensions);
+					intent.putExtra("blnUniCode", blnUniCode);
+					intent.putExtra("DefaultDir",
+							new File(JMGDataDirectory).exists() ? JMGDataDirectory
+									: "/sdcard/");
+					intent.putExtra("selectFolder", true);
+					intent.putExtra("blnNew", blnNew);
+					if (_blnUniCode)
+						_oldUnidCode = yesnoundefined.yes;
+					else
+						_oldUnidCode = yesnoundefined.no;
+					_blnUniCode = blnUniCode;
+		
+					this.startActivityForResult(intent, FILE_CHOOSERADV);
+				}
 				else
-					_oldUnidCode = yesnoundefined.no;
-				_blnUniCode = blnUniCode;
-	
-				this.startActivityForResult(intent, FILE_CHOOSERADV);
+				{
+					Intent intent = new Intent("org.openintents.action.PICK_FILE");
+					intent.setData(vok.getURI());
+					intent.putExtra("org.openintents.extra.WRITEABLE_ONLY", true);
+					intent.putExtra("org.openintents.extra.TITLE", getString(R.string.SaveAs));
+	                intent.putExtra("org.openintents.extra.BUTTON_TEXT", getString(R.string.Save));
+					startActivityForResult(intent, FILE_OPENINTENT);
+				}
+				
 	
 			}
 			else if (Build.VERSION.SDK_INT>=19)
@@ -1972,6 +2007,42 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				
 			}
 			else if (resultCode == RESULT_OK && requestCode == EDIT_REQUEST_CODE && data!=null) 
+			{
+				Uri selectedUri = data.getData();
+				String strUri = selectedUri.toString();
+				String path = lib.dumpUriMetaData(this, selectedUri);
+				if(path.contains(":")) path = path.split(":")[0];
+				boolean blnWrongExt = false;
+				if (vok.getCardMode())
+				{
+					if (!lib.ExtensionMatch(path, "k??"))
+					{
+						blnWrongExt=true;
+						//value += ".kar";
+					}
+				}
+				else
+				{
+					if (!lib.ExtensionMatch(path, "v??"))
+					{
+						//value += ".vok";
+						blnWrongExt=true;
+					}
+				}
+				
+				
+				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt)))
+				{
+					takePersistableUri(this.getIntent(), selectedUri,false);
+					vok.SaveFile(null, selectedUri,
+							_blnUniCode, false);
+					saveFilePrefs(false);
+					//if (blnNew) newvok();
+					SetActionBarTitle();
+					prefs.edit().putString("defaultURI",strUri).commit();
+				}
+			}
+			else if (resultCode == RESULT_OK && requestCode == FILE_OPENINTENT && data!=null) 
 			{
 				Uri selectedUri = data.getData();
 				String strUri = selectedUri.toString();
