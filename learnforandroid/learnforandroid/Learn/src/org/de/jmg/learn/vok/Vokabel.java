@@ -1665,9 +1665,27 @@ public class Vokabel {
 			else if (uri!=null)
 			{
 				lib.GrantAllPermissions(Container,uri,false);
-				pfd = Container.getContentResolver().
-		                openFileDescriptor(uri, "w");
-		        os = new FileOutputStream(pfd.getFileDescriptor());
+				try
+				{
+					pfd = Container.getContentResolver().
+			                openFileDescriptor(uri, "w");
+					if (pfd!=null)
+			        {
+						os = new FileOutputStream(pfd.getFileDescriptor());
+			        }
+					else
+					{
+						File F = new File(uri.getPath());
+						os = new java.io.FileOutputStream(F);
+						this.mVokPath = F.getParent();
+					}
+				}
+				catch(Exception ex)
+				{
+					File F = new File(uri.getPath());
+					os = new java.io.FileOutputStream(F);
+					this.mVokPath = F.getParent();
+				}
 		    }
 			else
 			{
@@ -2131,6 +2149,7 @@ public class Vokabel {
 			String tmp = null;
 			fontfil = "";
 			strTmp = "";
+			_URIName = "";
 			mLernVokabeln = new int[mSchrittweite + 1];
 			mLastIndex = 0;
 			// ERROR: Not supported in C#: OnErrorStatement
@@ -2156,12 +2175,13 @@ public class Vokabel {
 			}
 			if (CharsetWindows == null)
 				CharsetWindows = Charset.defaultCharset();
-			Charset CharSetUnicode = (sp >= -1 ? Charset
-					.forName("UTF-8") : Charset.forName("UTF-16"));
+			Charset CharSetUnicode = null;
 			
-			
+			boolean blnWrongNumberFormat = false;
 			do 
 			{
+				CharSetUnicode = (sp >= -1 ? Charset
+						.forName("UTF-8") : Charset.forName("UTF-16"));
 				boolean finished = false;
 				for (int i = 0; i<=2; i++)
 				{
@@ -2182,28 +2202,36 @@ public class Vokabel {
 						isr = new java.io.InputStreamReader(is,
 								(blnUnicode ? CharSetUnicode : CharsetWindows));
 						sr = new WindowsBufferedReader(isr);
-						if (finished || i==2) break;
-						int ii = 0;
-						do
+						if (!(finished || i==2 || blnWrongNumberFormat)) 
 						{
-							String s = sr.readLine();
-							ii++;
-							if (s==null || ii >=500)
+							int ii = 0;
+							do
 							{
-								finished = true;
-								break;
+								String s = sr.readLine();
+								ii++;
+								if (s==null || ii >=500)
+								{
+									finished = true;
+									break;
+								}
+								if (s.contains("�"))
+								{
+									finished = false;
+									blnUnicode = !blnUnicode;
+									break;
+								}
 							}
-							if (s.contains("�"))
-							{
-								finished = false;
-								blnUnicode = !blnUnicode;
-								break;
-							}
+							while(true);	
+							sr.close();
+							isr.close();
+							is.close();
+							continue;
 						}
-						while(true);	
-						sr.close();
-						isr.close();
-						is.close();
+						else
+						{
+							break;
+						}
+						
 					} 
 					else 
 					{
@@ -2248,6 +2276,7 @@ public class Vokabel {
 					// lib.ShowException(getContext(), ex);
 					this.setStatus(ex.getMessage());
 					sp -= 1;
+					blnWrongNumberFormat = true;
 					blnUnicode = (sp > -2 ? !blnUnicode : true);
 					if (sr != null)
 					{

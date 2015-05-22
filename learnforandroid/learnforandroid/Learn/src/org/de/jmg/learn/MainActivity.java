@@ -1655,44 +1655,73 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			EndEdit();
 			if (!libString.IsNullOrEmpty(vok.getFileName()) || vok.getURI()==null || Build.VERSION.SDK_INT<19)
 			{
-				if (vok.getURI()==null)
+				boolean blnSuccess = false;
+				for (int i = 0; i<2; i++)
 				{
-					Intent intent = new Intent(this, AdvFileChooser.class);
-					ArrayList<String> extensions = new ArrayList<String>();
-					extensions.add(".k??");
-					extensions.add(".v??");
-					extensions.add(".K??");
-					extensions.add(".V??");
-					extensions.add(".KAR");
-					extensions.add(".VOK");
-					extensions.add(".kar");
-					extensions.add(".vok");
-					extensions.add(".dic");
-					extensions.add(".DIC");
-		
-					intent.putStringArrayListExtra("filterFileExtension", extensions);
-					intent.putExtra("blnUniCode", blnUniCode);
-					intent.putExtra("DefaultDir",
-							new File(JMGDataDirectory).exists() ? JMGDataDirectory
-									: "/sdcard/");
-					intent.putExtra("selectFolder", true);
-					intent.putExtra("blnNew", blnNew);
-					if (_blnUniCode)
-						_oldUnidCode = yesnoundefined.yes;
-					else
-						_oldUnidCode = yesnoundefined.no;
-					_blnUniCode = blnUniCode;
-		
-					this.startActivityForResult(intent, FILE_CHOOSERADV);
-				}
-				else
-				{
-					Intent intent = new Intent("org.openintents.action.PICK_FILE");
-					intent.setData(vok.getURI());
-					intent.putExtra("org.openintents.extra.WRITEABLE_ONLY", true);
-					intent.putExtra("org.openintents.extra.TITLE", getString(R.string.SaveAs));
-	                intent.putExtra("org.openintents.extra.BUTTON_TEXT", getString(R.string.Save));
-					startActivityForResult(intent, FILE_OPENINTENT);
+					try
+					{
+						if (lib.ShowMessageYesNo(this, getString(R.string.msgStartExternalProgram))==false || (vok.getURI()!=null && i == 1))
+						{
+							Intent intent = new Intent(this, AdvFileChooser.class);
+							ArrayList<String> extensions = new ArrayList<String>();
+							extensions.add(".k??");
+							extensions.add(".v??");
+							extensions.add(".K??");
+							extensions.add(".V??");
+							extensions.add(".KAR");
+							extensions.add(".VOK");
+							extensions.add(".kar");
+							extensions.add(".vok");
+							extensions.add(".dic");
+							extensions.add(".DIC");
+				
+							intent.putStringArrayListExtra("filterFileExtension", extensions);
+							intent.putExtra("blnUniCode", blnUniCode);
+							intent.putExtra("DefaultDir",
+									new File(JMGDataDirectory).exists() ? JMGDataDirectory
+											: "/sdcard/");
+							intent.putExtra("selectFolder", true);
+							intent.putExtra("blnNew", blnNew);
+							if (_blnUniCode)
+								_oldUnidCode = yesnoundefined.yes;
+							else
+								_oldUnidCode = yesnoundefined.no;
+							_blnUniCode = blnUniCode;
+				
+							this.startActivityForResult(intent, FILE_CHOOSERADV);
+							blnSuccess = true;
+						}
+						else
+						{
+							//org.openintents.filemanager
+							Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+							intent.setData(vok.getURI());
+							intent.putExtra("org.openintents.extra.WRITEABLE_ONLY", true);
+							intent.putExtra("org.openintents.extra.TITLE", getString(R.string.SaveAs));
+			                intent.putExtra("org.openintents.extra.BUTTON_TEXT", getString(R.string.btnSave));
+			                if (intent.resolveActivity(context.getPackageManager()) != null) 
+			        		{ 
+			                	startActivityForResult(intent, FILE_OPENINTENT);
+			                	blnSuccess = true;
+							}
+			        		else
+			        		{
+			        			lib.ShowToast(this, getString(R.string.InstallFilemanager));
+			        		}
+			                
+						}
+					}
+					catch(Exception ex)
+					{
+						blnSuccess=false;
+						Log.e("SaveAs",ex.getMessage(),ex);
+						if (i==1)
+						{
+							lib.ShowException(this, ex);
+						}
+					}
+					
+					if (blnSuccess) break;
 				}
 				
 	
@@ -1721,7 +1750,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			    		FName = new File(vok.getFileName()).getName();
 			    	}
 			    	intent.putExtra(Intent.EXTRA_TITLE, FName);
-				    defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
+				    //defaultURI = (!defaultURI.endsWith("/")?defaultURI.substring(0,defaultURI.lastIndexOf("/")+1):defaultURI);
 					Uri def = Uri.parse(defaultURI);
 					intent.setData(def);
 				}
@@ -2010,6 +2039,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				Uri selectedUri = data.getData();
 				String strUri = selectedUri.toString();
+				vok.setURIName("");
 				String path = lib.dumpUriMetaData(this, selectedUri);
 				if(path.contains(":")) path = path.split(":")[0];
 				boolean blnWrongExt = false;
@@ -2046,6 +2076,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				Uri selectedUri = data.getData();
 				String strUri = selectedUri.toString();
+				vok.setURIName("");
 				String path = lib.dumpUriMetaData(this, selectedUri);
 				if(path.contains(":")) path = path.split(":")[0];
 				boolean blnWrongExt = false;
@@ -2109,12 +2140,16 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	
 	public void LoadVokabel(String fileSelected, Uri uri, int index, int[] Lernvokabeln,
 			int Lernindex, boolean CardMode) {
-		try {
+		try 
+		{
 			if (uri==null) saveVok(false);
 			setBtnsEnabled(false);
-			try {
+			try 
+			{
 				vok.LoadFile(this, fileSelected, uri, false, false, _blnUniCode);
-			} catch (RuntimeException ex) {
+			} 
+			catch (RuntimeException ex) 
+			{
 				if (ex.getCause() != null) {
 					if (ex.getCause().getMessage() != null
 							&& ex.getCause().getMessage()

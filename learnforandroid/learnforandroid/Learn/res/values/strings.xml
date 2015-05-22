@@ -19,6 +19,7 @@
     <string name="mnuFile">File</string>
     <string name="mnuFileOpen">open file</string>
     <string name="Save">Do you want to save the vocabulary?</string>
+    <string name="btnSave">save</string>
     <string name="mnuFileSave">save</string>
     <string name="mnuFileOpenASCII">open ASCII</string>
     <string name="FileFormatNotRecognized">The file format could not be recognized! Aborting load!</string>
@@ -202,5 +203,7 @@
 	            <string name="mnuOpenUri">open URI</string>
 	            <string name="msgWrongExt">You have chosen a wrong extension! Do you want to save nevertheless?</string>
 	            <string name="msgWrongExtLoad">The filename has a wrong extension! Do you want to load the file nevertheless?</string>
+	            <string name="InstallFilemanager">Please install org.openintents.filemanager!</string>
+	            <string name="msgStartExternalProgram">Do you want to start an external program?</string>
         
 </resources>
