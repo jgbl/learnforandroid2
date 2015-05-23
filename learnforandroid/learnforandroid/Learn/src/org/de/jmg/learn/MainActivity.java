@@ -1651,6 +1651,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	@SuppressLint("InlinedApi")
 	public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Exception 
 	{
+		boolean blnActionCreateDocument = false;
 		try
 		{
 			EndEdit();
@@ -1692,7 +1693,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							this.startActivityForResult(intent, FILE_CHOOSERADV);
 							blnSuccess = true;
 						}
-						else
+						else if (Build.VERSION.SDK_INT<19)
 						{
 							//org.openintents.filemanager
 							Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -1720,6 +1721,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			        		}
 			                       
 						}
+						else
+						{
+							blnActionCreateDocument = true;
+							blnSuccess = true;
+						}
 					}
 					catch(Exception ex)
 					{
@@ -1737,6 +1743,10 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	
 			}
 			else if (Build.VERSION.SDK_INT>=19)
+			{
+				blnActionCreateDocument = true;
+			}
+			if (blnActionCreateDocument == true)
 			{
 				/**
 				 * Open a file for writing and append some text to it.
