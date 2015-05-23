@@ -442,7 +442,10 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				{
 					// TODO Auto-generated catch block
 					//lib.ShowException(this, e);
-					SaveVokAs(true,false);
+					if (lib.ShowMessageYesNo(this, getString(R.string.msgFileCouldNotBeSaved)))
+					{
+						SaveVokAs(true,false);
+					}
 				}
 			}
 			return false;
