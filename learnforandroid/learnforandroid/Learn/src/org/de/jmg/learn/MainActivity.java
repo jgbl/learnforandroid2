@@ -1700,16 +1700,25 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							intent.putExtra("org.openintents.extra.WRITEABLE_ONLY", true);
 							intent.putExtra("org.openintents.extra.TITLE", getString(R.string.SaveAs));
 			                intent.putExtra("org.openintents.extra.BUTTON_TEXT", getString(R.string.btnSave));
-			                if (intent.resolveActivity(context.getPackageManager()) != null) 
+			                intent.setType("*/*");
+			                Intent chooser = Intent.createChooser(intent, getString(R.string.SaveAs));
+			        		if (intent.resolveActivity(context.getPackageManager()) != null) 
 			        		{ 
-			                	startActivityForResult(intent, FILE_OPENINTENT);
-			                	blnSuccess = true;
-							}
+			        			startActivityForResult(chooser, FILE_OPENINTENT);
+			        			blnSuccess=true;
+			        		}
 			        		else
 			        		{
 			        			lib.ShowToast(this, getString(R.string.InstallFilemanager));
+			        			intent.setData(null);
+			        			intent.removeExtra("org.openintents.extra.WRITEABLE_ONLY");
+								intent.removeExtra("org.openintents.extra.TITLE");
+				                intent.removeExtra("org.openintents.extra.BUTTON_TEXT");
+				                	
+			        			startActivityForResult(chooser, FILE_OPENINTENT);
+			        			blnSuccess=true;
 			        		}
-			                
+			                       
 						}
 					}
 					catch(Exception ex)

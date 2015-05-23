@@ -203,7 +203,7 @@
 	            <string name="mnuOpenUri">open URI</string>
 	            <string name="msgWrongExt">You have chosen a wrong extension! Do you want to save nevertheless?</string>
 	            <string name="msgWrongExtLoad">The filename has a wrong extension! Do you want to load the file nevertheless?</string>
-	            <string name="InstallFilemanager">Please install org.openintents.filemanager!</string>
+	            <string name="InstallFilemanager">Please install a filemanager!</string>
 	            <string name="msgStartExternalProgram">Do you want to start an external program?</string>
         
 </resources>
