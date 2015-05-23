@@ -19,6 +19,7 @@ import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -914,30 +915,33 @@ public class lib {
 	}
 
 	@SuppressLint({ "InlinedApi", "NewApi" })
-	public static void GrantAllPermissions(Activity container, Uri uri, boolean force) throws Exception
+	public static void CheckPermissions(Activity container, Uri uri) throws Exception
 	{
 		try
 		{
-			int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION 
-					| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
+			int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION ;
+			Flags = Flags | Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
 			if (Build.VERSION.SDK_INT>=19)	
 			{
 				Flags = Flags | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
 				container.getContentResolver().takePersistableUriPermission(uri, Flags);
 			}
-			container.grantUriPermission("org.de.jmg.learn", uri , Flags);
+			
+			
+			//container.grantUriPermission("org.de.jmg.learn", uri , Flags);
 		}
 		catch (Exception ex)
 		{
 			Log.e("lib.GrantAllPermissions", ex.getMessage(), ex);
 			int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION 
-					| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
-			container.grantUriPermission("org.de.jmg.learn", uri , Flags);
+				| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
+			//container.grantUriPermission("org.de.jmg.learn", uri , Flags);
 			if (Build.VERSION.SDK_INT>= 19)
 			{
 				container.getContentResolver().takePersistableUriPermission(uri, Flags);
 			}
 			//if (force) lib.ShowException(container, ex);
+			//throw new RuntimeException("CheckPermissions", ex);
 		}
 	}
 

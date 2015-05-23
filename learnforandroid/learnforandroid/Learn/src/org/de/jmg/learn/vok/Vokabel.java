@@ -1664,7 +1664,7 @@ public class Vokabel {
 			}
 			else if (uri!=null)
 			{
-				lib.GrantAllPermissions(Container,uri,false);
+				lib.CheckPermissions(Container,uri);
 				try
 				{
 					pfd = Container.getContentResolver().
@@ -2188,7 +2188,7 @@ public class Vokabel {
 					
 					if (libString.IsNullOrEmpty(strFileName) && uri!=null)
 					{
-						lib.GrantAllPermissions(Container, uri,true);
+						lib.CheckPermissions(Container, uri);
 						is = context.getContentResolver().openInputStream(uri);
 						aend=true;
 					}

@@ -184,7 +184,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						if (!libString.IsNullOrEmpty(strURI))
 						{
 							uri = Uri.parse(strURI);
-							lib.GrantAllPermissions(this, uri, false);
+							lib.CheckPermissions(this, uri);
 						}
 						
 						int index = prefs.getInt("vokindex", 1);
@@ -289,8 +289,8 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				saveFilePrefs(true);
 				if(uri!=null)
 				{
-					lib.GrantAllPermissions(this, uri, true);
-					this.takePersistableUri(getIntent(), uri,true);
+					lib.CheckPermissions(this, uri);
+					//this.takePersistableUri(getIntent(), uri,true);
 				}
 				vok.SaveFile(
 						Path.combine(getApplicationInfo().dataDir, "vok.tmp"),uri,
