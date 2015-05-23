@@ -1444,6 +1444,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	
 							if (file.exists()) {
 								// file.delete();
+								successful = true;
 							} else {
 								file.createNewFile();
 								OutputStream myOutput = new FileOutputStream(file);
