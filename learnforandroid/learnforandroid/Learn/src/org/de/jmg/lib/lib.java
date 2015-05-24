@@ -777,17 +777,17 @@ public class lib {
 		{
 			//intent.setType("file/*");
 		}
-		if (Build.VERSION.SDK_INT<19)
+		String msg = context.getString(R.string.msgShowAllProviders);
+		if (Build.VERSION.SDK_INT<19 || !ShowMessageYesNo(context, msg))
 		{
 			intent.setAction(Intent.ACTION_GET_CONTENT);
-			intent.setType("*/*");
 		}
 		else
 		{
 			intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-			intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-			intent.setType("*/*");
 		}
+		intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+		intent.setType("*/*");
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		Intent chooser = Intent.createChooser(intent, "Open");
 		if (intent.resolveActivity(context.getPackageManager()) != null) 
@@ -914,7 +914,7 @@ public class lib {
 	}
 
 	@SuppressLint({ "InlinedApi", "NewApi" })
-	public static void CheckPermissions(Activity container, Uri uri) throws Exception
+	public static void CheckPermissions(Activity container, Uri uri, boolean blnShowMessage) throws Exception
 	{
 		try
 		{
@@ -931,13 +931,25 @@ public class lib {
 		}
 		catch (Exception ex)
 		{
-			Log.e("lib.GrantAllPermissions", ex.getMessage(), ex);
-			int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION 
-				| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
-			//container.grantUriPermission("org.de.jmg.learn", uri , Flags);
-			if (Build.VERSION.SDK_INT>= 19)
+			try
 			{
-				container.getContentResolver().takePersistableUriPermission(uri, Flags);
+				Log.e("lib.GrantAllPermissions", ex.getMessage(), ex);
+				int Flags = Intent.FLAG_GRANT_READ_URI_PERMISSION 
+					| Intent.FLAG_GRANT_WRITE_URI_PERMISSION; 
+				//container.grantUriPermission("org.de.jmg.learn", uri , Flags);
+				if (Build.VERSION.SDK_INT>= 19)
+				{
+					container.getContentResolver().takePersistableUriPermission(uri, Flags);
+				}
+			}
+			catch (Exception ex2)
+			{
+				Log.e("lib.GrantAllPermissions", ex2.getMessage(), ex2);
+				if (blnShowMessage)
+				{
+					String msg = container.getString(R.string.msgNoPersistableUriPermissionCouldBeTaken);
+					ShowMessage(container, msg);
+				}
 			}
 			//if (force) lib.ShowException(container, ex);
 			//throw new RuntimeException("CheckPermissions", ex);

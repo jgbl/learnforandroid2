@@ -1664,7 +1664,7 @@ public class Vokabel {
 			}
 			else if (uri!=null)
 			{
-				lib.CheckPermissions(Container,uri);
+				lib.CheckPermissions(Container,uri,false);
 				try
 				{
 					pfd = Container.getContentResolver().
@@ -2180,6 +2180,10 @@ public class Vokabel {
 			Charset CharSetUnicode = null;
 			
 			boolean blnWrongNumberFormat = false;
+			if (libString.IsNullOrEmpty(strFileName) && uri!=null)
+			{
+				lib.CheckPermissions(Container, uri,true);
+			}
 			do 
 			{
 				CharSetUnicode = (sp >= -1 ? Charset
@@ -2190,7 +2194,7 @@ public class Vokabel {
 					
 					if (libString.IsNullOrEmpty(strFileName) && uri!=null)
 					{
-						lib.CheckPermissions(Container, uri);
+						//lib.CheckPermissions(Container, uri,true);
 						is = context.getContentResolver().openInputStream(uri);
 						aend=true;
 					}

@@ -206,5 +206,7 @@
 	            <string name="InstallFilemanager">Please install a filemanager!</string>
 	            <string name="msgStartExternalProgram">Do you want to start an external program?</string>
 	            <string name="msgFileCouldNotBeSaved">The file could not be saved with the selected content provider! Do you want to chosse another provider?</string>
+	            <string name="msgShowAllProviders">Do you want to select only from document providers?</string>
+	            <string name="msgNoPersistableUriPermissionCouldBeTaken">No persistable Uri permission could be taken!</string>
         
 </resources>

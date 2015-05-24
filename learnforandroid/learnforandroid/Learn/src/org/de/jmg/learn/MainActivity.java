@@ -184,7 +184,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						if (!libString.IsNullOrEmpty(strURI))
 						{
 							uri = Uri.parse(strURI);
-							lib.CheckPermissions(this, uri);
+							lib.CheckPermissions(this, uri,false);
 						}
 						
 						int index = prefs.getInt("vokindex", 1);
@@ -289,7 +289,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				saveFilePrefs(true);
 				if(uri!=null)
 				{
-					lib.CheckPermissions(this, uri);
+					lib.CheckPermissions(this, uri,false);
 					//this.takePersistableUri(getIntent(), uri,true);
 				}
 				vok.SaveFile(
@@ -573,7 +573,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			edit.putString("URI", vok.getURI().toString());
 			try 
 			{
-				takePersistableUri(getIntent(), vok.getURI(),true);
+				takePersistableUri(vok.getURI(),false);
 			} 
 			catch (Exception e) 
 			{
@@ -2053,7 +2053,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				if (lib.RegexMatchVok(path) || lib.ShowMessageYesNo(this, getString(R.string.msgWrongExtLoad)))
 				{
 					LoadVokabel(null,selectedUri, 1, null, 0, false);
-					takePersistableUri(this.getIntent(), selectedUri,true);
+					takePersistableUri(selectedUri,false);
 					prefs.edit().putString("defaultURI",strUri).commit();
 				}
 				
@@ -2086,7 +2086,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				
 				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt)))
 				{
-					takePersistableUri(this.getIntent(), selectedUri,false);
+					takePersistableUri(selectedUri,false);
 					vok.SaveFile(null, selectedUri,
 							_blnUniCode, false);
 					saveFilePrefs(false);
@@ -2123,7 +2123,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				
 				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt)))
 				{
-					takePersistableUri(this.getIntent(), selectedUri,false);
+					takePersistableUri(selectedUri,false);
 					vok.SaveFile(null, selectedUri,
 							_blnUniCode, false);
 					saveFilePrefs(false);
@@ -2140,14 +2140,13 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	}
 	
 	@SuppressLint("NewApi")
-	private void takePersistableUri(Intent intent,Uri selectedUri, boolean force) throws Exception
+	private void takePersistableUri(Uri selectedUri, boolean force) throws Exception
 	{
 		if(Build.VERSION.SDK_INT>=19)
 		{
 			try
 			{
-				final int takeFlags = intent.getFlags()
-			            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+				final int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION
 			            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 				// Check for the freshest data.
 				getContentResolver().takePersistableUriPermission(selectedUri, takeFlags);
