@@ -19,7 +19,6 @@ import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;

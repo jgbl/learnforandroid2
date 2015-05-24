@@ -1759,6 +1759,7 @@ public class Vokabel {
 			try
 			{
 				if (sWriter != null) {
+					sWriter.flush();
 					sWriter.close();
 					sWriter = null;
 				}
@@ -1769,6 +1770,7 @@ public class Vokabel {
 			}
 			libLearn.gStatus="savevok close os";
 			if (os != null) {
+				os.flush();
 				os.close();
 				os = null;
 			}
