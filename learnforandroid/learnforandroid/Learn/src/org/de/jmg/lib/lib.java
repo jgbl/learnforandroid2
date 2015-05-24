@@ -18,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
+import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -357,6 +358,18 @@ public class lib {
 		A.setTitle("Message");
 		A.show();
 	}
+	
+	public static synchronized void ShowMessageWithCheckboxes(Context context, String msg, CharSequence[] items, boolean[]checkedItems, DialogInterface.OnMultiChoiceClickListener cbListener) {
+		// System.Threading.SynchronizationContext.Current.Post(new
+		// System.Threading.SendOrPostCallback(DelShowException),new
+		// ExStateInfo(context, ex));
+		AlertDialog.Builder A = new AlertDialog.Builder(context);
+		A.setPositiveButton("OK", listener());
+		//A.setMessage(msg);
+		A.setTitle(msg);
+		A.setMultiChoiceItems(items,checkedItems, cbListener);
+		A.show();
+	}
 
 	public static synchronized void ShowException(Context context, Throwable ex) {
 		// System.Threading.SynchronizationContext.Current.Post(new
@@ -412,6 +425,43 @@ public class lib {
 		return DialogResultYes;
 	}
 
+	public static synchronized boolean ShowMessageYesNoWithCheckboxes(Context context,
+			String msg, CharSequence[] items, boolean[]checkedItems, DialogInterface.OnMultiChoiceClickListener cbListener) {
+		// System.Threading.SynchronizationContext.Current.Post(new
+		// System.Threading.SendOrPostCallback(DelShowException),new
+		// ExStateInfo(context, ex));
+		try {
+			if (YesNoHandler == null)
+				YesNoHandler = new Handler() {
+					@Override
+					public void handleMessage(Message mesg) {
+						throw new RuntimeException();
+					}
+				};
+
+			DialogResultYes = false;
+			AlertDialog.Builder A = new AlertDialog.Builder(context);
+			A.setPositiveButton(context.getString(R.string.yes), listenerYesNo);
+			A.setNegativeButton(context.getString(R.string.no), listenerYesNo);
+			//A.setMessage(msg);
+			A.setTitle(msg);
+			A.setMultiChoiceItems(items,checkedItems, cbListener);
+			A.show();
+
+			try
+
+			{
+				Looper.loop();
+			} catch (RuntimeException e2) {
+				// Looper.myLooper().quit();
+			}
+		} catch (Exception ex) {
+			ShowException(context, ex);
+		}
+		return DialogResultYes;
+	}
+
+	
 	public static synchronized void ShowToast(Context context, String msg) {
 		/* Looper.prepare(); */
 		Toast T = Toast.makeText(context, msg, Toast.LENGTH_LONG);
@@ -763,6 +813,21 @@ public class lib {
 	
 	public static final int SELECT_FILE = 0xa3b4;
 	
+	public static class PrefsOnMultiChoiceClickListener implements OnMultiChoiceClickListener
+	{
+
+		public SharedPreferences prefs;
+		public String key;
+		@Override
+		public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+			// TODO Auto-generated method stub
+			prefs.edit().putInt(key, isChecked?-1:0).commit();
+		}
+	}
+	
+	
+	public static PrefsOnMultiChoiceClickListener cbListener = new PrefsOnMultiChoiceClickListener();
+	
 	@SuppressLint("InlinedApi")
 	public static void SelectFile(Activity context, Uri defaultURI) throws Exception
 	{
@@ -777,14 +842,33 @@ public class lib {
 		{
 			//intent.setType("file/*");
 		}
-		String msg = context.getString(R.string.msgShowAllProviders);
-		if (Build.VERSION.SDK_INT<19 || !ShowMessageYesNo(context, msg))
+		SharedPreferences prefs = context.getPreferences(Context.MODE_PRIVATE);
+		String msg = context.getString(R.string.msgShowDocumentProvider);
+		String key = "ShowAlwaysDocumentProvider";
+		int ShowAlwaysDocumentProvider = prefs.getInt(key, 999);
+		CharSequence[]items = new CharSequence[]{context.getString(R.string.msgRememberChoice)};
+		cbListener.prefs=prefs;
+		cbListener.key="resRememberChoice";
+		if (Build.VERSION.SDK_INT<19 || ShowAlwaysDocumentProvider==0 || 
+				(ShowAlwaysDocumentProvider==999 && 
+				!ShowMessageYesNoWithCheckboxes(context, msg, items, null, cbListener)))
 		{
 			intent.setAction(Intent.ACTION_GET_CONTENT);
+			if (prefs.getInt(cbListener.key, 999)==-1)
+			{
+				prefs.edit().putInt(key, 0).commit();
+				prefs.edit().putInt(cbListener.key,999).commit();
+			}
+				 
 		}
 		else
 		{
 			intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+			if (prefs.getInt(cbListener.key, 999)==-1)
+			{
+				prefs.edit().putInt(key, -1).commit();
+				prefs.edit().putInt(cbListener.key,999).commit();
+			}
 		}
 		intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 		intent.setType("*/*");
@@ -947,8 +1031,14 @@ public class lib {
 				Log.e("lib.GrantAllPermissions", ex2.getMessage(), ex2);
 				if (blnShowMessage)
 				{
+					SharedPreferences prefs = container.getPreferences(Context.MODE_PRIVATE);
+					String key = "DontShowPersistableURIMessage";
+					int DontShowPersistableURIMessage = prefs.getInt(key, 999);
+					CharSequence[]items = new CharSequence[]{container.getString(R.string.msgDontShowThisMessageAgain)};
+					cbListener.prefs=prefs;
+					cbListener.key=key;
 					String msg = container.getString(R.string.msgNoPersistableUriPermissionCouldBeTaken);
-					ShowMessage(container, msg);
+					if (DontShowPersistableURIMessage!=-1) ShowMessageWithCheckboxes(container, msg, items, null, cbListener);
 				}
 			}
 			//if (force) lib.ShowException(container, ex);
