@@ -18,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
+import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetFileDescriptor;
@@ -39,14 +40,30 @@ import android.os.Message;
 import android.provider.*;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class lib {
+
+	public static class YesNoCheckResult {
+		
+		public boolean yes;
+		public boolean no;
+		public boolean checked;
+		public YesNoCheckResult(boolean yes, boolean no, boolean checked)
+		{
+			this.yes = yes;
+			this.no = no;
+			this.checked= checked;
+		}
+	}
 
 	public lib() {
 	}
@@ -359,16 +376,38 @@ public class lib {
 		A.show();
 	}
 	
-	public static synchronized void ShowMessageWithCheckboxes(Context context, String msg, CharSequence[] items, boolean[]checkedItems, DialogInterface.OnMultiChoiceClickListener cbListener) {
+	public static synchronized boolean ShowMessageWithCheckbox(Context context,String title, String msg, String CheckboxTitle) 
+	{
 		// System.Threading.SynchronizationContext.Current.Post(new
 		// System.Threading.SendOrPostCallback(DelShowException),new
 		// ExStateInfo(context, ex));
 		AlertDialog.Builder A = new AlertDialog.Builder(context);
-		A.setPositiveButton("OK", listener());
+		
+		A.setTitle(title);
+		A.setMessage(msg);
+
+		final CheckBox cbx = new CheckBox(context);
+		cbx.setText(CheckboxTitle);
+		cbx.setGravity(Gravity.CENTER_HORIZONTAL);
+		A.setView(cbx);
+		A.setPositiveButton(context.getString(R.string.ok), new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				throw new RuntimeException();
+			}
+		});
 		//A.setMessage(msg);
-		A.setTitle(msg);
-		A.setMultiChoiceItems(items,checkedItems, cbListener);
 		A.show();
+		try
+
+		{
+			Looper.loop();
+		} catch (RuntimeException e2) {
+			// Looper.myLooper().quit();
+		}
+		return cbx.isChecked();
+
 	}
 
 	public static synchronized void ShowException(Context context, Throwable ex) {
@@ -391,7 +430,7 @@ public class lib {
 	private static Handler YesNoHandler;
 
 	public static synchronized boolean ShowMessageYesNo(Context context,
-			String msg) {
+			String msg, String title) {
 		// System.Threading.SynchronizationContext.Current.Post(new
 		// System.Threading.SendOrPostCallback(DelShowException),new
 		// ExStateInfo(context, ex));
@@ -409,7 +448,7 @@ public class lib {
 			A.setPositiveButton(context.getString(R.string.yes), listenerYesNo);
 			A.setNegativeButton(context.getString(R.string.no), listenerYesNo);
 			A.setMessage(msg);
-			A.setTitle("Question");
+			A.setTitle(title);
 			A.show();
 
 			try
@@ -424,6 +463,51 @@ public class lib {
 		}
 		return DialogResultYes;
 	}
+	
+	public static synchronized YesNoCheckResult ShowMessageYesNoWithCheckbox(Context context,
+			String title, String msg, String CheckBoxTitle) {
+		// System.Threading.SynchronizationContext.Current.Post(new
+		// System.Threading.SendOrPostCallback(DelShowException),new
+		// ExStateInfo(context, ex));
+		try {
+			if (YesNoHandler == null)
+				YesNoHandler = new Handler() {
+					@Override
+					public void handleMessage(Message mesg) {
+						throw new RuntimeException();
+					}
+				};
+
+			DialogResultYes = false;
+			AlertDialog.Builder A = new AlertDialog.Builder(context);
+			A.setPositiveButton(context.getString(R.string.yes), listenerYesNo);
+			A.setNegativeButton(context.getString(R.string.no), listenerYesNo);
+			A.setMessage(msg);
+			A.setTitle(title);
+			final CheckBox cbx = new CheckBox(context);
+			//cbx.setGravity(Gravity.CENTER_HORIZONTAL);
+			LinearLayout.LayoutParams layout = (android.widget.LinearLayout.LayoutParams) cbx.getLayoutParams();
+			layout.
+			cbx.setText(CheckBoxTitle);
+			
+			A.setView(cbx);
+			
+			A.show();
+
+			try
+
+			{
+				Looper.loop();
+			} catch (RuntimeException e2) {
+				// Looper.myLooper().quit();
+			}
+			return new YesNoCheckResult(DialogResultYes, !DialogResultYes, cbx.isChecked());
+		} catch (Exception ex) {
+			ShowException(context, ex);
+		}
+		return null;
+	}
+
 
 	public static synchronized boolean ShowMessageYesNoWithCheckboxes(Context context,
 			String msg, CharSequence[] items, boolean[]checkedItems, DialogInterface.OnMultiChoiceClickListener cbListener) {
@@ -846,28 +930,29 @@ public class lib {
 		String msg = context.getString(R.string.msgShowDocumentProvider);
 		String key = "ShowAlwaysDocumentProvider";
 		int ShowAlwaysDocumentProvider = prefs.getInt(key, 999);
-		CharSequence[]items = new CharSequence[]{context.getString(R.string.msgRememberChoice)};
-		cbListener.prefs=prefs;
-		cbListener.key="resRememberChoice";
+		String checkBoxTitle = context.getString(R.string.msgRememberChoice);
+		lib.YesNoCheckResult res = null;
+		if (Build.VERSION.SDK_INT>=19 && ShowAlwaysDocumentProvider==999)
+		{
+			res = ShowMessageYesNoWithCheckbox(context, "", msg, checkBoxTitle);
+		}
+		
 		if (Build.VERSION.SDK_INT<19 || ShowAlwaysDocumentProvider==0 || 
-				(ShowAlwaysDocumentProvider==999 && 
-				!ShowMessageYesNoWithCheckboxes(context, msg, items, null, cbListener)))
+				(res != null && res.no))
 		{
 			intent.setAction(Intent.ACTION_GET_CONTENT);
-			if (prefs.getInt(cbListener.key, 999)==-1)
+			if (res != null && res.checked)
 			{
 				prefs.edit().putInt(key, 0).commit();
-				prefs.edit().putInt(cbListener.key,999).commit();
 			}
 				 
 		}
 		else
 		{
 			intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-			if (prefs.getInt(cbListener.key, 999)==-1)
+			if (res!=null && res.checked)
 			{
 				prefs.edit().putInt(key, -1).commit();
-				prefs.edit().putInt(cbListener.key,999).commit();
 			}
 		}
 		intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
@@ -1034,11 +1119,13 @@ public class lib {
 					SharedPreferences prefs = container.getPreferences(Context.MODE_PRIVATE);
 					String key = "DontShowPersistableURIMessage";
 					int DontShowPersistableURIMessage = prefs.getInt(key, 999);
-					CharSequence[]items = new CharSequence[]{container.getString(R.string.msgDontShowThisMessageAgain)};
-					cbListener.prefs=prefs;
-					cbListener.key=key;
+					String CheckBoxTitle = container.getString(R.string.msgDontShowThisMessageAgain);
 					String msg = container.getString(R.string.msgNoPersistableUriPermissionCouldBeTaken);
-					if (DontShowPersistableURIMessage!=-1) ShowMessageWithCheckboxes(container, msg, items, null, cbListener);
+					String title = "";
+					if (DontShowPersistableURIMessage!=-1) 
+					{
+						DontShowPersistableURIMessage = ShowMessageWithCheckbox(container, title, msg, CheckBoxTitle)?-1:0;
+					}
 				}
 			}
 			//if (force) lib.ShowException(container, ex);

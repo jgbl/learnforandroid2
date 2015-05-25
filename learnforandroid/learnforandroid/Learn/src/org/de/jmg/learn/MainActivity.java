@@ -377,7 +377,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			if (!dontPrompt) 
 			{
 				dontPrompt = lib.ShowMessageYesNo(this,
-						getString(R.string.Save));
+						getString(R.string.Save),"");
 				if (!dontPrompt) 
 				{
 					_backPressed += 1;
@@ -442,7 +442,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				{
 					// TODO Auto-generated catch block
 					//lib.ShowException(this, e);
-					if (lib.ShowMessageYesNo(this, getString(R.string.msgFileCouldNotBeSaved)))
+					if (lib.ShowMessageYesNo(this, getString(R.string.msgFileCouldNotBeSaved),""))
 					{
 						SaveVokAs(true,false);
 					}
@@ -1551,7 +1551,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				getVokabel(false, false);
 			} else if (id == R.id.mnuReset) {
 				if (lib.ShowMessageYesNo(this,
-						this.getString(R.string.ResetVocabulary))) {
+						this.getString(R.string.ResetVocabulary),"")) {
 					vok.reset();
 				}
 
@@ -1577,7 +1577,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	private void newvok() throws Exception
 	{
 		vok.NewFile();
-		if (lib.ShowMessageYesNo(this, getString(R.string.txtFlashCardFile)))
+		if (lib.ShowMessageYesNo(this, getString(R.string.txtFlashCardFile),""))
 		{
 			vok.setCardMode(true);
 			SetViewsToCardmode();
@@ -1665,7 +1665,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				{
 					try
 					{
-						if (lib.ShowMessageYesNo(this, getString(R.string.msgStartExternalProgram))==false || (vok.getURI()!=null && i == 1))
+						if (lib.ShowMessageYesNo(this, getString(R.string.msgStartExternalProgram),"")==false || (vok.getURI()!=null && i == 1))
 						{
 							Intent intent = new Intent(this, AdvFileChooser.class);
 							ArrayList<String> extensions = new ArrayList<String>();
@@ -1804,7 +1804,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		boolean blnLoadFile = false;
 		if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()))
 		{
-			if (lib.ShowMessageYesNo(this, getString(R.string.SaveNewVokabularyAs)))
+			if (lib.ShowMessageYesNo(this, getString(R.string.SaveNewVokabularyAs),""))
 			{
 				SaveVokAs(true,false);
 			}
@@ -1938,7 +1938,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 												&& (!F.exists() || lib
 														.ShowMessageYesNo(
 																MainActivity.this,
-																getString(R.string.Overwrite)))) {
+																getString(R.string.Overwrite),""))) {
 											File ParentDir = F.getParentFile();
 											if (!ParentDir.exists())
 												ParentDir.mkdirs();
@@ -2050,7 +2050,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				String strUri = selectedUri.toString();
 				String path = lib.dumpUriMetaData(this, selectedUri);
 				if(path.contains(":")) path = path.split(":")[0];
-				if (lib.RegexMatchVok(path) || lib.ShowMessageYesNo(this, getString(R.string.msgWrongExtLoad)))
+				if (lib.RegexMatchVok(path) || lib.ShowMessageYesNo(this, getString(R.string.msgWrongExtLoad),""))
 				{
 					LoadVokabel(null,selectedUri, 1, null, 0, false);
 					takePersistableUri(selectedUri,false);
@@ -2084,7 +2084,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				}
 				
 				
-				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt)))
+				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt),""))
 				{
 					takePersistableUri(selectedUri,false);
 					vok.SaveFile(null, selectedUri,
@@ -2121,7 +2121,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				}
 				
 				
-				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt)))
+				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt),""))
 				{
 					takePersistableUri(selectedUri,false);
 					vok.SaveFile(null, selectedUri,
