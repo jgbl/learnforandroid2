@@ -297,6 +297,38 @@
 		            android:textSize="27sp"
 		            android:textStyle="bold"
 		            android:typeface="normal" />
+		        
+		        <CheckBox
+		            android:id="@+id/chkDocumentProvider"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:layout_below="@+id/chkRandom"
+		            android:layout_centerVertical="false"
+		            android:layout_marginBottom="0dp"
+		            android:layout_marginTop="0dp"
+		            android:checked="false"
+		            android:gravity="center_vertical"
+		            android:hint="@string/hintProvider"
+		            android:text="@string/TakeDocumentProvider"
+		            android:textSize="27sp"
+		            android:textStyle="bold"
+		            android:typeface="normal" />
+		        
+		        <CheckBox
+		            android:id="@+id/chkDontShowPersistableURIMessage"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:layout_below="@+id/chkDocumentProvider"
+		            android:checked="false"
+		            android:gravity="center_vertical"
+		            android:hint="@string/hintShowWarning"
+		            android:text="@string/chkShowWarning"
+		            android:textSize="27sp"
+		            android:textStyle="bold"
+		            android:typeface="normal" />
+		        
 		    
 	    </RelativeLayout>
 

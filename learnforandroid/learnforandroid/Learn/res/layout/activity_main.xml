@@ -15,15 +15,14 @@
     	android:layout_height="wrap_content" >
 		<LinearLayout
 		    android:id="@+id/LayWord"
-		    android:layout_width="match_parent"
+		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_centerHorizontal="true" >
 	
 		    <org.de.jmg.lib.BorderedTextView
 		        android:id="@+id/word"
-		        android:layout_width="0dp"
+		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_weight="1"
 		        android:maxLines="3"
 		        android:scrollHorizontally="false"
 		        android:text="@string/hello_world"

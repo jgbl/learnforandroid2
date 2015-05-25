@@ -1057,9 +1057,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			BorderedEditText Beds[] = { _txtMeaning1, _txtMeaning2,
 					_txtMeaning3 };
 			for (int ii = 0; ii < vok.getAnzBed(); ii++) {
-				handler.postDelayed(new showBedBordersTask(Beds[ii]), delay);
-				delay += DisplayDurationBed * 1000;
-				handler.postDelayed(new hideBedBordersTask(Beds[ii]), delay);
+				if (!libString.IsNullOrEmpty(vok.getBedeutungen()[ii]))
+				{
+					handler.postDelayed(new showBedBordersTask(Beds[ii]), delay);
+					delay += DisplayDurationBed * 1000;
+					handler.postDelayed(new hideBedBordersTask(Beds[ii]), delay);
+				}
 			}
 
 		}

@@ -7,7 +7,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -20,6 +22,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -237,6 +240,11 @@ public class SettingsActivity extends AppCompatActivity {
 		});
 		if (Build.VERSION.SDK_INT< 19)
 		{
+			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) chkRandom
+					.getLayoutParams();
+			params.bottomMargin = (int) lib.dpToPx(10);
+			chkRandom.setLayoutParams(params);
+			
 			chkDocumentProvider.setVisibility(View.GONE);
 			chkDontShowPersistableURIMessage.setVisibility(View.GONE);
 		}
@@ -267,6 +275,14 @@ public class SettingsActivity extends AppCompatActivity {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					// TODO Auto-generated method stub
 					int ShowAlwaysDocumentProvider = isChecked?-1:0;
+					if(!isChecked)
+					{
+						String msg=SettingsActivity.this.getString(R.string.msgResetSetting);
+						if(lib.ShowMessageYesNo(SettingsActivity.this, msg, ""))
+						{
+							ShowAlwaysDocumentProvider=999;	
+						}
+					}
 					intent.putExtra(keyProvider, ShowAlwaysDocumentProvider);
 					
 				}
@@ -284,6 +300,7 @@ public class SettingsActivity extends AppCompatActivity {
 			{
 				chkDontShowPersistableURIMessage.setEnabled(false);
 			}
+			
 			chkDontShowPersistableURIMessage.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				
 				@Override
@@ -703,9 +720,7 @@ public class SettingsActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				saveResults();
-
-				finish();
+				saveResultsAndFinish();
 			}
 		});
 		b = (Button) findViewById(R.id.btnCancel);
@@ -721,7 +736,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 	}
 	
-	private void saveResults()
+	private void saveResultsAndFinish()
 	{
 		setResult(Activity.RESULT_OK, intent);
 		for (int i = 0; i < Colors.getCount(); i++) {
@@ -733,6 +748,7 @@ public class SettingsActivity extends AppCompatActivity {
 			intent.putExtra(Sounds.getItem(i).Sound.name(),
 					Sounds.getItem(i).SoundPath);
 		}
+		finish();
 	}
 
 	public float scale = 1;
@@ -786,9 +802,9 @@ public class SettingsActivity extends AppCompatActivity {
 				params.bottomMargin = (int) (params.bottomMargin * scale);
 				
 				if (params.height>0) params.height = (int) (params.height * scale);
-				if (V instanceof CheckBox && V!=chkDocumentProvider && V!=chkDontShowPersistableURIMessage)
+				if (V instanceof CheckBox)
 				{
-					params.width = ((width - lib.dpToPx(10))/3);
+					if (params.width>0) params.width = ((width - lib.dpToPx(10))/3);
 				}
 				else
 				{
@@ -983,6 +999,16 @@ public class SettingsActivity extends AppCompatActivity {
 		}
 	}
 	
+	private int _backPressed = 0;
+	private Handler handlerbackpressed = new Handler();
+	private Runnable rSetBackPressedFalse = new Runnable() {
+		@Override
+		public void run() {
+			/* do what you need to do */
+			_backPressed = 0;
+		}
+	};
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -1003,11 +1029,38 @@ public class SettingsActivity extends AppCompatActivity {
 		{
 			try 
 			{
-				lljlkjjlklökl
-				if (lib.ShowMessageYesNo(this, getString(R.string.msgSaveSettings), getString(R.string.btnSave)))
+				if (_backPressed > 0) 
 				{
-					saveResults();
+					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
+				} else 
+				{
+					_backPressed += 1;
+					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+					AlertDialog.Builder A = new AlertDialog.Builder(this);
+					 A.setPositiveButton(getString(R.string.yes), new
+					 AlertDialog.OnClickListener() 
+					 {				  
+						  @Override public void onClick(DialogInterface dialog, int which) 
+						  { 
+							  saveResultsAndFinish(); 
+						  }
+					 });
+					 A.setNegativeButton(getString(R.string.no), new
+					 AlertDialog.OnClickListener() 
+					  {
+						  @Override 
+						  public void onClick(DialogInterface dialog, int which) 
+						  { 
+							setResult(Activity.RESULT_CANCELED, intent);
+							finish();
+						  }
+					  }); 
+					  A.setMessage(getString(R.string.msgSaveSettings));
+					  A.setTitle(getString(R.string.question)); 
+					  A.show();
+					  return true;
 				}
+				
 
 			} 
 			catch (Exception e) 
