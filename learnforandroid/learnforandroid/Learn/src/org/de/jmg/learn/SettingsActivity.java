@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,9 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,6 +75,8 @@ public class SettingsActivity extends AppCompatActivity {
 	public CheckBox chkRandom;
 	public CheckBox chkAskAll;
 	public CheckBox chkSound;
+	public CheckBox chkDocumentProvider;
+	public CheckBox chkDontShowPersistableURIMessage;
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
@@ -184,6 +189,8 @@ public class SettingsActivity extends AppCompatActivity {
 		chkRandom = (CheckBox) findViewById(R.id.chkRandom);
 		chkAskAll = (CheckBox) findViewById(R.id.chkAskAll);
 		chkSound = (CheckBox) findViewById(R.id.chkSound);
+		chkDocumentProvider = (CheckBox) findViewById(R.id.chkDocumentProvider);
+		chkDontShowPersistableURIMessage = (CheckBox) findViewById(R.id.chkDontShowPersistableURIMessage);
 		boolean checked = getIntent().getBooleanExtra("Random", false);
 		chkRandom.setChecked(checked);
 		intent.putExtra("Random", checked);
@@ -228,6 +235,65 @@ public class SettingsActivity extends AppCompatActivity {
 			}
 
 		});
+		if (Build.VERSION.SDK_INT< 19)
+		{
+			chkDocumentProvider.setVisibility(View.GONE);
+			chkDontShowPersistableURIMessage.setVisibility(View.GONE);
+		}
+		else
+		{
+			final String keyProvider = "ShowAlwaysDocumentProvider";
+			int ShowAlwaysDocumentProvider = getIntent().getIntExtra(keyProvider, 999);
+			intent.putExtra(keyProvider, ShowAlwaysDocumentProvider);
+			final String keyURIMessage = "DontShowPersistableURIMessage";
+			int DontShowPersistableURIMessage = getIntent().getIntExtra(keyURIMessage, 999);
+			intent.putExtra(keyURIMessage, DontShowPersistableURIMessage);
+			
+			if (ShowAlwaysDocumentProvider==-1) 
+			{
+				chkDocumentProvider.setChecked(true);
+			}
+			else if (ShowAlwaysDocumentProvider==0)
+			{
+				chkDocumentProvider.setChecked(false);
+			}
+			else
+			{
+				chkDocumentProvider.setEnabled(false);
+			}
+			chkDocumentProvider.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					// TODO Auto-generated method stub
+					int ShowAlwaysDocumentProvider = isChecked?-1:0;
+					intent.putExtra(keyProvider, ShowAlwaysDocumentProvider);
+					
+				}
+			});
+			
+			if (DontShowPersistableURIMessage==-1) 
+			{
+				chkDontShowPersistableURIMessage.setChecked(true);
+			}
+			else if (DontShowPersistableURIMessage==0)
+			{
+				chkDontShowPersistableURIMessage.setChecked(false);
+			}
+			else
+			{
+				chkDontShowPersistableURIMessage.setEnabled(false);
+			}
+			chkDontShowPersistableURIMessage.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					// TODO Auto-generated method stub
+					int DontShowPersistableURIMessage = isChecked?-1:0;
+					intent.putExtra(keyURIMessage, DontShowPersistableURIMessage);
+				}
+			});
+		}
 
 	}
 
@@ -637,16 +703,7 @@ public class SettingsActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				setResult(Activity.RESULT_OK, intent);
-				for (int i = 0; i < Colors.getCount(); i++) {
-					intent.putExtra(Colors.getItem(i).ColorItem.name(),
-							Colors.getItem(i).ColorValue);
-				}
-
-				for (int i = 0; i < Sounds.getCount(); i++) {
-					intent.putExtra(Sounds.getItem(i).Sound.name(),
-							Sounds.getItem(i).SoundPath);
-				}
+				saveResults();
 
 				finish();
 			}
@@ -662,6 +719,20 @@ public class SettingsActivity extends AppCompatActivity {
 			}
 		});
 
+	}
+	
+	private void saveResults()
+	{
+		setResult(Activity.RESULT_OK, intent);
+		for (int i = 0; i < Colors.getCount(); i++) {
+			intent.putExtra(Colors.getItem(i).ColorItem.name(),
+					Colors.getItem(i).ColorValue);
+		}
+
+		for (int i = 0; i < Sounds.getCount(); i++) {
+			intent.putExtra(Sounds.getItem(i).Sound.name(),
+					Sounds.getItem(i).SoundPath);
+		}
 	}
 
 	public float scale = 1;
@@ -715,7 +786,7 @@ public class SettingsActivity extends AppCompatActivity {
 				params.bottomMargin = (int) (params.bottomMargin * scale);
 				
 				if (params.height>0) params.height = (int) (params.height * scale);
-				if (V instanceof CheckBox)
+				if (V instanceof CheckBox && V!=chkDocumentProvider && V!=chkDontShowPersistableURIMessage)
 				{
 					params.width = ((width - lib.dpToPx(10))/3);
 				}
@@ -911,6 +982,46 @@ public class SettingsActivity extends AppCompatActivity {
 			lib.ShowException(this, ex);
 		}
 	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		if (keyCode == KeyEvent.KEYCODE_HOME) 
+		{
+			try 
+			{
+				//saveVok(false);
+			} 
+			catch (Exception e) 
+			{
+				// TODO Auto-generated catch block
+				lib.ShowException(this, e);
+				return true;
+			}
+		}
+		else if (keyCode == KeyEvent.KEYCODE_BACK) 
+		{
+			try 
+			{
+				lljlkjjlklökl
+				if (lib.ShowMessageYesNo(this, getString(R.string.msgSaveSettings), getString(R.string.btnSave)))
+				{
+					saveResults();
+				}
+
+			} 
+			catch (Exception e) 
+			{
+				// TODO Auto-generated catch block
+				Log.e("onBackPressed", e.getMessage(), e);
+				lib.ShowException(this, e);
+				return true;
+			}
+		}
+
+		return super.onKeyDown(keyCode, event);
+
+	};
 
 	public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
 

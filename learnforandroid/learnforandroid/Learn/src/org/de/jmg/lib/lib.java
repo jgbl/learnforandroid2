@@ -40,13 +40,11 @@ import android.os.Message;
 import android.provider.*;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.ViewGroup.LayoutParams;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -365,14 +363,16 @@ public class lib {
 		return NewArr;
 	}
 
-	public static synchronized void ShowMessage(Context context, String msg) {
+	public static synchronized void ShowMessage(Context context, String msg, String title) {
 		// System.Threading.SynchronizationContext.Current.Post(new
 		// System.Threading.SendOrPostCallback(DelShowException),new
 		// ExStateInfo(context, ex));
+		if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.message);
+			
 		AlertDialog.Builder A = new AlertDialog.Builder(context);
 		A.setPositiveButton("OK", listener());
 		A.setMessage(msg);
-		A.setTitle("Message");
+		A.setTitle(title);
 		A.show();
 	}
 	
@@ -381,15 +381,19 @@ public class lib {
 		// System.Threading.SynchronizationContext.Current.Post(new
 		// System.Threading.SendOrPostCallback(DelShowException),new
 		// ExStateInfo(context, ex));
+		if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.message);
+				
 		AlertDialog.Builder A = new AlertDialog.Builder(context);
 		
 		A.setTitle(title);
 		A.setMessage(msg);
 
-		final CheckBox cbx = new CheckBox(context);
+		View checkBoxView = View.inflate(context, R.layout.checkbox_layout, null);
+		final CheckBox cbx = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
 		cbx.setText(CheckboxTitle);
-		cbx.setGravity(Gravity.CENTER_HORIZONTAL);
-		A.setView(cbx);
+					
+		A.setView(checkBoxView);
+		
 		A.setPositiveButton(context.getString(R.string.ok), new OnClickListener() {
 			
 			@Override
@@ -434,6 +438,7 @@ public class lib {
 		// System.Threading.SynchronizationContext.Current.Post(new
 		// System.Threading.SendOrPostCallback(DelShowException),new
 		// ExStateInfo(context, ex));
+		if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.question);
 		try {
 			if (YesNoHandler == null)
 				YesNoHandler = new Handler() {
@@ -469,6 +474,8 @@ public class lib {
 		// System.Threading.SynchronizationContext.Current.Post(new
 		// System.Threading.SendOrPostCallback(DelShowException),new
 		// ExStateInfo(context, ex));
+		if (libString.IsNullOrEmpty(title)) title = context.getString(R.string.question);
+		libLearn.gStatus= "ShowMessageYesNoWithCheckbox";
 		try {
 			if (YesNoHandler == null)
 				YesNoHandler = new Handler() {
@@ -484,13 +491,11 @@ public class lib {
 			A.setNegativeButton(context.getString(R.string.no), listenerYesNo);
 			A.setMessage(msg);
 			A.setTitle(title);
-			final CheckBox cbx = new CheckBox(context);
-			//cbx.setGravity(Gravity.CENTER_HORIZONTAL);
-			LinearLayout.LayoutParams layout = (android.widget.LinearLayout.LayoutParams) cbx.getLayoutParams();
-			layout.
+			View checkBoxView = View.inflate(context, R.layout.checkbox_layout, null);
+			final CheckBox cbx = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
 			cbx.setText(CheckBoxTitle);
-			
-			A.setView(cbx);
+						
+			A.setView(checkBoxView);
 			
 			A.show();
 
@@ -514,6 +519,7 @@ public class lib {
 		// System.Threading.SynchronizationContext.Current.Post(new
 		// System.Threading.SendOrPostCallback(DelShowException),new
 		// ExStateInfo(context, ex));
+		
 		try {
 			if (YesNoHandler == null)
 				YesNoHandler = new Handler() {
@@ -916,7 +922,7 @@ public class lib {
 	public static void SelectFile(Activity context, Uri defaultURI) throws Exception
 	{
 		
-		
+		libLearn.gStatus="Select File";
 		Intent intent = new Intent();
 		if (defaultURI!=null)
 		{
@@ -1125,6 +1131,7 @@ public class lib {
 					if (DontShowPersistableURIMessage!=-1) 
 					{
 						DontShowPersistableURIMessage = ShowMessageWithCheckbox(container, title, msg, CheckBoxTitle)?-1:0;
+						prefs.edit().putInt(key, DontShowPersistableURIMessage).commit();
 					}
 				}
 			}

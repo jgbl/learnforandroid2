@@ -918,29 +918,29 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 								}
 							} else if (Bew == Bewertung.aehnlich) {
 								lib.ShowMessage(MainActivity.this,
-										getString(R.string.MeaningSimilar));
+										getString(R.string.MeaningSimilar),"");
 							} else if (Bew == Bewertung.TeilweiseRichtig) {
 								lib.ShowMessage(MainActivity.this,
-										getString(R.string.MeaningPartiallyCorrect));
+										getString(R.string.MeaningPartiallyCorrect),"");
 							} else if (Bew == Bewertung.enthalten) {
 								lib.ShowMessage(MainActivity.this,
-										getString(R.string.MeaningIsSubstring));
+										getString(R.string.MeaningIsSubstring),"");
 							} else if (Bew == Bewertung.AehnlichEnthalten) {
 								lib.ShowMessage(
 										MainActivity.this,
-										getString(R.string.MeaningIsSubstringSimilar));
+										getString(R.string.MeaningIsSubstringSimilar),"");
 							} else if (Bew == Bewertung.TeilweiseRichtigAehnlich) {
 								lib.ShowMessage(
 										MainActivity.this,
-										getString(R.string.MeaningIsPartiallyCorrectSimilar));
+										getString(R.string.MeaningIsPartiallyCorrectSimilar),"");
 							} else if (Bew == Bewertung.TeilweiseRichtigAehnlichEnthalten) {
 								lib.ShowMessage(
 										MainActivity.this,
-										getString(R.string.MeaningIsPartiallyCorrectSimilarSubstring));
+										getString(R.string.MeaningIsPartiallyCorrectSimilarSubstring),"");
 							} else if (Bew == Bewertung.TeilweiseRichtigEnthalten) {
 								lib.ShowMessage(
 										MainActivity.this,
-										getString(R.string.MeaningIsPartiallyCorrectSubstring));
+										getString(R.string.MeaningIsPartiallyCorrectSubstring),"");
 							}
 	
 						} catch (Exception e) {
@@ -1863,6 +1863,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		intent.putExtra("AskAll", vok.getAskAll());
 		intent.putExtra("Sound", lib.sndEnabled);
 		intent.putExtra("Language", vok.getSprache().ordinal());
+		int ShowAlwaysDocumentProvider = prefs.getInt("ShowAlwaysDocumentProvider", 999);
+		intent.putExtra("ShowAlwaysDocumentProvider", ShowAlwaysDocumentProvider);
+		String key = "DontShowPersistableURIMessage";
+		int DontShowPersistableURIMessage = prefs.getInt(key, 999);
+		intent.putExtra(key, DontShowPersistableURIMessage);
 		this.startActivityForResult(intent, Settings_Activity);
 	}
 
@@ -2016,7 +2021,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				lib.sndEnabled = data.getExtras().getBoolean("Sound");
 				Colors = getColorsFromIntent(data);
 				colSounds = getSoundsFromIntent(data);
-
+				final String keyProvider = "ShowAlwaysDocumentProvider";
+				int ShowAlwaysDocumentProvider = data.getExtras().getInt(keyProvider, 999);
+				final String keyURIMessage = "DontShowPersistableURIMessage";
+				int DontShowPersistableURIMessage = data.getExtras().getInt(keyURIMessage, 999);
+				
 				libLearn.gStatus = "writing values to prefs";
 				Editor editor = prefs.edit();
 				editor.putInt("Schrittweite", vok.getSchrittweite());
@@ -2029,7 +2038,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				editor.putBoolean("Random", vok.getAbfrageZufaellig());
 				editor.putBoolean("AskAll", vok.getAskAll());
 				editor.putBoolean("Sound", lib.sndEnabled);
-
+				editor.putInt(keyProvider, ShowAlwaysDocumentProvider);
+				editor.putInt(keyURIMessage, DontShowPersistableURIMessage);
+				
 				for (ColorItems item : Colors.keySet()) {
 					editor.putInt(item.name(), Colors.get(item).ColorValue);
 				}

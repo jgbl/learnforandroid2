@@ -210,5 +210,12 @@
 	            <string name="msgNoPersistableUriPermissionCouldBeTaken">No persistable Uri permission could be taken!</string>
 	            <string name="msgRememberChoice">remember this choice</string>
 	            <string name="msgDontShowThisMessageAgain">Don\'t show this message again</string>
+	            <string name="question">Question</string>
+	            <string name="message">Message</string>
+	            <string name="TakeDocumentProvider">take document provider</string>
+	            <string name="hintProvider">here you can select wether open opens only the document providers or all providers</string>
+	            <string name="chkShowWarning">show warning if permission could not be taken</string>
+	            <string name="hintShowWarning">show warning if permanent permission could not be taken (this happens if document provider was not selected)</string>
+	            <string name="msgSaveSettings">Do you want to save the settings?</string>
         
 </resources>

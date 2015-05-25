@@ -2242,7 +2242,7 @@ public class Vokabel {
 					else 
 					{
 						lib.ShowMessage(getContext(),
-								getContext().getString(R.string.FileDoesNotExist));
+								getContext().getString(R.string.FileDoesNotExist),"");
 						// Call Err.Raise(vbObjectError + ErrWrongfilename, CodeLoc
 						// & "", "Dateiname_ungültig", "", "")
 						return;
@@ -2307,7 +2307,7 @@ public class Vokabel {
 			{
 				lib.ShowMessage(getContext(),
 						getContext()
-								.getString(R.string.FileFormatNotRecognized));
+								.getString(R.string.FileFormatNotRecognized),"");
 			}
 			else
 			{
