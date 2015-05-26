@@ -1212,7 +1212,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		 */
 		if (scale != 1) {
 
-			resizeActionbar(0);
+			
 			
 
 			lib.ShowToast(this, "Scaling font by " + scale + " Screenheight = "
@@ -1367,11 +1367,14 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnEdit.setLayoutParams(params);
+			
+			resizeActionbar(0);
 
 		}
 	}
 	float _ActionBarOriginalTextSize[] = {0f,0f,0f,0f,0f};
 	public void resizeActionbar(int width) {
+		/*
 		View tb = this.findViewById(R.id.action_bar);
 		Paint p = new Paint();
 		int SizeOther = 0;
@@ -1420,6 +1423,35 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 			}
 
+		}
+		*/
+		TextView t = ((TextView)(findViewById(R.id.txtStatus)));
+		Paint p = new Paint();
+		if (width == 0)	width = mainView.getWidth();
+		
+		if (_ActionBarOriginalTextSize[0] == 0 )
+		{
+			_ActionBarOriginalTextSize[0] = t.getTextSize();
+		}
+		else
+		{
+			t.setTextSize(TypedValue.COMPLEX_UNIT_PX,_ActionBarOriginalTextSize[0]);
+		}
+		if (t.getText() instanceof SpannedString) {
+			p.setTextSize(t.getTextSize());
+			SpannedString s = (SpannedString) t.getText();
+			width = width  - lib.dpToPx(50);
+			float measuredWidth = p.measureText(s.toString());
+			if (measuredWidth != width)
+			{
+				float scaleA = (float)width / (float)measuredWidth;
+				if (scaleA < .5f) scaleA = .5f;
+				
+				t.setTextSize(
+						TypedValue.COMPLEX_UNIT_PX,
+						(float) (t.getTextSize() * (scaleA)));
+			}
+			
 		}
 	}
 
@@ -2561,7 +2593,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				FName = vok.getURIName();
 			}
-			String title = "Learn " + FName
+			String title = "" + FName
 					+ " " + getString(R.string.number) + ": " + vok.getIndex()
 					+ " " + getString(R.string.counter) + ": "
 					+ vok.getZaehler();
@@ -2574,9 +2606,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					spnRight.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
 			spnWrong.setSpan(new ForegroundColorSpan(Color.RED), 0,
 					spnWrong.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			getSupportActionBar().setTitle(
-					TextUtils.concat(spnTitle, spnRight, spnWrong));
+			((TextView)(findViewById(R.id.txtStatus))).setText(TextUtils.concat(spnTitle, spnRight, spnWrong));
+			//getSupportActionBar().setTitle(
+			//		TextUtils.concat(spnTitle, spnRight, spnWrong));
 
 		} else {
 			/*
