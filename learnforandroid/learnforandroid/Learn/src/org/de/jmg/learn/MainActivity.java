@@ -1701,7 +1701,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							intent.putExtra("DefaultDir",
 									new File(JMGDataDirectory).exists() ? JMGDataDirectory
 											: "/sdcard/");
-							intent.putExtra("selectFolder", true);
+							intent.putExtra("selectFolder", false);
 							intent.putExtra("blnNew", blnNew);
 							if (_blnUniCode)
 								_oldUnidCode = yesnoundefined.yes;
