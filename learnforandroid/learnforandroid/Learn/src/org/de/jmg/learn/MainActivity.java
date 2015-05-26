@@ -1909,8 +1909,52 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				final String fileSelected = data.getStringExtra("fileSelected");
 				_blnUniCode = data.getBooleanExtra("blnUniCode", true);
 				final boolean blnNew = data.getBooleanExtra("blnNew",false);
-				if (!libString.IsNullOrEmpty(fileSelected)) {
-					AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				if (!libString.IsNullOrEmpty(fileSelected)) 
+				{
+					String value = fileSelected;
+					value = value.replace("\n", "");
+					try {
+						if (vok.getCardMode())
+						{
+							if (!lib.ExtensionMatch(value, "k??"))
+							{
+								value += ".kar";
+							}
+						}
+						else
+						{
+							if (!lib.ExtensionMatch(value, "v??"))
+							{
+								value += ".vok";
+							}
+						}
+						File F = new File(value);
+						if (!F.isDirectory()
+								&& (!F.exists() || lib
+										.ShowMessageYesNo(
+												MainActivity.this,
+												getString(R.string.Overwrite),""))) {
+							File ParentDir = F.getParentFile();
+							if (!ParentDir.exists())
+								ParentDir.mkdirs();
+							
+							vok.SaveFile(F.getPath(), vok.getURI(),
+									_blnUniCode, false);
+							saveFilePrefs(false);
+							if (blnNew)
+							{
+								newvok();
+							}
+							SetActionBarTitle();
+						}
+
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						lib.ShowException(MainActivity.this, e);
+						e.printStackTrace();
+					}
+				}
+					/* AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
 					alert.setTitle(getString(R.string.SaveAs));
 					alert.setMessage(getString(R.string.EnterNewFilename)
@@ -1997,7 +2041,16 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							});
 
 					alert.show();
-
+				*/
+				
+				else
+				{
+					if(blnNew)
+						try {
+							newvok();
+						} catch (Exception e) {
+							lib.ShowException(MainActivity.this, e);
+						}
 				}
 
 			}
