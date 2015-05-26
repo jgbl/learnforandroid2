@@ -468,6 +468,13 @@ public class Vokabel {
 	}
 
 	public void setLernvokabeln(int[] Lernvokabeln) {
+		if (checkLernvokabeln(Lernvokabeln)) mLernVokabeln = Lernvokabeln;
+	}
+
+	public boolean checkLernvokabeln (int[] Lernvokabeln)
+	{
+		if (Lernvokabeln==null) return false;
+		
 		boolean found = false;
 		for (int i=1; i<Lernvokabeln.length;i++)
 		{
@@ -477,9 +484,9 @@ public class Vokabel {
 				break;
 			}
 		}
-		if (found) mLernVokabeln = Lernvokabeln;
+		return found;
 	}
-
+	
 	public short getZaehler() throws Exception {
 		short functionReturnValue = 0;
 		// ERROR: Not supported in C#: OnErrorStatement

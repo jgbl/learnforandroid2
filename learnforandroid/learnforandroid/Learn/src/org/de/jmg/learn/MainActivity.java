@@ -181,7 +181,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							"Lernvokabeln");
 					if (!libString.IsNullOrEmpty(strURI)
 							|| !libString.IsNullOrEmpty(filename)
-							|| Lernvokabeln != null) 
+							|| (vok.checkLernvokabeln(Lernvokabeln))) 
 					{
 						libLearn.gStatus = "onCreate Load Lastfile";
 						
