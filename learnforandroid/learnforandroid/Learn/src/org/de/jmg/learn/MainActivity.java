@@ -49,6 +49,7 @@ import android.os.Handler;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -176,7 +177,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					String strURI = prefs.getString("URI","");
 					String filename = prefs.getString("LastFile", "");
 					String UriName = prefs.getString("FileName", "");
-					if (!libString.IsNullOrEmpty(strURI)|| !libString.IsNullOrEmpty(filename)) 
+					int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
+							"Lernvokabeln");
+					if (!libString.IsNullOrEmpty(strURI)
+							|| !libString.IsNullOrEmpty(filename)
+							|| Lernvokabeln != null) 
 					{
 						libLearn.gStatus = "onCreate Load Lastfile";
 						
@@ -188,8 +193,6 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						}
 						
 						int index = prefs.getInt("vokindex", 1);
-						int[] Lernvokabeln = lib.getIntArrayFromPrefs(prefs,
-								"Lernvokabeln");
 						int Lernindex = prefs.getInt("Lernindex", 0);
 						boolean Unicode = prefs.getBoolean("Unicode", true);
 						_blnUniCode = Unicode;
@@ -777,6 +780,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		_txtedWord.setVisibility(View.VISIBLE);
 		_txtedWord.setText(_txtWord.getText());
 		_txtedWord.setTextSize(TypedValue.COMPLEX_UNIT_PX,_txtWord.getTextSize());
+		View LayWord = findViewById(R.id.LayWord);
+		RelativeLayout.LayoutParams params = 
+				(RelativeLayout.LayoutParams) LayWord.getLayoutParams();
+		params.width = LayoutParams.MATCH_PARENT;
+		LayWord.setLayoutParams(params);
 		_txtedKom.setVisibility(View.VISIBLE);
 		_txtedKom.setText(_txtKom.getText());
 		_txtedKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,_txtKom.getTextSize());
@@ -822,6 +830,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			_txtKom.setVisibility(View.VISIBLE);
 			_txtedWord.setVisibility(View.GONE);
 			_txtWord.setText(_txtedWord.getText());
+			View LayWord = findViewById(R.id.LayWord);
+			RelativeLayout.LayoutParams params = 
+					(RelativeLayout.LayoutParams) LayWord.getLayoutParams();
+			params.width = LayoutParams.WRAP_CONTENT;
+			LayWord.setLayoutParams(params);
 			_txtedKom.setVisibility(View.GONE);
 			_txtKom.setText(_txtedKom.getText());
 			_txtedWord.setImeOptions(EditorInfo.IME_ACTION_NONE);
