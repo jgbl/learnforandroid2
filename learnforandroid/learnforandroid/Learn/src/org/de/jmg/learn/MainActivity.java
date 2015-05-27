@@ -1054,8 +1054,14 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	 * e.printStackTrace(); } } }).start(); }
 	 */
 	private void flashwords() throws Exception {
-		ScrollView layout = (ScrollView) findViewById(R.id.layoutMain);
+		final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMainParent);
 		layout.setBackgroundColor(Colors.get(ColorItems.background_wrong).ColorValue);
+		final ScrollView layoutScroll = (ScrollView) findViewById(R.id.layoutMain);
+		layoutScroll.setBackgroundColor(Colors.get(ColorItems.background_wrong).ColorValue);
+		final RelativeLayout layoutButtons = (RelativeLayout) findViewById(R.id.layoutButtons);
+		layoutButtons.setVisibility(View.GONE);
+		View tb = this.findViewById(R.id.action_bar);
+		tb.setVisibility(View.GONE);
 		Handler handler = new Handler();
 		if (_isSmallDevice)
 		{
@@ -1100,6 +1106,14 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				{
 					_txtKom.setVisibility(View.VISIBLE);
 				}
+				final RelativeLayout layoutButtons = (RelativeLayout) findViewById(R.id.layoutButtons);
+				layoutButtons.setVisibility(View.VISIBLE);
+				View tb = findViewById(R.id.action_bar);
+				tb.setVisibility(View.VISIBLE);
+				final ScrollView layoutScroll = (ScrollView) findViewById(R.id.layoutMain);
+				layoutScroll.setBackgroundColor(Colors.get(ColorItems.background).ColorValue);
+				
+				
 			}
 		}
 	}
@@ -1304,7 +1318,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			_txtMeaning3.setLayoutParams(params);
 			
 			
-			RelativeLayout layoutButtons = (RelativeLayout) findViewById(R.id.layoutButtons);
+			RelativeLayout layoutButtons = (RelativeLayout) findViewById(R.id.layoutButtonsInner);
 			params = (android.widget.RelativeLayout.LayoutParams) layoutButtons
 					.getLayoutParams();
 			if (!blnWrongWidth) 
@@ -1313,7 +1327,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			}
 			else
 			{
-				params.bottomMargin = (int) (20 * ScaleWidth);
+				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			layoutButtons.setLayoutParams(params);
 			
@@ -1327,7 +1341,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
-				params.bottomMargin = (int) (30 * ScaleWidth);
+				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnRight.setLayoutParams(params);
@@ -1342,7 +1356,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
-				params.bottomMargin = (int) (30 * ScaleWidth);
+				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnWrong.setLayoutParams(params);
@@ -1357,7 +1371,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
-				params.bottomMargin = (int) (30 * ScaleWidth);
+				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnSkip.setLayoutParams(params);
@@ -1372,7 +1386,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
-				params.bottomMargin = (int) (30 * ScaleWidth);
+				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnView.setLayoutParams(params);
@@ -1387,7 +1401,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
-				params.bottomMargin = (int) (30 * ScaleWidth);
+				params.bottomMargin = (int) (0 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnEdit.setLayoutParams(params);
@@ -1400,7 +1414,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			}
 			else
 			{
-				params.topMargin = (int) (-20 * ScaleWidth);
+				params.topMargin = (int) (0 * ScaleWidth);
 			}
 			_txtStatus.setLayoutParams(params);
 			
@@ -1478,7 +1492,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			SpannedString s = (SpannedString) t.getText();
 			width = width  - lib.dpToPx(50);
 			float measuredWidth = p.measureText(s.toString());
-			if (measuredWidth > width)
+			if (measuredWidth != width)
 			{
 				float scaleA = (float)width / (float)measuredWidth;
 				if (scaleA < .5f) scaleA = .5f;
