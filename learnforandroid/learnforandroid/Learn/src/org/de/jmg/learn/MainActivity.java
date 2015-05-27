@@ -89,6 +89,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	public SharedPreferences prefs; // =
 									// this.getPreferences(Context.MODE_PRIVATE);
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -1231,8 +1232,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					(float) (_txtedWord.getTextSize() * scale));
 			_txtedKom.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_txtedKom.getTextSize() * scale));
-			_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					(float) (_txtStatus.getTextSize() * scale));
+			
 
 			/*
 			 * _txtMeaning1.setOnFocusChangeListener(new
@@ -1284,8 +1284,11 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					(float) (_btnWrong.getTextSize() * ScaleTextButtons));
 			_btnEdit.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					(float) (_btnEdit.getTextSize() * ScaleTextButtons));
+			_txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					(float) (_txtStatus.getTextSize() * ScaleTextButtons));
 			
-			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) _txtMeaning1
+			RelativeLayout.LayoutParams params = 
+					(android.widget.RelativeLayout.LayoutParams) _txtMeaning1
 					.getLayoutParams();
 			params.topMargin = (int) (params.topMargin * scale);
 			_txtMeaning1.setLayoutParams(params);
@@ -1301,17 +1304,30 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			_txtMeaning3.setLayoutParams(params);
 			
 			
-			
+			RelativeLayout layoutButtons = (RelativeLayout) findViewById(R.id.layoutButtons);
+			params = (android.widget.RelativeLayout.LayoutParams) layoutButtons
+					.getLayoutParams();
+			if (!blnWrongWidth) 
+			{
+				params.bottomMargin = (int) (params.bottomMargin * scale);
+			}
+			else
+			{
+				params.bottomMargin = (int) (20 * ScaleWidth);
+			}
+			layoutButtons.setLayoutParams(params);
 			
 			params = (android.widget.RelativeLayout.LayoutParams) _btnRight
 					.getLayoutParams();
 			if (!blnWrongWidth) 
 			{
 				params.height = (int) (params.height * scale);
+				params.bottomMargin = (int) (params.bottomMargin * scale);
 			}
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
+				params.bottomMargin = (int) (30 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnRight.setLayoutParams(params);
@@ -1321,10 +1337,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			if (!blnWrongWidth) 
 			{
 				params.height = (int) (params.height * scale);
+				params.bottomMargin = (int) (params.bottomMargin * scale);
 			}
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
+				params.bottomMargin = (int) (30 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnWrong.setLayoutParams(params);
@@ -1334,10 +1352,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			if (!blnWrongWidth) 
 			{
 				params.height = (int) (params.height * scale);
+				params.bottomMargin = (int) (params.bottomMargin * scale);
 			}
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
+				params.bottomMargin = (int) (30 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnSkip.setLayoutParams(params);
@@ -1347,10 +1367,12 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			if (!blnWrongWidth) 
 			{
 				params.height = (int) (params.height * scale);
+				params.bottomMargin = (int) (params.bottomMargin * scale);
 			}
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
+				params.bottomMargin = (int) (30 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnView.setLayoutParams(params);
@@ -1360,13 +1382,27 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			if (!blnWrongWidth) 
 			{
 				params.height = (int) (params.height * scale);
+				params.bottomMargin = (int) (params.bottomMargin * scale);
 			}
 			else
 			{
 				params.height = (int) (60 * ScaleWidth);
+				params.bottomMargin = (int) (30 * ScaleWidth);
 			}
 			params.width = (int) (params.width * ScaleWidth);
 			_btnEdit.setLayoutParams(params);
+			
+			params = (android.widget.RelativeLayout.LayoutParams) _txtStatus
+					.getLayoutParams();
+			if (!blnWrongWidth) 
+			{
+				params.topMargin = (int) (params.topMargin * scale);
+			}
+			else
+			{
+				params.topMargin = (int) (-20 * ScaleWidth);
+			}
+			_txtStatus.setLayoutParams(params);
 			
 			resizeActionbar(0);
 
@@ -1425,10 +1461,10 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 		}
 		*/
-		TextView t = ((TextView)(findViewById(R.id.txtStatus)));
+		TextView t = _txtStatus;
 		Paint p = new Paint();
 		if (width == 0)	width = mainView.getWidth();
-		
+		if (width == 0) return;
 		if (_ActionBarOriginalTextSize[0] == 0 )
 		{
 			_ActionBarOriginalTextSize[0] = t.getTextSize();
@@ -1442,7 +1478,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			SpannedString s = (SpannedString) t.getText();
 			width = width  - lib.dpToPx(50);
 			float measuredWidth = p.measureText(s.toString());
-			if (measuredWidth != width)
+			if (measuredWidth > width)
 			{
 				float scaleA = (float)width / (float)measuredWidth;
 				if (scaleA < .5f) scaleA = .5f;

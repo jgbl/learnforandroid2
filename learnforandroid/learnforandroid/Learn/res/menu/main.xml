@@ -16,6 +16,7 @@
         android:icon="@drawable/ic_menu_save">
     </item>
     <item android:id="@+id/mnuRestart" android:title="@string/mnuRestart"></item>
+    <item android:id="@+id/mnuAddWord" android:title="@string/mnuAddWord" compat:showAsAction="always" android:icon="@drawable/ic_menu_add" />
     <item android:id="@+id/mnuExtras" 
         android:title="@string/mnuExtras" 
         compat:showAsAction="always" 
@@ -36,11 +37,7 @@
 			<item android:id="@+id/mnuStatistics" android:title="@string/mnuStatistics"></item>   
     	</menu>
     </item>
-    <item android:id="@+id/mnuAddWord" 
-	    android:title="@string/mnuAddWord" 
-	    compat:showAsAction="always" 
-	    android:icon="@drawable/ic_menu_add" 
-    />
+    
        		
     
     
