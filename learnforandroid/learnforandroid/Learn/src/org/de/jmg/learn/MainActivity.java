@@ -1763,7 +1763,19 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				{
 					try
 					{
-						if (lib.ShowMessageYesNo(this, getString(R.string.msgStartExternalProgram),"")==false || (vok.getURI()!=null && i == 1))
+						String key = "AlwaysStartExternalProgram";
+						int AlwaysStartExternalProgram = prefs.getInt(key, 999);
+						lib.YesNoCheckResult res = null;
+						if (AlwaysStartExternalProgram==999 && !(vok.getURI()!=null && i == 1))
+						{
+							res = lib.ShowMessageYesNoWithCheckbox(this, "", getString(R.string.msgStartExternalProgram), getString(R.string.msgRememberChoice));
+							if (res.checked) prefs.edit().putInt(key, res.yes?-1:0).commit();
+						}
+						else
+						{
+							res = new lib.YesNoCheckResult(AlwaysStartExternalProgram==-1, AlwaysStartExternalProgram==0, true);
+						}
+						if ((vok.getURI()!=null && i == 1) || res.yes==false)
 						{
 							Intent intent = new Intent(this, AdvFileChooser.class);
 							ArrayList<String> extensions = new ArrayList<String>();
@@ -1980,6 +1992,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		String key = "DontShowPersistableURIMessage";
 		int DontShowPersistableURIMessage = prefs.getInt(key, 999);
 		intent.putExtra(key, DontShowPersistableURIMessage);
+		key = "AlwaysStartExternalProgram";
+		int AlwaysStartExternalProgram = prefs.getInt(key, 999);
+		intent.putExtra(key, AlwaysStartExternalProgram);
 		this.startActivityForResult(intent, Settings_Activity);
 	}
 
@@ -2190,7 +2205,8 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				int ShowAlwaysDocumentProvider = data.getExtras().getInt(keyProvider, 999);
 				final String keyURIMessage = "DontShowPersistableURIMessage";
 				int DontShowPersistableURIMessage = data.getExtras().getInt(keyURIMessage, 999);
-				
+				final String key = "AlwaysStartExternalProgram";
+				int AlwaysStartExternalProgram = data.getExtras().getInt(key, 999);
 				libLearn.gStatus = "writing values to prefs";
 				Editor editor = prefs.edit();
 				editor.putInt("Schrittweite", vok.getSchrittweite());
@@ -2205,6 +2221,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				editor.putBoolean("Sound", lib.sndEnabled);
 				editor.putInt(keyProvider, ShowAlwaysDocumentProvider);
 				editor.putInt(keyURIMessage, DontShowPersistableURIMessage);
+				editor.putInt(key, AlwaysStartExternalProgram);
 				
 				for (ColorItems item : Colors.keySet()) {
 					editor.putInt(item.name(), Colors.get(item).ColorValue);

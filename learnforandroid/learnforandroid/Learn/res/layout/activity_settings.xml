@@ -325,6 +325,22 @@
 		            android:textSize="16sp"
 		            android:textStyle="bold"
 		            android:typeface="normal" />
+		        
+		         <CheckBox
+		             android:id="@+id/chkAlwaysStartExternalProgram"
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_alignParentLeft="true"
+		             android:layout_below="@+id/chkDontShowPersistableURIMessage"
+		             android:layout_marginBottom="0dp"
+		             android:layout_marginTop="-20dp"
+		             android:checked="false"
+		             android:gravity="center_vertical"
+		             android:hint="@string/hintStartExternalProgram"
+		             android:text="@string/chkAlwaysStartExternalProgram"
+		             android:textSize="16sp"
+		             android:textStyle="bold"
+		             android:typeface="normal" />
 		    
 	    </RelativeLayout>
 

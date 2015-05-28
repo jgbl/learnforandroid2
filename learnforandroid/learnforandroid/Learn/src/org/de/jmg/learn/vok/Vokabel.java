@@ -1584,6 +1584,8 @@ public class Vokabel {
 			index = mIndex;
 		mVok.remove(index);
 		mGesamtzahl = mVok.size();
+		if (mIndex>= mGesamtzahl) mIndex = mGesamtzahl - 1;
+		mblnLernInit = false;
 		// mVok = lib.ResizeArray(mVok, mGesamtzahl +1 );
 		return;
 	}

@@ -80,6 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
 	public CheckBox chkSound;
 	public CheckBox chkDocumentProvider;
 	public CheckBox chkDontShowPersistableURIMessage;
+	CheckBox chkAlwaysStartExternalProgram;
 	public ColorsArrayAdapter Colors;
 	public SoundsArrayAdapter Sounds;
 	public SharedPreferences prefs;
@@ -194,6 +195,7 @@ public class SettingsActivity extends AppCompatActivity {
 		chkSound = (CheckBox) findViewById(R.id.chkSound);
 		chkDocumentProvider = (CheckBox) findViewById(R.id.chkDocumentProvider);
 		chkDontShowPersistableURIMessage = (CheckBox) findViewById(R.id.chkDontShowPersistableURIMessage);
+		chkAlwaysStartExternalProgram = (CheckBox) findViewById(R.id.chkAlwaysStartExternalProgram);
 		boolean checked = getIntent().getBooleanExtra("Random", false);
 		chkRandom.setChecked(checked);
 		intent.putExtra("Random", checked);
@@ -288,6 +290,8 @@ public class SettingsActivity extends AppCompatActivity {
 				}
 			});
 			
+			
+			
 			if (DontShowPersistableURIMessage==-1) 
 			{
 				chkDontShowPersistableURIMessage.setChecked(true);
@@ -311,6 +315,44 @@ public class SettingsActivity extends AppCompatActivity {
 				}
 			});
 		}
+		
+		final String key = "AlwaysStartExternalProgram";
+		int AlwaysStartInternalProgram = getIntent().getIntExtra(key, 999);
+		intent.putExtra(key, AlwaysStartInternalProgram);
+		
+		
+		if (AlwaysStartInternalProgram==-1) 
+		{
+			chkAlwaysStartExternalProgram.setChecked(true);
+		}
+		else if (AlwaysStartInternalProgram==0)
+		{
+			chkAlwaysStartExternalProgram.setChecked(false);
+		}
+		else
+		{
+			chkAlwaysStartExternalProgram.setEnabled(false);
+		}
+		chkAlwaysStartExternalProgram.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				// TODO Auto-generated method stub
+				int AlwaysStartExternalProgram = isChecked?-1:0;
+				if(!isChecked)
+				{
+					String msg=SettingsActivity.this.getString(R.string.msgResetSetting);
+					if(lib.ShowMessageYesNo(SettingsActivity.this, msg, ""))
+					{
+						AlwaysStartExternalProgram=999;	
+					}
+				}
+				intent.putExtra(key, AlwaysStartExternalProgram);
+				
+			}
+		});
+		
+		
 
 	}
 

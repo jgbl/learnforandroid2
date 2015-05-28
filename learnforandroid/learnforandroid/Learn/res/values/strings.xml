@@ -220,5 +220,7 @@
 	            <string name="msgSaveSettings">Do you want to save the settings?</string>
 	            <string name="msgResetSetting">Do you want to reset this setting to the default value?</string>
 	            <string name="Error">Error</string>
+	            <string name="chkAlwaysStartExternalProgram">always start external program</string>
+	            <string name="hintStartExternalProgram">Start external program for opening and saving files</string>
         
 </resources>
