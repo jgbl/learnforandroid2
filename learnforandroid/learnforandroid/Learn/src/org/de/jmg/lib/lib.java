@@ -141,7 +141,8 @@ public class lib {
 	}
 	
 	public static String getRealPathFromURI(Activity context,
-			android.net.Uri contentURI) {
+			android.net.Uri contentURI) throws Exception 
+	{
 		android.database.Cursor cursor = null;
 		try {
 			String[] proj = { MediaStore.Images.Media.DATA };

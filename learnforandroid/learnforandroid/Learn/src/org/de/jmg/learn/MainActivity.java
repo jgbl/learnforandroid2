@@ -1777,7 +1777,20 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							extensions.add(".vok");
 							extensions.add(".dic");
 							extensions.add(".DIC");
-				
+							
+							if (libString.IsNullOrEmpty(vok.getFileName()))
+							{
+								if (vok.getURI()!=null)
+								{
+									intent.setData(vok.getURI());
+								}
+							}
+							else
+							{
+								File F = new File(vok.getFileName());
+								Uri uri = Uri.fromFile(F);
+								intent.setData(uri);
+							}
 							intent.putStringArrayListExtra("filterFileExtension", extensions);
 							intent.putExtra("blnUniCode", blnUniCode);
 							intent.putExtra("DefaultDir",

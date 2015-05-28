@@ -626,11 +626,11 @@ public class Vokabel {
 		// wird beim Zuweisen eines Werts in eine Eigenschaft auf der linken
 		// Seite der Gleichung, verwendet.
 		// Syntax: X.Wort = 5
-		if ((value).length() > 0) {
+		if (value != null && (value).length() > 0) {
 			mVok.get(mIndex).Wort = value;
 			aend = true;
 		} else {
-			throw new Exception("Löschen der Vokabel mit DeleteVokabel!");
+			throw new Exception("You can not assign an empty value to a word!");
 		}
 	}
 
