@@ -206,6 +206,7 @@
 	            <string name="InstallFilemanager">Please install a filemanager!</string>
 	            <string name="msgStartExternalProgram">Do you want to start an external program?</string>
 	            <string name="msgFileCouldNotBeSaved">The file could not be saved with the selected content provider! Do you want to chosse another provider?</string>
+	            <string name="msgFileCouldNotBeSaved2">The file could not be saved with the selected content provider!</string>
 	            <string name="msgShowDocumentProvider">Do you want to select only from document providers?</string>
 	            <string name="msgNoPersistableUriPermissionCouldBeTaken">No persistable Uri permission could be taken!</string>
 	            <string name="msgRememberChoice">remember this choice</string>
@@ -218,5 +219,6 @@
 	            <string name="hintShowWarning">show warning if permanent permission could not be taken (this happens if document provider was not selected)</string>
 	            <string name="msgSaveSettings">Do you want to save the settings?</string>
 	            <string name="msgResetSetting">Do you want to reset this setting to the default value?</string>
+	            <string name="Error">Error</string>
         
 </resources>

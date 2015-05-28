@@ -3022,6 +3022,20 @@ public class Vokabel {
 	public void setURIName(String uriName) 
 	{
 		// TODO Auto-generated method stub
+		if (uriName != null && uriName.length()>1)
+		{
+			do
+			{
+				if (uriName.startsWith("/"))
+				{
+					uriName = uriName.substring(1);
+				}
+				else
+				{
+					break;
+				}
+			} while (uriName.length()>1);
+		}
 		_URIName = uriName;
 	}
 	public String getURIName()

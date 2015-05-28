@@ -1496,7 +1496,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			{
 				float scaleA = (float)width / (float)measuredWidth;
 				if (scaleA < .5f) scaleA = .5f;
-				
+				if (scaleA>2.0f) scaleA = 2.0f;
 				t.setTextSize(
 						TypedValue.COMPLEX_UNIT_PX,
 						(float) (t.getTextSize() * (scaleA)));
@@ -1791,6 +1791,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 								Uri uri = Uri.fromFile(F);
 								intent.setData(uri);
 							}
+							intent.putExtra("URIName", vok.getURIName());
 							intent.putStringArrayListExtra("filterFileExtension", extensions);
 							intent.putExtra("blnUniCode", blnUniCode);
 							intent.putExtra("DefaultDir",
@@ -2273,38 +2274,55 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			else if (resultCode == RESULT_OK && requestCode == FILE_OPENINTENT && data!=null) 
 			{
 				Uri selectedUri = data.getData();
-				String strUri = selectedUri.toString();
-				vok.setURIName("");
-				String path = lib.dumpUriMetaData(this, selectedUri);
-				if(path.contains(":")) path = path.split(":")[0];
-				boolean blnWrongExt = false;
-				if (vok.getCardMode())
+				try
 				{
-					if (!lib.ExtensionMatch(path, "k??"))
+					
+					String strUri = selectedUri.toString();
+					vok.setURIName("");
+					String path = lib.dumpUriMetaData(this, selectedUri);
+					if(path.contains(":")) path = path.split(":")[0];
+					boolean blnWrongExt = false;
+					if (vok.getCardMode())
 					{
-						blnWrongExt=true;
-						//value += ".kar";
+						if (!lib.ExtensionMatch(path, "k??"))
+						{
+							blnWrongExt=true;
+							//value += ".kar";
+						}
+					}
+					else
+					{
+						if (!lib.ExtensionMatch(path, "v??"))
+						{
+							//value += ".vok";
+							blnWrongExt=true;
+						}
+					}
+					
+					
+					if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt),""))
+					{
+						takePersistableUri(selectedUri,false);
+						vok.SaveFile(null, selectedUri,
+								_blnUniCode, false);
+						saveFilePrefs(false);
+						//if (blnNew) newvok();
+						SetActionBarTitle();
+						prefs.edit().putString("defaultURI",strUri).commit();
 					}
 				}
-				else
+				catch(Exception e)
 				{
-					if (!lib.ExtensionMatch(path, "v??"))
+					if (e.getMessage()=="SaveVokError" && e.getCause()!=null && e.getCause() instanceof IOException)
 					{
-						//value += ".vok";
-						blnWrongExt=true;
+						lib.ShowMessage(this, getString(R.string.msgFileCouldNotBeSaved2) 
+								+ "\n"  + selectedUri.toString() + "\n" + e.getCause().getMessage()
+								, getString(R.string.Error));
 					}
-				}
-				
-				
-				if (!blnWrongExt||lib.ShowMessageYesNo(this, getString(R.string.msgWrongExt),""))
-				{
-					takePersistableUri(selectedUri,false);
-					vok.SaveFile(null, selectedUri,
-							_blnUniCode, false);
-					saveFilePrefs(false);
-					//if (blnNew) newvok();
-					SetActionBarTitle();
-					prefs.edit().putString("defaultURI",strUri).commit();
+					else
+					{
+						lib.ShowException(MainActivity.this, e);
+					}
 				}
 			}
 		}
