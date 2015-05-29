@@ -1748,6 +1748,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		_txtMeaning3.setVisibility(View.GONE);
 	
 	}
+	
 	private static final int EDIT_REQUEST_CODE = 0x3abd;
 	@SuppressLint("InlinedApi")
 	public void SaveVokAs(boolean blnUniCode, boolean blnNew) throws Exception 
