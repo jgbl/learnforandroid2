@@ -1927,7 +1927,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 
 	public void LoadFile(boolean blnUniCode) throws Exception {
 		boolean blnLoadFile = false;
-		if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()))
+		if (vok.aend && libString.IsNullOrEmpty(vok.getFileName()) && vok.getURI()==null)
 		{
 			if (lib.ShowMessageYesNo(this, getString(R.string.SaveNewVokabularyAs),""))
 			{
