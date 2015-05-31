@@ -49,6 +49,7 @@ import android.os.Handler;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -759,6 +760,22 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		});
 
 		_txtMeaning1 = (BorderedEditText) findViewById(R.id.txtMeaning1);
+		_txtMeaning1.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.txtMeaning1 && v.getVisibility()==View.VISIBLE && _txtMeaning1.getLineCount()>3) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) 
+                    {
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                    }
+                }
+                return false;
+            }
+            
+		});
 		_MeaningBG = _txtMeaning1.getBackground();
 		_txtMeaning1.setBackgroundResource(0);
 		_txtMeaning2 = (BorderedEditText) findViewById(R.id.txtMeaning2);
@@ -1736,7 +1753,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				(float) (30 * scale));
 
 		_txtMeaning1.setSingleLine(false);
-		_txtMeaning1.setMaxLines(30);
+		_txtMeaning1.setMaxLines(200);
 		_txtMeaning1.setLines(16);
 		_txtMeaning1.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				(float) (20 * scale));
