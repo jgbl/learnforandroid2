@@ -274,6 +274,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		}
 
 	}
+	
 
 	public UncaughtExceptionHandler ErrorHandler = new UncaughtExceptionHandler() {
 
@@ -287,6 +288,16 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		if (lib.YesNoHandler!=null) lib.YesNoHandler.sendMessage(lib.YesNoHandler.obtainMessage());
+		handler.removeCallbacks(rSetBackPressedFalse);
+		handler.removeCallbacks(runnableFalse);
+		if (rFlashs!=null)
+		{
+			for (Runnable r: rFlashs)
+			{
+				handler.removeCallbacks(r);
+			}
+		}
 		try {
 			boolean aend = vok.aend;
 			String filename = vok.getFileName();
@@ -354,7 +365,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 			try {
 				if (_backPressed > 0 || saveVokAsync(false)) 
 				{
-					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
+					handler.removeCallbacks(rSetBackPressedFalse);
 				} else 
 				{
 					return true;
@@ -375,7 +386,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	};
 
 	private int _backPressed;
-	private Handler handlerbackpressed = new Handler();
+	private Handler handler = new Handler();
 
 	private synchronized boolean saveVok(boolean dontPrompt) throws Exception {
 		EndEdit();
@@ -390,7 +401,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					_backPressed += 1;
 					lib.ShowToast(MainActivity.this, MainActivity.this
 							.getString(R.string.PressBackAgain));
-					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+					handler.postDelayed(rSetBackPressedFalse, 10000);
 					return true;
 				}
 				/*
@@ -440,7 +451,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						vok.SaveFile();
 						vok.aend = false;
 						_backPressed += 1;
-						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+						handler.postDelayed(rSetBackPressedFalse, 10000);
 						saveFilePrefs(false);
 						return true;
 					}
@@ -487,7 +498,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 							vok.SaveFile(vok.getFileName(),vok.getURI(), vok.getUniCode(),	false);
 							vok.aend = false; 
 							_backPressed += 1;
-							handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+							handler.postDelayed(rSetBackPressedFalse, 10000);
 							saveFilePrefs(false);
 						  }
 					  } 
@@ -515,7 +526,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						  lib.ShowToast( MainActivity.this, 
 								  MainActivity.this.getString(R.string.PressBackAgain)); 
 						  _backPressed += 1;
-						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000); 
+						  handler.postDelayed(rSetBackPressedFalse, 10000); 
 					  }
 				  }); 
 				  A.setMessage(getString(R.string.Save));
@@ -531,7 +542,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 					  {
 						  lib.ShowToast(this, this.getString(R.string.PressBackAgain));
 						  _backPressed += 1; 
-						  handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000); }
+						  handler.postDelayed(rSetBackPressedFalse, 10000); }
 				  
 				  }
 				 
@@ -548,7 +559,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						vok.SaveFile();
 						vok.aend = false;
 						_backPressed += 1;
-						handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+						handler.postDelayed(rSetBackPressedFalse, 10000);
 						saveFilePrefs(false);
 					}
 					
@@ -685,7 +696,6 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						flashwords();
 						// getVokabel(false,true);
 						// runFlashWords();
-						Handler handler = new Handler();
 						handler.postDelayed(
 								runnableFalse,
 								(long) ((DisplayDurationWord * 1000 + vok
@@ -937,7 +947,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 									if (!vok.getCardMode()) {
 										setBtnsEnabled(false);
 										flashwords();
-										Handler handler = new Handler();
+										
 										handler.postDelayed(
 												runnableFalse,
 												(long) ((DisplayDurationWord * 1000 + vok
@@ -1072,7 +1082,9 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 	 * flashwords(); } catch (Exception e) { // TODO Auto-generated catch block
 	 * e.printStackTrace(); } } }).start(); }
 	 */
+	private ArrayList<Runnable> rFlashs = new ArrayList<Runnable>();
 	private void flashwords() throws Exception {
+		Runnable r;
 		final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layoutMainParent);
 		layout.setBackgroundColor(Colors.get(ColorItems.background_wrong).ColorValue);
 		final ScrollView layoutScroll = (ScrollView) findViewById(R.id.layoutMain);
@@ -1081,7 +1093,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		layoutButtons.setVisibility(View.GONE);
 		View tb = this.findViewById(R.id.action_bar);
 		tb.setVisibility(View.GONE);
-		Handler handler = new Handler();
+		
 		if (_isSmallDevice)
 		{
 			_txtKom.setVisibility(View.GONE);
@@ -1090,22 +1102,32 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 		long delay = 0;
 		for (int i = 0; i < PaukRepetitions; i++) {
 			// _txtWord.setBackgroundResource(R.layout.roundedbox);
-			handler.postDelayed(new showWordBordersTask(), delay);
+			r = new showWordBordersTask();
+			rFlashs.add(r);
+			handler.postDelayed(r, delay);
 			delay += DisplayDurationWord * 1000;
-			handler.postDelayed(new hideWordBordersTask(), delay);
+			r = new hideWordBordersTask();
+			rFlashs.add(r);
+			handler.postDelayed(r, delay);
 			BorderedEditText Beds[] = { _txtMeaning1, _txtMeaning2,
 					_txtMeaning3 };
 			for (int ii = 0; ii < vok.getAnzBed(); ii++) {
 				if (!libString.IsNullOrEmpty(vok.getBedeutungen()[ii]))
 				{
-					handler.postDelayed(new showBedBordersTask(Beds[ii]), delay);
+					r = new showBedBordersTask(Beds[ii]);
+					rFlashs.add(r);
+					handler.postDelayed(r, delay);
 					delay += DisplayDurationBed * 1000;
-					handler.postDelayed(new hideBedBordersTask(Beds[ii]), delay);
+					r = new hideBedBordersTask(Beds[ii]);
+					rFlashs.add(r);
+					handler.postDelayed(r, delay);
 				}
 			}
 
 		}
-		handler.postDelayed(new resetLayoutTask(layout), delay);
+		r = new resetLayoutTask(layout);
+		rFlashs.add(r);
+		handler.postDelayed(r, delay);
 		delay += 1000;
 
 	}
@@ -1134,6 +1156,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				
 				
 			}
+			rFlashs.clear();
 		}
 	}
 

@@ -86,6 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
 	public SharedPreferences prefs;
 	private View mainView;
 	private Intent intent = new Intent();
+	private Handler handler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +165,12 @@ public class SettingsActivity extends AppCompatActivity {
 		
 	}
 
-	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) 
+	{
+		super.onSaveInstanceState(outState);
+		handler.removeCallbacks(rSetBackPressedFalse);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -1042,7 +1048,7 @@ public class SettingsActivity extends AppCompatActivity {
 	}
 	
 	private int _backPressed = 0;
-	private Handler handlerbackpressed = new Handler();
+	
 	private Runnable rSetBackPressedFalse = new Runnable() {
 		@Override
 		public void run() {
@@ -1073,11 +1079,11 @@ public class SettingsActivity extends AppCompatActivity {
 			{
 				if (_backPressed > 0) 
 				{
-					handlerbackpressed.removeCallbacks(rSetBackPressedFalse);
+					handler.removeCallbacks(rSetBackPressedFalse);
 				} else 
 				{
 					_backPressed += 1;
-					handlerbackpressed.postDelayed(rSetBackPressedFalse, 10000);
+					handler.postDelayed(rSetBackPressedFalse, 10000);
 					AlertDialog.Builder A = new AlertDialog.Builder(this);
 					 A.setPositiveButton(getString(R.string.yes), new
 					 AlertDialog.OnClickListener() 

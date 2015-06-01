@@ -432,7 +432,7 @@ public class lib {
 		return null;
 	}
 
-	private static Handler YesNoHandler;
+	public static Handler YesNoHandler;
 
 	public static synchronized boolean ShowMessageYesNo(Context context,
 			String msg, String title) {
@@ -463,6 +463,7 @@ public class lib {
 				Looper.loop();
 			} catch (RuntimeException e2) {
 				// Looper.myLooper().quit();
+				YesNoHandler = null;
 			}
 		} catch (Exception ex) {
 			ShowException(context, ex);
@@ -506,6 +507,7 @@ public class lib {
 				Looper.loop();
 			} catch (RuntimeException e2) {
 				// Looper.myLooper().quit();
+				YesNoHandler = null;
 			}
 			return new YesNoCheckResult(DialogResultYes, !DialogResultYes, cbx.isChecked());
 		} catch (Exception ex) {
@@ -545,6 +547,7 @@ public class lib {
 				Looper.loop();
 			} catch (RuntimeException e2) {
 				// Looper.myLooper().quit();
+				YesNoHandler = null;
 			}
 		} catch (Exception ex) {
 			ShowException(context, ex);
@@ -575,7 +578,7 @@ public class lib {
 				DialogResultYes = false;
 				break;
 			}
-			YesNoHandler.sendMessage(YesNoHandler.obtainMessage());
+			if (YesNoHandler!=null) YesNoHandler.sendMessage(YesNoHandler.obtainMessage());
 		}
 	};
 
