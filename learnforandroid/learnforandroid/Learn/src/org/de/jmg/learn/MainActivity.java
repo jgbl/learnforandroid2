@@ -171,6 +171,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 						vok.setURI(uri);
 						vok.setCardMode(CardMode);
 						vok.aend = savedInstanceState.getBoolean("aend", true);
+						_lastIsWrongVokID = savedInstanceState.getInt("lastIsWrongVokID");
 						SetActionBarTitle();
 					}
 				} 
@@ -308,6 +309,7 @@ public class MainActivity extends android.support.v7.app.AppCompatActivity {
 				outState.putBoolean("Unicode", vok.getUniCode());
 				outState.putBoolean("Cardmode", vok.getCardMode());
 				outState.putBoolean("aend", aend);
+				outState.putInt("lastIsWrongVokID", _lastIsWrongVokID);
 				if (uri!= null) outState.putString("URI", uri.toString());
 				vok.aend = aend;
 				vok.setFileName(filename);
